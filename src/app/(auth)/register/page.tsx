@@ -1,4 +1,4 @@
-// app/(auth)/register/page.tsx
+// src/app/(auth)/register/page.tsx
 export default function RegisterComingSoon() {
   return (
     <main className="min-h-screen bg-theme-primary flex items-center justify-center px-6">

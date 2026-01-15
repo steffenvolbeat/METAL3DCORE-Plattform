@@ -1,38 +1,12 @@
 "use client";
 import { useState } from "react";
+import { NavigationSidebar } from "@/shared/components/ui";
+import { WelcomeStage, StadionRoom, BandGalleryRoom, ContactStage } from "@/features/3d-rooms/components";
+import { IntroPage } from "@/features/intro/components";
 
-// Coming Soon Platzhalter für die Original-Komponenten
-const ComingSoonNavigationSidebar = ({ activeRoom, onRoomChange }: any) => (
-  <div className="fixed left-4 top-20 z-50 bg-theme-card border border-theme-secondary rounded-lg p-4">
-    <div className="text-xs text-theme-secondary mb-2">Navigation Coming Soon</div>
-    <div className="space-y-2 text-sm">
-      {["welcome", "gallery", "stadium", "ticket", "backstage", "community"].map(room => (
-        <button
-          key={room}
-          onClick={() => onRoomChange(room)}
-          className={`block w-full text-left px-2 py-1 rounded ${
-            activeRoom === room ? "bg-theme-accent text-black" : "text-theme-secondary hover:text-theme-primary"
-          }`}
-        >
-          {room}
-        </button>
-      ))}
-    </div>
-  </div>
-);
+type RoomKey = "welcome" | "gallery" | "stadium" | "contact" | "ticket" | "backstage" | "community";
 
-const ComingSoon3DRoom = ({ roomName, icon }: { roomName: string; icon: string }) => (
-  <div className="min-h-[600px] bg-black/50 rounded-[24px] flex items-center justify-center border border-theme-secondary">
-    <div className="text-center space-y-4">
-      <div className="text-6xl">{icon}</div>
-      <h3 className="text-2xl font-semibold text-theme-primary">{roomName}</h3>
-      <div className="chip">3D Room Coming Soon</div>
-      <p className="text-theme-secondary max-w-md">Dieser 3D-Raum wird schrittweise implementiert.</p>
-    </div>
-  </div>
-);
-
-const ROOM_META: Record<string, { label: string; icon: string; description: string; helper: string }> = {
+const ROOM_META: Record<RoomKey, { label: string; icon: string; description: string; helper: string }> = {
   welcome: {
     label: "Welcome Stage",
     icon: "🎸",
@@ -51,6 +25,12 @@ const ROOM_META: Record<string, { label: string; icon: string; description: stri
     icon: "🏟️",
     description: "Erlebe das Metal Arena Stadion mit 360° Rundgang. Optimal in Vollbild werden Bühne & Crowd sichtbar.",
     helper: "Main Concert Experience",
+  },
+  contact: {
+    label: "Contact Stage",
+    icon: "📞",
+    description: "Professioneller Kontakt- und Support-Bereich. Coming Soon mit Ticket-System-Integration.",
+    helper: "Support & Kontakt",
   },
   ticket: {
     label: "Ticket Arena",
@@ -76,16 +56,30 @@ const MOVEMENT_TIPS = [
   { label: "Movement", value: "WASD + Maus" },
   { label: "Fullscreen", value: "Enter 3D Game Mode" },
   { label: "Audio", value: "Kopfhörer empfohlen" },
-  { label: "Status", value: "Coming Soon" },
+  { label: "Status", value: "Live + Coming Soon Mix" },
 ];
 
+const COMING_SOON_ROOMS: RoomKey[] = ["ticket", "backstage", "community"];
+
+function ComingSoonPanel({ room }: { room: RoomKey }) {
+  const meta = ROOM_META[room];
+  return (
+    <div className="min-h-[420px] rounded-[32px] border border-theme-secondary bg-black/40 p-8 flex flex-col items-center justify-center text-center space-y-4">
+      <div className="text-5xl">{meta.icon}</div>
+      <h3 className="text-2xl font-semibold text-theme-primary">{meta.label}</h3>
+      <div className="chip">Coming Soon</div>
+      <p className="text-theme-secondary max-w-xl">{meta.description}</p>
+    </div>
+  );
+}
+
 export default function Home() {
-  const [activeRoom, setActiveRoom] = useState("welcome");
+  const [activeRoom, setActiveRoom] = useState<RoomKey>("welcome");
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [showIntro, setShowIntro] = useState(false);
   const activeMeta = ROOM_META[activeRoom] ?? ROOM_META.welcome;
 
-  const handleRoomChange = (room: string) => {
+  const handleRoomChange = (room: RoomKey | "fullscreen") => {
     if (room === "fullscreen") {
       setIsFullscreen(true);
     } else if (room === "welcome" && isFullscreen) {
@@ -96,33 +90,13 @@ export default function Home() {
     }
   };
 
-  const handleEnterFullscreen = () => {
-    setIsFullscreen(true);
-  };
-
-  const handleToggleFullscreen = () => {
-    setIsFullscreen(!isFullscreen);
-  };
-
   const handleIntroComplete = () => {
     setShowIntro(false);
     setActiveRoom("welcome");
   };
 
-  // Intro Page Platzhalter
   if (showIntro) {
-    return (
-      <div className="min-h-screen bg-theme-primary flex items-center justify-center">
-        <div className="text-center space-y-6">
-          <div className="text-6xl animate-pulse">🌌</div>
-          <h1 className="text-4xl font-bold">Cosmic Intro</h1>
-          <div className="chip">Coming Soon</div>
-          <button onClick={handleIntroComplete} className="button-primary">
-            Zurück zur Hauptseite
-          </button>
-        </div>
-      </div>
-    );
+    return <IntroPage onComplete={handleIntroComplete} />;
   }
 
   return (
@@ -137,7 +111,7 @@ export default function Home() {
         />
       </div>
 
-      {!isFullscreen && <ComingSoonNavigationSidebar activeRoom={activeRoom} onRoomChange={handleRoomChange} />}
+      {!isFullscreen && <NavigationSidebar activeRoom={activeRoom} onRoomChange={handleRoomChange} />}
 
       <main className="relative z-10 pt-20 pb-24">
         {!isFullscreen && (
@@ -166,7 +140,7 @@ export default function Home() {
                     <span className="text-xl">🌌</span>
                     Cosmic Intro
                   </button>
-                  <button onClick={handleEnterFullscreen} className="button-primary w-full sm:w-auto">
+                  <button onClick={() => setIsFullscreen(true)} className="button-primary w-full sm:w-auto">
                     <span className="text-xl">🎮</span>
                     Enter 3D Game Mode
                   </button>
@@ -216,7 +190,7 @@ export default function Home() {
                       className="glass-panel p-4 text-center hover:border-theme-primary transition-colors flex flex-col items-center justify-center"
                     >
                       <p className="text-sm text-theme-secondary">Ticket Arena</p>
-                      <p className="text-lg font-semibold text-theme-primary">🎫 Checkout öffnen</p>
+                      <p className="text-lg font-semibold text-theme-primary">🎫 Coming Soon</p>
                     </button>
                     <button
                       onClick={() => handleRoomChange("stadium")}
@@ -240,13 +214,33 @@ export default function Home() {
                 : "rounded-[32px] border border-theme-secondary bg-black/30 p-2 shadow-[0_20px_60px_rgba(0,0,0,0.55)]"
             }
           >
-            {/* 3D Räume als Coming Soon Platzhalter */}
-            {activeRoom === "welcome" && <ComingSoon3DRoom roomName="Welcome Stage" icon="🎸" />}
-            {activeRoom === "gallery" && <ComingSoon3DRoom roomName="Band Gallery" icon="🖼️" />}
-            {activeRoom === "stadium" && <ComingSoon3DRoom roomName="Metal Arena" icon="🏟️" />}
-            {activeRoom === "community" && <ComingSoon3DRoom roomName="Community Hub" icon="💬" />}
-            {activeRoom === "backstage" && <ComingSoon3DRoom roomName="Backstage VIP" icon="🎭" />}
-            {activeRoom === "ticket" && <ComingSoon3DRoom roomName="Ticket Arena" icon="🎫" />}
+            {activeRoom === "welcome" && (
+              <WelcomeStage
+                onRoomChange={handleRoomChange}
+                isFullscreen={isFullscreen}
+                onFullscreen={() => setIsFullscreen(!isFullscreen)}
+                onOpenAuth={mode => console.log("Auth handled in WelcomeStage:", mode)}
+              />
+            )}
+            {activeRoom === "gallery" && (
+              <BandGalleryRoom onRoomChange={handleRoomChange} isFullscreen={isFullscreen} />
+            )}
+            {activeRoom === "stadium" && (
+              <StadionRoom
+                onRoomChange={handleRoomChange}
+                isFullscreen={isFullscreen}
+                onFullscreen={() => setIsFullscreen(!isFullscreen)}
+              />
+            )}
+            {activeRoom === "contact" && (
+              <ContactStage
+                onRoomChange={handleRoomChange}
+                isFullscreen={isFullscreen}
+                onFullscreen={() => setIsFullscreen(!isFullscreen)}
+              />
+            )}
+
+            {COMING_SOON_ROOMS.includes(activeRoom) && <ComingSoonPanel room={activeRoom} />}
           </div>
         </div>
       </main>
