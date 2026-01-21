@@ -1,8 +1,8 @@
 "use client";
 import { useState } from "react";
-import { NavigationSidebar } from "@/shared/components/ui";
-import { WelcomeStage, StadionRoom, BandGalleryRoom, ContactStage } from "@/features/3d-rooms/components";
-import { IntroPage } from "@/features/intro/components";
+import { NavigationSidebar } from "@/app/shared/components/ui";
+import { WelcomeStage, StadionRoom, BandGalleryRoom, ContactStage } from "@/app/features/3d-rooms/components";
+import { IntroPage } from "@/app/features/intro/components";
 
 type RoomKey = "welcome" | "gallery" | "stadium" | "contact" | "ticket" | "backstage" | "community";
 
@@ -79,14 +79,17 @@ export default function Home() {
   const [showIntro, setShowIntro] = useState(false);
   const activeMeta = ROOM_META[activeRoom] ?? ROOM_META.welcome;
 
-  const handleRoomChange = (room: RoomKey | "fullscreen") => {
+  const handleRoomChange = (room: RoomKey | "fullscreen" | string) => {
     if (room === "fullscreen") {
       setIsFullscreen(true);
     } else if (room === "welcome" && isFullscreen) {
       setIsFullscreen(false);
     } else {
-      setActiveRoom(room);
-      setIsFullscreen(false);
+      // Check if the room is a valid RoomKey
+      if (room in ROOM_META) {
+        setActiveRoom(room as RoomKey);
+        setIsFullscreen(false);
+      }
     }
   };
 
