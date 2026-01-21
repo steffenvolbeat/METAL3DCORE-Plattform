@@ -6,7 +6,7 @@ interface IntroPageProps {
   onComplete?: () => void;
 }
 
-// Simple intro overlay to keep the UI consistent when the Cosmic Intro is triggered
+// Simple intro overlay to keep the UI consistent when Cosmic Intro is triggered
 export default function IntroPage({ onComplete }: IntroPageProps) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80">
