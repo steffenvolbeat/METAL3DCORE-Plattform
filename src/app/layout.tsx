@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
+import { SessionProvider } from "@/app/shared/components/providers";
+import { Navigation } from "@/app/shared/components/Navigation";
 import "./globals.css";
 
 const inter = Inter({
@@ -29,10 +31,13 @@ export default function RootLayout({
     <html lang="de, en" suppressHydrationWarning>
       <body className={`${inter.variable} ${jetbrainsMono.variable} antialiased`}>
         {/* SessionProvider und Navigation als Coming Soon Platzhalter */}
-        <div className="min-h-4 bg-slate-900 text-center text-xs text-slate-400 py-2">
-          Navigation & Session: Coming Soon
-        </div>
-        <main className="pb-16">{children}</main>
+        <SessionProvider>
+          <Navigation />
+          <div className="min-h-4 bg-slate-900 text-center text-xs text-slate-400 py-2">
+            Navigation & Session: Coming Soon
+          </div>
+          <main className="pb-16">{children}</main>
+        </SessionProvider>
       </body>
     </html>
   );
