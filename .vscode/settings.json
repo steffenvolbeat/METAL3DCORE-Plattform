@@ -29,5 +29,11 @@
     "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
   },
   "WillLuke.nextjs.addTypesOnSave": true,
-  "WillLuke.nextjs.hasPrompted": true
+  "WillLuke.nextjs.hasPrompted": true,
+  "files.associations": {
+    "*.ts": "typescript",
+    "*.tsx": "typescriptreact",
+    "*.js": "javascript",
+    "*.jsx": "javascriptreact"
+  }
 }
