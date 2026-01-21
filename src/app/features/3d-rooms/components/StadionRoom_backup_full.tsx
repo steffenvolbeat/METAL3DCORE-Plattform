@@ -40,7 +40,7 @@ function StadiumStructure({
   const concreteTexture = useMemo(
     () => ({
       color: new Color(0.65, 0.65, 0.68),
-      roughness: 0.20,
+      roughness: 0.9,
       metalness: 0.02,
     }),
     []
@@ -127,21 +127,21 @@ function StadiumStructure({
       }
     }
 
-    // LICHTRING-TRÄGER - OBEN am Dach
-    const lightRingPositions = [
+    // LICHTRIG-TRÄGER - Wie im Foto über der Bühne
+    const lightRigPositions = [
       [0, 38, -15],
       [0, 38, 0],
       [0, 38, 15],
     ];
 
-    lightRingPositions.forEach((pos, i) => {
+    lightRigPositions.forEach((pos, i) => {
       elements.push(
         <RoundedBox key={`light-rig-${i}`} args={[50, 1, 1]} radius={0.1} position={pos as [number, number, number]}>
           <meshPhysicalMaterial color={new Color(0.08, 0.08, 0.1)} roughness={0.2} metalness={0.95} />
         </RoundedBox>
       );
 
-      // Hängende Spot-Lichter am Ring
+      // Hängende Spot-Lichter am Rig
       for (let j = -4; j <= 4; j++) {
         elements.push(
           <group key={`hanging-light-${i}-${j}`} position={[j * 5, pos[1] - 2, pos[2]]}>
