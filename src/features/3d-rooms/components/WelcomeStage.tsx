@@ -26,19 +26,11 @@ import { FPSControls } from "@/shared/components/3d";
 import { AuthModal } from "@/features/auth/components";
 
 // ECHTER HALLENSTADION ZÜRICH EINGANGSBEREICH - 1:1 Umsetzung
-function HallenstadionEntrance({
-  onRoomChange,
-}: {
-  onRoomChange?: (room: string) => void;
-}) {
+function HallenstadionEntrance({ onRoomChange }: { onRoomChange?: (room: string) => void }) {
   return (
     <group>
       {/* FOTOREALISTISCHER 1:1 GRANIT-BODEN - Echte physikalische Eigenschaften */}
-      <Plane
-        args={[300, 180]}
-        rotation={[-Math.PI / 2, 0, 0]}
-        position={[0, 0, 0]}
-      >
+      <Plane args={[300, 180]} rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]}>
         <meshPhysicalMaterial
           color={new Color(0.15, 0.13, 0.11)} // Exakte dunkle Granit-Farbe aus Referenzbild
           roughness={0.95}
@@ -58,11 +50,7 @@ function HallenstadionEntrance({
       </Plane>
 
       {/* FOTOREALISTISCHE DECKE - Dunkler wie im Referenzbild */}
-      <Plane
-        args={[300, 180]}
-        rotation={[Math.PI / 2, 0, 0]}
-        position={[0, 35, 0]}
-      >
+      <Plane args={[300, 180]} rotation={[Math.PI / 2, 0, 0]} position={[0, 35, 0]}>
         <meshPhysicalMaterial
           color={new Color(0.78, 0.76, 0.74)} // Dunkleres Grauweiß
           roughness={0.35}
@@ -84,11 +72,7 @@ function HallenstadionEntrance({
       </Plane>
 
       {/* Seitenwände - Dunkler */}
-      <Plane
-        args={[180, 35]}
-        position={[-150, 17.5, 0]}
-        rotation={[0, Math.PI / 2, 0]}
-      >
+      <Plane args={[180, 35]} position={[-150, 17.5, 0]} rotation={[0, Math.PI / 2, 0]}>
         <meshPhysicalMaterial
           color={new Color(0.55, 0.52, 0.49)} // Dunkleres Graubeige
           roughness={0.55}
@@ -98,11 +82,7 @@ function HallenstadionEntrance({
         />
       </Plane>
 
-      <Plane
-        args={[180, 35]}
-        position={[150, 17.5, 0]}
-        rotation={[0, -Math.PI / 2, 0]}
-      >
+      <Plane args={[180, 35]} position={[150, 17.5, 0]} rotation={[0, -Math.PI / 2, 0]}>
         <meshPhysicalMaterial
           color={new Color(0.55, 0.52, 0.49)} // Dunkleres Graubeige
           roughness={0.55}
@@ -154,11 +134,7 @@ function HallenstadionEntrance({
 
       {/* GLAS-GELÄNDER wie im Original */}
       {Array.from({ length: 22 }).map((_, i) => (
-        <Box
-          key={`railing-${i}`}
-          args={[5, 1.2, 0.15]}
-          position={[(i - 10.5) * 5, 9.2, -24]}
-        >
+        <Box key={`railing-${i}`} args={[5, 1.2, 0.15]} position={[(i - 10.5) * 5, 9.2, -24]}>
           <meshPhysicalMaterial
             color={new Color(0.95, 0.97, 1.0)}
             roughness={0.02}
@@ -175,11 +151,7 @@ function HallenstadionEntrance({
       {/* ORIGINAL LED-GITTER-DECKENBELEUCHTUNG - Exakt wie im Foto */}
       {/* Längsstreifen */}
       {Array.from({ length: 18 }).map((_, i) => (
-        <Box
-          key={`led-long-${i}`}
-          args={[260, 0.4, 1.8]}
-          position={[0, 34.5, (i - 8.5) * 10]}
-        >
+        <Box key={`led-long-${i}`} args={[260, 0.4, 1.8]} position={[0, 34.5, (i - 8.5) * 10]}>
           <meshPhysicalMaterial
             color={new Color(1.0, 1.0, 1.0)}
             emissive={new Color(0.98, 0.99, 1.0)}
@@ -191,11 +163,7 @@ function HallenstadionEntrance({
 
       {/* Querstreifen für Gitter-Effekt */}
       {Array.from({ length: 12 }).map((_, i) => (
-        <Box
-          key={`led-cross-${i}`}
-          args={[1.8, 0.4, 140]}
-          position={[(i - 5.5) * 22, 34.5, 0]}
-        >
+        <Box key={`led-cross-${i}`} args={[1.8, 0.4, 140]} position={[(i - 5.5) * 22, 34.5, 0]}>
           <meshPhysicalMaterial
             color={new Color(1.0, 1.0, 1.0)}
             emissive={new Color(0.98, 0.99, 1.0)}
@@ -252,11 +220,7 @@ function HallenstadionEntrance({
       {/* ORIGINAL GLASGELÄNDER für Galerien */}
       {/* Erste Ebene Geländer */}
       {Array.from({ length: 56 }).map((_, i) => (
-        <Box
-          key={`railing-1-${i}`}
-          args={[5, 1.8, 0.25]}
-          position={[(i - 27.5) * 5, 13.5, -57]}
-        >
+        <Box key={`railing-1-${i}`} args={[5, 1.8, 0.25]} position={[(i - 27.5) * 5, 13.5, -57]}>
           <meshPhysicalMaterial
             color={new Color(0.95, 0.98, 1.0)}
             roughness={0.02}
@@ -276,11 +240,7 @@ function HallenstadionEntrance({
 
       {/* Zweite Ebene Geländer */}
       {Array.from({ length: 52 }).map((_, i) => (
-        <Box
-          key={`railing-2-${i}`}
-          args={[5, 1.8, 0.25]}
-          position={[(i - 25.5) * 5, 23.5, -55]}
-        >
+        <Box key={`railing-2-${i}`} args={[5, 1.8, 0.25]} position={[(i - 25.5) * 5, 23.5, -55]}>
           <meshPhysicalMaterial
             color={new Color(0.95, 0.98, 1.0)}
             roughness={0.02}
@@ -312,11 +272,7 @@ function HallenstadionEntrance({
           </RoundedBox>
 
           {/* Rückenlehne */}
-          <RoundedBox
-            args={[18, 2.5, 0.5]}
-            radius={0.1}
-            position={[0, 2.5, -1.75]}
-          >
+          <RoundedBox args={[18, 2.5, 0.5]} radius={0.1} position={[0, 2.5, -1.75]}>
             <meshPhysicalMaterial
               color={new Color(0.28, 0.32, 0.36)}
               roughness={0.25}
@@ -333,11 +289,7 @@ function HallenstadionEntrance({
         if (i >= 8 && i <= 11) return null;
 
         return (
-          <Box
-            key={`glass-wall-${i}`}
-            args={[14, 35, 2.0]}
-            position={[(i - 9.5) * 15, 17.5, 85]}
-          >
+          <Box key={`glass-wall-${i}`} args={[14, 35, 2.0]} position={[(i - 9.5) * 15, 17.5, 85]}>
             <meshPhysicalMaterial
               color={new Color(0.85, 0.92, 0.98)}
               roughness={0.05}
@@ -358,11 +310,7 @@ function HallenstadionEntrance({
 
       {/* STAHL-RAHMEN für Glasfront */}
       {Array.from({ length: 21 }).map((_, i) => (
-        <Box
-          key={`steel-frame-${i}`}
-          args={[1.5, 35, 2.5]}
-          position={[(i - 10) * 15, 17.5, 85]}
-        >
+        <Box key={`steel-frame-${i}`} args={[1.5, 35, 2.5]} position={[(i - 10) * 15, 17.5, 85]}>
           <meshPhysicalMaterial
             color={new Color(0.12, 0.12, 0.15)}
             roughness={0.08}
@@ -374,12 +322,7 @@ function HallenstadionEntrance({
 
       {/* PROFESSIONELLE ATMOSPHÄRE-BELEUCHTUNG */}
       <ambientLight intensity={0.5} />
-      <pointLight
-        position={[0, 32, 0]}
-        intensity={3.5}
-        color="#ffffff"
-        distance={200}
-      />
+      <pointLight position={[0, 32, 0]} intensity={3.5} color="#ffffff" distance={200} />
 
       {/* LED-Gitter Beleuchtungseffekte */}
       {Array.from({ length: 8 }).map((_, i) => (
@@ -393,20 +336,10 @@ function HallenstadionEntrance({
       ))}
 
       {/* Warme Akzentbeleuchtung für Sitzbereiche */}
-      <pointLight
-        position={[0, 12, 55]}
-        intensity={2.2}
-        color="#fff8e1"
-        distance={100}
-      />
+      <pointLight position={[0, 12, 55]} intensity={2.2} color="#fff8e1" distance={100} />
 
       {/* Blaue Display-Beleuchtung */}
-      <pointLight
-        position={[0, 20, -80]}
-        intensity={4.0}
-        color="#0040dd"
-        distance={120}
-      />
+      <pointLight position={[0, 20, -80]} intensity={4.0} color="#0040dd" distance={120} />
 
       {/* BACKSTAGE VIP BEREICH - EXIT TÜR */}
       <group position={[-70, 0, 25]}>
@@ -415,8 +348,8 @@ function HallenstadionEntrance({
           args={[4, 12, 8]}
           position={[0, 6, 0]}
           onClick={() => onRoomChange?.("backstage")}
-          onPointerOver={(e) => (document.body.style.cursor = "pointer")}
-          onPointerOut={(e) => (document.body.style.cursor = "auto")}
+          onPointerOver={e => (document.body.style.cursor = "pointer")}
+          onPointerOut={e => (document.body.style.cursor = "auto")}
         >
           <meshPhysicalMaterial
             color={new Color(0.8, 0.6, 0.2)}
@@ -467,12 +400,7 @@ function HallenstadionEntrance({
         </Html>
 
         {/* BACKSTAGE VIP TEXT - RÜCKSEITE */}
-        <Html
-          position={[0, 14, -0.4]}
-          transform
-          occlude
-          rotation={[0, Math.PI, 0]}
-        >
+        <Html position={[0, 14, -0.4]} transform occlude rotation={[0, Math.PI, 0]}>
           <div
             style={{
               backgroundColor: "rgba(0, 0, 0, 0.9)",
@@ -495,12 +423,7 @@ function HallenstadionEntrance({
 
         {/* BackStage Türgriff */}
         <Box args={[0.4, 1.0, 0.8]} position={[1.8, 6, 0.6]}>
-          <meshPhysicalMaterial
-            color={new Color(0.9, 0.7, 0.3)}
-            roughness={0.05}
-            metalness={0.98}
-            clearcoat={1.0}
-          />
+          <meshPhysicalMaterial color={new Color(0.9, 0.7, 0.3)} roughness={0.05} metalness={0.98} clearcoat={1.0} />
         </Box>
       </group>
 
@@ -511,8 +434,8 @@ function HallenstadionEntrance({
           args={[4, 12, 8]}
           position={[0, 6, 0]}
           onClick={() => onRoomChange?.("tickets")}
-          onPointerOver={(e) => (document.body.style.cursor = "pointer")}
-          onPointerOut={(e) => (document.body.style.cursor = "auto")}
+          onPointerOver={e => (document.body.style.cursor = "pointer")}
+          onPointerOut={e => (document.body.style.cursor = "auto")}
         >
           <meshPhysicalMaterial
             color={new Color(0.2, 0.6, 0.8)}
@@ -563,12 +486,7 @@ function HallenstadionEntrance({
         </Html>
 
         {/* TICKET ARENA TEXT - RÜCKSEITE */}
-        <Html
-          position={[0, 14, -0.4]}
-          transform
-          occlude
-          rotation={[0, Math.PI, 0]}
-        >
+        <Html position={[0, 14, -0.4]} transform occlude rotation={[0, Math.PI, 0]}>
           <div
             style={{
               backgroundColor: "rgba(0, 40, 80, 0.9)",
@@ -591,12 +509,7 @@ function HallenstadionEntrance({
 
         {/* TicketArena Türgriff */}
         <Box args={[0.4, 1.0, 0.8]} position={[1.8, 6, 0.6]}>
-          <meshPhysicalMaterial
-            color={new Color(0.3, 0.7, 0.9)}
-            roughness={0.05}
-            metalness={0.98}
-            clearcoat={1.0}
-          />
+          <meshPhysicalMaterial color={new Color(0.3, 0.7, 0.9)} roughness={0.05} metalness={0.98} clearcoat={1.0} />
         </Box>
       </group>
     </group>
@@ -604,11 +517,7 @@ function HallenstadionEntrance({
 }
 
 // FOTOREALISTISCHE HALLENSTADION-NAVIGATION
-function StadionNavigationGates({
-  onRoomChange,
-}: {
-  onRoomChange?: (room: string) => void;
-}) {
+function StadionNavigationGates({ onRoomChange }: { onRoomChange?: (room: string) => void }) {
   return (
     <group>
       {" "}
@@ -620,8 +529,8 @@ function StadionNavigationGates({
           args={[8, 15, 0.8]}
           position={[-4.5, 7.5, 0]}
           onClick={() => onRoomChange?.("stadium")}
-          onPointerOver={(e) => (document.body.style.cursor = "pointer")}
-          onPointerOut={(e) => (document.body.style.cursor = "auto")}
+          onPointerOver={e => (document.body.style.cursor = "pointer")}
+          onPointerOut={e => (document.body.style.cursor = "auto")}
         >
           <meshPhysicalMaterial
             color={new Color(0.8, 0.9, 1.0)}
@@ -642,8 +551,8 @@ function StadionNavigationGates({
           args={[8, 15, 0.8]}
           position={[4.5, 7.5, 0]}
           onClick={() => onRoomChange?.("stadium")}
-          onPointerOver={(e) => (document.body.style.cursor = "pointer")}
-          onPointerOut={(e) => (document.body.style.cursor = "auto")}
+          onPointerOver={e => (document.body.style.cursor = "pointer")}
+          onPointerOut={e => (document.body.style.cursor = "auto")}
         >
           <meshPhysicalMaterial
             color={new Color(0.8, 0.9, 1.0)}
@@ -661,12 +570,7 @@ function StadionNavigationGates({
 
         {/* Türrahmen - GRÖSSER */}
         <Box args={[10, 1.2, 1]} position={[0, 15, 0]}>
-          <meshPhysicalMaterial
-            color={new Color(0.3, 0.3, 0.35)}
-            roughness={0.2}
-            metalness={0.9}
-            clearcoat={0.8}
-          />
+          <meshPhysicalMaterial color={new Color(0.3, 0.3, 0.35)} roughness={0.2} metalness={0.9} clearcoat={0.8} />
         </Box>
       </group>
       {/* SEITENEINGANG GALLERY - EXIT TÜREN */}
@@ -676,8 +580,8 @@ function StadionNavigationGates({
           args={[3, 10, 8]}
           position={[0, 5, 0]}
           onClick={() => onRoomChange?.("gallery")}
-          onPointerOver={(e) => (document.body.style.cursor = "pointer")}
-          onPointerOut={(e) => (document.body.style.cursor = "auto")}
+          onPointerOver={e => (document.body.style.cursor = "pointer")}
+          onPointerOut={e => (document.body.style.cursor = "auto")}
         >
           <meshPhysicalMaterial
             color={new Color(0.7, 0.8, 0.9)}
@@ -726,12 +630,7 @@ function StadionNavigationGates({
         </Html>
 
         {/* GALLERY TEXT - RÜCKSEITE */}
-        <Html
-          position={[0, 12, -0.4]}
-          transform
-          occlude
-          rotation={[0, Math.PI, 0]}
-        >
+        <Html position={[0, 12, -0.4]} transform occlude rotation={[0, Math.PI, 0]}>
           <div
             style={{
               backgroundColor: "rgba(0, 40, 80, 0.9)",
@@ -754,12 +653,7 @@ function StadionNavigationGates({
 
         {/* Gallery Türgriff */}
         <Box args={[0.3, 0.8, 0.6]} position={[1.2, 5, 0.5]}>
-          <meshPhysicalMaterial
-            color={new Color(0.7, 0.7, 0.75)}
-            roughness={0.1}
-            metalness={0.95}
-            clearcoat={1.0}
-          />
+          <meshPhysicalMaterial color={new Color(0.7, 0.7, 0.75)} roughness={0.1} metalness={0.95} clearcoat={1.0} />
         </Box>
       </group>
       {/* COMMUNITY BEREICH - EXIT TÜREN */}
@@ -769,8 +663,8 @@ function StadionNavigationGates({
           args={[3, 10, 8]}
           position={[0, 5, 0]}
           onClick={() => console.log("Community - Coming Soon!")}
-          onPointerOver={(e) => (document.body.style.cursor = "pointer")}
-          onPointerOut={(e) => (document.body.style.cursor = "auto")}
+          onPointerOver={e => (document.body.style.cursor = "pointer")}
+          onPointerOut={e => (document.body.style.cursor = "auto")}
         >
           <meshPhysicalMaterial
             color={new Color(0.7, 0.8, 0.9)}
@@ -820,12 +714,7 @@ function StadionNavigationGates({
         </Html>
 
         {/* COMMUNITY TEXT - RÜCKSEITE */}
-        <Html
-          position={[0, 12, -0.4]}
-          transform
-          occlude
-          rotation={[0, Math.PI, 0]}
-        >
+        <Html position={[0, 12, -0.4]} transform occlude rotation={[0, Math.PI, 0]}>
           <div
             style={{
               backgroundColor: "rgba(0, 40, 80, 0.9)",
@@ -848,12 +737,7 @@ function StadionNavigationGates({
 
         {/* Community Türgriff */}
         <Box args={[0.3, 0.8, 0.6]} position={[1.2, 5, 0.5]}>
-          <meshPhysicalMaterial
-            color={new Color(0.7, 0.7, 0.75)}
-            roughness={0.1}
-            metalness={0.95}
-            clearcoat={1.0}
-          />
+          <meshPhysicalMaterial color={new Color(0.7, 0.7, 0.75)} roughness={0.1} metalness={0.95} clearcoat={1.0} />
         </Box>
       </group>
       {/* SEITENEINGANG GALLERY - Eleganter VIP-Bereich */}
@@ -862,8 +746,8 @@ function StadionNavigationGates({
           args={[3, 10, 8]}
           position={[0, 5, 0]}
           onClick={() => onRoomChange?.("gallery")}
-          onPointerOver={(e) => (document.body.style.cursor = "pointer")}
-          onPointerOut={(e) => (document.body.style.cursor = "auto")}
+          onPointerOver={e => (document.body.style.cursor = "pointer")}
+          onPointerOut={e => (document.body.style.cursor = "auto")}
         >
           <meshPhysicalMaterial
             color={new Color(0.4, 0.2, 0.6)}
@@ -891,8 +775,8 @@ function StadionNavigationGates({
         <Box
           args={[3, 10, 8]}
           position={[0, 5, 0]}
-          onPointerOver={(e) => (document.body.style.cursor = "pointer")}
-          onPointerOut={(e) => (document.body.style.cursor = "auto")}
+          onPointerOver={e => (document.body.style.cursor = "pointer")}
+          onPointerOut={e => (document.body.style.cursor = "auto")}
         >
           <meshPhysicalMaterial
             color={new Color(0.2, 0.5, 0.3)}
@@ -1037,9 +921,7 @@ export default function WelcomeStage({
   return (
     <div
       className={
-        isFullscreen
-          ? "fixed inset-0 z-50 bg-black"
-          : "w-full h-64 sm:h-80 lg:h-96 bg-black rounded-lg overflow-hidden"
+        isFullscreen ? "fixed inset-0 z-50 bg-black" : "w-full h-64 sm:h-80 lg:h-96 bg-black rounded-lg overflow-hidden"
       }
     >
       <Canvas
@@ -1054,11 +936,7 @@ export default function WelcomeStage({
 
         {/* Bewegungssteuerung */}
         {controlMode === "fps" ? (
-          <FPSControls
-            movementSpeed={12}
-            lookSpeed={0.002}
-            boundaries={{ minX: -85, maxX: 85, minZ: -50, maxZ: 50 }}
-          />
+          <FPSControls movementSpeed={12} lookSpeed={0.002} boundaries={{ minX: -85, maxX: 85, minZ: -50, maxZ: 50 }} />
         ) : (
           <OrbitControls
             enableZoom={true}
@@ -1077,13 +955,7 @@ export default function WelcomeStage({
         <StadionNavigationGates onRoomChange={onRoomChange} />
 
         {/* Sparkles Effekt */}
-        <Sparkles
-          count={100}
-          scale={[20, 20, 20]}
-          size={3}
-          speed={0.3}
-          color="#ff6b35"
-        />
+        <Sparkles count={100} scale={[20, 20, 20]} size={3} speed={0.3} color="#ff6b35" />
 
         {/*HALLENSTADION ZÜRICH WELCOME - WEITER VORNE, NICHT VERDECKT*/}
         <Text
@@ -1098,42 +970,60 @@ export default function WelcomeStage({
           HALLENSTADION ZÜRICH
         </Text>
 
-        <Text
-          position={[0, 15, -5]}
-          fontSize={1.2}
-          color="#4a90e2"
-          anchorX="center"
-          anchorY="middle"
-        >
+        <Text position={[0, 15, -5]} fontSize={1.2} color="#4a90e2" anchorX="center" anchorY="middle">
           Metal3DCore Plattform (M3DC)
         </Text>
 
-        <Text
-          position={[0, 13, -5]}
-          fontSize={0.8}
-          color="#ffffff"
-          anchorX="center"
-          anchorY="middle"
-        >
+        <Text position={[0, 13, -5]} fontSize={0.8} color="#ffffff" anchorX="center" anchorY="middle">
           WASD Bewegung • Maus Umschauen • Klicke Eingänge für Navigation
         </Text>
 
-        {/* Control Mode Toggle UI - FIXED Z-INDEX */}
-        <Html position={[0, -0.5, 3]} center distanceFactor={8} zIndexRange={[100, 0]}>
+        {/* Control Mode Toggle UI - ATTACHED TO COLUMN */}
+        <Html position={[-25, 10, -20]} center distanceFactor={2} zIndexRange={[100, 0]}>
           <div
             data-testid="room-selector"
-            className="bg-black/90 backdrop-blur-sm rounded-lg p-4 text-center shadow-2xl border border-orange-500/30"
-            style={{ zIndex: 1000, position: 'relative' }}
+            className="bg-black/95 backdrop-blur-md rounded-xl p-12 text-center shadow-2xl border-4 border-orange-500/80 animate-pulse"
+            style={{
+              zIndex: 1000,
+              position: "relative",
+              minWidth: "600px",
+              minHeight: "400px",
+              fontSize: "32px",
+              boxShadow: "0 0 50px rgba(249, 115, 22, 0.8)",
+              transform: "scale(8)",
+            }}
           >
-            <h3 className="text-white font-bold mb-2">Navigation Mode</h3>
-            <div className="flex gap-2 mb-2">
+            <h3 className="text-white font-bold mb-4 text-center text-2xl">🧭 Navigation Mode</h3>
+
+            <div className="mb-6 text-white text-base">
+              <p className="mb-3">
+                📋 <strong>Steuerung Anweisungen:</strong>
+              </p>
+              <div className="text-left space-y-2 text-sm">
+                <p>
+                  • <strong>FPS Mode:</strong> WASD = Bewegen, Maus = Umschauen
+                </p>
+                <p>
+                  • <strong>Orbit Mode:</strong> Maus ziehen = Kamera drehen
+                </p>
+                <p>
+                  • <strong>ESC Taste:</strong> Mauszeiger freigeben / Steuerung pausieren
+                </p>
+                <p>
+                  • <strong>Türen:</strong> Anklicken für Raumwechsel
+                </p>
+                <p>
+                  • <strong>Vollbild:</strong> Für beste Erfahrung empfohlen
+                </p>
+              </div>
+            </div>
+
+            <div className="flex gap-3 mb-6 justify-center">
               <button
                 data-testid="control-fps"
                 onClick={() => setControlMode("fps")}
-                className={`px-3 py-1 rounded text-sm ${
-                  controlMode === "fps"
-                    ? "bg-orange-500 text-white"
-                    : "bg-gray-600 text-gray-300"
+                className={`px-6 py-3 rounded text-base font-bold ${
+                  controlMode === "fps" ? "bg-orange-500 text-white" : "bg-gray-600 text-gray-300"
                 }`}
               >
                 🎮 FPS (WASD)
@@ -1141,10 +1031,8 @@ export default function WelcomeStage({
               <button
                 data-testid="control-orbit"
                 onClick={() => setControlMode("orbit")}
-                className={`px-3 py-1 rounded text-sm ${
-                  controlMode === "orbit"
-                    ? "bg-orange-500 text-white"
-                    : "bg-gray-600 text-gray-300"
+                className={`px-6 py-3 rounded text-base font-bold ${
+                  controlMode === "orbit" ? "bg-orange-500 text-white" : "bg-gray-600 text-gray-300"
                 }`}
               >
                 🖱️ Orbit
@@ -1154,7 +1042,7 @@ export default function WelcomeStage({
               <button
                 data-testid="fullscreen-toggle"
                 onClick={onFullscreen}
-                className="px-3 py-1 rounded text-sm bg-blue-600 hover:bg-blue-700 text-white w-full"
+                className="px-6 py-3 rounded text-base bg-blue-600 hover:bg-blue-700 text-white w-full mx-auto block font-bold"
                 title={isFullscreen ? "Vollbild verlassen" : "Vollbild"}
               >
                 {isFullscreen ? "📱 Normal" : "🖥️ Vollbild"}
@@ -1168,29 +1056,26 @@ export default function WelcomeStage({
           <Html position={[25, 8, -15]} center distanceFactor={12} zIndexRange={[100, 0]}>
             <div
               data-testid="welcome-registration-panel"
-              style={{ zIndex: 1001, position: 'relative' }}
+              style={{ zIndex: 1001, position: "relative" }}
               className="bg-gradient-to-r from-orange-500 to-red-600 p-6 rounded-xl shadow-2xl text-center max-w-sm border-2 border-orange-400 backdrop-blur-md"
             >
               <div className="mb-4">
                 <span className="text-4xl mb-2 block animate-bounce">🎸</span>
-                <h3 className="text-white font-black text-lg mb-2 tracking-tight">
-                  Willkommen bei Metal3DCore!
-                </h3>
+                <h3 className="text-white font-black text-lg mb-2 tracking-tight">Willkommen bei Metal3DCore!</h3>
                 <p className="text-orange-100 text-sm mb-4 leading-relaxed">
-                  Erstelle dein Account und erlebe die ultimative
-                  Metal-Plattform
+                  Erstelle dein Account und erlebe die ultimative Metal-Plattform
                 </p>
               </div>
 
               <div className="flex flex-col gap-3">
                 <button
-                  onClick={(e) => {
+                  onClick={e => {
                     console.log("Band Registration clicked!", e);
                     e.preventDefault();
                     e.stopPropagation();
                     openAuthModal("signup");
                   }}
-                  onPointerDown={(e) => e.stopPropagation()}
+                  onPointerDown={e => e.stopPropagation()}
                   className="group relative overflow-hidden px-6 py-3 bg-black/80 hover:bg-black text-white font-bold rounded-xl shadow-lg transition-all duration-300 transform hover:scale-105 border-2 border-orange-300 cursor-pointer"
                 >
                   <div className="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
@@ -1201,13 +1086,13 @@ export default function WelcomeStage({
                 </button>
 
                 <button
-                  onClick={(e) => {
+                  onClick={e => {
                     console.log("Fan Registration clicked!", e);
                     e.preventDefault();
                     e.stopPropagation();
                     openAuthModal("signup");
                   }}
-                  onPointerDown={(e) => e.stopPropagation()}
+                  onPointerDown={e => e.stopPropagation()}
                   className="group relative overflow-hidden px-6 py-3 bg-white/90 hover:bg-white text-gray-900 font-bold rounded-xl shadow-lg transition-all duration-300 transform hover:scale-105 cursor-pointer"
                 >
                   <div className="absolute inset-0 bg-orange-500/20 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
@@ -1218,13 +1103,13 @@ export default function WelcomeStage({
                 </button>
 
                 <button
-                  onClick={(e) => {
+                  onClick={e => {
                     console.log("Login clicked!", e);
                     e.preventDefault();
                     e.stopPropagation();
                     openAuthModal("login");
                   }}
-                  onPointerDown={(e) => e.stopPropagation()}
+                  onPointerDown={e => e.stopPropagation()}
                   className="px-4 py-2 text-orange-100 hover:text-white font-medium transition-colors text-sm underline decoration-2 underline-offset-2 hover:decoration-white cursor-pointer"
                 >
                   Bereits registriert? → Login
@@ -1240,20 +1125,16 @@ export default function WelcomeStage({
             <div
               data-testid="welcome-user-panel"
               className="bg-gradient-to-r from-green-600 to-blue-600 p-6 rounded-xl shadow-2xl text-center max-w-sm border-2 border-green-400 backdrop-blur-md"
-              style={{ zIndex: 1002, position: 'relative' }}
+              style={{ zIndex: 1002, position: "relative" }}
             >
               <div className="mb-4">
                 <span className="text-4xl mb-2 block">👋</span>
-                <h3 className="text-white font-black text-lg mb-2">
-                  Willkommen zurück!
-                </h3>
+                <h3 className="text-white font-black text-lg mb-2">Willkommen zurück!</h3>
                 <p className="text-green-100 text-sm mb-2">
                   Hallo <strong>{session.user?.name}</strong>
                 </p>
                 <p className="text-green-100 text-xs">
-                  {session.user?.role === "BAND"
-                    ? "🎤 Band Account"
-                    : "🤘 Fan Account"}
+                  {session.user?.role === "BAND" ? "🎤 Band Account" : "🤘 Fan Account"}
                 </p>
               </div>
 
@@ -1277,11 +1158,7 @@ export default function WelcomeStage({
       )}
 
       {/* AuthModal - now integrated in WelcomeStage */}
-      <AuthModal
-        isOpen={authModal.isOpen}
-        onClose={closeAuthModal}
-        initialMode={authModal.mode}
-      />
+      <AuthModal isOpen={authModal.isOpen} onClose={closeAuthModal} initialMode={authModal.mode} />
     </div>
   );
 }

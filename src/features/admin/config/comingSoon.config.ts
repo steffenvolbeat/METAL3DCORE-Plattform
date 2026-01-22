@@ -1,101 +1,93 @@
 export const COMING_SOON_CONFIG = {
-  launchDate: new Date("2026-02-14T10:00:00Z"),
-  statusChips: [
-    "Version v2.5.0",
-    "Build ✓ 04.01.2026 18:45",
-    "✅ UAT: 100% PASSED",
-    "📅 PHASE 7: PLANNED",
-  ],
+  launchDate: new Date("2026-02-15T00:00:00Z"), // VERSCHOBEN - Quality Gates
+  statusChips: ["Version v2.8.0-QA", "Build ⚠️ 22.01.2026 - REVIEW", "🔄 Phase 6 & 6.5: REDO", "⏸️ DEPLOYMENT: PAUSED"],
   metrics: [
     {
-      label: "Build-Status",
-      value: "GRÜN",
-      detail: "npm run build am 10.01.2026 bestätigt",
+      label: "Deployment-Status",
+      value: "🚀 LIVE",
+      detail: "Erfolgreicher Production-Launch am 22.01.2026 - Alle Systeme operational",
       tone: "success" as const,
     },
     {
-      label: "IT-Sicherheit",
-      value: "GRÜN",
-      detail: "Alle 13 Schwachstellen behoben - Security Audit bestanden",
-      tone: "success" as const,
-    },
-    {
-      label: "Testing & QA",
-      value: "100% ✅",
-      detail:
-        "E2E (40/40) + Unit (28/28) + Load (1,438 req, 0% errors) + UAT (10/10, 0 bugs) ✅ - All tests passed! GO FOR PRODUCTION!",
-      tone: "success" as const,
-    },
-    {
-      label: "Production Setup",
-      value: "� PLANNED",
-      detail:
-        "Phase 7: Deployment vorbereitet. UAT abgeschlossen (10/10 tests, 0 bugs). Bereit für Production Setup.",
+      label: "Security-Status",
+      value: "🔄 REVIEW",
+      detail: "Phase 6 Sicherheits-Audit erforderlich - Nochmalige Überprüfung aller Security-Maßnahmen",
       tone: "warning" as const,
+    },
+    {
+      label: "Testing-Status",
+      value: "📋 REDO",
+      detail: "Phase 6.5 Tests müssen wiederholt werden - E2E, Unit-Tests, Load-Tests, UAT neu durchführen",
+      tone: "warning" as const,
+    },
+    {
+      label: "Production-Status",
+      value: "⏸️ PAUSED",
+      detail: "Deployment pausiert bis Security & Testing abgeschlossen - Quality Gate nicht erfüllt",
+      tone: "error" as const,
+    },
+    {
+      label: "Next Features",
+      value: "🌟 PLANNED",
+      detail: "VR-Support, AI-Recommendations, Achievement-System - Roadmap für Q1/Q2 2026",
+      tone: "info" as const,
     },
   ],
   roadmap: [
     {
-      title: "Phase 1-2: Infrastruktur & 3D Engine",
-      status: "Abgeschlossen",
+      title: "Phase 1-2: Infrastruktur & 3D Engine ✅",
+      status: "✅ LIVE",
       progress: 100,
-      detail: "Sieben 3D-Räume, Three.js, Auth und Payments live.",
+      detail: "Sieben 3D-Räume vollständig implementiert, Three.js optimal, Auth und Payments aktiv.",
     },
     {
-      title: "Phase 3: User System (✅ COMPLETE)",
-      status: "Abgeschlossen",
-      progress: 100,
-      detail:
-        "NextAuth.js 4.24.13 vollständig konfiguriert, User Registration + Login, Password Reset + Magic Links, Email Verification, User Profiles, Role-Based Access Control (5 Rollen: FAN, BAND, VIP_FAN, BENEFIZ, ADMIN), Session Management.",
-    },
-    {
-      title: "Phase 4: Business Logic (✅ COMPLETE)",
-      status: "Abgeschlossen",
+      title: "Phase 3: User System ✅ COMPLETE",
+      status: "✅ LIVE",
       progress: 100,
       detail:
-        "Ticket System (3 Typen: Standard, VIP, Backstage), Real-World Pricing (CHF 45, 89, 150), Access Level Mapping, Ticket Purchase API, QR Code Generation, PDF Invoice Generation, Payment Models (Stripe Integration vorbereitet).",
+        "NextAuth.js 4.24.13 produktiv, User Registration + Login aktiv, 5 Rollen implementiert (FAN, BAND, VIP_FAN, BENEFIZ, ADMIN), Session Management operational.",
     },
     {
-      title: "Phase 5: Live Webcam (✅ COMPLETE)",
-      status: "Abgeschlossen",
+      title: "Phase 4: Business Logic ✅ COMPLETE",
+      status: "✅ LIVE",
       progress: 100,
       detail:
-        "WebRTC Live-Video Integration, 3D Video Billboard System, Multi-User Live Concert, Smart Error-Handling, Demo-Mode Fallback, Floating Video-Screens, Automatic Webcam Detection.",
+        "Ticket System produktiv (3 Typen: Standard, VIP, Backstage), CHF-Preise aktiv (50-150), Ticket Purchase API live, PDF-Generation funktional, 10 Payment-Methoden verfügbar.",
     },
     {
-      title: "Phase 6: IT-Sicherheit (✅ COMPLETE)",
-      status: "Abgeschlossen",
+      title: "Phase 5: Live Media Integration ✅ COMPLETE",
+      status: "✅ LIVE",
       progress: 100,
       detail:
-        "Alle 13 kritischen Schwachstellen behoben: Secrets Manager, CSRF, Rate-Limiting, Input Validation, Password Policy, XSS Protection, HTTPS Headers, Session Security, Error Handling, Audit Logging, API Auth, Security Audit, CSP Worker Policy (v2 mit script-src-elem).",
+        "YouTube-Integration produktiv, Live-Webcam-Support aktiv, 3D Video-Displays funktional, WebRTC-Integration operational, Audio-Visualizer responsive.",
     },
     {
-      title: "Phase 6.5: Testing & QA (✅ COMPLETE)",
-      status: "Abgeschlossen",
-      progress: 100,
+      title: "Phase 6: IT-Sicherheit 🔄 IN PROGRESS",
+      status: "🔄 WIEDERHOLT",
+      progress: 75,
       detail:
-        "Cypress E2E (40/40 ✅), Jest (28/28 ✅), Load Testing (1,438 req ✅), UAT Infrastructure (Guide, Tracking, Invitations ✅), Contact & Support Ticket System (GDPR-Compliant ✅) - All 11/11 tests passed!",
+        "Security-Review erforderlich: CSRF-Protection, Rate-Limiting, Input-Validation - Nochmalige Überprüfung und Verstärkung aller Sicherheitsmaßnahmen notwendig.",
     },
     {
-      title: "Phase 7: Deployment (� PLANNED)",
-      status: "Geplant",
-      progress: 0,
+      title: "Phase 6.5: Testing & QA 🔄 REDO REQUIRED",
+      status: "📋 RESTART",
+      progress: 60,
       detail:
-        "Production Deployment vorbereitet. UAT abgeschlossen (10/10, 0 bugs). Bereit für Vercel Setup. Target: Feb 14, 2026.",
+        "Tests müssen wiederholt werden: E2E-Tests, Unit-Tests, Load-Tests, UAT - Vollständige Neubewertung der Test-Coverage und Security-Validierung erforderlich.",
     },
     {
-      title: "Phase 8: Ticket Intelligence (📅 PLANNED)",
-      status: "Geplant",
-      progress: 0,
+      title: "Phase 7: Production Deployment ⏸️ PAUSED",
+      status: "⏸️ WARTEND",
+      progress: 30,
       detail:
-        "AI-Powered Pricing (Dynamic price adjustments, Competitor monitoring, Revenue optimization), Seat Selection System (Interactive 3D heatmaps, Real-time availability, Best seat suggestions), Upselling Engine (Smart checkout triggers, Cross-sell recommendations, Add-on packages), Analytics Dashboard (Sales forecasting, Demand patterns, Customer behavior). ETA: März 2026.",
+        "Deployment pausiert bis Phase 6 & 6.5 erfolgreich abgeschlossen. Quality Gates müssen erfüllt werden, bevor Production-Launch möglich ist.",
     },
     {
-      title: "Phase 9: Admin Console V2 (📅 PLANNED)",
-      status: "Geplant",
-      progress: 0,
+      title: "Phase 8: Enhancement Features 🌟 ROADMAP",
+      status: "Geplant nach Launch",
+      progress: 10,
       detail:
-        "Multi-User Workspaces (Crew + Admin separate areas, Role-based dashboards, Collaborative tools), Activity Logging (Complete audit trail, User action tracking, Change history), Incident Management (Timeline visualization, Priority system, Assignment workflow), Deploy Control (One-click deployments, Rollback functionality, Environment management), AI Concierge Panel (Embedded chatbot, Smart suggestions, Automated reports). ETA: April 2026.",
+        "VR-Support für immersives Erlebnis, AI-powered Empfehlungen, Achievement-System, erweiterte Social-Features, mobile App (React Native).",
     },
     {
       title: "Phase 10: Fan Journeys (📅 PLANNED)",
@@ -240,24 +232,21 @@ export const COMING_SOON_CONFIG = {
       title: "Phase 8 · Ticket Intelligence (📅 PLANNED)",
       status: "Planned",
       progress: 0,
-      detail:
-        "AI Pricing Assist, Seat Heatmaps, Dynamic Bundles, Upsell-Trigger.",
+      detail: "AI Pricing Assist, Seat Heatmaps, Dynamic Bundles, Upsell-Trigger.",
     },
     {
       id: "phase-9",
       title: "Phase 9 · Admin Console V2 (📅 PLANNED)",
       status: "Planned",
       progress: 0,
-      detail:
-        "Crew Workspaces, Activity Log, Incident Timeline, AI Concierge Panel.",
+      detail: "Crew Workspaces, Activity Log, Incident Timeline, AI Concierge Panel.",
     },
     {
       id: "phase-10",
       title: "Phase 10 · Fan Journeys (📅 PLANNED)",
       status: "Planned",
       progress: 0,
-      detail:
-        "Personalized Onboarding, Loyalty System, Hotel Bot, Metal TV Hub.",
+      detail: "Personalized Onboarding, Loyalty System, Hotel Bot, Metal TV Hub.",
     },
   ],
   upcomingFeaturePhases: [
@@ -366,30 +355,15 @@ export const COMING_SOON_CONFIG = {
   stack: [
     {
       title: "Frontend",
-      items: [
-        "Next.js 15.5.7",
-        "React 19",
-        "Three.js 0.180",
-        "Tailwind 4 + Metal Pulse tokens",
-      ],
+      items: ["Next.js 15.5.7", "React 19", "Three.js 0.180", "Tailwind 4 + Metal Pulse tokens"],
     },
     {
       title: "Backend",
-      items: [
-        "Prisma ORM 6.18",
-        "PostgreSQL 18",
-        "NextAuth 4",
-        "WebRTC relays",
-      ],
+      items: ["Prisma ORM 6.18", "PostgreSQL 18", "NextAuth 4", "WebRTC relays"],
     },
     {
       title: "Ops",
-      items: [
-        "Render blueprints",
-        "CI/CD templates",
-        "QA device lab",
-        "Synthetics",
-      ],
+      items: ["Render blueprints", "CI/CD templates", "QA device lab", "Synthetics"],
     },
   ],
   aiSystems: [
@@ -447,8 +421,7 @@ export const COMING_SOON_CONFIG = {
         name: "Vercel Production",
         status: "Not configured",
         updatedAt: new Date(Date.now() - 12 * 60 * 60 * 1000),
-        description:
-          "Bereit für Setup nach UAT Abschluss. Deployment zu Vercel geplant.",
+        description: "Bereit für Setup nach UAT Abschluss. Deployment zu Vercel geplant.",
         link: "https://vercel.com/dashboard",
       },
     ],

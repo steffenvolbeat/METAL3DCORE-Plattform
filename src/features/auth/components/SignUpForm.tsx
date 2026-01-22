@@ -18,11 +18,11 @@ const signUpSchema = z
     role: z.enum(["FAN", "BAND"], {
       message: "Bitte wählen Sie eine Rolle aus",
     }),
-    terms: z.boolean().refine((val) => val === true, {
+    terms: z.boolean().refine(val => val === true, {
       message: "Sie müssen die Nutzungsbedingungen akzeptieren",
     }),
   })
-  .refine((data) => data.password === data.confirmPassword, {
+  .refine(data => data.password === data.confirmPassword, {
     message: "Passwörter stimmen nicht überein",
     path: ["confirmPassword"],
   });
@@ -126,30 +126,16 @@ export default function SignUpForm({ onToggleMode, onClose }: Props) {
               stroke="currentColor"
               viewBox="0 0 24 24"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M5 13l4 4L19 7"
-              />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
             </svg>
           </div>
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-            🎉 Registrierung erfolgreich!
-          </h2>
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">🎉 Registrierung erfolgreich!</h2>
           <p className="text-gray-600 dark:text-gray-300 mb-4">
             Willkommen bei 3DMetal Platform! Du wirst automatisch angemeldet...
           </p>
           <div className="animate-spin mx-auto w-6 h-6 text-orange-500">
             <svg fill="none" viewBox="0 0 24 24">
-              <circle
-                className="opacity-25"
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                strokeWidth="4"
-              ></circle>
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
               <path
                 className="opacity-75"
                 fill="currentColor"
@@ -165,46 +151,32 @@ export default function SignUpForm({ onToggleMode, onClose }: Props) {
   return (
     <div className="backdrop-blur-xl bg-black/90 border-2 border-theme-primary/30 rounded-2xl shadow-2xl shadow-theme-primary/20 p-6 w-full mx-2 relative overflow-visible">
       {/* Decorative gradient bar */}
-      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-theme-primary via-theme-secondary to-theme-accent rounded-t-2xl"></div>
+      <div className="absolute top-0 left-0 right-0 h-1 bg-linear-to-r from-theme-primary via-theme-secondary to-theme-accent rounded-t-2xl"></div>
 
       {/* Close Button */}
       <button
         onClick={onClose}
         className="absolute top-4 right-4 text-gray-400 hover:text-white transition-all duration-300 hover:rotate-90 z-10"
       >
-        <svg
-          className="w-6 h-6"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M6 18L18 6M6 6l12 12"
-          />
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
         </svg>
       </button>
 
       <div className="text-center mb-6 pt-2">
-        <h2 className="text-3xl font-bold bg-gradient-to-r from-theme-primary via-theme-secondary to-theme-accent bg-clip-text text-transparent mb-3">
+        <h2 className="text-3xl font-bold bg-linear-to-r from-theme-primary via-theme-secondary to-theme-accent bg-clip-text text-transparent mb-3">
           🎸 Join 3DMetal!
         </h2>
-        <p className="text-gray-300">
-          Erstelle deinen Account für die Ultimate Metal Experience
-        </p>
+        <p className="text-gray-300">Erstelle deinen Account für die Ultimate Metal Experience</p>
       </div>
 
       {error && (
         <div className="backdrop-blur-xl bg-red-500/10 border-2 border-red-400/30 rounded-xl shadow-lg shadow-red-500/20 px-4 py-3 mb-4 animate-float">
           <div className="flex items-start gap-3">
-            <div className="flex-shrink-0 w-5 h-5 rounded-full bg-red-500/20 flex items-center justify-center mt-0.5">
+            <div className="shrink-0 w-5 h-5 rounded-full bg-red-500/20 flex items-center justify-center mt-0.5">
               <span className="text-red-400 text-sm font-bold">!</span>
             </div>
-            <p className="text-sm text-red-200 leading-relaxed flex-1">
-              {error}
-            </p>
+            <p className="text-sm text-red-200 leading-relaxed flex-1">{error}</p>
           </div>
         </div>
       )}
@@ -212,48 +184,27 @@ export default function SignUpForm({ onToggleMode, onClose }: Props) {
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
         {/* Role Selection */}
         <div>
-          <label className="block text-sm font-medium bg-gradient-to-r from-theme-primary to-theme-secondary bg-clip-text text-transparent mb-3">
+          <label className="block text-sm font-medium bg-linear-to-r from-theme-primary to-theme-secondary bg-clip-text text-transparent mb-3">
             Ich bin ein/eine:
           </label>
           <div className="grid grid-cols-2 gap-4">
             <label
               className={`relative flex cursor-pointer rounded-xl border-2 transition-all duration-300 p-5 ${
                 selectedRole === "FAN"
-                  ? "border-theme-primary bg-gradient-to-br from-theme-primary/20 to-theme-secondary/20 shadow-lg shadow-theme-primary/30 scale-105"
+                  ? "border-theme-primary bg-linear-to-br from-theme-primary/20 to-theme-secondary/20 shadow-lg shadow-theme-primary/30 scale-105"
                   : "border-white/20 bg-white/5 hover:bg-white/10 hover:border-theme-primary/50 hover:scale-102"
               }`}
             >
-              <input
-                {...register("role")}
-                type="radio"
-                value="FAN"
-                className="sr-only"
-              />
+              <input {...register("role")} type="radio" value="FAN" className="sr-only" />
               <div className="flex flex-col items-center w-full">
-                <div className="text-3xl mb-2 transform transition-transform group-hover:scale-110">
-                  🎸
-                </div>
-                <div className="text-base font-bold text-white mb-1">
-                  Metal Fan
-                </div>
-                <div className="text-xs text-gray-300 text-center">
-                  Events besuchen & Community
-                </div>
+                <div className="text-3xl mb-2 transform transition-transform group-hover:scale-110">🎸</div>
+                <div className="text-base font-bold text-white mb-1">Metal Fan</div>
+                <div className="text-xs text-gray-300 text-center">Events besuchen & Community</div>
               </div>
               {selectedRole === "FAN" && (
-                <div className="absolute -top-2 -right-2 w-6 h-6 bg-gradient-to-br from-theme-primary to-theme-secondary rounded-full flex items-center justify-center shadow-lg shadow-theme-primary/50">
-                  <svg
-                    className="w-3 h-3 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={3}
-                      d="M5 13l4 4L19 7"
-                    />
+                <div className="absolute -top-2 -right-2 w-6 h-6 bg-linear-to-br from-theme-primary to-theme-secondary rounded-full flex items-center justify-center shadow-lg shadow-theme-primary/50">
+                  <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
               )}
@@ -262,39 +213,20 @@ export default function SignUpForm({ onToggleMode, onClose }: Props) {
             <label
               className={`relative flex cursor-pointer rounded-xl border-2 transition-all duration-300 p-5 ${
                 selectedRole === "BAND"
-                  ? "border-theme-primary bg-gradient-to-br from-theme-primary/20 to-theme-secondary/20 shadow-lg shadow-theme-primary/30 scale-105"
+                  ? "border-theme-primary bg-linear-to-br from-theme-primary/20 to-theme-secondary/20 shadow-lg shadow-theme-primary/30 scale-105"
                   : "border-white/20 bg-white/5 hover:bg-white/10 hover:border-theme-primary/50 hover:scale-102"
               }`}
             >
-              <input
-                {...register("role")}
-                type="radio"
-                value="BAND"
-                className="sr-only"
-              />
+              <input {...register("role")} type="radio" value="BAND" className="sr-only" />
               <div className="flex flex-col items-center w-full">
-                <div className="text-3xl mb-2 transform transition-transform group-hover:scale-110">
-                  🎤
-                </div>
+                <div className="text-3xl mb-2 transform transition-transform group-hover:scale-110">🎤</div>
                 <div className="text-base font-bold text-white mb-1">Band</div>
-                <div className="text-xs text-gray-300 text-center">
-                  Events organisieren
-                </div>
+                <div className="text-xs text-gray-300 text-center">Events organisieren</div>
               </div>
               {selectedRole === "BAND" && (
-                <div className="absolute -top-2 -right-2 w-6 h-6 bg-gradient-to-br from-theme-primary to-theme-secondary rounded-full flex items-center justify-center shadow-lg shadow-theme-primary/50">
-                  <svg
-                    className="w-3 h-3 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={3}
-                      d="M5 13l4 4L19 7"
-                    />
+                <div className="absolute -top-2 -right-2 w-6 h-6 bg-linear-to-br from-theme-primary to-theme-secondary rounded-full flex items-center justify-center shadow-lg shadow-theme-primary/50">
+                  <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
               )}
@@ -312,7 +244,7 @@ export default function SignUpForm({ onToggleMode, onClose }: Props) {
         <div>
           <label
             htmlFor="name"
-            className="block text-sm font-medium bg-gradient-to-r from-theme-primary to-theme-secondary bg-clip-text text-transparent mb-2"
+            className="block text-sm font-medium bg-linear-to-r from-theme-primary to-theme-secondary bg-clip-text text-transparent mb-2"
           >
             {selectedRole === "BAND" ? "Band Name" : "Vollständiger Name"}
           </label>
@@ -321,9 +253,7 @@ export default function SignUpForm({ onToggleMode, onClose }: Props) {
             type="text"
             id="name"
             className="w-full px-4 py-3 bg-white/5 backdrop-blur-sm border-2 border-white/20 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-theme-primary/50 focus:border-theme-primary text-white placeholder-gray-400 transition-all duration-300 hover:bg-white/10 hover:border-theme-primary/40"
-            placeholder={
-              selectedRole === "BAND" ? "Deine Band" : "Max Mustermann"
-            }
+            placeholder={selectedRole === "BAND" ? "Deine Band" : "Max Mustermann"}
           />
           {errors.name && (
             <p className="mt-2 text-sm text-red-400 flex items-center gap-2">
@@ -337,7 +267,7 @@ export default function SignUpForm({ onToggleMode, onClose }: Props) {
         <div>
           <label
             htmlFor="username"
-            className="block text-sm font-medium bg-gradient-to-r from-theme-primary to-theme-secondary bg-clip-text text-transparent mb-2"
+            className="block text-sm font-medium bg-linear-to-r from-theme-primary to-theme-secondary bg-clip-text text-transparent mb-2"
           >
             Username
           </label>
@@ -360,7 +290,7 @@ export default function SignUpForm({ onToggleMode, onClose }: Props) {
         <div>
           <label
             htmlFor="email"
-            className="block text-sm font-medium bg-gradient-to-r from-theme-primary to-theme-secondary bg-clip-text text-transparent mb-2"
+            className="block text-sm font-medium bg-linear-to-r from-theme-primary to-theme-secondary bg-clip-text text-transparent mb-2"
           >
             E-Mail-Adresse
           </label>
@@ -384,7 +314,7 @@ export default function SignUpForm({ onToggleMode, onClose }: Props) {
           <div>
             <label
               htmlFor="password"
-              className="block text-sm font-medium bg-gradient-to-r from-theme-primary to-theme-secondary bg-clip-text text-transparent mb-2"
+              className="block text-sm font-medium bg-linear-to-r from-theme-primary to-theme-secondary bg-clip-text text-transparent mb-2"
             >
               Passwort
             </label>
@@ -406,7 +336,7 @@ export default function SignUpForm({ onToggleMode, onClose }: Props) {
           <div>
             <label
               htmlFor="confirmPassword"
-              className="block text-sm font-medium bg-gradient-to-r from-theme-primary to-theme-secondary bg-clip-text text-transparent mb-2"
+              className="block text-sm font-medium bg-linear-to-r from-theme-primary to-theme-secondary bg-clip-text text-transparent mb-2"
             >
               Bestätigen
             </label>
@@ -466,23 +396,12 @@ export default function SignUpForm({ onToggleMode, onClose }: Props) {
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full bg-gradient-to-r from-theme-primary via-theme-secondary to-theme-accent hover:from-theme-primary/90 hover:via-theme-secondary/90 hover:to-theme-accent/90 text-white font-bold py-3 px-6 rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 shadow-lg shadow-theme-primary/50 hover:shadow-theme-primary/70 relative overflow-hidden group"
+          className="w-full bg-linear-to-r from-theme-primary via-theme-secondary to-theme-accent hover:from-theme-primary/90 hover:via-theme-secondary/90 hover:to-theme-accent/90 text-white font-bold py-3 px-6 rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 shadow-lg shadow-theme-primary/50 hover:shadow-theme-primary/70 relative overflow-hidden group"
         >
           {isLoading ? (
             <div className="flex items-center justify-center">
-              <svg
-                className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <circle
-                  className="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  strokeWidth="4"
-                ></circle>
+              <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                 <path
                   className="opacity-75"
                   fill="currentColor"
@@ -494,12 +413,9 @@ export default function SignUpForm({ onToggleMode, onClose }: Props) {
           ) : (
             <>
               <span className="relative z-10">
-                🚀{" "}
-                {selectedRole === "BAND"
-                  ? "Band Account erstellen"
-                  : "Account erstellen"}
+                🚀 {selectedRole === "BAND" ? "Band Account erstellen" : "Account erstellen"}
               </span>
-              <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
+              <div className="absolute inset-0 bg-linear-to-r from-white/0 via-white/20 to-white/0 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
             </>
           )}
         </button>
@@ -512,9 +428,7 @@ export default function SignUpForm({ onToggleMode, onClose }: Props) {
             <div className="w-full border-t border-white/20"></div>
           </div>
           <div className="relative flex justify-center text-sm">
-            <span className="px-3 backdrop-blur-xl bg-black/90 text-gray-400">
-              Oder
-            </span>
+            <span className="px-3 backdrop-blur-xl bg-black/90 text-gray-400">Oder</span>
           </div>
         </div>
       </div>

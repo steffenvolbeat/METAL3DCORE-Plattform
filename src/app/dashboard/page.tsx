@@ -47,10 +47,11 @@ const CONTROL_BLOCKS = [
 
 function LoadingView() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-theme-primary">
-      <div className="section-card text-center">
-        <div className="animate-spin h-12 w-12 border-4 border-orange-500 border-t-transparent rounded-full mx-auto mb-4" />
-        <p className="text-theme-secondary">Dashboard wird geladen…</p>
+    <div className="min-h-screen flex items-center justify-center bg-black text-white">
+      <div className="bg-gray-900 rounded-xl p-8 border border-gray-700 text-center max-w-md mx-auto">
+        <div className="animate-spin h-16 w-16 border-4 border-orange-500 border-t-transparent rounded-full mx-auto mb-6" />
+        <p className="text-xl text-gray-300 font-mono">Dashboard wird geladen…</p>
+        <p className="text-sm text-orange-400 mt-2 font-mono">Metal3DCore System</p>
       </div>
     </div>
   );
@@ -58,21 +59,20 @@ function LoadingView() {
 
 function AuthWall() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-theme-primary px-6">
-      <div className="section-card max-w-lg text-center">
-        <p className="text-5xl mb-4">🎸</p>
-        <h1 className="panel-heading justify-center mb-2">
-          Anmeldung erforderlich
-        </h1>
-        <p className="text-theme-secondary mb-6">
+    <div className="min-h-screen flex items-center justify-center bg-black text-white px-6">
+      <div className="bg-gray-900 rounded-xl p-10 border border-gray-700 hover:border-orange-500 transition-all duration-300 max-w-lg mx-auto text-center">
+        <div className="text-6xl mb-6">🎸</div>
+        <h1 className="text-4xl font-bold text-orange-400 font-mono mb-4">Anmeldung erforderlich</h1>
+        <p className="text-gray-300 mb-8 text-lg leading-relaxed">
           Melde dich an, um Tickets, Livestreams und deine Zugänge zu verwalten.
         </p>
         <button
-          className="button-primary w-full"
-          onClick={() => (window.location.href = "/auth/login")}
+          className="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-4 px-6 rounded-lg text-lg transition-colors duration-200 shadow-lg hover:shadow-xl"
+          onClick={() => (window.location.href = "/login")}
         >
-          Jetzt anmelden
+          🚀 Jetzt anmelden
         </button>
+        <p className="text-sm text-gray-400 mt-4 font-mono">Metal3DCore Dashboard</p>
       </div>
     </div>
   );
@@ -93,67 +93,87 @@ export default function DashboardPage() {
   const email = session?.user?.email ?? "";
 
   return (
-    <div className="min-h-screen bg-theme-primary py-12">
-      <div className="app-shell space-y-8">
-        <header className="section-card">
-          <div className="flex flex-wrap items-start justify-between gap-4">
-            <div>
-              <p className="text-sm uppercase tracking-[0.3em] text-theme-secondary">
-                Welcome back
-              </p>
-              <h1 className="panel-heading text-4xl mt-3">{displayName}</h1>
-              <p className="text-theme-secondary mt-2">{email}</p>
+    <div className="min-h-screen bg-black text-white flex items-center justify-center pt-16">
+      <div className="w-full max-w-7xl mx-auto px-6 py-12 flex flex-col items-center space-y-24">
+        {/* Header Section */}
+        <header className="w-full max-w-6xl mx-auto">
+          <div className="bg-gray-900 rounded-xl p-8 border border-gray-700 hover:border-orange-500 transition-all duration-300">
+            <div className="flex flex-wrap items-start justify-between gap-6">
+              <div className="flex flex-col items-center md:items-start text-center md:text-left">
+                <p className="text-sm uppercase tracking-[0.3em] text-orange-400 font-mono">Welcome back</p>
+                <h1 className="text-4xl md:text-5xl font-bold text-orange-400 font-mono mt-3">{displayName}</h1>
+                <p className="text-gray-300 mt-3 text-lg">{email}</p>
+              </div>
+              <div className="bg-gray-800 border border-gray-600 rounded-lg px-6 py-5 min-w-[250px] text-center hover:border-orange-500 transition-all duration-300">
+                <p className="text-gray-400 text-sm font-mono">Environment</p>
+                <p className="text-2xl font-bold text-orange-400 font-mono my-2">Metal Pulse</p>
+                <p className="text-gray-400 text-sm font-mono">Release v2.3.1-testing</p>
+              </div>
             </div>
-            <div className="glass-panel px-5 py-4 min-w-[220px] text-center">
-              <p className="text-theme-secondary text-sm">Environment</p>
-              <p className="text-2xl font-semibold">Metal Pulse</p>
-              <p className="text-theme-secondary text-sm">
-                Release v2.3.1-testing
-              </p>
+            <div className="flex flex-col md:flex-row gap-4 mt-8 justify-center">
+              <a
+                className="bg-orange-600 hover:bg-orange-700 text-white font-bold py-4 px-8 rounded-lg text-lg transition-colors duration-200 shadow-lg hover:shadow-xl text-center"
+                href="/tickets"
+              >
+                🎫 Tickets kaufen
+              </a>
+              <button
+                className="bg-gray-700 hover:bg-gray-600 text-white font-bold py-4 px-8 rounded-lg text-lg transition-colors duration-200 text-center border border-gray-600 hover:border-orange-500"
+                onClick={() => (window.location.href = "/")}
+              >
+                🏠 Zurück zur Platform
+              </button>
             </div>
-          </div>
-          <div className="action-row mt-6">
-            <a className="button-primary" href="/#ticket-arena">
-              Tickets kaufen
-            </a>
-            <button
-              className="button-secondary"
-              onClick={() => (window.location.href = "/")}
-            >
-              Zurück zur Platform
-            </button>
           </div>
         </header>
 
-        <section className="content-grid">
-          {QUICK_STATS.map((stat) => (
-            <article key={stat.label} className="section-card">
-              <p className="text-sm text-theme-secondary uppercase mb-1">
-                {stat.label}
-              </p>
-              <p className="text-3xl font-semibold">{stat.value}</p>
-              <p className="text-theme-secondary mt-2 text-sm">{stat.detail}</p>
-            </article>
-          ))}
-        </section>
-
-        <section className="section-card">
-          <div className="layout-grid two-column gap-8">
-            {CONTROL_BLOCKS.map((block) => (
-              <article key={block.title} className="glass-panel p-5">
-                <h2 className="panel-heading text-2xl mb-4">{block.title}</h2>
-                <ul className="list-disc list-inside text-theme-secondary space-y-2 text-sm">
-                  {block.bullets.map((bullet) => (
-                    <li key={bullet}>{bullet}</li>
-                  ))}
-                </ul>
+        {/* Quick Stats Grid */}
+        <section className="w-full max-w-6xl mx-auto">
+          <h2 className="text-3xl font-bold text-orange-400 font-mono mb-10 text-center">📊 Quick Stats</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 justify-items-center">
+            {QUICK_STATS.map(stat => (
+              <article
+                key={stat.label}
+                className="bg-gray-900 rounded-xl p-6 border border-gray-700 hover:border-orange-500 hover:shadow-2xl transition-all duration-300 w-full max-w-sm text-center"
+              >
+                <p className="text-sm text-orange-400 uppercase mb-3 font-mono tracking-wide">{stat.label}</p>
+                <p className="text-3xl font-bold text-white mb-3 font-mono">{stat.value}</p>
+                <p className="text-gray-300 text-sm leading-relaxed">{stat.detail}</p>
               </article>
             ))}
           </div>
         </section>
 
-        <section className="section-card bg-transparent border-none shadow-none p-0">
-          <UserDashboard />
+        {/* Control Blocks Section */}
+        <section className="w-full max-w-6xl mx-auto">
+          <h2 className="text-3xl font-bold text-orange-400 font-mono mb-10 text-center">⚙️ System Control</h2>
+          <div className="bg-gray-900 rounded-xl p-8 border border-gray-700">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {CONTROL_BLOCKS.map(block => (
+                <article
+                  key={block.title}
+                  className="bg-gray-800 border border-gray-600 rounded-lg p-8 hover:border-orange-500 transition-all duration-300 flex flex-col items-center text-center"
+                >
+                  <h3 className="text-2xl font-bold text-orange-400 font-mono mb-6 text-center">{block.title}</h3>
+                  <ul className="space-y-4 text-gray-300 max-w-md">
+                    {block.bullets.map(bullet => (
+                      <li key={bullet} className="flex items-start text-sm leading-relaxed text-left">
+                        <span className="text-orange-400 mr-3 font-bold text-lg">•</span>
+                        <span className="flex-1">{bullet}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* User Dashboard Component */}
+        <section className="w-full max-w-6xl mx-auto">
+          <div className="bg-gray-900 rounded-xl border border-gray-700 overflow-hidden">
+            <UserDashboard />
+          </div>
         </section>
       </div>
     </div>

@@ -1,6 +1,3 @@
-// 🎸 3DMetal Platform - Enhanced Database Schema
-// Prisma Schema für PostgreSQL Database mit vollständigem Ticket & Access System
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,57 +7,35 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// ================================================
-// USER MANAGEMENT MODELS - ERWEITERT
-// ================================================
-
 model User {
-  id          String   @id @default(cuid())
-  email       String   @unique
-  username    String?  @unique
-  name        String?
-  password    String   // Required für Login
-  role        UserRole @default(FAN)
-  image       String?
-  verified    Boolean  @default(false)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  
-  // Access Control - Automatisch gesetzt basierend auf UserRole & Tickets
-  hasVIPAccess      Boolean @default(false)      // VIP Ticket oder BAND Role
-  hasPremiumAccess  Boolean @default(false)      // Standard/VIP Ticket oder BAND Role  
-  hasBackstageAccess Boolean @default(false)     // VIP Ticket oder BAND Role
-  hasFullAccess     Boolean @default(false)      // Nur für BAND Role - uneingeschränkter Zugang
-  canBuyTickets     Boolean @default(true)       // FANs können Tickets kaufen, BANDs nicht nötig
-  
-  // Relations
-  accounts    Account[]
-  sessions    Session[]
-  bandProfile BandProfile?
-  tickets     Ticket[]
-  chatMessages ChatMessage[]
-  apiTokens   ApiToken[]
-  
-  // Contact Message Relations
-  assignedMessages  ContactMessage[] @relation("AssignedMessages")
-  respondedMessages ContactMessage[] @relation("RespondedMessages")
-  contactReplies    ContactReply[]   @relation("AdminReplies")
-  
+  id                 String           @id @default(cuid())
+  email              String           @unique
+  username           String?          @unique
+  name               String?
+  password           String
+  role               UserRole         @default(FAN)
+  image              String?
+  verified           Boolean          @default(false)
+  createdAt          DateTime         @default(now())
+  updatedAt          DateTime         @updatedAt
+  hasVIPAccess       Boolean          @default(false)
+  hasPremiumAccess   Boolean          @default(false)
+  hasBackstageAccess Boolean          @default(false)
+  hasFullAccess      Boolean          @default(false)
+  canBuyTickets      Boolean          @default(true)
+  accounts           Account[]
+  apiTokens          ApiToken[]
+  bandProfile        BandProfile?
+  chatMessages       ChatMessage[]
+  assignedMessages   ContactMessage[] @relation("AssignedMessages")
+  respondedMessages  ContactMessage[] @relation("RespondedMessages")
+  contactReplies     ContactReply[]   @relation("AdminReplies")
+  sessions           Session[]
+  tickets            Ticket[]
+  user_blocks        user_blocks?
+
   @@map("users")
 }
-
-enum UserRole {
-  FAN           // Normale Fans/Users - Brauchen Tickets für Backstage & Stadion Arena
-  BAND          // Band Members - Überall freier Zugang, KEIN Zugang zu ComingSoonPage
-  VIP_FAN       // VIP Fans - Premium Access durch VIP Ticket
-  BENEFIZ       // Benefiz Users - Freier Zugang zu allen Räumen/Arenen, KEIN Zugang zu ComingSoonPage
-  ADMIN         // Platform Admins
-  MODERATOR     // Community Moderators
-}
-
-// ================================================
-// NEXTAUTH.JS REQUIRED MODELS
-// ================================================
 
 model Account {
   id                String  @id @default(cuid())
@@ -68,15 +43,14 @@ model Account {
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
+  refresh_token     String?
+  access_token      String?
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String? @db.Text
+  id_token          String?
   session_state     String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
   @@map("accounts")
@@ -101,360 +75,226 @@ model VerificationToken {
   @@map("verificationtokens")
 }
 
-// ================================================
-// API AUTHENTICATION - SECURITY FIX [11/12]
-// ================================================
-
 model ApiToken {
-  id           String    @id @default(cuid())
-  name         String
-  hashedToken  String    @unique
-  prefix       String
-  userId       String
-  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  permissions  String[]
-  expiresAt    DateTime?
-  lastUsedAt   DateTime?
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
+  id          String    @id @default(cuid())
+  name        String
+  hashedToken String    @unique
+  prefix      String
+  userId      String
+  permissions String[]
+  expiresAt   DateTime?
+  lastUsedAt  DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
   @@index([hashedToken])
   @@map("api_tokens")
 }
 
-// ================================================
-// BAND MANAGEMENT MODELS
-// ================================================
-
 model Band {
-  id              String       @id @default(cuid())
-  name            String       @unique
-  description     String?      @db.Text
-  genre           String?
-  foundedYear     Int?
-  website         String?
-  youtubeChannel  String?
-  spotifyUrl      String?
-  instagramUrl    String?
-  facebookUrl     String?
-  image           String?
-  verified        Boolean      @default(false)
-  createdAt       DateTime     @default(now())
-  updatedAt       DateTime     @updatedAt
-  
-  // Relations
-  bandProfile     BandProfile?
-  events          Event[]
-  albums          Album[]
-  gallery         Gallery[]
-  
+  id             String       @id @default(cuid())
+  name           String       @unique
+  description    String?
+  genre          String?
+  foundedYear    Int?
+  website        String?
+  youtubeChannel String?
+  spotifyUrl     String?
+  instagramUrl   String?
+  facebookUrl    String?
+  image          String?
+  verified       Boolean      @default(false)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  albums         Album[]
+  bandProfile    BandProfile?
+  events         Event[]
+  gallery        Gallery[]
+
   @@map("bands")
 }
 
 model BandProfile {
-  id              String   @id @default(cuid())
-  userId          String   @unique
-  bandId          String   @unique
-  role            String?  // Lead Singer, Guitarist, etc.
-  joinedDate      DateTime @default(now())
-  
-  // Relations
-  user            User     @relation(fields: [userId], references: [id])
-  band            Band     @relation(fields: [bandId], references: [id])
-  
+  id         String   @id @default(cuid())
+  userId     String   @unique
+  bandId     String   @unique
+  role       String?
+  joinedDate DateTime @default(now())
+  band       Band     @relation(fields: [bandId], references: [id])
+  user       User     @relation(fields: [userId], references: [id])
+
   @@map("band_profiles")
 }
 
-// ================================================
-// EVENT MANAGEMENT MODELS
-// ================================================
-
 model Event {
-  id              String      @id @default(cuid())
-  title           String
-  description     String?     @db.Text
-  startDate       DateTime
-  endDate         DateTime?
-  venue           String
-  city            String
-  country         String
-  maxCapacity     Int?
-  
-  // Ticket Pricing
+  id                  String      @id @default(cuid())
+  title               String
+  description         String?
+  startDate           DateTime
+  endDate             DateTime?
+  venue               String
+  city                String
+  country             String
+  maxCapacity         Int?
   basicTicketPrice    Decimal?
   standardTicketPrice Decimal?
   vipTicketPrice      Decimal?
-  
-  youtubeUrl      String?
-  status          EventStatus @default(UPCOMING)
-  createdAt       DateTime    @default(now())
-  updatedAt       DateTime    @updatedAt
-  
-  // Relations
-  band            Band        @relation(fields: [bandId], references: [id])
-  bandId          String
-  tickets         Ticket[]
-  gallery         Gallery[]
-  
+  youtubeUrl          String?
+  status              EventStatus @default(UPCOMING)
+  createdAt           DateTime    @default(now())
+  updatedAt           DateTime    @updatedAt
+  bandId              String
+  band                Band        @relation(fields: [bandId], references: [id])
+  gallery             Gallery[]
+  tickets             Ticket[]
+
   @@map("events")
 }
 
-enum EventStatus {
-  UPCOMING
-  LIVE
-  COMPLETED
-  CANCELLED
-}
-
-// ================================================
-// ENHANCED TICKETING SYSTEM MODELS
-// ================================================
-
 model Ticket {
-  id              String       @id @default(cuid())
-  ticketNumber    String       @unique
-  type            TicketType
-  price           Decimal
-  status          TicketStatus @default(ACTIVE)
-  qrCode          String?
-  // pdfUrl          String?      // 📄 PDF Ticket URL for download - Disabled for now
-  purchaseDate    DateTime     @default(now())
-  
-  // Access Rights basierend auf deine Ticket-Anforderungen
-  allowsBasicAccess     Boolean @default(false)  // Nur bei BASIC Ticket
-  allowsConcertAccess   Boolean @default(true)   // Alle Ticket Types haben Konzert-Zugang
-  allowsPremiumAccess   Boolean @default(false)  // STANDARD + VIP_FANS Tickets
-  allowsVIPAccess       Boolean @default(false)  // Nur VIP_FANS Tickets
-  allowsBackstageAccess Boolean @default(false)  // Nur VIP_FANS Tickets
-  
-  // Relations
-  user            User         @relation(fields: [userId], references: [id])
-  userId          String
-  event           Event        @relation(fields: [eventId], references: [id])
-  eventId         String
-  payments        Payment[]
-  
+  id                    String       @id @default(cuid())
+  ticketNumber          String       @unique
+  type                  TicketType
+  price                 Decimal
+  status                TicketStatus @default(ACTIVE)
+  qrCode                String?
+  purchaseDate          DateTime     @default(now())
+  allowsBasicAccess     Boolean      @default(false)
+  allowsConcertAccess   Boolean      @default(true)
+  allowsPremiumAccess   Boolean      @default(false)
+  allowsVIPAccess       Boolean      @default(false)
+  allowsBackstageAccess Boolean      @default(false)
+  userId                String
+  eventId               String
+  payments              Payment[]
+  event                 Event        @relation(fields: [eventId], references: [id])
+  user                  User         @relation(fields: [userId], references: [id])
+
   @@map("tickets")
 }
-
-enum TicketType {
-  STANDARD    // Standard Ticket - Zugang zu Stadion Arena
-  VIP         // VIP Ticket - Erweiterte Bereiche
-  BACKSTAGE   // Backstage Ticket - Vollzugang inkl. Backstage Bereich
-  BAND_PASS   // Für Band Members - Full Access (automatisch bei BAND Role)
-  ADMIN_PASS  // Für Platform Admins
-}
-
-enum TicketStatus {
-  ACTIVE
-  USED
-  CANCELLED
-  REFUNDED
-}
-
-// ================================================
-// ACCESS CONTROL SYSTEM - DEINE ANFORDERUNGEN
-// ================================================
-
-// 🎸 BAND ACCOUNTS:
-// - Nach Account-Erstellung: VOLLZUGANG zu ALLEN Bereichen
-// - VIP, Premium, Konzert, Backstage automatisch verfügbar
-// - Role: BAND, hasFullAccess: true
-
-// 🎫 FAN TICKET SYSTEM:
-// - BASIC TICKET: Nur Konzert-Zugang
-// - STANDARD TICKET: Konzert + Premium Bereich
-// - VIP_FANS TICKET: VOLLZUGANG wie BAND (VIP + Premium + Konzert + Backstage)
-
-// ================================================
-// ACCESS CONTROL MODEL
-// ================================================
 
 model AccessLevel {
   id              String   @id @default(cuid())
   name            String   @unique
   description     String?
-  
-  // Access Permissions
   allowsConcert   Boolean  @default(false)
   allowsPremium   Boolean  @default(false)
   allowsVIP       Boolean  @default(false)
   allowsBackstage Boolean  @default(false)
   allowsAdmin     Boolean  @default(false)
-  
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
-  
+
   @@map("access_levels")
 }
 
-// ================================================
-// MEDIA & CONTENT MODELS
-// ================================================
-
 model Album {
-  id          String     @id @default(cuid())
+  id          String    @id @default(cuid())
   title       String
   releaseDate DateTime?
   coverImage  String?
   spotifyUrl  String?
   youtubeUrl  String?
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
-  
-  // Relations
-  band        Band       @relation(fields: [bandId], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
   bandId      String
+  band        Band      @relation(fields: [bandId], references: [id])
   tracks      Track[]
-  
+
   @@map("albums")
 }
 
 model Track {
-  id          String   @id @default(cuid())
+  id          String  @id @default(cuid())
   title       String
-  duration    Int?     // in seconds
+  duration    Int?
   trackNumber Int
   youtubeUrl  String?
   spotifyUrl  String?
-  
-  // Relations
-  album       Album    @relation(fields: [albumId], references: [id])
   albumId     String
-  
+  album       Album   @relation(fields: [albumId], references: [id])
+
   @@map("tracks")
 }
 
 model Gallery {
-  id          String      @id @default(cuid())
+  id          String    @id @default(cuid())
   title       String?
   type        MediaType
   url         String
   description String?
-  uploadedAt  DateTime    @default(now())
-  
-  // Relations
-  event       Event?      @relation(fields: [eventId], references: [id])
+  uploadedAt  DateTime  @default(now())
   eventId     String?
-  band        Band?       @relation(fields: [bandId], references: [id])
   bandId      String?
-  
+  band        Band?     @relation(fields: [bandId], references: [id])
+  event       Event?    @relation(fields: [eventId], references: [id])
+
   @@map("gallery")
 }
 
-enum MediaType {
-  IMAGE
-  VIDEO
-  AUDIO
-  DOCUMENT
-}
-
-// ================================================
-// COMMUNICATION SYSTEM MODELS
-// ================================================
-
 model ChatMessage {
-  id        String      @id @default(cuid())
-  content   String      @db.Text
-  room      ChatRoom
-  sentAt    DateTime    @default(now())
-  
-  // Relations
-  user      User        @relation(fields: [userId], references: [id])
-  userId    String
-  
+  id      String   @id @default(cuid())
+  content String
+  room    ChatRoom
+  sentAt  DateTime @default(now())
+  userId  String
+  user    User     @relation(fields: [userId], references: [id])
+
   @@map("chat_messages")
 }
 
-enum ChatRoom {
-  COMMUNITY
-  BACKSTAGE
-  VIP_LOUNGE
-  PREMIUM
-  SUPPORT
-}
-
-// ================================================
-// PLATFORM STATISTICS MODELS
-// ================================================
-
 model PlatformStats {
-  id              String   @id @default(cuid())
-  date            DateTime @default(now())
-  totalUsers      Int      @default(0)
-  totalBands      Int      @default(0)
-  totalEvents     Int      @default(0)
-  totalTickets    Int      @default(0)
-  dailyRevenue    Decimal  @default(0)
-  
+  id           String   @id @default(cuid())
+  date         DateTime @default(now())
+  totalUsers   Int      @default(0)
+  totalBands   Int      @default(0)
+  totalEvents  Int      @default(0)
+  totalTickets Int      @default(0)
+  dailyRevenue Decimal  @default(0)
+
   @@map("platform_stats")
 }
 
-// ================================================
-// PAYMENT SYSTEM MODEL
-// ================================================
-
 model Payment {
-  id                String        @id @default(cuid())
-  amount            Decimal
-  currency          String        @default("EUR")
-  status            PaymentStatus @default(PENDING)
-  stripeId          String?
-  // stripeSessionId   String?       // 💳 Stripe Checkout Session ID - Disabled for now
-  description       String?
-  createdAt         DateTime      @default(now())
-  updatedAt         DateTime      @updatedAt
-  
-  // Relations
-  ticketId          String
-  ticket            Ticket        @relation(fields: [ticketId], references: [id])
-  
+  id          String        @id @default(cuid())
+  amount      Decimal
+  currency    String        @default("EUR")
+  status      PaymentStatus @default(PENDING)
+  stripeId    String?
+  description String?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  ticketId    String
+  ticket      Ticket        @relation(fields: [ticketId], references: [id])
+
   @@map("payments")
 }
 
-enum PaymentStatus {
-  PENDING
-  COMPLETED
-  FAILED
-  REFUNDED
-}
-
-// ================================================
-// CONTACT MESSAGES MODEL - GDPR COMPLIANT
-// ================================================
-
 model ContactMessage {
-  id              String            @id @default(cuid())
-  name            String            // Nicht verschlüsselt für Admin-Ansicht
-  email           String            // Email für Antworten
-  subject         String
-  message         String            @db.Text
-  status          ContactStatus     @default(NEW)
-  priority        MessagePriority   @default(NORMAL)
-  ipAddress       String?           // Anonymisiert (letzte Oktette entfernt)
-  userAgent       String?           @db.Text
-  isSpam          Boolean           @default(false)
-  
-  // Ticket-System
-  assignedToId    String?           // Zugewiesener Admin/Support
-  assignedTo      User?             @relation("AssignedMessages", fields: [assignedToId], references: [id], onDelete: SetNull)
-  respondedAt     DateTime?
-  respondedById   String?           // Admin ID der geantwortet hat
-  respondedBy     User?             @relation("RespondedMessages", fields: [respondedById], references: [id], onDelete: SetNull)
-  
-  // Timestamps
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime          @updatedAt
-  closedAt        DateTime?
-  
-  // GDPR Compliance
-  gdprConsent     Boolean           @default(true)  // User muss zustimmen
-  dataRetention   DateTime          // Auto-delete nach 90 Tagen
-  
-  // Relations
-  replies         ContactReply[]
-  
+  id            String          @id @default(cuid())
+  name          String
+  email         String
+  subject       String
+  message       String
+  status        ContactStatus   @default(NEW)
+  priority      MessagePriority @default(NORMAL)
+  ipAddress     String?
+  userAgent     String?
+  isSpam        Boolean         @default(false)
+  assignedToId  String?
+  respondedAt   DateTime?
+  respondedById String?
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  closedAt      DateTime?
+  gdprConsent   Boolean         @default(true)
+  dataRetention DateTime
+  assignedTo    User?           @relation("AssignedMessages", fields: [assignedToId], references: [id])
+  respondedBy   User?           @relation("RespondedMessages", fields: [respondedById], references: [id])
+  replies       ContactReply[]
+
   @@index([email])
   @@index([status])
   @@index([priority])
@@ -465,23 +305,114 @@ model ContactMessage {
 }
 
 model ContactReply {
-  id              String            @id @default(cuid())
-  messageId       String
-  message         ContactMessage    @relation(fields: [messageId], references: [id], onDelete: Cascade)
-  content         String            @db.Text
-  isInternal      Boolean           @default(false) // Interne Notiz oder Antwort an User
-  sentByEmail     Boolean           @default(false) // Wurde per E-Mail versendet
-  
-  // Admin Info
-  adminId         String
-  admin           User              @relation("AdminReplies", fields: [adminId], references: [id], onDelete: Cascade)
-  
-  createdAt       DateTime          @default(now())
-  
+  id          String         @id @default(cuid())
+  messageId   String
+  content     String
+  isInternal  Boolean        @default(false)
+  sentByEmail Boolean        @default(false)
+  adminId     String
+  createdAt   DateTime       @default(now())
+  admin       User           @relation("AdminReplies", fields: [adminId], references: [id], onDelete: Cascade)
+  message     ContactMessage @relation(fields: [messageId], references: [id], onDelete: Cascade)
+
   @@index([messageId])
   @@index([adminId])
   @@index([createdAt])
   @@map("contact_replies")
+}
+
+model archived_tickets {
+  id                    String       @id
+  originalTicketId      String       @unique
+  originalUserId        String
+  originalUserEmail     String
+  originalUserName      String?
+  ticketNumber          String
+  type                  TicketType
+  price                 Decimal
+  status                TicketStatus
+  qrCode                String?
+  purchaseDate          DateTime
+  allowsBasicAccess     Boolean
+  allowsConcertAccess   Boolean
+  allowsPremiumAccess   Boolean
+  allowsVIPAccess       Boolean
+  allowsBackstageAccess Boolean
+  eventId               String
+  eventTitle            String
+  eventDate             DateTime
+  eventVenue            String
+  archivedAt            DateTime     @default(now())
+  archivedBy            String
+  archiveReason         String
+}
+
+model user_blocks {
+  id              String      @id
+  userId          String      @unique
+  reason          BlockReason
+  description     String?
+  blockedAt       DateTime    @default(now())
+  blockedBy       String
+  unblockedAt     DateTime?
+  unblockedBy     String?
+  isActive        Boolean     @default(true)
+  unpaidTicketIds String[]
+  totalDebt       Decimal?
+  users           User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum UserRole {
+  FAN
+  BAND
+  VIP_FAN
+  BENEFIZ
+  ADMIN
+  MODERATOR
+}
+
+enum EventStatus {
+  UPCOMING
+  LIVE
+  COMPLETED
+  CANCELLED
+}
+
+enum TicketType {
+  STANDARD
+  VIP
+  BACKSTAGE
+  BAND_PASS
+  ADMIN_PASS
+}
+
+enum TicketStatus {
+  ACTIVE
+  USED
+  CANCELLED
+  REFUNDED
+}
+
+enum MediaType {
+  IMAGE
+  VIDEO
+  AUDIO
+  DOCUMENT
+}
+
+enum ChatRoom {
+  COMMUNITY
+  BACKSTAGE
+  VIP_LOUNGE
+  PREMIUM
+  SUPPORT
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
 }
 
 enum MessagePriority {
@@ -492,13 +423,18 @@ enum MessagePriority {
 }
 
 enum ContactStatus {
-  NEW           // Neue Nachricht
-  READ          // Gelesen
-  IN_PROGRESS   // In Bearbeitung
-  RESPONDED     // Beantwortet
-  CLOSED        // Abgeschlossen
-  SPAM          // Als Spam markiert
+  NEW
+  READ
+  IN_PROGRESS
+  RESPONDED
+  CLOSED
+  SPAM
 }
 
-
-
+enum BlockReason {
+  PAYMENT_FAILED
+  SPAM_BEHAVIOR
+  TOS_VIOLATION
+  ADMIN_DECISION
+  FRAUD_SUSPECTED
+}

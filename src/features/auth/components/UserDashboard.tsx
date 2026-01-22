@@ -159,7 +159,7 @@ export function UserDashboard() {
   };
 
   const getTicketPriceForEvent = (ticketType: TicketType) => {
-    const event = events.find((e) => e.id === selectedEvent);
+    const event = events.find(e => e.id === selectedEvent);
     if (!event) return 0;
 
     switch (ticketType) {
@@ -198,9 +198,7 @@ export function UserDashboard() {
   if (status === "unauthenticated") {
     return (
       <div className="text-center p-8">
-        <p className="text-gray-600 dark:text-gray-400">
-          Bitte melden Sie sich an, um Ihre Zugänge zu sehen.
-        </p>
+        <p className="text-gray-600 dark:text-gray-400">Bitte melden Sie sich an, um Ihre Zugänge zu sehen.</p>
       </div>
     );
   }
@@ -225,8 +223,7 @@ export function UserDashboard() {
   };
 
   const getAccessColor = () => {
-    if ((userAccess.role as string) === "BAND")
-      return "from-purple-500 to-pink-500";
+    if ((userAccess.role as string) === "BAND") return "from-purple-500 to-pink-500";
     if (userAccess.hasVIPAccess) return "from-yellow-500 to-orange-500";
     if (userAccess.hasPremiumAccess) return "from-blue-500 to-purple-500";
     return "from-gray-500 to-gray-600";
@@ -249,183 +246,178 @@ export function UserDashboard() {
     }
   };
 
+  const getRoleDisplayName = (role: string) => {
+    switch (role) {
+      case "BAND":
+        return "🎸 Band Member";
+      case "ADMIN":
+        return "👑 Administrator";
+      case "VIP_FAN":
+        return "⭐ VIP Fan";
+      case "BENEFIZ":
+        return "💎 Benefiz Supporter";
+      default:
+        return "🤘 Metal Fan";
+    }
+  };
+
+  const getRoleColor = (role: string) => {
+    switch (role) {
+      case "BAND":
+        return "from-orange-500 to-red-600";
+      case "ADMIN":
+        return "from-purple-500 to-indigo-600";
+      case "VIP_FAN":
+        return "from-yellow-400 to-orange-500";
+      case "BENEFIZ":
+        return "from-emerald-400 to-cyan-500";
+      default:
+        return "from-gray-600 to-gray-800";
+    }
+  };
+
+  const getAccessIcon = (hasAccess: boolean, role: string) => {
+    if (role === "BAND" || role === "ADMIN") return "🔓"; // Always access for band/admin
+    return hasAccess ? "✅" : "❌";
+  };
+
+  const getAccessText = (hasAccess: boolean, role: string, requiredLevel: string) => {
+    if (role === "BAND") return "Band Zugang";
+    if (role === "ADMIN") return "Admin Zugang";
+    return hasAccess ? "Verfügbar" : `Benötigt ${requiredLevel}`;
+  };
+
   return (
-    <div className="max-w-4xl mx-auto p-6 space-y-8">
+    <div className="w-full max-w-6xl mx-auto p-6 space-y-8">
       {/* User Header */}
       <div
-        className={`backdrop-blur-xl bg-gradient-to-r ${getAccessColor()} p-8 rounded-2xl text-white shadow-2xl border-2 border-white/20 relative overflow-hidden`}
+        className={`bg-gradient-to-r ${getRoleColor(userAccess.role)} p-8 rounded-xl text-white shadow-2xl border border-gray-700`}
       >
-        {/* Decorative gradient bar */}
-        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-white/50 via-white/80 to-white/50"></div>
-
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-4xl font-bold mb-3 drop-shadow-lg">
-              {getAccessLevel()}
-            </h1>
-            <div className="space-y-2">
-              <p className="text-xl opacity-90 font-medium">
-                {userAccess.name} (@{userAccess.username})
-              </p>
-              <p className="opacity-75 text-base">{userAccess.email}</p>
-            </div>
+        <div className="flex items-center justify-between mb-6">
+          <div className="text-center md:text-left">
+            <h1 className="text-3xl md:text-4xl font-bold font-mono mb-2">{getRoleDisplayName(userAccess.role)}</h1>
+            <p className="text-xl opacity-90 font-medium">
+              {userAccess.name} (@{userAccess.username})
+            </p>
+            <p className="opacity-75 text-base">{userAccess.email}</p>
           </div>
           <div className="text-right">
-            <div className="text-5xl mb-3 animate-float">
-              {(userAccess.role as string) === "BAND" ? "🎸" : "🤘"}
+            <div className="text-6xl mb-2">
+              {userAccess.role === "BAND" ? "🎸" : userAccess.role === "ADMIN" ? "👑" : "🤘"}
             </div>
-            <div className="text-sm opacity-75 font-medium">
-              {userAccess.role === "FAN" ? "Metal Fan" : "Band Member"}
-            </div>
+            <p className="text-sm opacity-75 font-mono">Metal3DCore</p>
           </div>
         </div>
       </div>
 
-      {/* Current Access Rights */}
-      <div className="backdrop-blur-xl bg-black/90 rounded-2xl p-8 shadow-2xl border-2 border-theme-primary/30 relative overflow-hidden">
-        {/* Decorative gradient bar */}
-        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-theme-primary via-theme-secondary to-theme-accent"></div>
-
-        <h2 className="text-2xl font-bold bg-gradient-to-r from-theme-primary to-theme-secondary bg-clip-text text-transparent mb-6 flex items-center pt-2">
-          🔑 Ihre aktuellen Zugänge
-        </h2>
-
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      {/* Access Grid */}
+      <div className="bg-gray-900 rounded-xl p-8 border border-gray-700">
+        <h2 className="text-3xl font-bold text-orange-400 font-mono mb-8 text-center">🔐 Zugangsberechtigungen</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 justify-items-center">
           {/* Concert Access */}
           <div
-            className={`p-5 rounded-xl border-2 transition-all duration-300 ${
-              (userAccess.role as string) === "BAND" ||
-              userAccess.tickets.length > 0
-                ? "border-green-400/50 bg-gradient-to-br from-green-500/20 to-emerald-500/20 shadow-lg shadow-green-500/20"
-                : "border-white/20 bg-white/5"
+            className={`bg-gray-800 rounded-lg p-6 border transition-all duration-300 w-full max-w-sm text-center ${
+              userAccess.role === "BAND" || userAccess.role === "ADMIN" || userAccess.tickets.length > 0
+                ? "border-green-500 hover:border-green-400"
+                : "border-red-500 hover:border-red-400"
             }`}
           >
-            <div className="text-center">
-              <div className="text-3xl mb-2">🎤</div>
-              <div className="font-medium text-sm text-white">
-                Konzert-Zugang
-              </div>
-              <div
-                className={`text-xs mt-2 font-semibold ${
-                  (userAccess.role as string) === "BAND" ||
-                  userAccess.tickets.length > 0
-                    ? "text-green-400"
-                    : "text-gray-500"
-                }`}
-              >
-                {(userAccess.role as string) === "BAND" ||
-                userAccess.tickets.length > 0
-                  ? "✅ Verfügbar"
-                  : "❌ Benötigt Ticket"}
-              </div>
+            <div className="text-4xl mb-3">🎤</div>
+            <h3 className="font-bold text-white mb-3">Konzert-Zugang</h3>
+            <div
+              className={`text-2xl mb-2 ${
+                userAccess.role === "BAND" || userAccess.role === "ADMIN" || userAccess.tickets.length > 0
+                  ? "text-green-400"
+                  : "text-red-400"
+              }`}
+            >
+              {getAccessIcon(userAccess.tickets.length > 0, userAccess.role)}
             </div>
+            <p className="text-sm text-gray-300">
+              {getAccessText(userAccess.tickets.length > 0, userAccess.role, "Ticket")}
+            </p>
           </div>
 
           {/* Premium Access */}
           <div
-            className={`p-5 rounded-xl border-2 transition-all duration-300 ${
+            className={`bg-gray-800 rounded-lg p-6 border transition-all duration-300 w-full max-w-sm text-center ${
               userAccess.hasPremiumAccess
-                ? "border-blue-400/50 bg-gradient-to-br from-blue-500/20 to-purple-500/20 shadow-lg shadow-blue-500/20"
-                : "border-white/20 bg-white/5"
+                ? "border-blue-500 hover:border-blue-400"
+                : "border-red-500 hover:border-red-400"
             }`}
           >
-            <div className="text-center">
-              <div className="text-3xl mb-2">⭐</div>
-              <div className="font-medium text-sm text-white">
-                Premium Bereich
-              </div>
-              <div
-                className={`text-xs mt-2 font-semibold ${
-                  userAccess.hasPremiumAccess
-                    ? "text-blue-400"
-                    : "text-gray-500"
-                }`}
-              >
-                {userAccess.hasPremiumAccess
-                  ? "✅ Verfügbar"
-                  : "❌ Standard+ Ticket"}
-              </div>
+            <div className="text-4xl mb-3">⭐</div>
+            <h3 className="font-bold text-white mb-3">Premium Bereich</h3>
+            <div className={`text-2xl mb-2 ${userAccess.hasPremiumAccess ? "text-blue-400" : "text-red-400"}`}>
+              {getAccessIcon(userAccess.hasPremiumAccess, userAccess.role)}
             </div>
+            <p className="text-sm text-gray-300">
+              {getAccessText(userAccess.hasPremiumAccess, userAccess.role, "Standard+ Ticket")}
+            </p>
           </div>
 
           {/* VIP Access */}
           <div
-            className={`p-5 rounded-xl border-2 transition-all duration-300 ${
+            className={`bg-gray-800 rounded-lg p-6 border transition-all duration-300 w-full max-w-sm text-center ${
               userAccess.hasVIPAccess
-                ? "border-yellow-400/50 bg-gradient-to-br from-yellow-500/20 to-orange-500/20 shadow-lg shadow-yellow-500/20"
-                : "border-white/20 bg-white/5"
+                ? "border-yellow-500 hover:border-yellow-400"
+                : "border-red-500 hover:border-red-400"
             }`}
           >
-            <div className="text-center">
-              <div className="text-3xl mb-2">👑</div>
-              <div className="font-medium text-sm text-white">VIP Lounge</div>
-              <div
-                className={`text-xs mt-2 font-semibold ${
-                  userAccess.hasVIPAccess ? "text-yellow-400" : "text-gray-500"
-                }`}
-              >
-                {userAccess.hasVIPAccess ? "✅ Verfügbar" : "❌ VIP Ticket"}
-              </div>
+            <div className="text-4xl mb-3">👑</div>
+            <h3 className="font-bold text-white mb-3">VIP Lounge</h3>
+            <div className={`text-2xl mb-2 ${userAccess.hasVIPAccess ? "text-yellow-400" : "text-red-400"}`}>
+              {getAccessIcon(userAccess.hasVIPAccess, userAccess.role)}
             </div>
+            <p className="text-sm text-gray-300">
+              {getAccessText(userAccess.hasVIPAccess, userAccess.role, "VIP Ticket")}
+            </p>
           </div>
 
           {/* Backstage Access */}
           <div
-            className={`p-5 rounded-xl border-2 transition-all duration-300 ${
+            className={`bg-gray-800 rounded-lg p-6 border transition-all duration-300 w-full max-w-sm text-center ${
               userAccess.hasBackstageAccess
-                ? "border-purple-400/50 bg-gradient-to-br from-purple-500/20 to-pink-500/20 shadow-lg shadow-purple-500/20"
-                : "border-white/20 bg-white/5"
+                ? "border-purple-500 hover:border-purple-400"
+                : "border-red-500 hover:border-red-400"
             }`}
           >
-            <div className="text-center">
-              <div className="text-3xl mb-2">🎭</div>
-              <div className="font-medium text-sm text-white">Backstage</div>
-              <div
-                className={`text-xs mt-2 font-semibold ${
-                  userAccess.hasBackstageAccess
-                    ? "text-purple-400"
-                    : "text-gray-500"
-                }`}
-              >
-                {userAccess.hasBackstageAccess ? "✅ Verfügbar" : "❌ VIP/Band"}
-              </div>
+            <div className="text-4xl mb-3">🎭</div>
+            <h3 className="font-bold text-white mb-3">Backstage</h3>
+            <div className={`text-2xl mb-2 ${userAccess.hasBackstageAccess ? "text-purple-400" : "text-red-400"}`}>
+              {getAccessIcon(userAccess.hasBackstageAccess, userAccess.role)}
             </div>
+            <p className="text-sm text-gray-300">
+              {getAccessText(userAccess.hasBackstageAccess, userAccess.role, "VIP/Band")}
+            </p>
           </div>
         </div>
       </div>
 
       {/* Purchased Tickets */}
       {userAccess.tickets.length > 0 && (
-        <div className="backdrop-blur-xl bg-black/90 rounded-2xl p-8 shadow-2xl border-2 border-theme-primary/30 relative overflow-hidden">
-          {/* Decorative gradient bar */}
-          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-theme-primary via-theme-secondary to-theme-accent"></div>
-
-          <h2 className="text-2xl font-bold bg-gradient-to-r from-theme-primary to-theme-secondary bg-clip-text text-transparent mb-6 flex items-center pt-2">
-            🎫 Ihre gekauften Tickets
-          </h2>
+        <div className="bg-gray-900 rounded-xl p-8 border border-gray-700">
+          <h2 className="text-3xl font-bold text-orange-400 font-mono mb-8 text-center">🎫 Gekaufte Tickets</h2>
           <div className="space-y-4">
-            {userAccess.tickets.map((ticket) => (
+            {userAccess.tickets.map(ticket => (
               <div
                 key={ticket.id}
-                className="flex justify-between items-center p-5 backdrop-blur-sm bg-white/5 rounded-xl border-2 border-white/20 hover:bg-white/10 hover:border-theme-primary/40 transition-all duration-300"
+                className="flex justify-between items-center p-6 bg-gray-800 rounded-lg border border-gray-600 hover:border-orange-500 transition-all duration-300"
               >
                 <div className="flex-1">
-                  <div className="font-semibold text-white text-lg">
-                    {ticket.eventName}
-                  </div>
+                  <div className="font-bold text-white text-lg mb-1">{ticket.eventName}</div>
                   <div className="text-sm text-gray-300">
-                    {getTicketName(ticket.type)} - gekauft am{" "}
-                    {new Date(ticket.purchasedAt).toLocaleDateString("de-DE")}
+                    {getTicketName(ticket.type)} - gekauft am {new Date(ticket.purchasedAt).toLocaleDateString("de-DE")}
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="text-green-400 font-bold text-sm px-4 py-2 bg-green-500/20 rounded-lg border border-green-400/30">
+                  <div className="text-green-400 font-bold text-sm px-4 py-2 bg-green-900 rounded-lg border border-green-500">
                     ✓ Aktiv
                   </div>
                   <button
                     onClick={() => handleDeleteTicket(ticket.id)}
                     disabled={deletingTicket === ticket.id}
-                    className="px-4 py-2 bg-red-500/20 hover:bg-red-500/40 text-red-400 hover:text-red-300 font-bold text-sm rounded-lg border border-red-400/30 hover:border-red-400/60 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="px-4 py-2 bg-red-900 hover:bg-red-800 text-red-400 hover:text-red-300 font-bold text-sm rounded-lg border border-red-500 hover:border-red-400 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {deletingTicket === ticket.id ? "⏳" : "🗑️ Löschen"}
                   </button>
@@ -437,239 +429,208 @@ export function UserDashboard() {
       )}
 
       {/* Available Tickets to Purchase */}
-      {userAccess.canBuyTickets &&
-        userAccess.role === "FAN" &&
-        events.length > 0 && (
-          <div className="backdrop-blur-xl bg-black/90 rounded-2xl p-8 shadow-2xl border-2 border-theme-primary/30 relative overflow-hidden">
-            {/* Decorative gradient bar */}
-            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-theme-primary via-theme-secondary to-theme-accent"></div>
+      {userAccess.canBuyTickets && userAccess.role === "FAN" && events.length > 0 && (
+        <div className="backdrop-blur-xl bg-black/90 rounded-2xl p-8 shadow-2xl border-2 border-theme-primary/30 relative overflow-hidden">
+          {/* Decorative gradient bar */}
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-theme-primary via-theme-secondary to-theme-accent"></div>
 
-            <h2 className="text-2xl font-bold bg-gradient-to-r from-theme-primary to-theme-secondary bg-clip-text text-transparent mb-6 flex items-center pt-2">
-              🛒 Tickets kaufen
-            </h2>
+          <h2 className="text-2xl font-bold bg-gradient-to-r from-theme-primary to-theme-secondary bg-clip-text text-transparent mb-6 flex items-center pt-2">
+            🛒 Tickets kaufen
+          </h2>
 
-            {/* Event Selection */}
-            <div className="mb-6">
-              <label className="block text-sm font-medium bg-gradient-to-r from-theme-primary to-theme-secondary bg-clip-text text-transparent mb-2">
-                Event auswählen:
-              </label>
-              <select
-                value={selectedEvent}
-                onChange={(e) => setSelectedEvent(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl bg-white/5 backdrop-blur-sm border-2 border-white/20 text-white focus:border-theme-primary focus:outline-none transition-all duration-300 hover:bg-white/10 hover:border-theme-primary/40"
-              >
-                {events.map((event) => (
-                  <option key={event.id} value={event.id}>
-                    {event.title} - {event.band.name} (
-                    {new Date(event.startDate).toLocaleDateString("de-DE")})
-                  </option>
-                ))}
-              </select>
+          {/* Event Selection */}
+          <div className="mb-6">
+            <label className="block text-sm font-medium bg-gradient-to-r from-theme-primary to-theme-secondary bg-clip-text text-transparent mb-2">
+              Event auswählen:
+            </label>
+            <select
+              value={selectedEvent}
+              onChange={e => setSelectedEvent(e.target.value)}
+              className="w-full px-4 py-3 rounded-xl bg-white/5 backdrop-blur-sm border-2 border-white/20 text-white focus:border-theme-primary focus:outline-none transition-all duration-300 hover:bg-white/10 hover:border-theme-primary/40"
+            >
+              {events.map(event => (
+                <option key={event.id} value={event.id}>
+                  {event.title} - {event.band.name} ({new Date(event.startDate).toLocaleDateString("de-DE")})
+                </option>
+              ))}
+            </select>
 
-              {selectedEvent && (
-                <div className="mt-4 p-4 backdrop-blur-sm bg-white/5 rounded-xl border-2 border-white/20">
-                  {(() => {
-                    const event = events.find((e) => e.id === selectedEvent);
-                    return event ? (
-                      <div>
-                        <div className="font-semibold text-white text-lg mb-2">
-                          {event.title}
-                        </div>
-                        <div className="text-sm text-gray-300 mb-1">
-                          🎸 {event.band.name}{" "}
-                          {event.band.genre && `(${event.band.genre})`}
-                        </div>
-                        <div className="text-sm text-gray-300 mb-1">
-                          📍 {event.venue}, {event.city} • 📅{" "}
-                          {new Date(event.startDate).toLocaleDateString(
-                            "de-DE",
-                            {
-                              weekday: "long",
-                              year: "numeric",
-                              month: "long",
-                              day: "numeric",
-                              hour: "2-digit",
-                              minute: "2-digit",
-                            }
-                          )}
-                        </div>
-                        {event.availableTickets !== null && (
-                          <div className="text-sm text-theme-primary font-semibold">
-                            🎫 Noch {event.availableTickets} Tickets verfügbar
-                          </div>
-                        )}
+            {selectedEvent && (
+              <div className="mt-4 p-4 backdrop-blur-sm bg-white/5 rounded-xl border-2 border-white/20">
+                {(() => {
+                  const event = events.find(e => e.id === selectedEvent);
+                  return event ? (
+                    <div>
+                      <div className="font-semibold text-white text-lg mb-2">{event.title}</div>
+                      <div className="text-sm text-gray-300 mb-1">
+                        🎸 {event.band.name} {event.band.genre && `(${event.band.genre})`}
                       </div>
-                    ) : null;
-                  })()}
+                      <div className="text-sm text-gray-300 mb-1">
+                        📍 {event.venue}, {event.city} • 📅{" "}
+                        {new Date(event.startDate).toLocaleDateString("de-DE", {
+                          weekday: "long",
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                      </div>
+                      {event.availableTickets !== null && (
+                        <div className="text-sm text-theme-primary font-semibold">
+                          🎫 Noch {event.availableTickets} Tickets verfügbar
+                        </div>
+                      )}
+                    </div>
+                  ) : null;
+                })()}
+              </div>
+            )}
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Basic Ticket */}
+            <div
+              className={`p-6 rounded-xl border-2 transition-all duration-300 ${
+                !canPurchaseTicket("STANDARD")
+                  ? "border-white/20 bg-white/5 opacity-50"
+                  : "border-orange-400/50 bg-gradient-to-br from-orange-500/20 to-red-500/20 hover:border-orange-400 hover:shadow-lg hover:shadow-orange-500/30 hover:scale-105"
+              }`}
+            >
+              <div className="text-center mb-4">
+                <h3 className="text-xl font-bold text-white mb-2">🎫 Basic Ticket</h3>
+                <p className="text-sm text-gray-300 mb-3">Grundzugang zum Event</p>
+                <div className="text-3xl font-bold text-orange-400">CHF {getTicketPriceForEvent("STANDARD")}</div>
+              </div>
+
+              <div className="space-y-2 mb-4">
+                <div className="flex items-center text-sm">
+                  <span className="text-green-400 mr-2">✓</span>
+                  <span className="text-gray-300">Event Zugang</span>
                 </div>
-              )}
+                <div className="flex items-center text-sm">
+                  <span className="text-green-400 mr-2">✓</span>
+                  <span className="text-gray-300">Standard Bereich</span>
+                </div>
+              </div>
+
+              <button
+                onClick={() => handlePurchaseTicket("STANDARD")}
+                disabled={!canPurchaseTicket("STANDARD")}
+                className={`w-full py-3 px-4 rounded-xl font-bold transition-all duration-300 ${
+                  canPurchaseTicket("STANDARD")
+                    ? "bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white transform hover:scale-105 shadow-lg shadow-orange-500/50"
+                    : "bg-gray-600 text-gray-400 cursor-not-allowed"
+                }`}
+              >
+                {canPurchaseTicket("STANDARD")
+                  ? "Jetzt kaufen"
+                  : (userAccess.role as string) === "BAND"
+                    ? "Band Vollzugang"
+                    : "Bereits verfügbar"}
+              </button>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {/* Basic Ticket */}
-              <div
-                className={`p-6 rounded-xl border-2 transition-all duration-300 ${
-                  !canPurchaseTicket("STANDARD")
-                    ? "border-white/20 bg-white/5 opacity-50"
-                    : "border-orange-400/50 bg-gradient-to-br from-orange-500/20 to-red-500/20 hover:border-orange-400 hover:shadow-lg hover:shadow-orange-500/30 hover:scale-105"
+            {/* Standard Ticket */}
+            <div
+              className={`p-6 rounded-lg border-2 ${
+                !canPurchaseTicket("STANDARD")
+                  ? "border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 opacity-50"
+                  : "border-blue-300 dark:border-blue-600 bg-blue-50 dark:bg-blue-900/20 hover:border-blue-500"
+              } transition-all`}
+            >
+              <div className="text-center mb-4">
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">🎟️ Standard Ticket</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">Erweiterte Bereiche</p>
+                <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+                  CHF {getTicketPriceForEvent("STANDARD")}
+                </div>
+              </div>
+
+              <div className="space-y-2 mb-4">
+                <div className="flex items-center text-sm">
+                  <span className="text-green-500 mr-2">✓</span>
+                  <span className="text-gray-700 dark:text-gray-300">Event Zugang</span>
+                </div>
+                <div className="flex items-center text-sm">
+                  <span className="text-green-500 mr-2">✓</span>
+                  <span className="text-gray-700 dark:text-gray-300">Premium Bereich</span>
+                </div>
+                <div className="flex items-center text-sm">
+                  <span className="text-green-500 mr-2">✓</span>
+                  <span className="text-gray-700 dark:text-gray-300">Bessere Sicht</span>
+                </div>
+              </div>
+
+              <button
+                onClick={() => handlePurchaseTicket("STANDARD")}
+                disabled={!canPurchaseTicket("STANDARD")}
+                className={`w-full py-2 px-4 rounded-lg font-semibold transition-all ${
+                  canPurchaseTicket("STANDARD")
+                    ? "bg-blue-500 hover:bg-blue-600 text-white transform hover:scale-105"
+                    : "bg-gray-300 dark:bg-gray-600 text-gray-500 cursor-not-allowed"
                 }`}
               >
-                <div className="text-center mb-4">
-                  <h3 className="text-xl font-bold text-white mb-2">
-                    🎫 Basic Ticket
-                  </h3>
-                  <p className="text-sm text-gray-300 mb-3">
-                    Grundzugang zum Event
-                  </p>
-                  <div className="text-3xl font-bold text-orange-400">
-                    CHF {getTicketPriceForEvent("STANDARD")}
-                  </div>
-                </div>
-
-                <div className="space-y-2 mb-4">
-                  <div className="flex items-center text-sm">
-                    <span className="text-green-400 mr-2">✓</span>
-                    <span className="text-gray-300">Event Zugang</span>
-                  </div>
-                  <div className="flex items-center text-sm">
-                    <span className="text-green-400 mr-2">✓</span>
-                    <span className="text-gray-300">Standard Bereich</span>
-                  </div>
-                </div>
-
-                <button
-                  onClick={() => handlePurchaseTicket("STANDARD")}
-                  disabled={!canPurchaseTicket("STANDARD")}
-                  className={`w-full py-3 px-4 rounded-xl font-bold transition-all duration-300 ${
-                    canPurchaseTicket("STANDARD")
-                      ? "bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white transform hover:scale-105 shadow-lg shadow-orange-500/50"
-                      : "bg-gray-600 text-gray-400 cursor-not-allowed"
-                  }`}
-                >
-                  {canPurchaseTicket("STANDARD")
-                    ? "Jetzt kaufen"
-                    : (userAccess.role as string) === "BAND"
+                {canPurchaseTicket("STANDARD")
+                  ? "Jetzt kaufen"
+                  : (userAccess.role as string) === "BAND"
                     ? "Band Vollzugang"
                     : "Bereits verfügbar"}
-                </button>
+              </button>
+            </div>
+
+            {/* VIP Ticket */}
+            <div
+              className={`p-6 rounded-xl border-2 transition-all duration-300 ${
+                !canPurchaseTicket("VIP")
+                  ? "border-white/20 bg-white/5 opacity-50"
+                  : "border-yellow-400/50 bg-gradient-to-br from-yellow-500/20 to-orange-500/20 hover:border-yellow-400 hover:shadow-lg hover:shadow-yellow-500/30 hover:scale-105"
+              }`}
+            >
+              <div className="text-center mb-4">
+                <h3 className="text-xl font-bold text-white mb-2">👑 VIP Fan Ticket</h3>
+                <p className="text-sm text-gray-300 mb-3">Vollzugang für Fans</p>
+                <div className="text-3xl font-bold text-yellow-400">CHF {getTicketPriceForEvent("VIP")}</div>
               </div>
 
-              {/* Standard Ticket */}
-              <div
-                className={`p-6 rounded-lg border-2 ${
-                  !canPurchaseTicket("STANDARD")
-                    ? "border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 opacity-50"
-                    : "border-blue-300 dark:border-blue-600 bg-blue-50 dark:bg-blue-900/20 hover:border-blue-500"
-                } transition-all`}
-              >
-                <div className="text-center mb-4">
-                  <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
-                    🎟️ Standard Ticket
-                  </h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
-                    Erweiterte Bereiche
-                  </p>
-                  <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
-                    CHF {getTicketPriceForEvent("STANDARD")}
-                  </div>
+              <div className="space-y-2 mb-4">
+                <div className="flex items-center text-sm">
+                  <span className="text-green-400 mr-2">✓</span>
+                  <span className="text-gray-300">VIP Lounge</span>
                 </div>
-
-                <div className="space-y-2 mb-4">
-                  <div className="flex items-center text-sm">
-                    <span className="text-green-500 mr-2">✓</span>
-                    <span className="text-gray-700 dark:text-gray-300">
-                      Event Zugang
-                    </span>
-                  </div>
-                  <div className="flex items-center text-sm">
-                    <span className="text-green-500 mr-2">✓</span>
-                    <span className="text-gray-700 dark:text-gray-300">
-                      Premium Bereich
-                    </span>
-                  </div>
-                  <div className="flex items-center text-sm">
-                    <span className="text-green-500 mr-2">✓</span>
-                    <span className="text-gray-700 dark:text-gray-300">
-                      Bessere Sicht
-                    </span>
-                  </div>
+                <div className="flex items-center text-sm">
+                  <span className="text-green-400 mr-2">✓</span>
+                  <span className="text-gray-300">Backstage Tour</span>
                 </div>
-
-                <button
-                  onClick={() => handlePurchaseTicket("STANDARD")}
-                  disabled={!canPurchaseTicket("STANDARD")}
-                  className={`w-full py-2 px-4 rounded-lg font-semibold transition-all ${
-                    canPurchaseTicket("STANDARD")
-                      ? "bg-blue-500 hover:bg-blue-600 text-white transform hover:scale-105"
-                      : "bg-gray-300 dark:bg-gray-600 text-gray-500 cursor-not-allowed"
-                  }`}
-                >
-                  {canPurchaseTicket("STANDARD")
-                    ? "Jetzt kaufen"
-                    : (userAccess.role as string) === "BAND"
-                    ? "Band Vollzugang"
-                    : "Bereits verfügbar"}
-                </button>
+                <div className="flex items-center text-sm">
+                  <span className="text-green-400 mr-2">✓</span>
+                  <span className="text-gray-300">Meet & Greet</span>
+                </div>
+                <div className="flex items-center text-sm">
+                  <span className="text-green-400 mr-2">✓</span>
+                  <span className="text-gray-300">Premium Bereich</span>
+                </div>
               </div>
 
-              {/* VIP Ticket */}
-              <div
-                className={`p-6 rounded-xl border-2 transition-all duration-300 ${
-                  !canPurchaseTicket("VIP")
-                    ? "border-white/20 bg-white/5 opacity-50"
-                    : "border-yellow-400/50 bg-gradient-to-br from-yellow-500/20 to-orange-500/20 hover:border-yellow-400 hover:shadow-lg hover:shadow-yellow-500/30 hover:scale-105"
+              <button
+                onClick={() => handlePurchaseTicket("VIP")}
+                disabled={!canPurchaseTicket("VIP")}
+                className={`w-full py-3 px-4 rounded-xl font-bold transition-all duration-300 ${
+                  canPurchaseTicket("VIP")
+                    ? "bg-gradient-to-r from-yellow-500 to-orange-600 hover:from-yellow-600 hover:to-orange-700 text-white transform hover:scale-105 shadow-lg shadow-yellow-500/50"
+                    : "bg-gray-600 text-gray-400 cursor-not-allowed"
                 }`}
               >
-                <div className="text-center mb-4">
-                  <h3 className="text-xl font-bold text-white mb-2">
-                    👑 VIP Fan Ticket
-                  </h3>
-                  <p className="text-sm text-gray-300 mb-3">
-                    Vollzugang für Fans
-                  </p>
-                  <div className="text-3xl font-bold text-yellow-400">
-                    CHF {getTicketPriceForEvent("VIP")}
-                  </div>
-                </div>
-
-                <div className="space-y-2 mb-4">
-                  <div className="flex items-center text-sm">
-                    <span className="text-green-400 mr-2">✓</span>
-                    <span className="text-gray-300">VIP Lounge</span>
-                  </div>
-                  <div className="flex items-center text-sm">
-                    <span className="text-green-400 mr-2">✓</span>
-                    <span className="text-gray-300">Backstage Tour</span>
-                  </div>
-                  <div className="flex items-center text-sm">
-                    <span className="text-green-400 mr-2">✓</span>
-                    <span className="text-gray-300">Meet & Greet</span>
-                  </div>
-                  <div className="flex items-center text-sm">
-                    <span className="text-green-400 mr-2">✓</span>
-                    <span className="text-gray-300">Premium Bereich</span>
-                  </div>
-                </div>
-
-                <button
-                  onClick={() => handlePurchaseTicket("VIP")}
-                  disabled={!canPurchaseTicket("VIP")}
-                  className={`w-full py-3 px-4 rounded-xl font-bold transition-all duration-300 ${
-                    canPurchaseTicket("VIP")
-                      ? "bg-gradient-to-r from-yellow-500 to-orange-600 hover:from-yellow-600 hover:to-orange-700 text-white transform hover:scale-105 shadow-lg shadow-yellow-500/50"
-                      : "bg-gray-600 text-gray-400 cursor-not-allowed"
-                  }`}
-                >
-                  {canPurchaseTicket("VIP")
-                    ? "Jetzt kaufen"
-                    : (userAccess.role as string) === "BAND"
+                {canPurchaseTicket("VIP")
+                  ? "Jetzt kaufen"
+                  : (userAccess.role as string) === "BAND"
                     ? "Band Vollzugang"
                     : "Bereits verfügbar"}
-                </button>
-              </div>
+              </button>
             </div>
           </div>
-        )}
+        </div>
+      )}
 
       {/* Band Member Message */}
       {(userAccess.role as string) === "BAND" && (
@@ -678,12 +639,10 @@ export function UserDashboard() {
           <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-white/50 via-white/80 to-white/50"></div>
 
           <div className="text-5xl mb-4 animate-float">🎸</div>
-          <h3 className="text-2xl font-bold mb-3 drop-shadow-lg">
-            Du hast bereits Vollzugang!
-          </h3>
+          <h3 className="text-2xl font-bold mb-3 drop-shadow-lg">Du hast bereits Vollzugang!</h3>
           <p className="text-lg opacity-90">
-            Als Band Member hast du automatisch Zugang zu allen Bereichen,
-            inklusive VIP Lounge, Backstage und allen Events.
+            Als Band Member hast du automatisch Zugang zu allen Bereichen, inklusive VIP Lounge, Backstage und allen
+            Events.
           </p>
         </div>
       )}

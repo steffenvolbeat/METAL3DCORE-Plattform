@@ -29,20 +29,29 @@ export async function GET(request: NextRequest) {
     });
 
     if (!user) {
-      return NextResponse.json(
-        { error: "Benutzer nicht gefunden" },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "Benutzer nicht gefunden" }, { status: 404 });
     }
 
     // 🎫 Format ticket data
-    const tickets = user.tickets.map((ticket) => ({
+    const tickets = user.tickets.map(ticket => ({
       id: ticket.id,
       type: ticket.type,
       status: ticket.status,
       eventName: ticket.event?.title || "Event",
       purchasedAt: ticket.purchaseDate,
     }));
+
+    // 🎸 Role-based access logic
+    const isAdmin = user.role === "ADMIN";
+    const isBandMember = user.role === "BAND";
+    const isVIP = user.role === "VIP_FAN";
+    const isBenefiz = user.role === "BENEFIZ";
+
+    // Band Members and Admins get full access automatically
+    const hasVIPAccess = user.hasVIPAccess || isBandMember || isAdmin || isVIP || isBenefiz;
+    const hasPremiumAccess = user.hasPremiumAccess || isBandMember || isAdmin || isVIP || isBenefiz;
+    const hasBackstageAccess = user.hasBackstageAccess || isBandMember || isAdmin;
+    const hasFullAccess = user.hasFullAccess || isBandMember || isAdmin;
 
     // 📊 Return user access information
     return NextResponse.json({
@@ -55,19 +64,16 @@ export async function GET(request: NextRequest) {
         username: user.username,
         name: user.name,
         role: user.role,
-        hasVIPAccess: user.hasVIPAccess,
-        hasPremiumAccess: user.hasPremiumAccess,
-        hasBackstageAccess: user.hasBackstageAccess,
-        hasFullAccess: user.hasFullAccess,
+        hasVIPAccess,
+        hasPremiumAccess,
+        hasBackstageAccess,
+        hasFullAccess,
         canBuyTickets: user.canBuyTickets,
         tickets,
       },
     });
   } catch (error) {
     console.error("User access API error:", error);
-    return NextResponse.json(
-      { error: "Server Fehler beim Abrufen der Benutzerdaten" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Server Fehler beim Abrufen der Benutzerdaten" }, { status: 500 });
   }
 }

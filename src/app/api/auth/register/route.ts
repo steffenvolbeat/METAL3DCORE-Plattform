@@ -21,25 +21,23 @@ const registerSchema = z.object({
 });
 
 export async function POST(request: NextRequest) {
+  console.log("🎸 Registration API called");
   try {
     const body = await request.json();
+    console.log("📨 Request body:", body);
+
     const validatedData = registerSchema.parse(body);
+    console.log("✅ Validation passed:", validatedData);
 
     // 🔍 Prüfe ob User bereits existiert
     const existingUser = await prisma.user.findFirst({
       where: {
-        OR: [
-          { email: validatedData.email },
-          { username: validatedData.username },
-        ],
+        OR: [{ email: validatedData.email }, { username: validatedData.username }],
       },
     });
 
     if (existingUser) {
-      return NextResponse.json(
-        { error: "E-Mail oder Username bereits vergeben" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "E-Mail oder Username bereits vergeben" }, { status: 400 });
     }
 
     // 🔐 Hash Password
@@ -73,10 +71,7 @@ export async function POST(request: NextRequest) {
       if (existingBand) {
         // User löschen falls Band Name bereits vergeben
         await prisma.user.delete({ where: { id: newUser.id } });
-        return NextResponse.json(
-          { error: "Band Name bereits vergeben" },
-          { status: 400 }
-        );
+        return NextResponse.json({ error: "Band Name bereits vergeben" }, { status: 400 });
       }
 
       // Erstelle Band
@@ -123,18 +118,13 @@ export async function POST(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error("Registration error:", error);
+    console.error("❌ Registration error:", error);
 
     if (error instanceof z.ZodError) {
-      return NextResponse.json(
-        { error: "Validation error", details: error.issues },
-        { status: 400 }
-      );
+      console.log("📋 Validation errors:", error.issues);
+      return NextResponse.json({ error: "Validation error", details: error.issues }, { status: 400 });
     }
 
-    return NextResponse.json(
-      { error: "Interner Server Fehler" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Interner Server Fehler" }, { status: 500 });
   }
 }
