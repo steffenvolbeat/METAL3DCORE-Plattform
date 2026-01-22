@@ -288,38 +288,45 @@ export function UserDashboard() {
   };
 
   return (
-    <div className="w-full max-w-6xl mx-auto p-6 space-y-8">
-      {/* User Header */}
+    <div className="p-8 space-y-10">
+      {/* User Header - Komplett überarbeitet */}
       <div
-        className={`bg-gradient-to-r ${getRoleColor(userAccess.role)} p-8 rounded-xl text-white shadow-2xl border border-gray-700`}
+        className={`bg-gradient-to-r ${getRoleColor(userAccess.role)} rounded-2xl p-8 shadow-2xl border border-white/20`}
       >
-        <div className="flex items-center justify-between mb-6">
+        <div className="grid md:grid-cols-3 gap-6 items-center">
+          {/* Role Icon */}
           <div className="text-center md:text-left">
-            <h1 className="text-3xl md:text-4xl font-bold font-mono mb-2">{getRoleDisplayName(userAccess.role)}</h1>
-            <p className="text-xl opacity-90 font-medium">
-              {userAccess.name} (@{userAccess.username})
-            </p>
-            <p className="opacity-75 text-base">{userAccess.email}</p>
-          </div>
-          <div className="text-right">
-            <div className="text-6xl mb-2">
+            <div className="w-20 h-20 mx-auto md:mx-0 bg-white/20 rounded-full flex items-center justify-center text-4xl mb-4">
               {userAccess.role === "BAND" ? "🎸" : userAccess.role === "ADMIN" ? "👑" : "🤘"}
             </div>
-            <p className="text-sm opacity-75 font-mono">Metal3DCore</p>
+            <p className="text-sm opacity-75 font-mono">Metal3DCore Platform</p>
+          </div>
+
+          {/* User Info */}
+          <div className="md:col-span-2 text-center md:text-left">
+            <h1 className="text-2xl md:text-3xl font-bold mb-3">{getRoleDisplayName(userAccess.role)}</h1>
+            <div className="space-y-2">
+              <p className="text-lg font-medium">
+                {userAccess.name} (@{userAccess.username})
+              </p>
+              <p className="opacity-80">{userAccess.email}</p>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Access Grid */}
-      <div className="bg-gray-900 rounded-xl p-8 border border-gray-700">
-        <h2 className="text-3xl font-bold text-orange-400 font-mono mb-8 text-center">🔐 Zugangsberechtigungen</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 justify-items-center">
+      {/* Access Grid - Modernisiert */}
+      <div className="bg-gradient-to-br from-gray-900/50 to-gray-800/50 backdrop-blur-sm rounded-2xl p-8 border border-gray-700/50">
+        <h2 className="text-3xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-red-500 mb-10">
+          🔐 Zugangsberechtigungen
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {/* Concert Access */}
           <div
-            className={`bg-gray-800 rounded-lg p-6 border transition-all duration-300 w-full max-w-sm text-center ${
+            className={`bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-sm rounded-2xl p-6 border transition-all duration-300 text-center transform hover:scale-105 hover:shadow-xl ${
               userAccess.role === "BAND" || userAccess.role === "ADMIN" || userAccess.tickets.length > 0
-                ? "border-green-500 hover:border-green-400"
-                : "border-red-500 hover:border-red-400"
+                ? "border-green-500/50 hover:border-green-400 hover:shadow-green-500/20"
+                : "border-red-500/50 hover:border-red-400 hover:shadow-red-500/20"
             }`}
           >
             <div className="text-4xl mb-3">🎤</div>
@@ -340,10 +347,10 @@ export function UserDashboard() {
 
           {/* Premium Access */}
           <div
-            className={`bg-gray-800 rounded-lg p-6 border transition-all duration-300 w-full max-w-sm text-center ${
+            className={`bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-sm rounded-2xl p-6 border transition-all duration-300 text-center transform hover:scale-105 hover:shadow-xl ${
               userAccess.hasPremiumAccess
-                ? "border-blue-500 hover:border-blue-400"
-                : "border-red-500 hover:border-red-400"
+                ? "border-blue-500/50 hover:border-blue-400 hover:shadow-blue-500/20"
+                : "border-red-500/50 hover:border-red-400 hover:shadow-red-500/20"
             }`}
           >
             <div className="text-4xl mb-3">⭐</div>
@@ -358,10 +365,10 @@ export function UserDashboard() {
 
           {/* VIP Access */}
           <div
-            className={`bg-gray-800 rounded-lg p-6 border transition-all duration-300 w-full max-w-sm text-center ${
+            className={`bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-sm rounded-2xl p-6 border transition-all duration-300 text-center transform hover:scale-105 hover:shadow-xl ${
               userAccess.hasVIPAccess
-                ? "border-yellow-500 hover:border-yellow-400"
-                : "border-red-500 hover:border-red-400"
+                ? "border-yellow-500/50 hover:border-yellow-400 hover:shadow-yellow-500/20"
+                : "border-red-500/50 hover:border-red-400 hover:shadow-red-500/20"
             }`}
           >
             <div className="text-4xl mb-3">👑</div>
@@ -376,10 +383,10 @@ export function UserDashboard() {
 
           {/* Backstage Access */}
           <div
-            className={`bg-gray-800 rounded-lg p-6 border transition-all duration-300 w-full max-w-sm text-center ${
+            className={`bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-sm rounded-2xl p-6 border transition-all duration-300 text-center transform hover:scale-105 hover:shadow-xl ${
               userAccess.hasBackstageAccess
-                ? "border-purple-500 hover:border-purple-400"
-                : "border-red-500 hover:border-red-400"
+                ? "border-purple-500/50 hover:border-purple-400 hover:shadow-purple-500/20"
+                : "border-red-500/50 hover:border-red-400 hover:shadow-red-500/20"
             }`}
           >
             <div className="text-4xl mb-3">🎭</div>
@@ -394,15 +401,17 @@ export function UserDashboard() {
         </div>
       </div>
 
-      {/* Purchased Tickets */}
+      {/* Purchased Tickets - Modernisiert */}
       {userAccess.tickets.length > 0 && (
-        <div className="bg-gray-900 rounded-xl p-8 border border-gray-700">
-          <h2 className="text-3xl font-bold text-orange-400 font-mono mb-8 text-center">🎫 Gekaufte Tickets</h2>
+        <div className="bg-gradient-to-br from-gray-900/50 to-gray-800/50 backdrop-blur-sm rounded-2xl p-8 border border-gray-700/50">
+          <h2 className="text-3xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-500 mb-8">
+            🎫 Gekaufte Tickets
+          </h2>
           <div className="space-y-4">
             {userAccess.tickets.map(ticket => (
               <div
                 key={ticket.id}
-                className="flex justify-between items-center p-6 bg-gray-800 rounded-lg border border-gray-600 hover:border-orange-500 transition-all duration-300"
+                className="flex justify-between items-center p-6 bg-gradient-to-r from-gray-800/80 to-gray-900/80 backdrop-blur-sm rounded-2xl border border-gray-600/50 hover:border-orange-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-orange-500/10 transform hover:scale-[1.02]"
               >
                 <div className="flex-1">
                   <div className="font-bold text-white text-lg mb-1">{ticket.eventName}</div>
@@ -531,44 +540,42 @@ export function UserDashboard() {
               </button>
             </div>
 
-            {/* Standard Ticket */}
+            {/* Standard Ticket - Konsistentes Dark Theme Design */}
             <div
-              className={`p-6 rounded-lg border-2 ${
+              className={`p-6 rounded-xl border-2 transition-all duration-300 ${
                 !canPurchaseTicket("STANDARD")
-                  ? "border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 opacity-50"
-                  : "border-blue-300 dark:border-blue-600 bg-blue-50 dark:bg-blue-900/20 hover:border-blue-500"
-              } transition-all`}
+                  ? "border-white/20 bg-white/5 opacity-50"
+                  : "border-blue-400/50 bg-gradient-to-br from-blue-500/20 to-purple-500/20 hover:border-blue-400 hover:shadow-lg hover:shadow-blue-500/30 hover:scale-105"
+              }`}
             >
               <div className="text-center mb-4">
-                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">🎟️ Standard Ticket</h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">Erweiterte Bereiche</p>
-                <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
-                  CHF {getTicketPriceForEvent("STANDARD")}
-                </div>
+                <h3 className="text-xl font-bold text-white mb-2">🎟️ Standard Ticket</h3>
+                <p className="text-sm text-gray-300 mb-3">Erweiterte Bereiche</p>
+                <div className="text-3xl font-bold text-blue-400">CHF {getTicketPriceForEvent("STANDARD")}</div>
               </div>
 
               <div className="space-y-2 mb-4">
                 <div className="flex items-center text-sm">
-                  <span className="text-green-500 mr-2">✓</span>
-                  <span className="text-gray-700 dark:text-gray-300">Event Zugang</span>
+                  <span className="text-green-400 mr-2">✓</span>
+                  <span className="text-gray-300">Event Zugang</span>
                 </div>
                 <div className="flex items-center text-sm">
-                  <span className="text-green-500 mr-2">✓</span>
-                  <span className="text-gray-700 dark:text-gray-300">Premium Bereich</span>
+                  <span className="text-green-400 mr-2">✓</span>
+                  <span className="text-gray-300">Premium Bereich</span>
                 </div>
                 <div className="flex items-center text-sm">
-                  <span className="text-green-500 mr-2">✓</span>
-                  <span className="text-gray-700 dark:text-gray-300">Bessere Sicht</span>
+                  <span className="text-green-400 mr-2">✓</span>
+                  <span className="text-gray-300">Bessere Sicht</span>
                 </div>
               </div>
 
               <button
                 onClick={() => handlePurchaseTicket("STANDARD")}
                 disabled={!canPurchaseTicket("STANDARD")}
-                className={`w-full py-2 px-4 rounded-lg font-semibold transition-all ${
+                className={`w-full py-3 px-4 rounded-xl font-bold transition-all duration-300 ${
                   canPurchaseTicket("STANDARD")
-                    ? "bg-blue-500 hover:bg-blue-600 text-white transform hover:scale-105"
-                    : "bg-gray-300 dark:bg-gray-600 text-gray-500 cursor-not-allowed"
+                    ? "bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white transform hover:scale-105 shadow-lg shadow-blue-500/50"
+                    : "bg-gray-600 text-gray-400 cursor-not-allowed"
                 }`}
               >
                 {canPurchaseTicket("STANDARD")

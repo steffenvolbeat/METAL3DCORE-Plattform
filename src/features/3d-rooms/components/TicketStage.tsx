@@ -1,29 +1,12 @@
 "use client";
 
-import React, {
-  Suspense,
-  useState,
-  useRef,
-  useCallback,
-  useEffect,
-} from "react";
+import React, { Suspense, useState, useRef, useCallback, useEffect } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import {
-  Environment,
-  Center,
-  Float,
-  Box,
-  Plane,
-  Html,
-  Text,
-  Cylinder,
-} from "@react-three/drei";
+import { Environment, Center, Float, Box, Plane, Html, Text, Cylinder } from "@react-three/drei";
 import { useSession } from "next-auth/react";
 import * as THREE from "three";
 import { FPSControls } from "@/shared/components/3d";
-import PaymentOptions, {
-  usePaymentOptions,
-} from "@/features/tickets/components/PaymentOptions";
+import PaymentOptions, { usePaymentOptions } from "@/features/tickets/components/PaymentOptions";
 import { TICKET_PRICES } from "@/lib/access-control";
 
 // Typen für Props
@@ -33,19 +16,20 @@ interface TicketStageProps {
   onFullscreen?: () => void;
 }
 
-// SINGLE CONCERT DATA - Only Metallica 
+// SINGLE CONCERT DATA - Only Metallica
 const concerts = [
   {
     id: 1,
-    band: "Metallica",
-    date: "2025-12-15",
-    venue: "Hallenstadion Zürich", 
+    band: "Metal3DCore Demo Band",
+    date: "Dienstag, 17. Februar 2026 um 18:50",
+    venue: "Hallenstadion, Zürich",
     price: "CHF 125",
     available: true,
-    image: "🎸⚡",
-    description: "Master of Puppets 40th Anniversary Tour - Live in Zürich",
-    category: "Legends",
-  }
+    ticketsAvailable: 1000,
+    image: "🎸",
+    description: "Metal3DCore Demo Konzert #1",
+    category: "Metal",
+  },
   // 🚧 All other concerts will be added in future updates
   // Currently showing only 1 ticket for demo purposes
 ];
@@ -68,16 +52,8 @@ function TicketFloor() {
   return (
     <group>
       {/* Haupt Boden */}
-      <Plane
-        args={[120, 120]}
-        rotation={[-Math.PI / 2, 0, 0]}
-        position={[0, -2, 0]}
-      >
-        <meshStandardMaterial
-          color="#2a2a2a"
-          emissive="#1a1a1a"
-          emissiveIntensity={0.2}
-        />
+      <Plane args={[120, 120]} rotation={[-Math.PI / 2, 0, 0]} position={[0, -2, 0]}>
+        <meshStandardMaterial color="#2a2a2a" emissive="#1a1a1a" emissiveIntensity={0.2} />
       </Plane>
 
       {/* Ticket Muster auf dem Boden */}
@@ -93,9 +69,7 @@ function TicketFloor() {
           >
             <div className="w-32 h-20 bg-gradient-to-r from-red-900 via-black to-red-900 border-2 border-red-500 rounded-lg shadow-lg opacity-60 transform rotate-12">
               {/* Ticket Header */}
-              <div className="bg-red-600 text-white text-center py-1 text-xs font-bold">
-                🎸 METAL TICKET 🎸
-              </div>
+              <div className="bg-red-600 text-white text-center py-1 text-xs font-bold">🎸 METAL TICKET 🎸</div>
 
               {/* Ticket Content */}
               <div className="p-2 text-white text-xs">
@@ -106,9 +80,7 @@ function TicketFloor() {
                 <div className="text-gray-300 text-xs space-y-1">
                   <div>📅 15.12.2025</div>
                   <div>🏟️ Metal Arena</div>
-                  <div className="text-center text-red-400 font-bold text-xs">
-                    ⚡ LIVE ⚡
-                  </div>
+                  <div className="text-center text-red-400 font-bold text-xs">⚡ LIVE ⚡</div>
                 </div>
               </div>
 
@@ -125,18 +97,10 @@ function TicketFloor() {
         <Box
           key={`pattern-${i}`}
           args={[2, 0.1, 1]}
-          position={[
-            (Math.random() - 0.5) * 70,
-            -1.8,
-            (Math.random() - 0.5) * 70,
-          ]}
+          position={[(Math.random() - 0.5) * 70, -1.8, (Math.random() - 0.5) * 70]}
           rotation={[0, Math.random() * Math.PI, 0]}
         >
-          <meshBasicMaterial
-            color={i % 2 === 0 ? "#000000" : "#8B0000"}
-            transparent
-            opacity={0.3}
-          />
+          <meshBasicMaterial color={i % 2 === 0 ? "#000000" : "#8B0000"} transparent opacity={0.3} />
         </Box>
       ))}
 
@@ -144,23 +108,13 @@ function TicketFloor() {
       {Array.from({ length: 6 }).map((_, i) => (
         <Html
           key={`logo-${i}`}
-          position={[
-            (Math.random() - 0.5) * 60,
-            -1.85,
-            (Math.random() - 0.5) * 60,
-          ]}
+          position={[(Math.random() - 0.5) * 60, -1.85, (Math.random() - 0.5) * 60]}
           rotation={[-Math.PI / 2, 0, Math.random() * Math.PI]}
           transform
           distanceFactor={20}
         >
           <div className="text-6xl opacity-20 text-red-800 font-bold">
-            {i % 4 === 0
-              ? "🎸"
-              : i % 4 === 1
-              ? "⚡"
-              : i % 4 === 2
-              ? "🔥"
-              : "🤘"}
+            {i % 4 === 0 ? "🎸" : i % 4 === 1 ? "⚡" : i % 4 === 2 ? "🔥" : "🤘"}
           </div>
         </Html>
       ))}
@@ -176,8 +130,7 @@ function YouTubeTVWall() {
 
   // Extrahiert YouTube Video ID aus URL
   const extractVideoId = (url: string) => {
-    const regex =
-      /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/;
+    const regex = /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/;
     const match = url.match(regex);
     return match ? match[1] : null;
   };
@@ -201,19 +154,11 @@ function YouTubeTVWall() {
     <group position={[-60, 16.5, 0]}>
       {/* TV Wand (gesamte linke Wand) */}
       <Plane args={[120, 37]} rotation={[0, Math.PI / 2, 0]}>
-        <meshStandardMaterial
-          color="#2a2a2a"
-          emissive="#1a1a1a"
-          emissiveIntensity={0.3}
-        />
+        <meshStandardMaterial color="#2a2a2a" emissive="#1a1a1a" emissiveIntensity={0.3} />
       </Plane>
 
       {/* TV Rahmen */}
-      <Plane
-        args={[100, 30]}
-        position={[0.1, 0, 0]}
-        rotation={[0, Math.PI / 2, 0]}
-      >
+      <Plane args={[100, 30]} position={[0.1, 0, 0]} rotation={[0, Math.PI / 2, 0]}>
         <meshStandardMaterial
           color="#3a3a3a"
           metalness={0.9}
@@ -224,18 +169,8 @@ function YouTubeTVWall() {
       </Plane>
 
       {/* Zusätzliche Beleuchtung für die Wand */}
-      <pointLight
-        position={[5, 0, 0]}
-        intensity={2}
-        color="#ffffff"
-        distance={40}
-      />
-      <pointLight
-        position={[5, 0, 15]}
-        intensity={1.5}
-        color="#9333ea"
-        distance={35}
-      />
+      <pointLight position={[5, 0, 0]} intensity={2} color="#ffffff" distance={40} />
+      <pointLight position={[5, 0, 15]} intensity={1.5} color="#9333ea" distance={35} />
 
       {/* YouTube TV Screen */}
       <Html position={[0.2, 0, 0]} rotation-y={Math.PI / 2} transform sprite>
@@ -244,9 +179,7 @@ function YouTubeTVWall() {
           <div className="bg-gradient-to-r from-red-600 to-black p-4 flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <div className="text-3xl">📺</div>
-              <h2 className="text-white font-bold text-2xl">
-                METAL TV - YouTube Player
-              </h2>
+              <h2 className="text-white font-bold text-2xl">METAL TV - YouTube Player</h2>
               <div className="text-red-500 text-xl animate-pulse">🔴 LIVE</div>
             </div>
             <div className="flex space-x-2">
@@ -275,21 +208,15 @@ function YouTubeTVWall() {
               <div className="w-full h-[600px] bg-gradient-to-br from-gray-800 to-black rounded-lg flex flex-col items-center justify-center border-2 border-red-500">
                 <div className="text-center mb-8">
                   <div className="text-8xl mb-4">🎸</div>
-                  <h3 className="text-white font-bold text-4xl mb-4">
-                    Metal YouTube Player
-                  </h3>
-                  <p className="text-gray-300 text-xl">
-                    Spiele deine Lieblings-Metal-Videos ab!
-                  </p>
+                  <h3 className="text-white font-bold text-4xl mb-4">Metal YouTube Player</h3>
+                  <p className="text-gray-300 text-xl">Spiele deine Lieblings-Metal-Videos ab!</p>
                 </div>
 
                 {/* Preset Metal Videos */}
                 <div className="grid grid-cols-2 gap-4 mb-8">
                   <button
                     onClick={() => {
-                      setVideoUrl(
-                        "https://www.youtube.com/watch?v=JFYVcz7h3o0"
-                      );
+                      setVideoUrl("https://www.youtube.com/watch?v=JFYVcz7h3o0");
                       setCurrentVideo("JFYVcz7h3o0");
                       setIsPlaying(true);
                     }}
@@ -299,9 +226,7 @@ function YouTubeTVWall() {
                   </button>
                   <button
                     onClick={() => {
-                      setVideoUrl(
-                        "https://www.youtube.com/watch?v=WM8bTdBs-cw"
-                      );
+                      setVideoUrl("https://www.youtube.com/watch?v=WM8bTdBs-cw");
                       setCurrentVideo("WM8bTdBs-cw");
                       setIsPlaying(true);
                     }}
@@ -311,9 +236,7 @@ function YouTubeTVWall() {
                   </button>
                   <button
                     onClick={() => {
-                      setVideoUrl(
-                        "https://www.youtube.com/watch?v=hkXHsK4AQPs"
-                      );
+                      setVideoUrl("https://www.youtube.com/watch?v=hkXHsK4AQPs");
                       setCurrentVideo("hkXHsK4AQPs");
                       setIsPlaying(true);
                     }}
@@ -323,9 +246,7 @@ function YouTubeTVWall() {
                   </button>
                   <button
                     onClick={() => {
-                      setVideoUrl(
-                        "https://www.youtube.com/watch?v=L397TWLwrUU"
-                      );
+                      setVideoUrl("https://www.youtube.com/watch?v=L397TWLwrUU");
                       setCurrentVideo("L397TWLwrUU");
                       setIsPlaying(true);
                     }}
@@ -344,7 +265,7 @@ function YouTubeTVWall() {
                   type="text"
                   placeholder="YouTube URL eingeben... (z.B. https://www.youtube.com/watch?v=...)"
                   value={videoUrl}
-                  onChange={(e) => setVideoUrl(e.target.value)}
+                  onChange={e => setVideoUrl(e.target.value)}
                   className="flex-1 bg-gray-700 text-white px-5 py-4 rounded-lg border border-gray-600 focus:border-red-500 focus:outline-none text-base"
                 />
                 <button
@@ -363,9 +284,7 @@ function YouTubeTVWall() {
 
               <div className="flex justify-between items-center text-gray-400 text-base">
                 <div className="flex items-center space-x-4">
-                  <span>
-                    📺 Status: {isPlaying ? "🔴 Playing" : "⏸️ Stopped"}
-                  </span>
+                  <span>📺 Status: {isPlaying ? "🔴 Playing" : "⏸️ Stopped"}</span>
                   {currentVideo && <span>🎬 Video ID: {currentVideo}</span>}
                 </div>
                 <div className="flex items-center space-x-2">
@@ -379,14 +298,7 @@ function YouTubeTVWall() {
       </Html>
 
       {/* TV Glow Effect */}
-      {isPlaying && (
-        <pointLight
-          position={[2, 0, 0]}
-          intensity={2}
-          color="#ff0000"
-          distance={10}
-        />
-      )}
+      {isPlaying && <pointLight position={[2, 0, 0]} intensity={2} color="#ff0000" distance={10} />}
     </group>
   );
 }
@@ -416,64 +328,48 @@ function InfoCounter({
   return (
     <group position={[0, 16.5, 60]}>
       {/* Info Display an der Vorderwand */}
-      <Html
-        position={[position.x, position.y, -0.5]}
-        rotation-y={Math.PI}
-        transform
-        distanceFactor={12}
-      >
+      <Html position={[position.x, position.y, -0.5]} rotation-y={Math.PI} transform distanceFactor={12}>
         <div
           className={`bg-gray-900/95 backdrop-blur-md p-8 rounded-xl shadow-2xl w-96 cursor-grab active:cursor-grabbing ${
-            isSelected
-              ? "border-4 border-green-500 ring-4 ring-green-400"
-              : "border-2 border-blue-500"
+            isSelected ? "border-4 border-green-500 ring-4 ring-green-400" : "border-2 border-blue-500"
           }`}
           draggable
-          onDoubleClick={(e) => {
+          onDoubleClick={e => {
             e.stopPropagation();
             onSelect();
           }}
-          onDragStart={(e) => {
+          onDragStart={e => {
             e.dataTransfer.effectAllowed = "move";
           }}
-          onDrag={(e) => {
+          onDrag={e => {
             if (e.clientX !== 0 && e.clientY !== 0) {
               handleDrag(e.movementX, e.movementY);
             }
           }}
         >
           <div className="text-center mb-6">
-            <h3 className="text-blue-400 font-bold text-2xl mb-3">
-              ℹ️ TICKET INFO
-            </h3>
+            <h3 className="text-blue-400 font-bold text-2xl mb-3">ℹ️ TICKET INFO</h3>
             <div className="w-full h-1 bg-gradient-to-r from-blue-500 to-purple-600 rounded"></div>
           </div>
 
           <div className="space-y-5 text-white text-base">
             <div className="bg-gray-800/50 p-5 rounded-lg">
-              <h4 className="text-blue-400 font-bold text-lg mb-3">
-                🎫 Ticket-Kategorien
-              </h4>
+              <h4 className="text-blue-400 font-bold text-lg mb-3">🎫 Ticket-Kategorien</h4>
               <ul className="space-y-2 text-base">
                 <li>
-                  • <span className="text-green-400">Standard</span> -
-                  Grundpreis
+                  • <span className="text-green-400">Standard</span> - Grundpreis
                 </li>
                 <li>
-                  • <span className="text-yellow-400">VIP</span> - +CHF 44
-                  (bessere Plätze)
+                  • <span className="text-yellow-400">VIP</span> - +CHF 44 (bessere Plätze)
                 </li>
                 <li>
-                  • <span className="text-red-400">Backstage</span> - +CHF 105
-                  (Meet & Greet)
+                  • <span className="text-red-400">Backstage</span> - +CHF 105 (Meet & Greet)
                 </li>
               </ul>
             </div>
 
             <div className="bg-gray-800/50 p-5 rounded-lg">
-              <h4 className="text-blue-400 font-bold text-lg mb-3">
-                📱 Zahlungsmethoden
-              </h4>
+              <h4 className="text-blue-400 font-bold text-lg mb-3">📱 Zahlungsmethoden</h4>
               <div className="text-base space-y-2">
                 <div className="flex items-center space-x-2">
                   <span className="text-green-400">✅</span>
@@ -518,12 +414,9 @@ function InfoCounter({
             </div>
 
             <div className="bg-gray-800/50 p-5 rounded-lg">
-              <h4 className="text-blue-400 font-bold text-lg mb-3">
-                🔒 Sicher & Geschützt
-              </h4>
+              <h4 className="text-blue-400 font-bold text-lg mb-3">🔒 Sicher & Geschützt</h4>
               <p className="text-base text-gray-300">
-                Alle Transaktionen sind SSL-verschlüsselt und sicher. Ihre
-                Tickets werden sofort per E-Mail zugestellt.
+                Alle Transaktionen sind SSL-verschlüsselt und sicher. Ihre Tickets werden sofort per E-Mail zugestellt.
               </p>
             </div>
           </div>
@@ -558,10 +451,7 @@ function TicketScene() {
   // Speichere Info Position in localStorage
   useEffect(() => {
     if (typeof window !== "undefined") {
-      localStorage.setItem(
-        "ticketArena_infoCounterPosition",
-        JSON.stringify(infoPosition)
-      );
+      localStorage.setItem("ticketArena_infoCounterPosition", JSON.stringify(infoPosition));
     }
   }, [infoPosition]);
 
@@ -629,70 +519,51 @@ function TicketScene() {
   // Speichere Positionen in localStorage wenn sie sich ändern
   useEffect(() => {
     if (typeof window !== "undefined") {
-      localStorage.setItem(
-        "ticketArena_posterPositions",
-        JSON.stringify(posterPositions)
-      );
+      localStorage.setItem("ticketArena_posterPositions", JSON.stringify(posterPositions));
     }
   }, [posterPositions]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      localStorage.setItem(
-        "ticketArena_ticketPositions",
-        JSON.stringify(ticketPositions)
-      );
+      localStorage.setItem("ticketArena_ticketPositions", JSON.stringify(ticketPositions));
     }
   }, [ticketPositions]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      localStorage.setItem(
-        "ticketArena_infoPositions",
-        JSON.stringify(infoPositions)
-      );
+      localStorage.setItem("ticketArena_infoPositions", JSON.stringify(infoPositions));
     }
   }, [infoPositions]);
 
   // Drag Handler für Concert Posters
-  const handlePosterDrag = useCallback(
-    (index: number, movementX: number, movementY: number) => {
-      setPosterPositions((prev: Array<{ x: number; y: number }>) => {
-        const newPositions = [...prev];
-        newPositions[index] = {
-          x: Math.max(-55, Math.min(55, prev[index].x + movementX * 0.1)),
-          y: Math.max(-15, Math.min(15, prev[index].y - movementY * 0.1)),
-        };
-        return newPositions;
-      });
-    },
-    []
-  );
+  const handlePosterDrag = useCallback((index: number, movementX: number, movementY: number) => {
+    setPosterPositions((prev: Array<{ x: number; y: number }>) => {
+      const newPositions = [...prev];
+      newPositions[index] = {
+        x: Math.max(-55, Math.min(55, prev[index].x + movementX * 0.1)),
+        y: Math.max(-15, Math.min(15, prev[index].y - movementY * 0.1)),
+      };
+      return newPositions;
+    });
+  }, []);
 
   // Drag Handler für Ticket Automaten
-  const handleTicketDrag = useCallback(
-    (index: number, movementX: number, movementY: number) => {
-      setTicketPositions((prev: Array<{ y: number; z: number }>) => {
-        const newPositions = [...prev];
-        newPositions[index] = {
-          y: Math.max(-15, Math.min(15, prev[index].y - movementY * 0.05)),
-          z: Math.max(-55, Math.min(55, prev[index].z + movementX * 0.05)),
-        };
-        return newPositions;
-      });
-    },
-    []
-  );
+  const handleTicketDrag = useCallback((index: number, movementX: number, movementY: number) => {
+    setTicketPositions((prev: Array<{ y: number; z: number }>) => {
+      const newPositions = [...prev];
+      newPositions[index] = {
+        y: Math.max(-15, Math.min(15, prev[index].y - movementY * 0.05)),
+        z: Math.max(-55, Math.min(55, prev[index].z + movementX * 0.05)),
+      };
+      return newPositions;
+    });
+  }, []);
 
   return (
     <>
       {/* Vereinfachte Beleuchtung */}
       <ambientLight intensity={0.8} color="#ffffff" />
-      <directionalLight
-        position={[10, 10, 5]}
-        intensity={1.5}
-        color="#ffffff"
-      />
+      <directionalLight position={[10, 10, 5]} intensity={1.5} color="#ffffff" />
       <pointLight position={[10, 5, 10]} intensity={1} color="#9333ea" />
       <pointLight position={[-10, 5, 10]} intensity={1} color="#3b82f6" />
 
@@ -700,16 +571,8 @@ function TicketScene() {
       <TicketFloor />
 
       {/* Decke */}
-      <Plane
-        args={[120, 120]}
-        rotation={[Math.PI / 2, 0, 0]}
-        position={[0, 35, 0]}
-      >
-        <meshStandardMaterial
-          color="#4a4a4a"
-          emissive="#3a3a3a"
-          emissiveIntensity={0.5}
-        />
+      <Plane args={[120, 120]} rotation={[Math.PI / 2, 0, 0]} position={[0, 35, 0]}>
+        <meshStandardMaterial color="#4a4a4a" emissive="#3a3a3a" emissiveIntensity={0.5} />
       </Plane>
 
       {/* Seitenwände */}
@@ -718,7 +581,7 @@ function TicketScene() {
         <Plane
           args={[120, 37]}
           rotation={[0, -Math.PI / 2, 0]}
-          onClick={(e) => {
+          onClick={e => {
             if (selectedTicket !== null) {
               e.stopPropagation();
               const point = e.point;
@@ -734,11 +597,7 @@ function TicketScene() {
             }
           }}
         >
-          <meshStandardMaterial
-            color="#2a2a2a"
-            emissive="#2a2a2a"
-            emissiveIntensity={0.3}
-          />
+          <meshStandardMaterial color="#2a2a2a" emissive="#2a2a2a" emissiveIntensity={0.3} />
         </Plane>
 
         {/* Ticket-Automaten auf der rechten Wand */}
@@ -748,30 +607,24 @@ function TicketScene() {
           return (
             <Html
               key={concert.id}
-              position={[
-                0.5,
-                ticketPositions[index].y,
-                ticketPositions[index].z,
-              ]}
+              position={[0.5, ticketPositions[index].y, ticketPositions[index].z]}
               rotation-y={-Math.PI / 2}
               transform
               distanceFactor={12}
             >
               <div
                 className={`bg-gray-900/95 backdrop-blur-md p-8 rounded-lg border-2 shadow-2xl w-96 cursor-grab active:cursor-grabbing ${
-                  selectedTicket === index
-                    ? "border-green-500 ring-4 ring-green-400"
-                    : "border-purple-500"
+                  selectedTicket === index ? "border-green-500 ring-4 ring-green-400" : "border-purple-500"
                 }`}
                 draggable
-                onDoubleClick={(e) => {
+                onDoubleClick={e => {
                   e.stopPropagation();
                   setSelectedTicket(index);
                 }}
-                onDragStart={(e) => {
+                onDragStart={e => {
                   e.dataTransfer.effectAllowed = "move";
                 }}
-                onDrag={(e) => {
+                onDrag={e => {
                   if (e.clientX !== 0 && e.clientY !== 0) {
                     handleTicketDrag(index, e.movementX, e.movementY);
                   }
@@ -779,9 +632,7 @@ function TicketScene() {
               >
                 <div className="text-center mb-6">
                   <div className="text-5xl mb-4">{concert.image}</div>
-                  <h3 className="text-purple-400 font-bold text-2xl">
-                    {concert.band}
-                  </h3>
+                  <h3 className="text-purple-400 font-bold text-2xl">{concert.band}</h3>
                   <p className="text-white text-base">{concert.description}</p>
                 </div>
 
@@ -796,9 +647,7 @@ function TicketScene() {
                   </div>
                   <div className="flex justify-between">
                     <span>💰 Preis:</span>
-                    <span className="text-green-400 font-bold">
-                      {concert.price}
-                    </span>
+                    <span className="text-green-400 font-bold">{concert.price}</span>
                   </div>
                 </div>
 
@@ -816,23 +665,13 @@ function TicketScene() {
                 )}
 
                 {/* Purchase Modal - Erweitert mit Payment Options */}
-                {isSelected && (
-                  <PurchaseModal
-                    concert={concert}
-                    onClose={() => setIsSelected(false)}
-                  />
-                )}
+                {isSelected && <PurchaseModal concert={concert} onClose={() => setIsSelected(false)} />}
               </div>
             </Html>
           );
         })}
 
-        <pointLight
-          position={[-5, 0, 0]}
-          intensity={3}
-          color="#9333ea"
-          distance={50}
-        />
+        <pointLight position={[-5, 0, 0]} intensity={3} color="#9333ea" distance={50} />
       </group>
 
       {/* Linke Wand mit YouTube TV */}
@@ -843,7 +682,7 @@ function TicketScene() {
         <Plane
           args={[120, 37]}
           rotation={[0, 0, 0]}
-          onClick={(e) => {
+          onClick={e => {
             if (selectedPoster !== null) {
               e.stopPropagation();
               const point = e.point;
@@ -859,11 +698,7 @@ function TicketScene() {
             }
           }}
         >
-          <meshStandardMaterial
-            color="#1a1a1a"
-            emissive="#0a0a0a"
-            emissiveIntensity={0.5}
-          />
+          <meshStandardMaterial color="#1a1a1a" emissive="#0a0a0a" emissiveIntensity={0.5} />
         </Plane>
 
         {/* Concert Posters auf der Rückwand */}
@@ -877,19 +712,17 @@ function TicketScene() {
           >
             <div
               className={`bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 backdrop-blur-sm p-8 rounded-2xl border-4 shadow-2xl w-[400px] hover:scale-105 transition-transform cursor-grab active:cursor-grabbing ${
-                selectedPoster === index
-                  ? "border-green-500 ring-4 ring-green-400"
-                  : "border-purple-500"
+                selectedPoster === index ? "border-green-500 ring-4 ring-green-400" : "border-purple-500"
               }`}
               draggable
-              onDoubleClick={(e) => {
+              onDoubleClick={e => {
                 e.stopPropagation();
                 setSelectedPoster(index);
               }}
-              onDragStart={(e) => {
+              onDragStart={e => {
                 e.dataTransfer.effectAllowed = "move";
               }}
-              onDrag={(e) => {
+              onDrag={e => {
                 if (e.clientX !== 0 && e.clientY !== 0) {
                   handlePosterDrag(index, e.movementX, e.movementY);
                 }
@@ -897,26 +730,24 @@ function TicketScene() {
             >
               <div className="text-center">
                 <div className="text-7xl mb-5">{concert.image}</div>
-                <h3 className="text-purple-400 font-bold text-3xl mb-4 uppercase tracking-wide">
-                  {concert.band}
-                </h3>
-                <p className="text-white text-lg mb-5 leading-relaxed font-medium">
-                  {concert.description}
-                </p>
-                <div className="text-lg text-gray-300 space-y-3 bg-black/30 p-4 rounded-lg">
-                  <p className="font-semibold flex items-center justify-between">
-                    <span>📅 Datum:</span>
-                    <span className="text-purple-300">{concert.date}</span>
-                  </p>
-                  <p className="font-semibold flex items-center justify-between">
-                    <span>🏟️ Venue:</span>
-                    <span className="text-purple-300">{concert.venue}</span>
-                  </p>
-                  <p className="font-bold flex items-center justify-between text-2xl">
-                    <span>💰 Preis:</span>
-                    <span className="text-green-400">{concert.price}</span>
+
+                {/* Zentraler Concert Title - Komplett zentriert */}
+                <div className="text-center mb-6">
+                  <h2 className="text-purple-400 font-bold text-4xl mb-2 uppercase tracking-wide">
+                    {concert.description}
+                  </h2>
+                  <h3 className="text-white font-bold text-2xl mb-1">🎸 {concert.band} (Metal)</h3>
+                </div>
+
+                {/* Event Details - Zentriert */}
+                <div className="text-center text-lg text-gray-300 space-y-3 bg-black/30 p-6 rounded-lg">
+                  <p className="font-semibold text-xl">📍 {concert.venue}</p>
+                  <p className="font-semibold text-xl">📅 {concert.date}</p>
+                  <p className="font-bold text-2xl text-green-400">
+                    🎫 Noch {concert.ticketsAvailable} Tickets verfügbar
                   </p>
                 </div>
+
                 {!concert.available && (
                   <div className="mt-5 bg-red-600 text-white font-bold text-xl py-3 rounded-lg animate-pulse shadow-lg">
                     ⚠️ AUSVERKAUFT
@@ -927,12 +758,7 @@ function TicketScene() {
           </Html>
         ))}
 
-        <pointLight
-          position={[0, 0, 5]}
-          intensity={3}
-          color="#9333ea"
-          distance={50}
-        />
+        <pointLight position={[0, 0, 5]} intensity={3} color="#9333ea" distance={50} />
       </group>
 
       {/* Vordere Wand */}
@@ -940,7 +766,7 @@ function TicketScene() {
         args={[120, 37]}
         position={[0, 16.5, 60]}
         rotation={[0, Math.PI, 0]}
-        onClick={(e) => {
+        onClick={e => {
           if (selectedInfo) {
             e.stopPropagation();
             const point = e.point;
@@ -952,18 +778,9 @@ function TicketScene() {
           }
         }}
       >
-        <meshStandardMaterial
-          color="#2a2a2a"
-          emissive="#1a1a1a"
-          emissiveIntensity={0.3}
-        />
+        <meshStandardMaterial color="#2a2a2a" emissive="#1a1a1a" emissiveIntensity={0.3} />
       </Plane>
-      <pointLight
-        position={[0, 16.5, 55]}
-        intensity={2}
-        color="#ffffff"
-        distance={40}
-      />
+      <pointLight position={[0, 16.5, 55]} intensity={2} color="#ffffff" distance={40} />
 
       {/* Epischer schwebender Titel */}
       <Float speed={1} rotationIntensity={0.5} floatIntensity={0.5}>
@@ -985,25 +802,12 @@ function TicketScene() {
 
       {/* Atmosphäre Partikel */}
       {Array.from({ length: 15 }).map((_, i) => (
-        <Float
-          key={i}
-          speed={0.5 + i * 0.1}
-          rotationIntensity={0.2}
-          floatIntensity={0.3}
-        >
+        <Float key={i} speed={0.5 + i * 0.1} rotationIntensity={0.2} floatIntensity={0.3}>
           <Box
-            position={[
-              (Math.random() - 0.5) * 60,
-              8 + Math.random() * 12,
-              (Math.random() - 0.5) * 50,
-            ]}
+            position={[(Math.random() - 0.5) * 60, 8 + Math.random() * 12, (Math.random() - 0.5) * 50]}
             args={[0.2, 0.2, 0.2]}
           >
-            <meshBasicMaterial
-              color={
-                i % 3 === 0 ? "#9333ea" : i % 3 === 1 ? "#3b82f6" : "#ef4444"
-              }
-            />
+            <meshBasicMaterial color={i % 3 === 0 ? "#9333ea" : i % 3 === 1 ? "#3b82f6" : "#ef4444"} />
           </Box>
         </Float>
       ))}
@@ -1012,41 +816,18 @@ function TicketScene() {
       <group position={[0, 0, 0]}>
         {/* Pult-Basis */}
         <Box position={[0, 2.5, 0]} args={[6, 5, 4]}>
-          <meshStandardMaterial
-            color="#1a1a1a"
-            metalness={0.8}
-            roughness={0.2}
-          />
+          <meshStandardMaterial color="#1a1a1a" metalness={0.8} roughness={0.2} />
         </Box>
 
         {/* Pult-Top (Theke) */}
         <Box position={[0, 5.2, 0]} args={[7, 0.4, 5]}>
-          <meshStandardMaterial
-            color="#2a2a2a"
-            metalness={0.6}
-            roughness={0.3}
-          />
+          <meshStandardMaterial color="#2a2a2a" metalness={0.6} roughness={0.3} />
         </Box>
 
         {/* Dekorative Lichter am Pult */}
-        <pointLight
-          position={[0, 6, 0]}
-          intensity={2}
-          color="#3b82f6"
-          distance={15}
-        />
-        <pointLight
-          position={[-3, 4, 2]}
-          intensity={1.5}
-          color="#9333ea"
-          distance={10}
-        />
-        <pointLight
-          position={[3, 4, 2]}
-          intensity={1.5}
-          color="#ef4444"
-          distance={10}
-        />
+        <pointLight position={[0, 6, 0]} intensity={2} color="#3b82f6" distance={15} />
+        <pointLight position={[-3, 4, 2]} intensity={1.5} color="#9333ea" distance={10} />
+        <pointLight position={[3, 4, 2]} intensity={1.5} color="#ef4444" distance={10} />
 
         {/* Kassen-Interface */}
         <CashDeskInterface />
@@ -1067,17 +848,11 @@ function TicketScene() {
 function CashDeskInterface() {
   const [isOpen, setIsOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState(1); // 1: Konzert, 2: Details, 3: Payment, 4: Success
-  const [selectedConcert, setSelectedConcert] = useState<
-    (typeof concerts)[0] | null
-  >(null);
+  const [selectedConcert, setSelectedConcert] = useState<(typeof concerts)[0] | null>(null);
   const [ticketType, setTicketType] = useState<"digital" | "paper">("digital");
-  const [ticketCategory, setTicketCategory] = useState<
-    "standard" | "vip" | "backstage"
-  >("standard");
+  const [ticketCategory, setTicketCategory] = useState<"standard" | "vip" | "backstage">("standard");
   const [quantity, setQuantity] = useState(1);
-  const [deliveryMethod, setDeliveryMethod] = useState<"email" | "post">(
-    "email"
-  );
+  const [deliveryMethod, setDeliveryMethod] = useState<"email" | "post">("email");
   const [customerData, setCustomerData] = useState({
     name: "",
     email: "",
@@ -1090,8 +865,7 @@ function CashDeskInterface() {
   const [purchaseSuccess, setPurchaseSuccess] = useState(false);
 
   // PaymentOptions Integration
-  const { selectedMethod, setSelectedMethod, processPayment } =
-    usePaymentOptions();
+  const { selectedMethod, setSelectedMethod, processPayment } = usePaymentOptions();
 
   const calculatePrice = () => {
     // Band-spezifische Basispreise (Standard-Tickets)
@@ -1134,13 +908,10 @@ function CashDeskInterface() {
       }
     };
 
-    const basePrice = selectedConcert
-      ? getBandBasePrice(selectedConcert.id)
-      : TICKET_PRICES.STANDARD;
+    const basePrice = selectedConcert ? getBandBasePrice(selectedConcert.id) : TICKET_PRICES.STANDARD;
 
     // VIP/Backstage Aufpreise
-    const categoryMultiplier =
-      ticketCategory === "vip" ? 1.5 : ticketCategory === "backstage" ? 2.2 : 1;
+    const categoryMultiplier = ticketCategory === "vip" ? 1.5 : ticketCategory === "backstage" ? 2.2 : 1;
     const paperSurcharge = ticketType === "paper" ? 5 : 0;
 
     return (basePrice * categoryMultiplier + paperSurcharge) * quantity;
@@ -1174,8 +945,7 @@ function CashDeskInterface() {
         backstage: "VIP", // VIP includes backstage
       };
 
-      const ticketType =
-        ticketTypeMap[ticketCategory as keyof typeof ticketTypeMap];
+      const ticketType = ticketTypeMap[ticketCategory as keyof typeof ticketTypeMap];
 
       const requestData = {
         eventId: String(selectedConcert.id || "fallback-event-id"), // Ensure string type
@@ -1239,8 +1009,7 @@ function CashDeskInterface() {
       let errorMessage = "Unbekannter Fehler";
 
       if (error instanceof TypeError && error.message === "Failed to fetch") {
-        errorMessage =
-          "Netzwerk-Fehler: Server nicht erreichbar. Bitte prüfe deine Internetverbindung.";
+        errorMessage = "Netzwerk-Fehler: Server nicht erreichbar. Bitte prüfe deine Internetverbindung.";
       } else if (error instanceof Error) {
         errorMessage = error.message;
       }
@@ -1330,17 +1099,11 @@ function CashDeskInterface() {
           {purchaseSuccess ? (
             <div className="text-center py-16">
               <div className="text-8xl mb-8">✅</div>
-              <h3 className="text-4xl font-bold text-green-400 mb-6">
-                Kauf erfolgreich!
-              </h3>
-              <div className="text-xl text-gray-300 mb-8">
-                Ihre Tickets wurden erfolgreich über Stripe verarbeitet.
-              </div>
+              <h3 className="text-4xl font-bold text-green-400 mb-6">Kauf erfolgreich!</h3>
+              <div className="text-xl text-gray-300 mb-8">Ihre Tickets wurden erfolgreich über Stripe verarbeitet.</div>
 
               <div className="bg-green-900/30 border border-green-500 rounded-lg p-6 mb-8 max-w-2xl mx-auto">
-                <h4 className="text-green-400 font-bold text-lg mb-4">
-                  🎫 Ticket-Details
-                </h4>
+                <h4 className="text-green-400 font-bold text-lg mb-4">🎫 Ticket-Details</h4>
                 {purchaseData && (
                   <div className="text-left space-y-2">
                     <div>
@@ -1350,15 +1113,13 @@ function CashDeskInterface() {
                       🎤 <strong>Konzert:</strong> {selectedConcert?.band}
                     </div>
                     <div>
-                      🎫 <strong>Kategorie:</strong>{" "}
-                      {ticketCategory.toUpperCase()}
+                      🎫 <strong>Kategorie:</strong> {ticketCategory.toUpperCase()}
                     </div>
                     <div>
                       🔢 <strong>Anzahl:</strong> {quantity}
                     </div>
                     <div>
-                      💰 <strong>Preis:</strong> CHF{" "}
-                      {calculatePrice().toFixed(2)}
+                      💰 <strong>Preis:</strong> CHF {calculatePrice().toFixed(2)}
                     </div>
                     <div>
                       💳 <strong>Zahlung:</strong> Stripe (SSL-gesichert)
@@ -1371,17 +1132,13 @@ function CashDeskInterface() {
                   ? `Ihre Tickets wurden an ${customerData.email} gesendet!`
                   : `Ihre Tickets werden an ${customerData.address} verschickt!`}
               </p>
-              <p className="text-xl text-gray-400">
-                Vielen Dank für Ihren Kauf! 🎉
-              </p>
+              <p className="text-xl text-gray-400">Vielen Dank für Ihren Kauf! 🎉</p>
             </div>
           ) : !selectedConcert ? (
             <div>
-              <h3 className="text-2xl font-bold text-white mb-6">
-                Wählen Sie ein Konzert:
-              </h3>
+              <h3 className="text-2xl font-bold text-white mb-6">Wählen Sie ein Konzert:</h3>
               <div className="space-y-4">
-                {concerts.map((concert) => (
+                {concerts.map(concert => (
                   <button
                     key={concert.id}
                     onClick={() => setSelectedConcert(concert)}
@@ -1390,18 +1147,12 @@ function CashDeskInterface() {
                     <div className="flex items-center gap-6">
                       <div className="text-5xl">{concert.image}</div>
                       <div className="flex-1">
-                        <h4 className="text-2xl font-bold text-white mb-2">
-                          {concert.band}
-                        </h4>
-                        <p className="text-lg text-gray-400 mb-1">
-                          {concert.description}
-                        </p>
+                        <h4 className="text-2xl font-bold text-white mb-2">{concert.band}</h4>
+                        <p className="text-lg text-gray-400 mb-1">{concert.description}</p>
                         <div className="flex gap-6 text-base text-gray-300">
                           <span>📅 {concert.date}</span>
                           <span>🏟️ {concert.venue}</span>
-                          <span className="text-green-400 font-bold">
-                            💰 {concert.price}
-                          </span>
+                          <span className="text-green-400 font-bold">💰 {concert.price}</span>
                         </div>
                       </div>
                       <div className="text-3xl text-purple-400">→</div>
@@ -1417,9 +1168,7 @@ function CashDeskInterface() {
                 <div className="flex items-center gap-6">
                   <div className="text-6xl">{selectedConcert.image}</div>
                   <div>
-                    <h3 className="text-3xl font-bold text-white">
-                      {selectedConcert.band}
-                    </h3>
+                    <h3 className="text-3xl font-bold text-white">{selectedConcert.band}</h3>
                     <p className="text-xl text-gray-300">
                       {selectedConcert.date} • {selectedConcert.venue}
                     </p>
@@ -1429,9 +1178,7 @@ function CashDeskInterface() {
 
               {/* Ticket-Typ Auswahl */}
               <div>
-                <label className="block text-xl font-bold text-white mb-4">
-                  🎟️ Ticket-Art:
-                </label>
+                <label className="block text-xl font-bold text-white mb-4">🎟️ Ticket-Art:</label>
                 <div className="grid grid-cols-2 gap-4">
                   <button
                     onClick={() => {
@@ -1445,12 +1192,8 @@ function CashDeskInterface() {
                     }`}
                   >
                     <div className="text-4xl mb-3">📱</div>
-                    <h4 className="text-xl font-bold text-white mb-2">
-                      Virtuelles Ticket
-                    </h4>
-                    <p className="text-base text-gray-300">
-                      Per E-Mail sofort erhalten
-                    </p>
+                    <h4 className="text-xl font-bold text-white mb-2">Virtuelles Ticket</h4>
+                    <p className="text-base text-gray-300">Per E-Mail sofort erhalten</p>
                   </button>
                   <button
                     onClick={() => {
@@ -1464,24 +1207,18 @@ function CashDeskInterface() {
                     }`}
                   >
                     <div className="text-4xl mb-3">📮</div>
-                    <h4 className="text-xl font-bold text-white mb-2">
-                      Papier-Ticket
-                    </h4>
-                    <p className="text-base text-gray-300">
-                      Per Post zugestellt (+CHF 5)
-                    </p>
+                    <h4 className="text-xl font-bold text-white mb-2">Papier-Ticket</h4>
+                    <p className="text-base text-gray-300">Per Post zugestellt (+CHF 5)</p>
                   </button>
                 </div>
               </div>
 
               {/* Ticket-Kategorie */}
               <div>
-                <label className="block text-xl font-bold text-white mb-4">
-                  🎭 Kategorie:
-                </label>
+                <label className="block text-xl font-bold text-white mb-4">🎭 Kategorie:</label>
                 <select
                   value={ticketCategory}
-                  onChange={(e) => setTicketCategory(e.target.value as any)}
+                  onChange={e => setTicketCategory(e.target.value as any)}
                   className="w-full p-4 bg-gray-800 text-white text-xl rounded-xl border-2 border-gray-600 focus:border-purple-500 focus:outline-none"
                 >
                   <option value="standard">Standard</option>
@@ -1492,9 +1229,7 @@ function CashDeskInterface() {
 
               {/* Anzahl */}
               <div>
-                <label className="block text-xl font-bold text-white mb-4">
-                  🔢 Anzahl:
-                </label>
+                <label className="block text-xl font-bold text-white mb-4">🔢 Anzahl:</label>
                 <div className="flex items-center gap-6">
                   <button
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
@@ -1502,9 +1237,7 @@ function CashDeskInterface() {
                   >
                     −
                   </button>
-                  <span className="text-3xl font-bold text-white min-w-[60px] text-center">
-                    {quantity}
-                  </span>
+                  <span className="text-3xl font-bold text-white min-w-[60px] text-center">{quantity}</span>
                   <button
                     onClick={() => setQuantity(Math.min(10, quantity + 1))}
                     className="px-8 py-4 bg-gray-700 hover:bg-gray-600 text-white text-2xl rounded-xl"
@@ -1517,18 +1250,14 @@ function CashDeskInterface() {
               {/* Kundendaten */}
               <div className="space-y-4">
                 <h3 className="text-xl font-bold text-white">
-                  {ticketType === "digital"
-                    ? "📧 E-Mail-Adresse:"
-                    : "📮 Lieferadresse:"}
+                  {ticketType === "digital" ? "📧 E-Mail-Adresse:" : "📮 Lieferadresse:"}
                 </h3>
 
                 <input
                   type="text"
                   placeholder="Name"
                   value={customerData.name}
-                  onChange={(e) =>
-                    setCustomerData({ ...customerData, name: e.target.value })
-                  }
+                  onChange={e => setCustomerData({ ...customerData, name: e.target.value })}
                   className="w-full p-4 bg-gray-800 text-white text-lg rounded-xl border-2 border-gray-600 focus:border-purple-500 focus:outline-none"
                 />
 
@@ -1536,9 +1265,7 @@ function CashDeskInterface() {
                   type="email"
                   placeholder="E-Mail"
                   value={customerData.email}
-                  onChange={(e) =>
-                    setCustomerData({ ...customerData, email: e.target.value })
-                  }
+                  onChange={e => setCustomerData({ ...customerData, email: e.target.value })}
                   className="w-full p-4 bg-gray-800 text-white text-lg rounded-xl border-2 border-gray-600 focus:border-purple-500 focus:outline-none"
                 />
 
@@ -1548,7 +1275,7 @@ function CashDeskInterface() {
                       type="text"
                       placeholder="Straße & Hausnummer"
                       value={customerData.address}
-                      onChange={(e) =>
+                      onChange={e =>
                         setCustomerData({
                           ...customerData,
                           address: e.target.value,
@@ -1561,7 +1288,7 @@ function CashDeskInterface() {
                         type="text"
                         placeholder="PLZ"
                         value={customerData.zipCode}
-                        onChange={(e) =>
+                        onChange={e =>
                           setCustomerData({
                             ...customerData,
                             zipCode: e.target.value,
@@ -1573,7 +1300,7 @@ function CashDeskInterface() {
                         type="text"
                         placeholder="Stadt"
                         value={customerData.city}
-                        onChange={(e) =>
+                        onChange={e =>
                           setCustomerData({
                             ...customerData,
                             city: e.target.value,
@@ -1586,7 +1313,7 @@ function CashDeskInterface() {
                       type="text"
                       placeholder="Land"
                       value={customerData.country}
-                      onChange={(e) =>
+                      onChange={e =>
                         setCustomerData({
                           ...customerData,
                           country: e.target.value,
@@ -1600,9 +1327,7 @@ function CashDeskInterface() {
 
               {/* Zahlungsoptionen Sektion */}
               <div className="space-y-6">
-                <h3 className="text-xl font-bold text-white mb-4">
-                  💳 Zahlungsart auswählen
-                </h3>
+                <h3 className="text-xl font-bold text-white mb-4">💳 Zahlungsart auswählen</h3>
 
                 <PaymentOptions
                   selectedMethod={selectedMethod}
@@ -1615,22 +1340,13 @@ function CashDeskInterface() {
               {/* Gesamtpreis & Kaufen */}
               <div className="bg-gradient-to-r from-green-900/50 to-blue-900/50 p-6 rounded-2xl border-2 border-green-500">
                 <div className="flex justify-between items-center mb-6">
-                  <span className="text-2xl font-bold text-white">
-                    Gesamtpreis:
-                  </span>
-                  <span className="text-4xl font-bold text-green-400">
-                    CHF {calculatePrice().toFixed(2)}
-                  </span>
+                  <span className="text-2xl font-bold text-white">Gesamtpreis:</span>
+                  <span className="text-4xl font-bold text-green-400">CHF {calculatePrice().toFixed(2)}</span>
                 </div>
 
                 <button
                   onClick={handlePurchase}
-                  disabled={
-                    isPurchasing ||
-                    !customerData.name ||
-                    !customerData.email ||
-                    !selectedMethod
-                  }
+                  disabled={isPurchasing || !customerData.name || !customerData.email || !selectedMethod}
                   className="w-full py-6 bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-500 hover:to-blue-500 disabled:from-gray-600 disabled:to-gray-700 text-white text-2xl font-bold rounded-xl transition-all disabled:cursor-not-allowed shadow-lg"
                 >
                   {isPurchasing ? (
@@ -1680,33 +1396,15 @@ function CashDeskInterface() {
 }
 
 // Hauptkomponente mit responsivem Metal Pulse Design
-export default function TicketStage({
-  isFullscreen = false,
-  onRoomChange,
-  onFullscreen,
-}: TicketStageProps) {
-  const [selectedConcert, setSelectedConcert] = useState<
-    (typeof concerts)[0] | null
-  >(null);
+export default function TicketStage({ isFullscreen = false, onRoomChange, onFullscreen }: TicketStageProps) {
+  const [selectedConcert, setSelectedConcert] = useState<(typeof concerts)[0] | null>(null);
   const [viewMode, setViewMode] = useState<"list" | "3d">("list");
 
   return (
-    <div
-      className={
-        isFullscreen
-          ? "h-screen bg-theme-primary overflow-hidden"
-          : "min-h-screen bg-theme-primary"
-      }
-    >
+    <div className={isFullscreen ? "h-screen bg-theme-primary overflow-hidden" : "min-h-screen bg-theme-primary"}>
       {/* Header */}
       <div className={isFullscreen ? "p-4" : "app-shell py-8"}>
-        <div
-          className={
-            isFullscreen
-              ? "bg-black/20 backdrop-blur-sm rounded-lg p-4 mb-4"
-              : "section-card mb-8"
-          }
-        >
+        <div className={isFullscreen ? "bg-black/20 backdrop-blur-sm rounded-lg p-4 mb-4" : "section-card mb-8"}>
           <div
             className={
               isFullscreen
@@ -1714,32 +1412,16 @@ export default function TicketStage({
                 : "flex flex-col lg:flex-row items-start justify-between gap-6"
             }
           >
-            <div
-              className={
-                isFullscreen
-                  ? "flex items-center gap-3"
-                  : "flex items-center gap-4"
-              }
-            >
-              <span
-                className={isFullscreen ? "text-3xl" : "text-4xl sm:text-5xl"}
-              >
-                🎫
-              </span>
+            <div className={isFullscreen ? "flex items-center gap-3" : "flex items-center gap-4"}>
+              <span className={isFullscreen ? "text-3xl" : "text-4xl sm:text-5xl"}>🎫</span>
               <div>
                 <h1
-                  className={
-                    isFullscreen
-                      ? "panel-heading text-xl sm:text-2xl"
-                      : "panel-heading text-2xl sm:text-4xl"
-                  }
+                  className={isFullscreen ? "panel-heading text-xl sm:text-2xl" : "panel-heading text-2xl sm:text-4xl"}
                 >
                   Metal Ticket Arena
                 </h1>
                 {!isFullscreen && (
-                  <p className="text-theme-secondary mt-2">
-                    Sichere dir Tickets für legendäre Metal-Konzerte
-                  </p>
+                  <p className="text-theme-secondary mt-2">Sichere dir Tickets für legendäre Metal-Konzerte</p>
                 )}
               </div>
             </div>
@@ -1761,10 +1443,7 @@ export default function TicketStage({
                 </button>
               )}
               {!isFullscreen && onRoomChange && (
-                <button
-                  onClick={() => onRoomChange("welcome")}
-                  className="button-primary flex-1 sm:flex-none"
-                >
+                <button onClick={() => onRoomChange("welcome")} className="button-primary flex-1 sm:flex-none">
                   ← Welcome Stage
                 </button>
               )}
@@ -1787,21 +1466,15 @@ export default function TicketStage({
             {/* Stats Grid */}
             <div className="content-grid">
               <div className="section-card text-center">
-                <p className="text-3xl font-bold text-orange-500 mb-2">
-                  {concerts.filter((c) => c.available).length}
-                </p>
+                <p className="text-3xl font-bold text-orange-500 mb-2">{concerts.filter(c => c.available).length}</p>
                 <p className="text-theme-secondary">Verfügbare Events</p>
               </div>
               <div className="section-card text-center">
-                <p className="text-3xl font-bold text-green-500 mb-2">
-                  CHF 89-189
-                </p>
+                <p className="text-3xl font-bold text-green-500 mb-2">CHF 89-189</p>
                 <p className="text-theme-secondary">Preisspanne</p>
               </div>
               <div className="section-card text-center">
-                <p className="text-3xl font-bold text-blue-500 mb-2">
-                  24 Bands
-                </p>
+                <p className="text-3xl font-bold text-blue-500 mb-2">24 Bands</p>
                 <p className="text-theme-secondary">Metal Vielfalt</p>
               </div>
             </div>
@@ -1814,12 +1487,8 @@ export default function TicketStage({
                   : "space-y-6"
               }
             >
-              {concerts.map((concert) => (
-                <TicketCard
-                  key={concert.id}
-                  concert={concert}
-                  onPurchase={() => setSelectedConcert(concert)}
-                />
+              {concerts.map(concert => (
+                <TicketCard key={concert.id} concert={concert} onPurchase={() => setSelectedConcert(concert)} />
               ))}
             </div>
           </div>
@@ -1849,14 +1518,9 @@ export default function TicketStage({
                 <div className="flex flex-wrap items-center justify-between gap-4 text-sm">
                   <div className="flex gap-4">
                     <span className="text-theme-secondary">WASD: Bewegung</span>
-                    <span className="text-theme-secondary">
-                      Maus: Umschauen
-                    </span>
+                    <span className="text-theme-secondary">Maus: Umschauen</span>
                   </div>
-                  <button
-                    onClick={() => setViewMode("list")}
-                    className="button-primary text-sm"
-                  >
+                  <button onClick={() => setViewMode("list")} className="button-primary text-sm">
                     📋 Liste anzeigen
                   </button>
                 </div>
@@ -1867,24 +1531,13 @@ export default function TicketStage({
       </div>
 
       {/* Purchase Modal */}
-      {selectedConcert && (
-        <PurchaseModal
-          concert={selectedConcert}
-          onClose={() => setSelectedConcert(null)}
-        />
-      )}
+      {selectedConcert && <PurchaseModal concert={selectedConcert} onClose={() => setSelectedConcert(null)} />}
     </div>
   );
 }
 
 // Responsive Ticket Card mit Metal Pulse Design
-function TicketCard({
-  concert,
-  onPurchase,
-}: {
-  concert: any;
-  onPurchase: () => void;
-}) {
+function TicketCard({ concert, onPurchase }: { concert: any; onPurchase: () => void }) {
   return (
     <article className="section-card hover:border-theme-accent transition-all duration-300 group overflow-hidden">
       {/* Header Section mit Icon und Category */}
@@ -1893,35 +1546,31 @@ function TicketCard({
         <div className="chip text-xs">{concert.category}</div>
       </div>
 
-      {/* Band Info - Zentriert */}
+      {/* Band Info - Komplett Zentriert */}
       <div className="text-center mb-6">
-        <h3 className="panel-heading text-2xl sm:text-3xl text-theme-accent mb-2">
-          {concert.band}
-        </h3>
-        <p className="text-theme-secondary text-sm sm:text-base">
-          {concert.description}
-        </p>
+        <h2 className="panel-heading text-3xl sm:text-4xl text-theme-accent mb-3">{concert.description}</h2>
+        <h3 className="panel-heading text-xl sm:text-2xl text-theme-primary mb-2">🎸 {concert.band} (Metal)</h3>
+        <div className="text-theme-secondary text-lg">
+          📍 {concert.venue} • 📅 {concert.date}
+        </div>
+        <div className="mt-3 text-green-500 font-bold text-lg">
+          🎫 Noch {concert.ticketsAvailable} Tickets verfügbar
+        </div>
       </div>
 
       {/* Kompakte Info-Leiste */}
       <div className="bg-theme-secondary/20 rounded-xl p-4 mb-6 space-y-3">
         <div className="flex items-center justify-between text-sm">
           <span className="text-theme-secondary">📅 Datum:</span>
-          <span className="font-semibold text-theme-primary">
-            {concert.date}
-          </span>
+          <span className="font-semibold text-theme-primary">{concert.date}</span>
         </div>
         <div className="flex items-center justify-between text-sm">
           <span className="text-theme-secondary">📍 Venue:</span>
-          <span className="font-semibold text-theme-primary">
-            {concert.venue}
-          </span>
+          <span className="font-semibold text-theme-primary">{concert.venue}</span>
         </div>
         <div className="flex items-center justify-between pt-3 border-t border-theme-secondary/30">
           <span className="text-orange-500 font-semibold">💰 Preis ab:</span>
-          <span className="text-2xl font-bold text-orange-500">
-            {concert.price}
-          </span>
+          <span className="text-2xl font-bold text-orange-500">{concert.price}</span>
         </div>
       </div>
 
@@ -1946,13 +1595,7 @@ function TicketCard({
 }
 
 // Responsive Purchase Modal mit Metal Pulse Design
-function PurchaseModal({
-  concert,
-  onClose,
-}: {
-  concert: any;
-  onClose: () => void;
-}) {
+function PurchaseModal({ concert, onClose }: { concert: any; onClose: () => void }) {
   const [currentStep, setCurrentStep] = useState(1);
   const [quantity, setQuantity] = useState(1);
   const [ticketType, setTicketType] = useState("STANDARD");
@@ -2021,11 +1664,7 @@ function PurchaseModal({
       }
     } catch (error) {
       console.error("Purchase error:", error);
-      alert(
-        `❌ Fehler: ${
-          error instanceof Error ? error.message : "Unbekannter Fehler"
-        }`
-      );
+      alert(`❌ Fehler: ${error instanceof Error ? error.message : "Unbekannter Fehler"}`);
     } finally {
       setIsProcessing(false);
     }
@@ -2039,9 +1678,7 @@ function PurchaseModal({
           <div className="flex items-center gap-4">
             <span className="text-4xl sm:text-5xl">{concert.image}</span>
             <div>
-              <h2 className="panel-heading text-xl sm:text-2xl">
-                {concert.band}
-              </h2>
+              <h2 className="panel-heading text-xl sm:text-2xl">{concert.band}</h2>
               <p className="text-theme-secondary">
                 {concert.date} • {concert.venue}
               </p>
@@ -2057,13 +1694,11 @@ function PurchaseModal({
 
         {/* Progress Indicator */}
         <div className="flex items-center justify-center gap-2 sm:gap-4 mb-8">
-          {[1, 2, 3].map((step) => (
+          {[1, 2, 3].map(step => (
             <div key={step} className="flex items-center">
               <div
                 className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold transition-colors ${
-                  currentStep >= step
-                    ? "bg-orange-500 text-black"
-                    : "bg-theme-secondary text-theme-primary"
+                  currentStep >= step ? "bg-orange-500 text-black" : "bg-theme-secondary text-theme-primary"
                 }`}
               >
                 {step}
@@ -2089,10 +1724,10 @@ function PurchaseModal({
                 </label>
                 <select
                   value={quantity}
-                  onChange={(e) => setQuantity(Number(e.target.value))}
+                  onChange={e => setQuantity(Number(e.target.value))}
                   className="w-full bg-theme-secondary border border-theme-secondary rounded-lg px-4 py-3 text-theme-primary focus:border-orange-500 focus:outline-none"
                 >
-                  {[1, 2, 3, 4, 5, 6].map((num) => (
+                  {[1, 2, 3, 4, 5, 6].map(num => (
                     <option key={num} value={num}>
                       {num} Ticket{num > 1 ? "s" : ""}
                     </option>
@@ -2101,31 +1736,21 @@ function PurchaseModal({
               </div>
 
               <div className="glass-panel p-4">
-                <label className="block text-sm uppercase tracking-wide text-theme-secondary mb-2">
-                  Kategorie
-                </label>
+                <label className="block text-sm uppercase tracking-wide text-theme-secondary mb-2">Kategorie</label>
                 <select
                   value={ticketType}
-                  onChange={(e) => setTicketType(e.target.value)}
+                  onChange={e => setTicketType(e.target.value)}
                   className="w-full bg-theme-secondary border border-theme-secondary rounded-lg px-4 py-3 text-theme-primary focus:border-orange-500 focus:outline-none"
                 >
-                  <option value="STANDARD">
-                    Standard - CHF {getTicketPrice("STANDARD")}
-                  </option>
+                  <option value="STANDARD">Standard - CHF {getTicketPrice("STANDARD")}</option>
                   <option value="VIP">VIP - CHF {getTicketPrice("VIP")}</option>
-                  <option value="BACKSTAGE">
-                    Backstage - CHF {getTicketPrice("BACKSTAGE")}
-                  </option>
+                  <option value="BACKSTAGE">Backstage - CHF {getTicketPrice("BACKSTAGE")}</option>
                 </select>
               </div>
 
               <div className="glass-panel p-4 border border-orange-500">
-                <p className="text-sm uppercase tracking-wide text-orange-500 mb-2">
-                  Gesamtpreis
-                </p>
-                <p className="text-2xl font-bold text-orange-500">
-                  CHF {totalPrice.toFixed(2)}
-                </p>
+                <p className="text-sm uppercase tracking-wide text-orange-500 mb-2">Gesamtpreis</p>
+                <p className="text-2xl font-bold text-orange-500">CHF {totalPrice.toFixed(2)}</p>
                 <p className="text-xs text-theme-secondary">inkl. MwSt.</p>
               </div>
             </div>
@@ -2134,27 +1759,21 @@ function PurchaseModal({
               <h3 className="panel-heading text-lg">Kontaktdaten</h3>
               <div className="layout-grid two-column">
                 <div>
-                  <label className="block text-sm text-theme-secondary mb-2">
-                    E-Mail *
-                  </label>
+                  <label className="block text-sm text-theme-secondary mb-2">E-Mail *</label>
                   <input
                     type="email"
                     value={customerEmail}
-                    onChange={(e) => setCustomerEmail(e.target.value)}
+                    onChange={e => setCustomerEmail(e.target.value)}
                     className="w-full bg-theme-secondary border border-theme-secondary rounded-lg px-4 py-3 text-theme-primary focus:border-orange-500 focus:outline-none"
                     required
                   />
                 </div>
                 <div>
-                  <label className="block text-sm text-theme-secondary mb-2">
-                    Name *
-                  </label>
+                  <label className="block text-sm text-theme-secondary mb-2">Name *</label>
                   <input
                     type="text"
                     value={customerData.name}
-                    onChange={(e) =>
-                      setCustomerData({ ...customerData, name: e.target.value })
-                    }
+                    onChange={e => setCustomerData({ ...customerData, name: e.target.value })}
                     className="w-full bg-theme-secondary border border-theme-secondary rounded-lg px-4 py-3 text-theme-primary focus:border-orange-500 focus:outline-none"
                     required
                   />
@@ -2184,9 +1803,7 @@ function PurchaseModal({
               <p className="text-theme-secondary">
                 {quantity}x {ticketType} für {concert.band}
               </p>
-              <p className="text-2xl font-bold text-orange-500 mt-2">
-                CHF {totalPrice.toFixed(2)}
-              </p>
+              <p className="text-2xl font-bold text-orange-500 mt-2">CHF {totalPrice.toFixed(2)}</p>
             </div>
 
             <PaymentOptions
@@ -2197,10 +1814,7 @@ function PurchaseModal({
             />
 
             <div className="action-row">
-              <button
-                onClick={() => setCurrentStep(1)}
-                className="button-secondary"
-              >
+              <button onClick={() => setCurrentStep(1)} className="button-secondary">
                 ← Zurück
               </button>
               <button
@@ -2224,17 +1838,11 @@ function PurchaseModal({
         {currentStep === 3 && (
           <div className="text-center space-y-6">
             <div className="text-6xl mb-4">✅</div>
-            <h3 className="panel-heading text-2xl text-green-500">
-              Kauf erfolgreich!
-            </h3>
+            <h3 className="panel-heading text-2xl text-green-500">Kauf erfolgreich!</h3>
             <div className="glass-panel p-6">
-              <p className="text-theme-secondary mb-4">
-                Ihre Tickets für {concert.band} wurden erfolgreich gekauft.
-              </p>
+              <p className="text-theme-secondary mb-4">Ihre Tickets für {concert.band} wurden erfolgreich gekauft.</p>
               <p className="text-theme-primary">
-                Tickets wurden an{" "}
-                <strong className="text-orange-500">{customerEmail}</strong>{" "}
-                gesendet.
+                Tickets wurden an <strong className="text-orange-500">{customerEmail}</strong> gesendet.
               </p>
             </div>
             <button onClick={onClose} className="button-primary">

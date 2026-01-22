@@ -93,88 +93,135 @@ export default function DashboardPage() {
   const email = session?.user?.email ?? "";
 
   return (
-    <div className="min-h-screen bg-black text-white flex items-center justify-center pt-16">
-      <div className="w-full max-w-7xl mx-auto px-6 py-12 flex flex-col items-center space-y-24">
-        {/* Header Section */}
-        <header className="w-full max-w-6xl mx-auto">
-          <div className="bg-gray-900 rounded-xl p-8 border border-gray-700 hover:border-orange-500 transition-all duration-300">
-            <div className="flex flex-wrap items-start justify-between gap-6">
-              <div className="flex flex-col items-center md:items-start text-center md:text-left">
-                <p className="text-sm uppercase tracking-[0.3em] text-orange-400 font-mono">Welcome back</p>
-                <h1 className="text-4xl md:text-5xl font-bold text-orange-400 font-mono mt-3">{displayName}</h1>
-                <p className="text-gray-300 mt-3 text-lg">{email}</p>
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white pt-16 flex justify-center">
+      {/* Zentraler Container mit maximaler Breite */}
+      <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Header Section - Modernes Card Design */}
+        <div className="mb-12">
+          <div className="bg-gradient-to-r from-gray-800/80 to-gray-900/80 backdrop-blur-sm rounded-2xl p-8 border border-blue-500/20 shadow-2xl hover:border-blue-500/40 transition-all duration-500">
+            <div className="grid lg:grid-cols-3 gap-8 items-center">
+              {/* User Info */}
+              <div className="lg:col-span-2">
+                <div className="flex items-center space-x-4 mb-4">
+                  <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-2xl font-bold">
+                    {displayName.charAt(0).toUpperCase()}
+                  </div>
+                  <div>
+                    <p className="text-sm uppercase tracking-widest text-blue-400 font-mono mb-1">WELCOME BACK</p>
+                    <h1 className="text-3xl md:text-4xl font-bold text-white">{displayName}</h1>
+                    <p className="text-gray-400 mt-1">{email}</p>
+                  </div>
+                </div>
               </div>
-              <div className="bg-gray-800 border border-gray-600 rounded-lg px-6 py-5 min-w-[250px] text-center hover:border-orange-500 transition-all duration-300">
-                <p className="text-gray-400 text-sm font-mono">Environment</p>
-                <p className="text-2xl font-bold text-orange-400 font-mono my-2">Metal Pulse</p>
-                <p className="text-gray-400 text-sm font-mono">Release v2.3.1-testing</p>
+
+              {/* Environment Info */}
+              <div className="bg-gradient-to-br from-blue-500/20 to-indigo-600/20 border border-blue-500/30 rounded-xl p-6 text-center">
+                <p className="text-blue-400 text-sm font-mono uppercase tracking-wide mb-2">Environment</p>
+                <p className="text-2xl font-bold text-white mb-2">Metal Pulse</p>
+                <p className="text-gray-300 text-sm font-mono">Release v2.3.1-testing</p>
               </div>
             </div>
-            <div className="flex flex-col md:flex-row gap-4 mt-8 justify-center">
+
+            {/* Action Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 mt-8 justify-center items-center max-w-md mx-auto">
               <a
-                className="bg-orange-600 hover:bg-orange-700 text-white font-bold py-4 px-8 rounded-lg text-lg transition-colors duration-200 shadow-lg hover:shadow-xl text-center"
                 href="/tickets"
+                className="w-full sm:w-auto bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold py-4 px-8 rounded-xl text-center transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
               >
                 🎫 Tickets kaufen
               </a>
               <button
-                className="bg-gray-700 hover:bg-gray-600 text-white font-bold py-4 px-8 rounded-lg text-lg transition-colors duration-200 text-center border border-gray-600 hover:border-orange-500"
                 onClick={() => (window.location.href = "/")}
+                className="w-full sm:w-auto bg-gray-700/50 hover:bg-gray-600/50 border border-gray-600 hover:border-blue-500 text-white font-bold py-4 px-8 rounded-xl transition-all duration-300"
               >
                 🏠 Zurück zur Platform
               </button>
             </div>
           </div>
-        </header>
+        </div>
 
-        {/* Quick Stats Grid */}
-        <section className="w-full max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-orange-400 font-mono mb-10 text-center">📊 Quick Stats</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 justify-items-center">
-            {QUICK_STATS.map(stat => (
-              <article
+        {/* Quick Stats Grid - Modernisiert und zentriert */}
+        <div className="mb-12">
+          <h2 className="text-3xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500 mb-8">
+            📊 Quick Stats
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {QUICK_STATS.map((stat, index) => (
+              <div
                 key={stat.label}
-                className="bg-gray-900 rounded-xl p-6 border border-gray-700 hover:border-orange-500 hover:shadow-2xl transition-all duration-300 w-full max-w-sm text-center"
+                className={`bg-gradient-to-br from-gray-800/60 to-gray-900/60 backdrop-blur-sm rounded-2xl p-6 border border-gray-700/50 hover:border-blue-500/50 transition-all duration-300 transform hover:scale-105 hover:shadow-2xl text-center ${
+                  index === 0
+                    ? "hover:shadow-blue-500/20"
+                    : index === 1
+                      ? "hover:shadow-green-500/20"
+                      : index === 2
+                        ? "hover:shadow-purple-500/20"
+                        : "hover:shadow-cyan-500/20"
+                }`}
               >
-                <p className="text-sm text-orange-400 uppercase mb-3 font-mono tracking-wide">{stat.label}</p>
-                <p className="text-3xl font-bold text-white mb-3 font-mono">{stat.value}</p>
-                <p className="text-gray-300 text-sm leading-relaxed">{stat.detail}</p>
-              </article>
+                <div className="text-center">
+                  <p className="text-xs uppercase tracking-widest text-gray-400 font-mono mb-3">{stat.label}</p>
+                  <p
+                    className={`text-3xl font-bold mb-2 ${
+                      index === 0
+                        ? "text-blue-400"
+                        : index === 1
+                          ? "text-green-400"
+                          : index === 2
+                            ? "text-purple-400"
+                            : "text-cyan-400"
+                    }`}
+                  >
+                    {stat.value}
+                  </p>
+                  <p className="text-gray-300 text-sm leading-relaxed">{stat.detail}</p>
+                </div>
+              </div>
             ))}
           </div>
-        </section>
+        </div>
 
-        {/* Control Blocks Section */}
-        <section className="w-full max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-orange-400 font-mono mb-10 text-center">⚙️ System Control</h2>
-          <div className="bg-gray-900 rounded-xl p-8 border border-gray-700">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              {CONTROL_BLOCKS.map(block => (
-                <article
-                  key={block.title}
-                  className="bg-gray-800 border border-gray-600 rounded-lg p-8 hover:border-orange-500 transition-all duration-300 flex flex-col items-center text-center"
-                >
-                  <h3 className="text-2xl font-bold text-orange-400 font-mono mb-6 text-center">{block.title}</h3>
-                  <ul className="space-y-4 text-gray-300 max-w-md">
-                    {block.bullets.map(bullet => (
-                      <li key={bullet} className="flex items-start text-sm leading-relaxed text-left">
-                        <span className="text-orange-400 mr-3 font-bold text-lg">•</span>
-                        <span className="flex-1">{bullet}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </article>
-              ))}
-            </div>
+        {/* System Control Section - Verbessert */}
+        <div className="mb-12">
+          <h2 className="text-3xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500 mb-8">
+            ⚙️ System Control
+          </h2>
+          <div className="grid lg:grid-cols-2 gap-8">
+            {CONTROL_BLOCKS.map((block, index) => (
+              <div
+                key={block.title}
+                className={`bg-gradient-to-br from-gray-800/60 to-gray-900/60 backdrop-blur-sm rounded-2xl p-8 border border-gray-700/50 hover:border-blue-500/50 transition-all duration-300 transform hover:scale-[1.02] ${
+                  index === 0
+                    ? "hover:shadow-2xl hover:shadow-blue-500/10"
+                    : "hover:shadow-2xl hover:shadow-purple-500/10"
+                }`}
+              >
+                <h3 className={`text-2xl font-bold mb-6 ${index === 0 ? "text-blue-400" : "text-purple-400"}`}>
+                  {block.title}
+                </h3>
+                <ul className="space-y-4">
+                  {block.bullets.map((bullet, bulletIndex) => (
+                    <li key={bulletIndex} className="flex items-start text-gray-300 leading-relaxed">
+                      <span
+                        className={`mr-3 font-bold text-lg flex-shrink-0 ${
+                          index === 0 ? "text-blue-400" : "text-purple-400"
+                        }`}
+                      >
+                        •
+                      </span>
+                      <span className="text-sm">{bullet}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
-        </section>
+        </div>
 
-        {/* User Dashboard Component */}
-        <section className="w-full max-w-6xl mx-auto">
-          <div className="bg-gray-900 rounded-xl border border-gray-700 overflow-hidden">
-            <UserDashboard />
-          </div>
-        </section>
+        {/* User Dashboard Component - Proper Integration */}
+        <div className="bg-gradient-to-br from-gray-800/40 to-gray-900/40 backdrop-blur-sm rounded-2xl border border-gray-700/50 overflow-hidden">
+          <UserDashboard />
+        </div>
       </div>
     </div>
   );
