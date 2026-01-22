@@ -50,25 +50,16 @@ export default function UserStatus({ onOpenAuth }: Props) {
         {isDropdownOpen && (
           <>
             {/* Backdrop */}
-            <div
-              className="fixed inset-0 z-40"
-              onClick={() => setIsDropdownOpen(false)}
-            />
+            <div className="fixed inset-0 z-40" onClick={() => setIsDropdownOpen(false)} />
 
             <div className="absolute right-0 mt-3 w-64 backdrop-blur-xl bg-black/90 border-2 border-theme-primary/30 rounded-2xl shadow-2xl z-50 animate-in fade-in slide-in-from-top-2 duration-200">
-              <div className="p-2">
-                <div className="px-4 py-3 mb-2 bg-gradient-to-r from-orange-500/20 to-red-600/20 rounded-xl border border-theme-accent/30">
-                  <div className="font-bold text-theme-primary">
-                    {session.user?.name}
-                  </div>
-                  <div className="text-xs text-theme-secondary truncate">
-                    {session.user?.email}
-                  </div>
+              <div className="p-4">
+                <div className="px-4 py-4 mb-4 bg-gradient-to-r from-orange-500/20 to-red-600/20 rounded-xl border border-theme-accent/30">
+                  <div className="font-bold text-theme-primary">{session.user?.name}</div>
+                  <div className="text-xs text-theme-secondary truncate">{session.user?.email}</div>
                   <div className="mt-2 flex items-center gap-2">
                     <span className="px-2 py-1 text-xs font-bold rounded-full bg-theme-accent/20 text-theme-accent border border-theme-accent/30">
-                      {session.user?.role === "BAND_MEMBER"
-                        ? "🎤 Band Member"
-                        : "🎸 Fan"}
+                      {session.user?.role === "BAND_MEMBER" ? "🎤 Band Member" : "🎸 Fan"}
                     </span>
                   </div>
                 </div>
@@ -78,7 +69,7 @@ export default function UserStatus({ onOpenAuth }: Props) {
                     setIsDropdownOpen(false);
                     window.location.href = "/dashboard";
                   }}
-                  className="w-full flex items-center gap-3 px-4 py-3 text-left text-theme-secondary hover:text-theme-primary hover:bg-theme-secondary/50 rounded-xl transition-all duration-200 hover:scale-102"
+                  className="w-full flex items-center gap-4 px-4 py-3 mb-2 text-left text-theme-secondary hover:text-theme-primary hover:bg-theme-secondary/50 rounded-xl transition-all duration-200 hover:scale-102"
                 >
                   <span className="text-xl">🎫</span>
                   <span className="font-medium text-sm">Zugänge & Tickets</span>
@@ -89,7 +80,7 @@ export default function UserStatus({ onOpenAuth }: Props) {
                     setIsDropdownOpen(false);
                     // Navigate to profile
                   }}
-                  className="w-full flex items-center gap-3 px-4 py-3 text-left text-theme-secondary hover:text-theme-primary hover:bg-theme-secondary/50 rounded-xl transition-all duration-200 hover:scale-102"
+                  className="w-full flex items-center gap-4 px-4 py-3 mb-2 text-left text-theme-secondary hover:text-theme-primary hover:bg-theme-secondary/50 rounded-xl transition-all duration-200 hover:scale-102"
                 >
                   <span className="text-xl">👤</span>
                   <span className="font-medium text-sm">Profil bearbeiten</span>
@@ -101,14 +92,14 @@ export default function UserStatus({ onOpenAuth }: Props) {
                       setIsDropdownOpen(false);
                       // Navigation to band dashboard
                     }}
-                    className="w-full flex items-center gap-3 px-4 py-3 text-left text-theme-secondary hover:text-theme-primary hover:bg-theme-secondary/50 rounded-xl transition-all duration-200 hover:scale-102"
+                    className="w-full flex items-center gap-4 px-4 py-3 mb-2 text-left text-theme-secondary hover:text-theme-primary hover:bg-theme-secondary/50 rounded-xl transition-all duration-200 hover:scale-102"
                   >
                     <span className="text-xl">🎤</span>
                     <span className="font-medium text-sm">Band Dashboard</span>
                   </button>
                 )}
 
-                <div className="my-2 border-t border-theme-secondary/30"></div>
+                <div className="my-4 border-t border-theme-secondary/30"></div>
 
                 <button
                   onClick={() => {
@@ -118,7 +109,7 @@ export default function UserStatus({ onOpenAuth }: Props) {
                       redirect: true,
                     });
                   }}
-                  className="w-full flex items-center gap-3 px-4 py-3 text-left text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-xl transition-all duration-200 hover:scale-102"
+                  className="w-full flex items-center gap-4 px-4 py-3 text-left text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-xl transition-all duration-200 hover:scale-102"
                 >
                   <span className="text-xl">🚪</span>
                   <span className="font-bold text-sm">Logout</span>

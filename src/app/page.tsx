@@ -29,10 +29,7 @@ import { IntroPage } from "@/features/intro/components";
 // - Moved to specific admin areas only
 // import { AdminButton } from "@/features/admin/components";
 
-const ROOM_META: Record<
-  string,
-  { label: string; icon: string; description: string; helper: string }
-> = {
+const ROOM_META: Record<string, { label: string; icon: string; description: string; helper: string }> = {
   welcome: {
     label: "Welcome Stage",
     icon: "🎸",
@@ -43,36 +40,31 @@ const ROOM_META: Record<
   gallery: {
     label: "Band Gallery",
     icon: "🖼️",
-    description:
-      "Entdecke legendäre Metal-Bands. Nutze WASD + Maus oder tauche per Fullscreen tiefer ein.",
+    description: "Entdecke legendäre Metal-Bands. Nutze WASD + Maus oder tauche per Fullscreen tiefer ein.",
     helper: "Visual Showcase & Lore",
   },
   stadium: {
     label: "Metal Arena",
     icon: "🏟️",
-    description:
-      "Erlebe das Metal Arena Stadion mit 360° Rundgang. Optimal in Vollbild werden Bühne & Crowd sichtbar.",
+    description: "Erlebe das Metal Arena Stadion mit 360° Rundgang. Optimal in Vollbild werden Bühne & Crowd sichtbar.",
     helper: "Main Concert Experience",
   },
   ticket: {
     label: "Ticket Arena",
     icon: "🎫",
-    description:
-      "Kaufe Tickets direkt an den Automaten. Räume betreten, Konzert wählen, Zahlung abschließen.",
+    description: "Kaufe Tickets direkt an den Automaten. Räume betreten, Konzert wählen, Zahlung abschließen.",
     helper: "Checkout Flow",
   },
   backstage: {
     label: "Backstage VIP",
     icon: "🎭",
-    description:
-      "VIP Lounge mit Band Content & exklusiven Clips. Ideal für Partner & Sponsoren.",
+    description: "VIP Lounge mit Band Content & exklusiven Clips. Ideal für Partner & Sponsoren.",
     helper: "Premium Area",
   },
   community: {
     label: "Community Hub",
     icon: "💬",
-    description:
-      "Treffe andere Metal-Fans, chatten, teilen & gemeinsam streamen.",
+    description: "Treffe andere Metal-Fans, chatten, teilen & gemeinsam streamen.",
     helper: "Social Layer",
   },
 };
@@ -131,12 +123,7 @@ export default function Home() {
         />
       </div>
 
-      {!isFullscreen && (
-        <NavigationSidebar
-          activeRoom={activeRoom}
-          onRoomChange={handleRoomChange}
-        />
-      )}
+      {!isFullscreen && <NavigationSidebar activeRoom={activeRoom} onRoomChange={handleRoomChange} />}
 
       <main className="relative z-10 pt-20 pb-24">
         {!isFullscreen && (
@@ -149,35 +136,23 @@ export default function Home() {
                 </div>
 
                 <div className="flex items-center gap-5">
-                  <div className="h-16 w-16 rounded-3xl bg-gradient-to-br from-orange-500 to-pink-600 flex items-center justify-center text-3xl shadow-lg">
+                  <div className="h-16 w-16 rounded-3xl bg-linear-to-br from-orange-500 to-pink-600 flex items-center justify-center text-3xl shadow-lg">
                     {activeMeta.icon}
                   </div>
                   <div>
-                    <p className="text-xs uppercase tracking-[0.2em] text-theme-secondary">
-                      Aktueller Modus
-                    </p>
-                    <h1 className="text-3xl font-black tracking-tight">
-                      {activeMeta.label}
-                    </h1>
+                    <p className="text-xs uppercase tracking-[0.2em] text-theme-secondary">Aktueller Modus</p>
+                    <h1 className="text-3xl font-black tracking-tight">{activeMeta.label}</h1>
                   </div>
                 </div>
 
-                <p className="text-theme-secondary text-base leading-relaxed">
-                  {activeMeta.description}
-                </p>
+                <p className="text-theme-secondary text-base leading-relaxed">{activeMeta.description}</p>
 
                 <div className="action-row">
-                  <button
-                    onClick={() => setShowIntro(true)}
-                    className="button-secondary w-full sm:w-auto"
-                  >
+                  <button onClick={() => setShowIntro(true)} className="button-secondary w-full sm:w-auto">
                     <span className="text-xl">🌌</span>
                     Cosmic Intro
                   </button>
-                  <button
-                    onClick={handleEnterFullscreen}
-                    className="button-primary w-full sm:w-auto"
-                  >
+                  <button onClick={handleEnterFullscreen} className="button-primary w-full sm:w-auto">
                     <span className="text-xl">🎮</span>
                     Enter 3D Game Mode
                   </button>
@@ -188,27 +163,19 @@ export default function Home() {
                 <div className="panel-heading">
                   <span>🧭 Navigationsstatus</span>
                 </div>
-                <p className="text-theme-secondary text-sm">
-                  {activeMeta.helper}
-                </p>
+                <p className="text-theme-secondary text-sm">{activeMeta.helper}</p>
                 <div className="stat-grid">
-                  {MOVEMENT_TIPS.map((tip) => (
+                  {MOVEMENT_TIPS.map(tip => (
                     <div
                       key={tip.label}
                       className="glass-panel border border-theme-secondary p-4 rounded-2xl flex flex-col items-center justify-center text-center"
                     >
-                      <p className="text-xs uppercase tracking-wide text-theme-secondary">
-                        {tip.label}
-                      </p>
-                      <p className="text-xl font-semibold text-theme-primary">
-                        {tip.value}
-                      </p>
+                      <p className="text-xs uppercase tracking-wide text-theme-secondary">{tip.label}</p>
+                      <p className="text-xl font-semibold text-theme-primary">{tip.value}</p>
                     </div>
                   ))}
                   <div className="glass-panel border border-theme-secondary p-4 rounded-2xl flex flex-col items-center justify-center text-center">
-                    <p className="text-xs uppercase tracking-wide text-theme-secondary">
-                      Aktiver Raum
-                    </p>
+                    <p className="text-xs uppercase tracking-wide text-theme-secondary">Aktiver Raum</p>
                     <p className="text-xl font-semibold">{activeMeta.label}</p>
                   </div>
                 </div>
@@ -223,38 +190,26 @@ export default function Home() {
                   </h2>
                   <ul className="space-y-3 text-theme-secondary text-sm">
                     <li>• WASD zum Navigieren · Maus zum Umschauen</li>
-                    <li>
-                      • SHIFT aktiviert Sprint, SPACE springt (wenn verfügbar)
-                    </li>
+                    <li>• SHIFT aktiviert Sprint, SPACE springt (wenn verfügbar)</li>
                     <li>• ESC beendet den Fullscreen Game Mode</li>
                   </ul>
                 </div>
                 <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-theme-primary">
-                    Schnellzugriff
-                  </h3>
+                  <h3 className="text-lg font-semibold text-theme-primary">Schnellzugriff</h3>
                   <div className="stat-grid">
                     <button
                       onClick={() => handleRoomChange("ticket")}
                       className="glass-panel p-4 text-center hover:border-theme-primary transition-colors flex flex-col items-center justify-center"
                     >
-                      <p className="text-sm text-theme-secondary">
-                        Ticket Arena
-                      </p>
-                      <p className="text-lg font-semibold text-theme-primary">
-                        🎫 Checkout öffnen
-                      </p>
+                      <p className="text-sm text-theme-secondary">Ticket Arena</p>
+                      <p className="text-lg font-semibold text-theme-primary">🎫 Checkout öffnen</p>
                     </button>
                     <button
                       onClick={() => handleRoomChange("stadium")}
                       className="glass-panel p-4 text-center hover:border-theme-primary transition-colors flex flex-col items-center justify-center"
                     >
-                      <p className="text-sm text-theme-secondary">
-                        Metal Arena
-                      </p>
-                      <p className="text-lg font-semibold text-theme-primary">
-                        🏟️ Bühne betreten
-                      </p>
+                      <p className="text-sm text-theme-secondary">Metal Arena</p>
+                      <p className="text-lg font-semibold text-theme-primary">🏟️ Bühne betreten</p>
                     </button>
                   </div>
                 </div>
@@ -268,7 +223,7 @@ export default function Home() {
             className={
               isFullscreen
                 ? ""
-                : "rounded-[32px] border border-theme-secondary bg-black/30 p-2 shadow-[0_20px_60px_rgba(0,0,0,0.55)]"
+                : "rounded-4xl border border-theme-secondary bg-black/30 p-2 shadow-[0_20px_60px_rgba(0,0,0,0.55)]"
             }
           >
             {activeRoom === "welcome" && (
@@ -276,17 +231,14 @@ export default function Home() {
                 onRoomChange={handleRoomChange}
                 isFullscreen={isFullscreen}
                 onFullscreen={handleToggleFullscreen}
-                onOpenAuth={(mode) => {
+                onOpenAuth={mode => {
                   // Auth handled internally in WelcomeStage now
                   console.log("Auth handled in WelcomeStage:", mode);
                 }}
               />
             )}
             {activeRoom === "gallery" && (
-              <BandGalleryRoom
-                onRoomChange={handleRoomChange}
-                isFullscreen={isFullscreen}
-              />
+              <BandGalleryRoom onRoomChange={handleRoomChange} isFullscreen={isFullscreen} />
             )}
             {activeRoom === "stadium" && (
               <StadionRoom
@@ -297,16 +249,10 @@ export default function Home() {
             )}
             {/* Future rooms */}
             {activeRoom === "community" && (
-              <CommunityRoom
-                onRoomChange={handleRoomChange}
-                isFullscreen={isFullscreen}
-              />
+              <CommunityRoom onRoomChange={handleRoomChange} isFullscreen={isFullscreen} />
             )}
             {activeRoom === "backstage" && (
-              <BackstageRoom
-                onRoomChange={handleRoomChange}
-                isFullscreen={isFullscreen}
-              />
+              <BackstageRoom onRoomChange={handleRoomChange} isFullscreen={isFullscreen} />
             )}
             {/* {activeRoom === "shop" && <MerchShopRoom />} */}
             {activeRoom === "contact" && (

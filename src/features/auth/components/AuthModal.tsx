@@ -11,24 +11,17 @@ interface Props {
   initialMode?: "login" | "signup";
 }
 
-export default function AuthModal({
-  isOpen,
-  onClose,
-  initialMode = "login",
-}: Props) {
+export default function AuthModal({ isOpen, onClose, initialMode = "login" }: Props) {
   const [mode, setMode] = useState<"login" | "signup">(initialMode);
 
   const toggleMode = () => {
-    setMode((prevMode) => (prevMode === "login" ? "signup" : "login"));
+    setMode(prevMode => (prevMode === "login" ? "signup" : "login"));
   };
 
   if (!isOpen) return null;
 
   return (
-    <div
-      className="fixed inset-0 z-[99999] overflow-y-auto auth-modal"
-      style={{ zIndex: 99999 }}
-    >
+    <div className="fixed inset-0 z-99999 overflow-y-auto auth-modal" style={{ zIndex: 99999 }}>
       {/*Backdrop with Blur*/}
       <div
         className="fixed inset-0 bg-black/70 backdrop-blur-sm transition-opacity animate-in fade-in duration-300"

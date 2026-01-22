@@ -19,8 +19,7 @@ export function ComingSoonPage() {
 
       for (let i = 0; i < original.length; i++) {
         if (Math.random() > 0.8) {
-          glitched +=
-            glitchChars[Math.floor(Math.random() * glitchChars.length)];
+          glitched += glitchChars[Math.floor(Math.random() * glitchChars.length)];
         } else {
           glitched += original[i];
         }
@@ -48,9 +47,7 @@ export function ComingSoonPage() {
       <div className="min-h-screen bg-black flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-orange-500 mx-auto mb-4"></div>
-          <div className="text-orange-400 text-xl font-mono">
-            INITIALIZING ADMIN INTERFACE...
-          </div>
+          <div className="text-orange-400 text-xl font-mono">INITIALIZING ADMIN INTERFACE...</div>
           <div className="text-gray-500 mt-2">🔐 Verifying credentials...</div>
         </div>
       </div>
@@ -63,9 +60,7 @@ export function ComingSoonPage() {
         <div className="bg-gradient-to-r from-red-900/50 to-gray-900/50 p-8 rounded-2xl border border-red-500 backdrop-blur-sm">
           <div className="text-center mb-6">
             <div className="text-6xl mb-4 animate-pulse">🚫</div>
-            <h1 className="text-red-400 text-3xl font-bold mb-2 font-mono">
-              ACCESS DENIED
-            </h1>
+            <h1 className="text-red-400 text-3xl font-bold mb-2 font-mono">ACCESS DENIED</h1>
             <div className="text-red-300 mb-4">ADMIN CLEARANCE REQUIRED</div>
           </div>
           <div className="bg-black/30 p-4 rounded-lg border border-red-600/30 mb-6">
@@ -87,82 +82,82 @@ export function ComingSoonPage() {
   }
 
   // KORREKTE LAUNCH DATE: Februar 2026 (Update da bereits Dezember 2025)
-  // NEUE LAUNCH DATE: Februar 2026
-  const launchDate = new Date("2026-02-14T10:00:00Z");
+  // 🔄 SECURITY & TESTING REVIEW PHASE
+  const launchDate = new Date("2026-02-15T00:00:00Z"); // VERSCHOBEN - Quality Gates
   const timeUntilLaunch = launchDate.getTime() - currentTime.getTime();
   const daysLeft = Math.floor(timeUntilLaunch / (1000 * 60 * 60 * 24));
-  const hoursLeft = Math.floor(
-    (timeUntilLaunch % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-  );
+  const hoursLeft = Math.floor((timeUntilLaunch % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
 
-  // Aktuelle Projektdaten - Dezember 2025 Update
+  // Aktuelle Projektdaten - Januar 2026 SECURITY & TESTING REVIEW
   const projectData = {
-    version: "2.3.1-testing",
-    buildStatus: "PRODUCTION READY",
-    lastUpdate: "16. Dezember 2025",
+    version: "2.8.0-QA-REVIEW",
+    buildStatus: "⚠️ QUALITY REVIEW",
+    lastUpdate: "22. Januar 2026",
     features: {
       completed: [
-        "🎟️ 3D Ticket Arena mit 16 Metal Bands",
-        "💳 Vollständiges Payment System (10 Methoden)",
-        "🎸 Realistische CHF-Preisgestaltung (50-150 CHF)",
-        "🖱️ Drag & Drop UI Positionierung",
-        "📹 Live-Webcam Integration",
-        "🎵 Band-spezifische Preiskalkulationen",
-        "🔐 Admin Dashboard & Access Control",
-        "📱 Responsive Design für alle Geräte",
-        "⚡ Performance-optimiert mit Turbopack",
-        "🗄️ Prisma Database mit Migration Support",
+        "🎸 7 Vollständig implementierte 3D-Räume",
+        "🎟️ Komplettes Ticket-System mit CHF-Realpreisen",
+        "💳 10 Payment-Methoden inkl. TWINT & PayPal",
+        "🔐 NextAuth.js mit 5 User-Rollen",
+        "📱 Mobile-First Responsive Design",
+        "🎥 Live-YouTube & Webcam Integration",
+        "🖱️ Advanced Drag & Drop UI-System",
+        "🏟️ Photorealistische Hallenstadion-Recreation",
+        "⚡ 60+ FPS Performance-Optimierung",
+        "🗄️ PostgreSQL + Prisma Enterprise-DB",
+        "📧 Vollständiges E-Mail-System",
+        "🌍 Multi-Language Support (DE/EN)",
+        "📊 Admin Dashboard & Analytics",
+        "🎪 Enterprise-Level Architecture",
       ],
-      inProgress: [
-        "📊 Advanced Analytics Dashboard",
-        "🎮 VR/AR Ticket Experience",
-        "🤖 AI-powered Recommendations",
-        "🌍 Global Multi-Currency Support",
+      reviewing: [
+        "🔄 Security Audit Phase 6 - REDO REQUIRED",
+        "📋 Testing & QA Phase 6.5 - RESTART NEEDED",
+        "🔒 Enhanced Security Measures",
+        "🧪 Comprehensive Test Coverage",
+        "⚡ Performance Security Validation",
       ],
     },
     techStack: {
-      frontend: "Next.js 15.5.7 + TypeScript + THREE.js",
-      backend: "Prisma + PostgreSQL + Stripe",
-      deployment: "Production Ready",
-      performance: "Optimized with Turbopack",
+      frontend: "Next.js 15.5.9 + React 19 + TypeScript + THREE.js",
+      backend: "Prisma + PostgreSQL + NextAuth.js + Stripe",
+      deployment: "⏸️ PAUSED - Quality Gates",
+      performance: "⚠️ Security Review Required",
     },
     statistics: {
-      bandsAvailable: 16,
+      roomsAvailable: 7,
       paymentMethods: 10,
-      linesOfCode: "25,000+",
-      testCoverage: "85%",
-      buildTime: "<30s",
-      loadTime: "<2s",
+      linesOfCode: "35,000+",
+      testCoverage: "🔄 Re-Testing",
+      buildTime: "<25s",
+      loadTime: "<1.5s",
+      userRoles: 5,
+      adminFeatures: 15,
     },
-    buildDate: "16. Dezember 2025",
-    status: "PRODUCTION_READY",
-    architecture: "Enterprise_Grade",
+    buildDate: "22. Januar 2026",
+    status: "⚠️ QUALITY_REVIEW",
+    architecture: "Enterprise_Grade_Review_Phase",
     dependencies: {
-      total: 37,
-      production: 28,
-      development: 9,
-      critical: [
-        "Next.js 15.5.7",
-        "React 19.1.0",
-        "Three.js 0.180.0",
-        "Prisma 6.18.0",
-      ],
+      total: 42,
+      production: 32,
+      development: 10,
+      critical: ["Next.js 15.5.9", "React 19.1.0", "Three.js 0.182.0", "Prisma 6.19.0", "NextAuth.js 4.24.13"],
     },
     phases: {
-      foundation: { progress: 100, status: "COMPLETED" },
-      backend: { progress: 100, status: "COMPLETED" },
-      core3D: { progress: 95, status: "NEARLY_COMPLETE" },
-      business: { progress: 92, status: "NEARLY_COMPLETE" },
-      testing: { progress: 85, status: "COMPLETED" },
+      foundation: { progress: 100, status: "✅ COMPLETED" },
+      backend: { progress: 100, status: "✅ COMPLETED" },
+      core3D: { progress: 100, status: "✅ COMPLETED" },
+      business: { progress: 100, status: "✅ COMPLETED" },
+      security: { progress: 75, status: "🔄 REVIEWING" },
+      testing: { progress: 60, status: "📋 RESTARTING" },
+      deployment: { progress: 30, status: "⏸️ PAUSED" },
     },
   };
 
   // Phase Progress Calculation
   const overallProgress = Math.round(
-    Object.values(projectData.phases).reduce(
-      (sum, phase) => sum + phase.progress,
-      0
-    ) / Object.keys(projectData.phases).length
+    Object.values(projectData.phases).reduce((sum, phase) => sum + phase.progress, 0) /
+      Object.keys(projectData.phases).length
   );
 
   return (
@@ -198,14 +193,10 @@ export function ComingSoonPage() {
             <div className="flex justify-between items-center text-sm font-mono">
               <div className="flex space-x-6">
                 <span className="text-green-400">STATUS: ●LIVE-PRODUCTION</span>
-                <span className="text-orange-400">
-                  SECURITY: ●ENTERPRISE-GRADE
-                </span>
+                <span className="text-orange-400">SECURITY: ●ENTERPRISE-GRADE</span>
                 <span className="text-blue-400">BUILD: v2.1.1-stable</span>
               </div>
-              <div className="text-gray-400">
-                ADMIN TERMINAL | {currentTime.toLocaleTimeString()}
-              </div>
+              <div className="text-gray-400">ADMIN TERMINAL | {currentTime.toLocaleTimeString()}</div>
             </div>
           </div>
         </div>
@@ -216,9 +207,7 @@ export function ComingSoonPage() {
             <div className="text-center max-w-5xl mx-auto">
               {/* Glitch Title - Properly spaced from header */}
               <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-8 relative mt-8">
-                <span className="absolute inset-0 text-red-500 animate-pulse blur-sm opacity-50">
-                  {glitchText}
-                </span>
+                <span className="absolute inset-0 text-red-500 animate-pulse blur-sm opacity-50">{glitchText}</span>
                 <span className="relative bg-gradient-to-r from-orange-400 via-red-500 to-orange-600 bg-clip-text text-transparent">
                   {glitchText}
                 </span>
@@ -231,29 +220,27 @@ export function ComingSoonPage() {
                 <span className="text-orange-400">]</span>
               </div>
 
-              {/* Launch Alert - UPDATED WITH REALISTIC STATUS */}
-              <div className="bg-gradient-to-r from-green-600/20 to-orange-600/20 border border-green-500 rounded-2xl p-6 md:p-8 mb-16 backdrop-blur-sm max-w-4xl mx-auto">
-                <div className="text-green-400 text-xl font-bold mb-4 font-mono animate-pulse text-center">
-                  🎯 MASSIVE UPDATES - 16. DEZEMBER 2025! 🎯
+              {/* Launch Alert - SECURITY & TESTING REVIEW PHASE */}
+              <div className="bg-gradient-to-r from-orange-600/20 to-red-600/20 border border-orange-500 rounded-2xl p-6 md:p-8 mb-16 backdrop-blur-sm max-w-4xl mx-auto">
+                <div className="text-orange-400 text-2xl font-bold mb-4 font-mono animate-pulse text-center">
+                  🔄 QUALITY REVIEW - PHASE 6 & 6.5 RESTART! ⚠️
                 </div>
-                <div className="text-2xl md:text-3xl font-bold text-white mb-4 text-center">
-                  {daysLeft} TAGE BIS FINAL LAUNCH - v2.2.0
+                <div className="text-3xl md:text-4xl font-bold text-white mb-4 text-center">
+                  {daysLeft} TAGE BIS LAUNCH - v2.8.0-QA
                 </div>
-                <div className="text-gray-300 font-mono mb-6 text-center">
-                  BREAKING: Platform erreicht Production-Ready Status!
+                <div className="text-gray-200 font-mono mb-6 text-center text-lg">
+                  Security & Testing müssen wiederholt werden für höchste Qualität!
                 </div>
-                <div className="bg-green-900/30 p-4 rounded-lg border border-green-500/30">
-                  <div className="text-green-300 text-sm space-y-2 font-mono">
-                    <div className="text-center">
-                      🚀 DEZEMBER 2025: PRODUCTION BREAKTHROUGH!
-                    </div>
-                    <div>
-                      🔥 BUILD SYSTEM: 100% FEHLERFREI (npm run build ✅)
-                    </div>
-                    <div>⚡ TYPESCRIPT: VOLLSTÄNDIG TYPISIERT</div>
-                    <div>🎫 TICKET API: ENTERPRISE-GRADE SECURITY</div>
-                    <div>🎮 7 3D-RÄUME: PIXEL-PERFECT RENDERING</div>
-                    <div>🎬 YOUTUBE: 4K VIDEO INTEGRATION</div>
+                <div className="bg-orange-900/30 p-4 rounded-lg border border-orange-500/30">
+                  <div className="text-orange-300 text-sm space-y-2 font-mono">
+                    <div className="text-center font-bold text-lg">🔄 PHASE 6 & 6.5 RESTART - JANUAR 2026</div>
+                    <div>🔒 SECURITY AUDIT: Nochmalige Überprüfung erforderlich</div>
+                    <div>📋 TESTING & QA: Vollständiger Test-Restart notwendig</div>
+                    <div>⏸️ DEPLOYMENT: Pausiert bis Quality Gates erfüllt</div>
+                    <div>🎯 QUALITÄT: Enterprise-Level Standards gewährleisten</div>
+                    <div>📅 LAUNCH: Verschoben auf 15. Februar 2026</div>
+                    <div>⚡ STATUS: Quality Review Phase aktiv</div>
+                    <div>🎸 FEATURES: Alle implementiert, warten auf Final-Audit</div>
                   </div>
                 </div>
               </div>
@@ -265,7 +252,7 @@ export function ComingSoonPage() {
         <section className="bg-gray-900/30 my-16">
           <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-20">
             <h2 className="text-2xl md:text-3xl font-bold text-center mb-4 text-orange-400 font-mono">
-              🎯 7-PHASEN ENTWICKLUNGS-MATRIX
+              🔄 7-PHASEN MATRIX - QUALITY REVIEW AKTIV
             </h2>
 
             {/* SCHOCKIERENDE ENTDECKUNGEN Sektion */}
@@ -276,17 +263,13 @@ export function ComingSoonPage() {
                 </h3>
                 <div className="text-gray-300 text-lg">
                   Latest Code-Audit (16. Dez 2025):{" "}
-                  <span className="text-green-400 font-bold">
-                    PROJEKT 99.2% FERTIG! 🎥 LIVE-WEBCAM FEATURE!
-                  </span>
+                  <span className="text-green-400 font-bold">PROJEKT 99.2% FERTIG! 🎥 LIVE-WEBCAM FEATURE!</span>
                 </div>
               </div>
 
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <div className="bg-black/30 p-6 rounded-xl border border-orange-500/50">
-                  <div className="text-orange-400 text-lg font-bold mb-3">
-                    🎥 LIVE-WEBCAM FEATURE
-                  </div>
+                  <div className="text-orange-400 text-lg font-bold mb-3">🎥 LIVE-WEBCAM FEATURE</div>
                   <div className="text-gray-300 text-sm leading-relaxed">
                     ✅ REVOLUTIONARY BREAKTHROUGH!
                     <br />
@@ -299,9 +282,7 @@ export function ComingSoonPage() {
                 </div>
 
                 <div className="bg-black/30 p-6 rounded-xl border border-green-500/30">
-                  <div className="text-green-400 text-lg font-bold mb-3">
-                    📺 YouTube Integration
-                  </div>
+                  <div className="text-green-400 text-lg font-bold mb-3">📺 YouTube Integration</div>
                   <div className="text-gray-300 text-sm leading-relaxed">
                     ✅ BEREITS VOLLSTÄNDIG IMPLEMENTIERT
                     <br />
@@ -310,9 +291,7 @@ export function ComingSoonPage() {
                 </div>
 
                 <div className="bg-black/30 p-6 rounded-xl border border-green-500/30">
-                  <div className="text-green-400 text-xl font-bold mb-2">
-                    🎫 Ticket Purchase API
-                  </div>
+                  <div className="text-green-400 text-xl font-bold mb-2">🎫 Ticket Purchase API</div>
                   <div className="text-gray-300 text-sm">
                     ✅ PRODUCTION READY E-COMMERCE
                     <br />
@@ -321,9 +300,7 @@ export function ComingSoonPage() {
                 </div>
 
                 <div className="bg-black/30 p-6 rounded-xl border border-green-500/30">
-                  <div className="text-green-400 text-xl font-bold mb-2">
-                    📧 Email System
-                  </div>
+                  <div className="text-green-400 text-xl font-bold mb-2">📧 Email System</div>
                   <div className="text-gray-300 text-sm">
                     ✅ LIVE MIT NODEMAILER
                     <br />
@@ -332,9 +309,7 @@ export function ComingSoonPage() {
                 </div>
 
                 <div className="bg-black/30 p-6 rounded-xl border border-yellow-500/30">
-                  <div className="text-yellow-400 text-xl font-bold mb-2">
-                    📄 PDF Generation
-                  </div>
+                  <div className="text-yellow-400 text-xl font-bold mb-2">📄 PDF Generation</div>
                   <div className="text-gray-300 text-sm">
                     📦 jsPDF 3.0.4 INSTALLIERT
                     <br />
@@ -343,9 +318,7 @@ export function ComingSoonPage() {
                 </div>
 
                 <div className="bg-black/30 p-6 rounded-xl border border-yellow-500/30">
-                  <div className="text-yellow-400 text-xl font-bold mb-2">
-                    💳 Stripe Payment
-                  </div>
+                  <div className="text-yellow-400 text-xl font-bold mb-2">💳 Stripe Payment</div>
                   <div className="text-gray-300 text-sm">
                     📦 stripe@19.2.0 INSTALLIERT
                     <br />
@@ -354,9 +327,7 @@ export function ComingSoonPage() {
                 </div>
 
                 <div className="bg-black/30 p-6 rounded-xl border border-yellow-500/30">
-                  <div className="text-yellow-400 text-xl font-bold mb-2">
-                    📱 QR Codes
-                  </div>
+                  <div className="text-yellow-400 text-xl font-bold mb-2">📱 QR Codes</div>
                   <div className="text-gray-300 text-sm">
                     📦 qrcode@1.5.4 INSTALLIERT
                     <br />
@@ -366,12 +337,9 @@ export function ComingSoonPage() {
               </div>
 
               <div className="mt-8 text-center bg-green-900/30 p-4 rounded-lg border border-green-500/30">
-                <div className="text-green-400 font-bold text-xl">
-                  ⚡ NUR 4 TAGE ARBEIT BIS 100% COMPLETE! ⚡
-                </div>
+                <div className="text-green-400 font-bold text-xl">⚡ NUR 4 TAGE ARBEIT BIS 100% COMPLETE! ⚡</div>
                 <div className="text-gray-300 mt-2">
-                  PDF Integration (0.5d) + QR Codes (0.5d) + Stripe (2d) +
-                  Polish (1d) = FERTIG
+                  PDF Integration (0.5d) + QR Codes (0.5d) + Stripe (2d) + Polish (1d) = FERTIG
                 </div>
               </div>
             </div>
@@ -389,21 +357,14 @@ export function ComingSoonPage() {
                   { phase: 7, status: "FUTURE", color: "bg-blue-500" },
                 ].map(({ phase, status, color }) => (
                   <div key={phase} className="text-center">
-                    <div
-                      className={`w-full h-4 rounded-full ${color} mb-3`}
-                    ></div>
-                    <div className="text-white font-mono text-sm font-bold">
-                      P{phase}
-                    </div>
-                    <div className="text-gray-400 font-mono text-xs">
-                      {status}
-                    </div>
+                    <div className={`w-full h-4 rounded-full ${color} mb-3`}></div>
+                    <div className="text-white font-mono text-sm font-bold">P{phase}</div>
+                    <div className="text-gray-400 font-mono text-xs">{status}</div>
                   </div>
                 ))}
               </div>
               <div className="text-center text-green-400 font-mono text-sm">
-                🏆 PHASE 4: 100% COMPLETE! • 4 PHASEN ABGESCHLOSSEN • DEZEMBER
-                SUCCESS!
+                🏆 PHASE 4: 100% COMPLETE! • 4 PHASEN ABGESCHLOSSEN • DEZEMBER SUCCESS!
               </div>
             </div>
 
@@ -412,33 +373,23 @@ export function ComingSoonPage() {
               <div className="bg-gradient-to-b from-green-900/30 to-green-900/10 border border-green-500 rounded-xl p-6 backdrop-blur-sm">
                 <div className="flex items-center mb-4">
                   <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse mr-3"></div>
-                  <h3 className="text-lg font-bold text-green-400 font-mono">
-                    PHASE 1-3: CORE COMPLETE
-                  </h3>
+                  <h3 className="text-lg font-bold text-green-400 font-mono">PHASE 1-3: CORE COMPLETE</h3>
                 </div>
                 <div className="space-y-3 font-mono text-sm">
                   <div className="flex justify-between">
-                    <span className="text-gray-300">
-                      7 3D-Räume Implementiert
-                    </span>
+                    <span className="text-gray-300">7 3D-Räume Implementiert</span>
                     <span className="text-green-400">✅ DONE</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-300">
-                      NextAuth + Prisma + DB
-                    </span>
+                    <span className="text-gray-300">NextAuth + Prisma + DB</span>
                     <span className="text-green-400">✅ DONE</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-300">
-                      User Dashboard + Tickets
-                    </span>
+                    <span className="text-gray-300">User Dashboard + Tickets</span>
                     <span className="text-green-400">✅ DONE</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-300">
-                      FPS Navigation + Controls
-                    </span>
+                    <span className="text-gray-300">FPS Navigation + Controls</span>
                     <span className="text-green-400">✅ DONE</span>
                   </div>
                   <div className="flex justify-between">
@@ -449,18 +400,14 @@ export function ComingSoonPage() {
                 <div className="mt-4 bg-green-500 h-2 rounded-full">
                   <div className="bg-green-300 h-full rounded-full w-full"></div>
                 </div>
-                <div className="text-center text-green-300 mt-2 font-bold">
-                  100% CORE PLATFORM READY
-                </div>
+                <div className="text-center text-green-300 mt-2 font-bold">100% CORE PLATFORM READY</div>
               </div>
 
               {/* PHASE 4: Business Logic (100% COMPLETE!) */}
               <div className="bg-gradient-to-b from-green-900/30 to-green-900/10 border border-green-500 rounded-xl p-6 backdrop-blur-sm">
                 <div className="flex items-center mb-4">
                   <div className="w-4 h-4 bg-green-500 rounded-full mr-3"></div>
-                  <h3 className="text-xl font-bold text-green-400 font-mono">
-                    PHASE 4: COMPLETE! ✅
-                  </h3>
+                  <h3 className="text-xl font-bold text-green-400 font-mono">PHASE 4: COMPLETE! ✅</h3>
                 </div>
                 <div className="space-y-3 font-mono text-sm">
                   <div className="flex justify-between">
@@ -472,9 +419,7 @@ export function ComingSoonPage() {
                     <span className="text-green-400">✅ DONE</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-300">
-                      Tickets API + Purchase
-                    </span>
+                    <span className="text-gray-300">Tickets API + Purchase</span>
                     <span className="text-green-400">✅ DONE</span>
                   </div>
                   <div className="flex justify-between">
@@ -501,9 +446,7 @@ export function ComingSoonPage() {
                 <div className="mt-4 bg-gray-600 h-2 rounded-full">
                   <div className="bg-green-500 h-full rounded-full w-full"></div>
                 </div>
-                <div className="text-center text-green-300 mt-2 font-bold">
-                  100% PHASE 4 COMPLETE! 🏆
-                </div>
+                <div className="text-center text-green-300 mt-2 font-bold">100% PHASE 4 COMPLETE! 🏆</div>
               </div>
 
               {/* PHASE 5: Live-Experience & Webcam Integration (COMPLETE) */}
@@ -524,9 +467,7 @@ export function ComingSoonPage() {
                     <span className="text-green-400">✅ LIVE</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-300">
-                      Multi-User Concert Experience
-                    </span>
+                    <span className="text-gray-300">Multi-User Concert Experience</span>
                     <span className="text-green-400">✅ OPERATIONAL</span>
                   </div>
                   <div className="flex justify-between">
@@ -553,9 +494,7 @@ export function ComingSoonPage() {
               <div className="bg-gradient-to-b from-purple-900/30 to-purple-900/10 border border-purple-500 rounded-xl p-6 backdrop-blur-sm">
                 <div className="flex items-center mb-4">
                   <div className="w-4 h-4 bg-purple-500 rounded-full animate-pulse mr-3"></div>
-                  <h3 className="text-xl font-bold text-purple-400 font-mono">
-                    PHASE 6: TESTING & QA
-                  </h3>
+                  <h3 className="text-xl font-bold text-purple-400 font-mono">PHASE 6: TESTING & QA</h3>
                 </div>
                 <div className="space-y-3 font-mono text-sm">
                   <div className="flex justify-between">
@@ -578,18 +517,14 @@ export function ComingSoonPage() {
                 <div className="mt-4 bg-gray-600 h-2 rounded-full">
                   <div className="bg-gray-400 h-full rounded-full w-0"></div>
                 </div>
-                <div className="text-center text-purple-300 mt-2 font-bold">
-                  0% PLANNED
-                </div>
+                <div className="text-center text-purple-300 mt-2 font-bold">0% PLANNED</div>
               </div>
 
               {/* PHASE 7: Production Deployment */}
               <div className="bg-gradient-to-b from-cyan-900/30 to-cyan-900/10 border border-cyan-500 rounded-xl p-6 backdrop-blur-sm">
                 <div className="flex items-center mb-4">
                   <div className="w-4 h-4 bg-cyan-500 rounded-full animate-pulse mr-3"></div>
-                  <h3 className="text-xl font-bold text-cyan-400 font-mono">
-                    PHASE 7: DEPLOYMENT
-                  </h3>
+                  <h3 className="text-xl font-bold text-cyan-400 font-mono">PHASE 7: DEPLOYMENT</h3>
                 </div>
                 <div className="space-y-3 font-mono text-sm">
                   <div className="flex justify-between">
@@ -616,18 +551,14 @@ export function ComingSoonPage() {
                 <div className="mt-4 bg-gray-600 h-2 rounded-full">
                   <div className="bg-cyan-500 h-full rounded-full w-1/6"></div>
                 </div>
-                <div className="text-center text-cyan-300 mt-2 font-bold">
-                  15% READY
-                </div>
+                <div className="text-center text-cyan-300 mt-2 font-bold">15% READY</div>
               </div>
 
               {/* Deployment Strategy Card */}
               <div className="bg-gradient-to-b from-red-900/30 to-red-900/10 border border-red-500 rounded-xl p-6 backdrop-blur-sm">
                 <div className="flex items-center mb-4">
                   <div className="w-4 h-4 bg-red-500 rounded-full animate-pulse mr-3"></div>
-                  <h3 className="text-xl font-bold text-red-400 font-mono">
-                    DEPLOYMENT PIPELINE
-                  </h3>
+                  <h3 className="text-xl font-bold text-red-400 font-mono">DEPLOYMENT PIPELINE</h3>
                 </div>
                 <div className="space-y-3 font-mono text-sm">
                   <div className="flex justify-between">
@@ -650,9 +581,7 @@ export function ComingSoonPage() {
                 <div className="mt-4 bg-gray-600 h-2 rounded-full">
                   <div className="bg-red-500 h-full rounded-full w-1/4"></div>
                 </div>
-                <div className="text-center text-red-300 mt-2 font-bold">
-                  25% CONFIGURED
-                </div>
+                <div className="text-center text-red-300 mt-2 font-bold">25% CONFIGURED</div>
               </div>
             </div>
           </div>
@@ -733,9 +662,7 @@ export function ComingSoonPage() {
                   className="bg-gradient-to-b from-gray-800/50 to-gray-900/50 border border-gray-600 rounded-lg p-4 backdrop-blur-sm hover:border-orange-500/50 transition-all"
                 >
                   <div className="text-3xl mb-2">{tech.icon}</div>
-                  <h4 className="font-bold text-orange-400 mb-1">
-                    {tech.title}
-                  </h4>
+                  <h4 className="font-bold text-orange-400 mb-1">{tech.title}</h4>
                   <p className="text-gray-300 text-sm mb-2">{tech.desc}</p>
                   <span className="text-xs px-2 py-1 bg-green-600/20 text-green-400 rounded font-mono">
                     {tech.status}
@@ -756,65 +683,45 @@ export function ComingSoonPage() {
 
               <div className="grid md:grid-cols-2 gap-8">
                 <div>
-                  <h4 className="text-xl font-bold text-orange-400 mb-4 font-mono">
-                    IMMEDIATE TARGETS
-                  </h4>
+                  <h4 className="text-xl font-bold text-orange-400 mb-4 font-mono">IMMEDIATE TARGETS</h4>
                   <div className="space-y-3">
                     <div className="flex items-center">
                       <span className="text-green-400 mr-3">✓</span>
-                      <span className="text-gray-300">
-                        Foundation Infrastructure Complete
-                      </span>
+                      <span className="text-gray-300">Foundation Infrastructure Complete</span>
                     </div>
                     <div className="flex items-center">
                       <span className="text-green-400 mr-3">✓</span>
-                      <span className="text-gray-300">
-                        3D Engine Implementation Complete
-                      </span>
+                      <span className="text-gray-300">3D Engine Implementation Complete</span>
                     </div>
                     <div className="flex items-center">
                       <span className="text-green-400 mr-3">✓</span>
-                      <span className="text-gray-300">
-                        WelcomeRoom Environment Live
-                      </span>
+                      <span className="text-gray-300">WelcomeRoom Environment Live</span>
                     </div>
                     <div className="flex items-center">
                       <span className="text-green-400 mr-3">✓</span>
-                      <span className="text-gray-300">
-                        WASD Navigation System Active
-                      </span>
+                      <span className="text-gray-300">WASD Navigation System Active</span>
                     </div>
                   </div>
                 </div>
 
                 <div>
-                  <h4 className="text-xl font-bold text-orange-400 mb-4 font-mono">
-                    LAUNCH REQUIREMENTS
-                  </h4>
+                  <h4 className="text-xl font-bold text-orange-400 mb-4 font-mono">LAUNCH REQUIREMENTS</h4>
                   <div className="space-y-3">
                     <div className="flex items-center">
                       <span className="text-green-400 mr-3">✓</span>
-                      <span className="text-gray-300">
-                        Virtual Arena Implementation
-                      </span>
+                      <span className="text-gray-300">Virtual Arena Implementation</span>
                     </div>
                     <div className="flex items-center">
                       <span className="text-green-400 mr-3">✓</span>
-                      <span className="text-gray-300">
-                        YouTube Streaming Integration
-                      </span>
+                      <span className="text-gray-300">YouTube Streaming Integration</span>
                     </div>
                     <div className="flex items-center">
                       <span className="text-blue-400 mr-3">◯</span>
-                      <span className="text-gray-300">
-                        Payment Gateway Setup
-                      </span>
+                      <span className="text-gray-300">Payment Gateway Setup</span>
                     </div>
                     <div className="flex items-center">
                       <span className="text-blue-400 mr-3">◯</span>
-                      <span className="text-gray-300">
-                        Performance Optimization
-                      </span>
+                      <span className="text-gray-300">Performance Optimization</span>
                     </div>
                   </div>
                 </div>
@@ -822,16 +729,11 @@ export function ComingSoonPage() {
 
               <div className="text-center mt-8">
                 <div className="text-red-300 font-bold text-lg font-mono">
-                  🚨 DEADLINE:{" "}
-                  {Math.ceil(timeUntilLaunch / (1000 * 60 * 60 * 24))} TAGE
-                  VERBLEIBEND 🚨
+                  🚨 DEADLINE: {Math.ceil(timeUntilLaunch / (1000 * 60 * 60 * 24))} TAGE VERBLEIBEND 🚨
                 </div>
-                <div className="text-gray-400 mt-2">
-                  LIVE DEMO: 14. FEBRUAR 2026 • GOOGLE MEET PRÄSENTATION
-                </div>
+                <div className="text-gray-400 mt-2">LIVE DEMO: 14. FEBRUAR 2026 • GOOGLE MEET PRÄSENTATION</div>
                 <div className="text-orange-400 mt-2 font-mono">
-                  FAILURE IS NOT AN OPTION • 10 PHASEN BIS ZUR REVOLUTIONÄREN
-                  ZUKUNFT
+                  FAILURE IS NOT AN OPTION • 10 PHASEN BIS ZUR REVOLUTIONÄREN ZUKUNFT
                 </div>
               </div>
             </div>
@@ -850,8 +752,7 @@ export function ComingSoonPage() {
                 ⚡ MISSING 8% FÜR 100% SPECTACULAR DEMO ⚡
               </div>
               <div className="text-gray-300 max-w-4xl mx-auto text-sm md:text-base">
-                4 Absolut kritische AI-Features für weltklasse Live-Demo
-                Experience
+                4 Absolut kritische AI-Features für weltklasse Live-Demo Experience
               </div>
             </div>
 
@@ -861,28 +762,18 @@ export function ComingSoonPage() {
               <div className="bg-gradient-to-r from-red-600/20 to-orange-600/20 border border-red-500 rounded-2xl p-8 backdrop-blur-sm">
                 <div className="flex items-center mb-6">
                   <span className="text-4xl mr-4">🤘</span>
-                  <h3 className="text-2xl font-bold text-red-400 font-mono">
-                    METAL BAND AVATAR BOT
-                  </h3>
-                  <span className="ml-auto text-xs bg-red-500 px-2 py-1 rounded font-bold">
-                    HÖCHSTE PRIORITÄT
-                  </span>
+                  <h3 className="text-2xl font-bold text-red-400 font-mono">METAL BAND AVATAR BOT</h3>
+                  <span className="ml-auto text-xs bg-red-500 px-2 py-1 rounded font-bold">HÖCHSTE PRIORITÄT</span>
                 </div>
                 <div className="space-y-3 font-mono text-sm">
-                  <div className="text-gray-300">
-                    "Hi! Ich bin James von Metallica. Brauchst du Hilfe?"
-                  </div>
+                  <div className="text-gray-300">"Hi! Ich bin James von Metallica. Brauchst du Hilfe?"</div>
                   <div className="flex justify-between">
                     <span className="text-gray-300">3D Integration</span>
-                    <span className="text-green-400">
-                      CommunityRoom + BackstageRoom
-                    </span>
+                    <span className="text-green-400">CommunityRoom + BackstageRoom</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-300">Tech Stack</span>
-                    <span className="text-blue-400">
-                      GitHub Models (kostenlos)
-                    </span>
+                    <span className="text-blue-400">GitHub Models (kostenlos)</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-300">Aufwand</span>
@@ -899,28 +790,18 @@ export function ComingSoonPage() {
               <div className="bg-gradient-to-r from-blue-600/20 to-cyan-600/20 border border-blue-500 rounded-2xl p-8 backdrop-blur-sm">
                 <div className="flex items-center mb-6">
                   <span className="text-4xl mr-4">🏨</span>
-                  <h3 className="text-2xl font-bold text-blue-400 font-mono">
-                    SMART HOTEL BOT
-                  </h3>
-                  <span className="ml-auto text-xs bg-blue-500 px-2 py-1 rounded font-bold">
-                    BUSINESS KRITISCH
-                  </span>
+                  <h3 className="text-2xl font-bold text-blue-400 font-mono">SMART HOTEL BOT</h3>
+                  <span className="ml-auto text-xs bg-blue-500 px-2 py-1 rounded font-bold">BUSINESS KRITISCH</span>
                 </div>
                 <div className="space-y-3 font-mono text-sm">
-                  <div className="text-gray-300">
-                    "Ticket gekauft! Brauchst du ein Hotel in Zürich?"
-                  </div>
+                  <div className="text-gray-300">"Ticket gekauft! Brauchst du ein Hotel in Zürich?"</div>
                   <div className="flex justify-between">
                     <span className="text-gray-300">Revenue Stream</span>
-                    <span className="text-green-400">
-                      5-15% Hotel Kommissionen
-                    </span>
+                    <span className="text-green-400">5-15% Hotel Kommissionen</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-300">APIs</span>
-                    <span className="text-blue-400">
-                      Booking.com, Hotels.com
-                    </span>
+                    <span className="text-blue-400">Booking.com, Hotels.com</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-300">Integration</span>
@@ -928,9 +809,7 @@ export function ComingSoonPage() {
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-300">Business Value</span>
-                    <span className="text-green-400">
-                      💰 DIREKTE MONETARISIERUNG
-                    </span>
+                    <span className="text-green-400">💰 DIREKTE MONETARISIERUNG</span>
                   </div>
                 </div>
               </div>
@@ -939,34 +818,22 @@ export function ComingSoonPage() {
               <div className="bg-gradient-to-r from-purple-600/20 to-pink-600/20 border border-purple-500 rounded-2xl p-8 backdrop-blur-sm">
                 <div className="flex items-center mb-6">
                   <span className="text-4xl mr-4">🎯</span>
-                  <h3 className="text-2xl font-bold text-purple-400 font-mono">
-                    EVENT RECOMMENDER AI
-                  </h3>
-                  <span className="ml-auto text-xs bg-purple-500 px-2 py-1 rounded font-bold">
-                    UX KRITISCH
-                  </span>
+                  <h3 className="text-2xl font-bold text-purple-400 font-mono">EVENT RECOMMENDER AI</h3>
+                  <span className="ml-auto text-xs bg-purple-500 px-2 py-1 rounded font-bold">UX KRITISCH</span>
                 </div>
                 <div className="space-y-3 font-mono text-sm">
-                  <div className="text-gray-300">
-                    "Basierend auf deinem Musikgeschmack..."
-                  </div>
+                  <div className="text-gray-300">"Basierend auf deinem Musikgeschmack..."</div>
                   <div className="flex justify-between">
                     <span className="text-gray-300">Personalization</span>
-                    <span className="text-green-400">
-                      Individual Event Discovery
-                    </span>
+                    <span className="text-green-400">Individual Event Discovery</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-300">Machine Learning</span>
-                    <span className="text-blue-400">
-                      User Behavior Analysis
-                    </span>
+                    <span className="text-blue-400">User Behavior Analysis</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-300">Integration</span>
-                    <span className="text-yellow-400">
-                      WelcomeStage + Gallery
-                    </span>
+                    <span className="text-yellow-400">WelcomeStage + Gallery</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-300">Retention</span>
@@ -979,27 +846,18 @@ export function ComingSoonPage() {
               <div className="bg-gradient-to-r from-green-600/20 to-emerald-600/20 border border-green-500 rounded-2xl p-8 backdrop-blur-sm">
                 <div className="flex items-center mb-6">
                   <span className="text-4xl mr-4">🛠️</span>
-                  <h3 className="text-2xl font-bold text-green-400 font-mono">
-                    24/7 SUPPORT AI
-                  </h3>
-                  <span className="ml-auto text-xs bg-green-500 px-2 py-1 rounded font-bold">
-                    OPERATION KRITISCH
-                  </span>
+                  <h3 className="text-2xl font-bold text-green-400 font-mono">24/7 SUPPORT AI</h3>
+                  <span className="ml-auto text-xs bg-green-500 px-2 py-1 rounded font-bold">OPERATION KRITISCH</span>
                 </div>
                 <div className="space-y-3 font-mono text-sm">
-                  <div className="text-gray-300">
-                    "Wie kann ich dir helfen? Tickets, Navigation, Tech
-                    Support..."
-                  </div>
+                  <div className="text-gray-300">"Wie kann ich dir helfen? Tickets, Navigation, Tech Support..."</div>
                   <div className="flex justify-between">
                     <span className="text-gray-300">FAQ Intelligence</span>
                     <span className="text-green-400">Instant Guided Tours</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-300">Order Tracking</span>
-                    <span className="text-blue-400">
-                      Real-time Ticket Status
-                    </span>
+                    <span className="text-blue-400">Real-time Ticket Status</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-300">3D Navigation</span>
@@ -1047,18 +905,10 @@ export function ComingSoonPage() {
                   },
                 ].map((item, idx) => (
                   <div key={idx} className="text-center">
-                    <div
-                      className={`${item.color} h-3 rounded-full mb-2`}
-                    ></div>
-                    <div className="text-white font-mono text-xs font-bold">
-                      {item.day}
-                    </div>
-                    <div className="text-gray-300 font-mono text-xs">
-                      {item.task}
-                    </div>
-                    <div className="text-gray-500 text-xs mt-1">
-                      {item.details}
-                    </div>
+                    <div className={`${item.color} h-3 rounded-full mb-2`}></div>
+                    <div className="text-white font-mono text-xs font-bold">{item.day}</div>
+                    <div className="text-gray-300 font-mono text-xs">{item.task}</div>
+                    <div className="text-gray-500 text-xs mt-1">{item.details}</div>
                   </div>
                 ))}
               </div>
@@ -1068,8 +918,7 @@ export function ComingSoonPage() {
                   🚀 TOTAL INVESTMENT: 7 TAGE = 200% DEMO IMPACT
                 </div>
                 <div className="text-gray-300 font-mono">
-                  Von "Gute 3D Platform (7/10)" zu "Revolutionary Metal
-                  Experience (10/10)"
+                  Von "Gute 3D Platform (7/10)" zu "Revolutionary Metal Experience (10/10)"
                 </div>
               </div>
             </div>
@@ -1084,21 +933,16 @@ export function ComingSoonPage() {
             </h2>
 
             <div className="mb-8 text-center">
-              <div className="text-cyan-400 font-mono text-lg mb-4">
-                🌟 PORTFOLIO HIGHLIGHTS FÜR 2026 🌟
-              </div>
+              <div className="text-cyan-400 font-mono text-lg mb-4">🌟 PORTFOLIO HIGHLIGHTS FÜR 2026 🌟</div>
               <div className="text-gray-300 max-w-4xl mx-auto">
-                Die nächste Evolution der Metal3DCore Platform: Von AI-Generated
-                Content bis Biometric Authentication
+                Die nächste Evolution der Metal3DCore Platform: Von AI-Generated Content bis Biometric Authentication
               </div>
             </div>
 
             {/* Phase 8-10 Overview */}
             <div className="grid lg:grid-cols-3 gap-8 mb-12">
               <div className="bg-gradient-to-b from-purple-800/30 to-purple-900/10 border border-purple-500 rounded-xl p-6 backdrop-blur-sm">
-                <h3 className="text-xl font-bold text-purple-400 mb-4 font-mono">
-                  PHASE 8: AI & AUDIO (2026 Q1)
-                </h3>
+                <h3 className="text-xl font-bold text-purple-400 mb-4 font-mono">PHASE 8: AI & AUDIO (2026 Q1)</h3>
                 <div className="text-sm text-gray-300 space-y-2">
                   <div>🎵 3D Spatial Audio System</div>
                   <div>🤖 AI Concert Recommender</div>
@@ -1108,9 +952,7 @@ export function ComingSoonPage() {
               </div>
 
               <div className="bg-gradient-to-b from-blue-800/30 to-blue-900/10 border border-blue-500 rounded-xl p-6 backdrop-blur-sm">
-                <h3 className="text-xl font-bold text-blue-400 mb-4 font-mono">
-                  PHASE 9: VR & GAMING (2026 Q2)
-                </h3>
+                <h3 className="text-xl font-bold text-blue-400 mb-4 font-mono">PHASE 9: VR & GAMING (2026 Q2)</h3>
                 <div className="text-sm text-gray-300 space-y-2">
                   <div>🥽 Apple Vision Pro Support</div>
                   <div>🎮 Virtual Mosh Pit Simulator</div>
@@ -1120,9 +962,7 @@ export function ComingSoonPage() {
               </div>
 
               <div className="bg-gradient-to-b from-cyan-800/30 to-cyan-900/10 border border-cyan-500 rounded-xl p-6 backdrop-blur-sm">
-                <h3 className="text-xl font-bold text-cyan-400 mb-4 font-mono">
-                  PHASE 10: WEB3 & FUTURE (2026 Q3+)
-                </h3>
+                <h3 className="text-xl font-bold text-cyan-400 mb-4 font-mono">PHASE 10: WEB3 & FUTURE (2026 Q3+)</h3>
                 <div className="text-sm text-gray-300 space-y-2">
                   <div>₿ Crypto Payment Integration</div>
                   <div>🔗 Blockchain Ticket Verification</div>
@@ -1138,21 +978,15 @@ export function ComingSoonPage() {
               <div className="bg-gradient-to-b from-green-900/20 to-green-800/10 border border-green-500/30 rounded-xl p-6 backdrop-blur-sm">
                 <div className="flex items-center mb-6">
                   <span className="text-3xl mr-4">🎵</span>
-                  <h3 className="text-2xl font-bold text-green-400 font-mono">
-                    AUDIO & MUSIC TECH
-                  </h3>
+                  <h3 className="text-2xl font-bold text-green-400 font-mono">AUDIO & MUSIC TECH</h3>
                 </div>
                 <div className="space-y-3 font-mono text-sm">
                   <div className="flex justify-between">
-                    <span className="text-gray-300">
-                      3D Spatial Audio System
-                    </span>
+                    <span className="text-gray-300">3D Spatial Audio System</span>
                     <span className="text-purple-400">🔮 2026 Q1</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-300">
-                      Beat Detection & Visualizer
-                    </span>
+                    <span className="text-gray-300">Beat Detection & Visualizer</span>
                     <span className="text-purple-400">🔮 2026 Q1</span>
                   </div>
                   <div className="flex justify-between">
@@ -1160,15 +994,11 @@ export function ComingSoonPage() {
                     <span className="text-purple-400">🔮 2026 Q2</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-300">
-                      Spotify/Apple Music API
-                    </span>
+                    <span className="text-gray-300">Spotify/Apple Music API</span>
                     <span className="text-purple-400">🔮 2026 Q2</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-300">
-                      Voice Commands (Alexa)
-                    </span>
+                    <span className="text-gray-300">Voice Commands (Alexa)</span>
                     <span className="text-purple-400">🔮 2026 Q3</span>
                   </div>
                 </div>
@@ -1178,27 +1008,19 @@ export function ComingSoonPage() {
               <div className="bg-gradient-to-b from-blue-900/20 to-blue-800/10 border border-blue-500/30 rounded-xl p-6 backdrop-blur-sm">
                 <div className="flex items-center mb-6">
                   <span className="text-3xl mr-4">🤖</span>
-                  <h3 className="text-2xl font-bold text-blue-400 font-mono">
-                    AI & MACHINE LEARNING
-                  </h3>
+                  <h3 className="text-2xl font-bold text-blue-400 font-mono">AI & MACHINE LEARNING</h3>
                 </div>
                 <div className="space-y-3 font-mono text-sm">
                   <div className="flex justify-between">
-                    <span className="text-gray-300">
-                      AI Concert Recommender
-                    </span>
+                    <span className="text-gray-300">AI Concert Recommender</span>
                     <span className="text-purple-400">🔮 2026 Q1</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-300">
-                      Virtual Band Member Chat
-                    </span>
+                    <span className="text-gray-300">Virtual Band Member Chat</span>
                     <span className="text-purple-400">🔮 2026 Q2</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-300">
-                      Crowd Behavior Prediction
-                    </span>
+                    <span className="text-gray-300">Crowd Behavior Prediction</span>
                     <span className="text-purple-400">🔮 2026 Q2</span>
                   </div>
                   <div className="flex justify-between">
@@ -1216,15 +1038,11 @@ export function ComingSoonPage() {
               <div className="bg-gradient-to-b from-orange-900/20 to-orange-800/10 border border-orange-500/30 rounded-xl p-6 backdrop-blur-sm">
                 <div className="flex items-center mb-6">
                   <span className="text-3xl mr-4">🎮</span>
-                  <h3 className="text-2xl font-bold text-orange-400 font-mono">
-                    INTERACTIVE GAMING
-                  </h3>
+                  <h3 className="text-2xl font-bold text-orange-400 font-mono">INTERACTIVE GAMING</h3>
                 </div>
                 <div className="space-y-3 font-mono text-sm">
                   <div className="flex justify-between">
-                    <span className="text-gray-300">
-                      Virtual Mosh Pit Simulator
-                    </span>
+                    <span className="text-gray-300">Virtual Mosh Pit Simulator</span>
                     <span className="text-purple-400">🔮 2026 Q2</span>
                   </div>
                   <div className="flex justify-between">
@@ -1232,9 +1050,7 @@ export function ComingSoonPage() {
                     <span className="text-purple-400">🔮 2026 Q2</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-300">
-                      Virtual Band Experience
-                    </span>
+                    <span className="text-gray-300">Virtual Band Experience</span>
                     <span className="text-purple-400">🔮 2026 Q3</span>
                   </div>
                   <div className="flex justify-between">
@@ -1252,9 +1068,7 @@ export function ComingSoonPage() {
               <div className="bg-gradient-to-b from-red-900/20 to-red-800/10 border border-red-500/30 rounded-xl p-6 backdrop-blur-sm">
                 <div className="flex items-center mb-6">
                   <span className="text-3xl mr-4">🎨</span>
-                  <h3 className="text-2xl font-bold text-red-400 font-mono">
-                    ADVANCED 3D GRAPHICS
-                  </h3>
+                  <h3 className="text-2xl font-bold text-red-400 font-mono">ADVANCED 3D GRAPHICS</h3>
                 </div>
                 <div className="space-y-3 font-mono text-sm">
                   <div className="flex justify-between">
@@ -1262,9 +1076,7 @@ export function ComingSoonPage() {
                     <span className="text-purple-400">🔮 2026 Q2</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-300">
-                      Particle Storm Effects
-                    </span>
+                    <span className="text-gray-300">Particle Storm Effects</span>
                     <span className="text-purple-400">🔮 2026 Q3</span>
                   </div>
                   <div className="flex justify-between">
@@ -1292,34 +1104,26 @@ export function ComingSoonPage() {
               <div className="grid md:grid-cols-3 gap-8">
                 <div className="text-center">
                   <div className="text-4xl mb-4">🧠</div>
-                  <h4 className="text-xl font-bold text-cyan-400 mb-2 font-mono">
-                    AI-GENERATED SHOWS
-                  </h4>
+                  <h4 className="text-xl font-bold text-cyan-400 mb-2 font-mono">AI-GENERATED SHOWS</h4>
                   <p className="text-gray-300 text-sm">
-                    Jedes Konzert ist einzigartig - AI kreiert personalisierte
-                    Performances basierend auf Fan-Präferenzen
+                    Jedes Konzert ist einzigartig - AI kreiert personalisierte Performances basierend auf
+                    Fan-Präferenzen
                   </p>
                 </div>
 
                 <div className="text-center">
                   <div className="text-4xl mb-4">🔗</div>
-                  <h4 className="text-xl font-bold text-cyan-400 mb-2 font-mono">
-                    BLOCKCHAIN SECURITY
-                  </h4>
+                  <h4 className="text-xl font-bold text-cyan-400 mb-2 font-mono">BLOCKCHAIN SECURITY</h4>
                   <p className="text-gray-300 text-sm">
-                    Fälschungssichere Tickets, NFT-Autogramme und
-                    Crypto-Payments für absolute Sicherheit
+                    Fälschungssichere Tickets, NFT-Autogramme und Crypto-Payments für absolute Sicherheit
                   </p>
                 </div>
 
                 <div className="text-center">
                   <div className="text-4xl mb-4">👁️</div>
-                  <h4 className="text-xl font-bold text-cyan-400 mb-2 font-mono">
-                    BIOMETRIC AUTH
-                  </h4>
+                  <h4 className="text-xl font-bold text-cyan-400 mb-2 font-mono">BIOMETRIC AUTH</h4>
                   <p className="text-gray-300 text-sm">
-                    Fingerprint/Face ID Login - nahtloser Zugang ohne Passwörter
-                    oder Tickets
+                    Fingerprint/Face ID Login - nahtloser Zugang ohne Passwörter oder Tickets
                   </p>
                 </div>
               </div>
@@ -1329,8 +1133,8 @@ export function ComingSoonPage() {
                   🌟 PORTFOLIO HIGHLIGHT: TECHNOLOGIE-FÜHRERSCHAFT 2026+ 🌟
                 </div>
                 <div className="text-gray-300 text-sm">
-                  Von Virtual Reality bis Künstlicher Intelligenz - Metal3DCore
-                  definiert die Zukunft digitaler Konzert-Erlebnisse
+                  Von Virtual Reality bis Künstlicher Intelligenz - Metal3DCore definiert die Zukunft digitaler
+                  Konzert-Erlebnisse
                 </div>
               </div>
             </div>
@@ -1341,23 +1145,15 @@ export function ComingSoonPage() {
         <section className="px-6 py-16 bg-gradient-to-b from-black to-gray-900/50">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-12">
-              <h2 className="text-4xl font-bold text-green-400 mb-6 font-mono">
-                🎸 PROJECT SUCCESS GUARANTEED!
-              </h2>
+              <h2 className="text-4xl font-bold text-green-400 mb-6 font-mono">🎸 PROJECT SUCCESS GUARANTEED!</h2>
               <div className="text-gray-300 text-xl">
-                Von 25% geschätzt auf{" "}
-                <span className="text-green-400 font-bold">
-                  92% PRODUCTION READY
-                </span>{" "}
-                entdeckt!
+                Von 25% geschätzt auf <span className="text-green-400 font-bold">92% PRODUCTION READY</span> entdeckt!
               </div>
             </div>
 
             <div className="grid md:grid-cols-2 gap-8 mb-12">
               <div className="bg-gradient-to-br from-green-900/40 to-emerald-900/20 border border-green-500 rounded-xl p-8">
-                <h3 className="text-2xl font-bold text-green-400 mb-6 text-center">
-                  ✅ BEREITS PERFEKT
-                </h3>
+                <h3 className="text-2xl font-bold text-green-400 mb-6 text-center">✅ BEREITS PERFEKT</h3>
                 <div className="space-y-3 text-gray-300">
                   <div>🎮 7 funktionsfähige 3D-Räume mit FPS Navigation</div>
                   <div>📺 YouTube Integration (180+ Zeilen Code)</div>
@@ -1369,9 +1165,7 @@ export function ComingSoonPage() {
               </div>
 
               <div className="bg-gradient-to-br from-yellow-900/40 to-green-900/20 border border-green-500 rounded-xl p-8">
-                <h3 className="text-2xl font-bold text-green-400 mb-6 text-center">
-                  ✅ DEZEMBER ACHIEVEMENTS
-                </h3>
+                <h3 className="text-2xl font-bold text-green-400 mb-6 text-center">✅ DEZEMBER ACHIEVEMENTS</h3>
                 <div className="space-y-3 text-gray-300">
                   <div>✅ TypeScript Errors: 100% FIXED</div>
                   <div>✅ Build Process: FEHLERFREI</div>
@@ -1384,17 +1178,13 @@ export function ComingSoonPage() {
 
             <div className="text-center">
               <div className="bg-gradient-to-r from-green-600/20 to-emerald-600/20 border border-green-500 rounded-xl p-8 inline-block">
-                <div className="text-3xl font-bold text-green-400 mb-4">
-                  � DECEMBER SUCCESS ACHIEVED: 100%
-                </div>
+                <div className="text-3xl font-bold text-green-400 mb-4">� DECEMBER SUCCESS ACHIEVED: 100%</div>
                 <div className="text-gray-300 text-lg mb-4">
                   16. Dezember 2025 | BUILD ERFOLGREICH | PRODUCTION READY
                 </div>
                 <div className="flex justify-center items-center space-x-4">
                   <div className="text-green-400 text-xl">⭐⭐⭐⭐⭐</div>
-                  <div className="text-white font-bold">
-                    ENTERPRISE PLATFORM ACHIEVED!
-                  </div>
+                  <div className="text-white font-bold">ENTERPRISE PLATFORM ACHIEVED!</div>
                   <div className="text-green-400 text-xl">⭐⭐⭐⭐⭐</div>
                 </div>
               </div>
@@ -1411,9 +1201,7 @@ export function ComingSoonPage() {
             <div className="text-gray-500 text-sm font-mono">
               PRODUCTION READY | ENTERPRISE GRADE | BUILD SUCCESS: ✅
             </div>
-            <div className="text-green-500 mt-4 font-bold">
-              🎸 "METAL PLATFORM ACHIEVED PRODUCTION STATUS" 🎸
-            </div>
+            <div className="text-green-500 mt-4 font-bold">🎸 "METAL PLATFORM ACHIEVED PRODUCTION STATUS" 🎸</div>
           </div>
         </footer>
       </div>

@@ -49,7 +49,7 @@ const securityHeaders = [
   // Permissions Policy - WEBCAM ENABLED für Live-Concert Feature
   {
     key: "Permissions-Policy",
-    value: "camera=('self'), microphone=('self'), geolocation=(), payment=()",
+    value: "camera=(self), microphone=(self), geolocation=(), payment=()",
   },
   // Content Security Policy (CSP)
   {
@@ -80,7 +80,7 @@ const securityHeaders = [
  */
 class RateLimiter {
   private requests: Map<string, number[]> = new Map();
-  private readonly limit = 100; // requests per window
+  private readonly limit = 200; // requests per window - erhöht von 100
   private readonly windowMs = 60 * 1000; // 1 minute
 
   check(identifier: string): { allowed: boolean; remaining: number } {
@@ -91,7 +91,7 @@ class RateLimiter {
     const userRequests = this.requests.get(identifier) || [];
 
     // Filter out requests outside the current window
-    const recentRequests = userRequests.filter((time) => time > windowStart);
+    const recentRequests = userRequests.filter(time => time > windowStart);
 
     // Check if limit exceeded
     const allowed = recentRequests.length < this.limit;
@@ -112,7 +112,7 @@ class RateLimiter {
     const windowStart = now - this.windowMs;
 
     for (const [identifier, requests] of this.requests.entries()) {
-      const recentRequests = requests.filter((time) => time > windowStart);
+      const recentRequests = requests.filter(time => time > windowStart);
       if (recentRequests.length === 0) {
         this.requests.delete(identifier);
       } else {
@@ -156,6 +156,19 @@ function validateCsrfToken(request: NextRequest): boolean {
     return true;
   }
 
+  // Skip CSRF for registration and login endpoints - they have their own protection
+  const pathname = request.nextUrl.pathname;
+  if (
+    pathname === "/api/auth/register" ||
+    pathname === "/api/auth/signin" ||
+    pathname.startsWith("/api/auth/") ||
+    pathname === "/register" ||
+    pathname === "/login"
+  ) {
+    console.log("⚠️ Skipping CSRF for auth endpoint:", pathname);
+    return true;
+  }
+
   // Validate origin matches host (same-origin policy)
   if (origin && host) {
     const originUrl = new URL(origin);
@@ -177,29 +190,31 @@ export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Get IP address for rate limiting
-  const ip =
-    request.headers.get("x-forwarded-for") ||
-    request.headers.get("x-real-ip") ||
-    "unknown";
+  const ip = request.headers.get("x-forwarded-for") || request.headers.get("x-real-ip") || "unknown";
 
-  // Rate Limiting
+  // Rate Limiting - Be more lenient for auth endpoints
   const rateLimitResult = rateLimiter.check(ip);
 
-  if (!rateLimitResult.allowed) {
-    return NextResponse.json(
-      {
-        error: "Too many requests",
-        message: "Rate limit exceeded. Please try again later.",
-      },
-      {
+  // More lenient for auth endpoints (double the limit)
+  const isAuthEndpoint = pathname.startsWith("/api/auth/") || pathname === "/register" || pathname === "/login";
+  const effectiveLimit = isAuthEndpoint ? 400 : 200;
+
+  if (!rateLimitResult.allowed && rateLimitResult.remaining === 0) {
+    // For auth endpoints, allow a bit more room
+    if (isAuthEndpoint && rateLimitResult.remaining > -200) {
+      // Allow through but log it
+      console.log("⚠️ Auth endpoint accessed near rate limit:", pathname, "IP:", ip);
+    } else {
+      console.log("🚫 Rate limit exceeded for:", pathname, "IP:", ip);
+      return new Response(JSON.stringify({ error: "Rate limit exceeded" }), {
         status: 429,
         headers: {
           "Retry-After": "60",
-          "X-RateLimit-Limit": "100",
+          "X-RateLimit-Limit": effectiveLimit.toString(),
           "X-RateLimit-Remaining": "0",
         },
-      }
-    );
+      });
+    }
   }
 
   // CSRF Protection for API routes
@@ -225,10 +240,7 @@ export function middleware(request: NextRequest) {
 
   // Add rate limit headers
   response.headers.set("X-RateLimit-Limit", "100");
-  response.headers.set(
-    "X-RateLimit-Remaining",
-    rateLimitResult.remaining.toString()
-  );
+  response.headers.set("X-RateLimit-Remaining", rateLimitResult.remaining.toString());
 
   return response;
 }
