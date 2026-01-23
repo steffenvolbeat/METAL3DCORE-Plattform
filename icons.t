@@ -1,1 +1,1 @@
-🖼️ 🎸 🏟️ 🎫 🎭 💬 🌌 ·🌌 🎮 🕹️ 🧭 Navigationsstatus ✅
+🖼️ 🎸 🏟️ 🎫 💳 🎭 💬 🌌 · 🎮 🕹️ 💡 🧭 Navigationsstatus ✅ ⚠️ 🔒 🔴 LIVE EVENT 🚪 🎥 ▶ YOUTUBE ✕ SCREEN AUS 🔗 ▶ ABSPIELEN ● LIVE NOW 🚪 🛡️ 🏃 🤘 🚨 ⚠️ 🎪 ⚡ 🚫 🌐 🔧💳

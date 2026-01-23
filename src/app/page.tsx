@@ -1,36 +1,33 @@
 "use client";
 import { useState } from "react";
+import { NavigationSidebar } from "@/shared/components/ui";
 
-// Coming Soon Platzhalter für die Original-Komponenten
-const ComingSoonNavigationSidebar = ({ activeRoom, onRoomChange }: any) => (
-  <div className="fixed left-4 top-20 z-50 bg-theme-card border border-theme-secondary rounded-lg p-4">
-    <div className="text-xs text-theme-secondary mb-2">Navigation Coming Soon</div>
-    <div className="space-y-2 text-sm">
-      {["welcome", "gallery", "stadium", "ticket", "backstage", "community"].map(room => (
-        <button
-          key={room}
-          onClick={() => onRoomChange(room)}
-          className={`block w-full text-left px-2 py-1 rounded ${
-            activeRoom === room ? "bg-theme-accent text-black" : "text-theme-secondary hover:text-theme-primary"
-          }`}
-        >
-          {room}
-        </button>
-      ))}
-    </div>
-  </div>
-);
+// ✅ Feature: 3D Rooms
+import {
+  WelcomeStage,
+  StadionRoom,
+  // BackstageRoom, // Original BackstageRoom disabled
+  CommunityRoom, // Now Coming Soon
+  BandGalleryRoom,
+  ContactStage,
+  TicketStage,
+} from "@/features/3d-rooms/components";
 
-const ComingSoon3DRoom = ({ roomName, icon }: { roomName: string; icon: string }) => (
-  <div className="min-h-[600px] bg-black/50 rounded-[24px] flex items-center justify-center border border-theme-secondary">
-    <div className="text-center space-y-4">
-      <div className="text-6xl">{icon}</div>
-      <h3 className="text-2xl font-semibold text-theme-primary">{roomName}</h3>
-      <div className="chip">3D Room Coming Soon</div>
-      <p className="text-theme-secondary max-w-md">Dieser 3D-Raum wird schrittweise implementiert.</p>
-    </div>
-  </div>
-);
+// Import Coming Soon BackstageRoom
+import BackstageRoom from "@/features/3d-rooms/components/BackstageRoomComingSoon";
+
+// ✅ Feature: Authentication
+// - Moved to WelcomeStage only
+// import {
+//   AuthModal,
+// } from "@/features/auth/components";
+
+// ✅ Feature: Intro
+import { IntroPage } from "@/features/intro/components";
+
+// ✅ Feature: Admin
+// - Moved to specific admin areas only
+// import { AdminButton } from "@/features/admin/components";
 
 const ROOM_META: Record<string, { label: string; icon: string; description: string; helper: string }> = {
   welcome: {
@@ -76,13 +73,13 @@ const MOVEMENT_TIPS = [
   { label: "Movement", value: "WASD + Maus" },
   { label: "Fullscreen", value: "Enter 3D Game Mode" },
   { label: "Audio", value: "Kopfhörer empfohlen" },
-  { label: "Status", value: "Coming Soon" },
+  { label: "Status", value: "Production Ready" },
 ];
 
 export default function Home() {
   const [activeRoom, setActiveRoom] = useState("welcome");
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [showIntro, setShowIntro] = useState(false);
+  const [showIntro, setShowIntro] = useState(false); // Intro Page State
   const activeMeta = ROOM_META[activeRoom] ?? ROOM_META.welcome;
 
   const handleRoomChange = (room: string) => {
@@ -109,20 +106,9 @@ export default function Home() {
     setActiveRoom("welcome");
   };
 
-  // Intro Page Platzhalter
+  // Intro Page anzeigen wenn aktiviert
   if (showIntro) {
-    return (
-      <div className="min-h-screen bg-theme-primary flex items-center justify-center">
-        <div className="text-center space-y-6">
-          <div className="text-6xl animate-pulse">🌌</div>
-          <h1 className="text-4xl font-bold">Cosmic Intro</h1>
-          <div className="chip">Coming Soon</div>
-          <button onClick={handleIntroComplete} className="button-primary">
-            Zurück zur Hauptseite
-          </button>
-        </div>
-      </div>
-    );
+    return <IntroPage onComplete={handleIntroComplete} />;
   }
 
   return (
@@ -137,7 +123,7 @@ export default function Home() {
         />
       </div>
 
-      {!isFullscreen && <ComingSoonNavigationSidebar activeRoom={activeRoom} onRoomChange={handleRoomChange} />}
+      {!isFullscreen && <NavigationSidebar activeRoom={activeRoom} onRoomChange={handleRoomChange} />}
 
       <main className="relative z-10 pt-20 pb-24">
         {!isFullscreen && (
@@ -150,7 +136,7 @@ export default function Home() {
                 </div>
 
                 <div className="flex items-center gap-5">
-                  <div className="h-16 w-16 rounded-3xl bg-gradient-to-br from-orange-500 to-pink-600 flex items-center justify-center text-3xl shadow-lg">
+                  <div className="h-16 w-16 rounded-3xl bg-linear-to-br from-orange-500 to-pink-600 flex items-center justify-center text-3xl shadow-lg">
                     {activeMeta.icon}
                   </div>
                   <div>
@@ -237,16 +223,54 @@ export default function Home() {
             className={
               isFullscreen
                 ? ""
-                : "rounded-[32px] border border-theme-secondary bg-black/30 p-2 shadow-[0_20px_60px_rgba(0,0,0,0.55)]"
+                : "rounded-4xl border border-theme-secondary bg-black/30 p-2 shadow-[0_20px_60px_rgba(0,0,0,0.55)]"
             }
           >
-            {/* 3D Räume als Coming Soon Platzhalter */}
-            {activeRoom === "welcome" && <ComingSoon3DRoom roomName="Welcome Stage" icon="🎸" />}
-            {activeRoom === "gallery" && <ComingSoon3DRoom roomName="Band Gallery" icon="🖼️" />}
-            {activeRoom === "stadium" && <ComingSoon3DRoom roomName="Metal Arena" icon="🏟️" />}
-            {activeRoom === "community" && <ComingSoon3DRoom roomName="Community Hub" icon="💬" />}
-            {activeRoom === "backstage" && <ComingSoon3DRoom roomName="Backstage VIP" icon="🎭" />}
-            {activeRoom === "ticket" && <ComingSoon3DRoom roomName="Ticket Arena" icon="🎫" />}
+            {activeRoom === "welcome" && (
+              <WelcomeStage
+                onRoomChange={handleRoomChange}
+                isFullscreen={isFullscreen}
+                onFullscreen={handleToggleFullscreen}
+                onOpenAuth={mode => {
+                  // Auth handled internally in WelcomeStage now
+                  console.log("Auth handled in WelcomeStage:", mode);
+                }}
+              />
+            )}
+            {activeRoom === "gallery" && (
+              <BandGalleryRoom onRoomChange={handleRoomChange} isFullscreen={isFullscreen} />
+            )}
+            {activeRoom === "stadium" && (
+              <StadionRoom
+                onRoomChange={handleRoomChange}
+                isFullscreen={isFullscreen}
+                onFullscreen={handleToggleFullscreen}
+              />
+            )}
+            {/* Future rooms */}
+            {activeRoom === "community" && (
+              <CommunityRoom onRoomChange={handleRoomChange} isFullscreen={isFullscreen} />
+            )}
+            {activeRoom === "backstage" && (
+              <BackstageRoom onRoomChange={handleRoomChange} isFullscreen={isFullscreen} />
+            )}
+            {/* {activeRoom === "shop" && <MerchShopRoom />} */}
+            {activeRoom === "contact" && (
+              <ContactStage
+                onRoomChange={handleRoomChange}
+                isFullscreen={isFullscreen}
+                onFullscreen={handleToggleFullscreen}
+              />
+            )}
+            {activeRoom === "ticket" && (
+              <TicketStage
+                onRoomChange={handleRoomChange}
+                isFullscreen={isFullscreen}
+                onFullscreen={handleToggleFullscreen}
+              />
+            )}
+            {/* */}
+            {/* */}
           </div>
         </div>
       </main>
