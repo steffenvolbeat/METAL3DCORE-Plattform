@@ -7,6 +7,7 @@ import * as THREE from "three";
 import { useSession } from "next-auth/react";
 import { FPSControls } from "@/shared/components/3d";
 import { RoomAccessControl } from "./RoomAccessControl";
+import { WebGLCanvasWrapper } from "@/shared/components/WebGLCanvasWrapper";
 
 interface Props {
   onRoomChange: (room: string) => void;
@@ -20,11 +21,7 @@ function CommunityRoomEnvironment() {
   return (
     <group ref={roomRef}>
       {/* Floor */}
-      <Plane
-        args={[20, 20]}
-        rotation={[-Math.PI / 2, 0, 0]}
-        position={[0, -2, 0]}
-      >
+      <Plane args={[20, 20]} rotation={[-Math.PI / 2, 0, 0]} position={[0, -2, 0]}>
         <meshStandardMaterial color="#2a1810" roughness={0.8} metalness={0.1} />
       </Plane>
 
@@ -35,29 +32,17 @@ function CommunityRoomEnvironment() {
       </Plane>
 
       {/* Left Wall */}
-      <Plane
-        args={[20, 8]}
-        position={[-10, 2, 0]}
-        rotation={[0, Math.PI / 2, 0]}
-      >
+      <Plane args={[20, 8]} position={[-10, 2, 0]} rotation={[0, Math.PI / 2, 0]}>
         <meshStandardMaterial color="#1a1a1a" roughness={0.9} />
       </Plane>
 
       {/* Right Wall */}
-      <Plane
-        args={[20, 8]}
-        position={[10, 2, 0]}
-        rotation={[0, -Math.PI / 2, 0]}
-      >
+      <Plane args={[20, 8]} position={[10, 2, 0]} rotation={[0, -Math.PI / 2, 0]}>
         <meshStandardMaterial color="#1a1a1a" roughness={0.9} />
       </Plane>
 
       {/* Ceiling */}
-      <Plane
-        args={[20, 20]}
-        rotation={[Math.PI / 2, 0, 0]}
-        position={[0, 6, 0]}
-      >
+      <Plane args={[20, 20]} rotation={[Math.PI / 2, 0, 0]} position={[0, 6, 0]}>
         <meshStandardMaterial color="#0f0f0f" roughness={0.7} />
       </Plane>
 
@@ -90,72 +75,36 @@ function CommunityRoomEnvironment() {
         <Plane args={[2, 3]} position={[-4, 0, 0]}>
           <meshStandardMaterial color="#ff4500" />
         </Plane>
-        <Text
-          position={[-4, 0, 0.01]}
-          fontSize={0.3}
-          color="black"
-          anchorX="center"
-          anchorY="middle"
-        >
+        <Text position={[-4, 0, 0.01]} fontSize={0.3} color="black" anchorX="center" anchorY="middle">
           METALLICA
         </Text>
 
         <Plane args={[2, 3]} position={[0, 0, 0]}>
           <meshStandardMaterial color="#ff6600" />
         </Plane>
-        <Text
-          position={[0, 0, 0.01]}
-          fontSize={0.3}
-          color="black"
-          anchorX="center"
-          anchorY="middle"
-        >
+        <Text position={[0, 0, 0.01]} fontSize={0.3} color="black" anchorX="center" anchorY="middle">
           IRON MAIDEN
         </Text>
 
         <Plane args={[2, 3]} position={[4, 0, 0]}>
           <meshStandardMaterial color="#cc3300" />
         </Plane>
-        <Text
-          position={[4, 0, 0.01]}
-          fontSize={0.3}
-          color="black"
-          anchorX="center"
-          anchorY="middle"
-        >
+        <Text position={[4, 0, 0.01]} fontSize={0.3} color="black" anchorX="center" anchorY="middle">
           BLACK SABBATH
         </Text>
       </group>
 
       {/* Room Navigation Portals */}
       <group position={[0, -1, -8]}>
-        <Text
-          position={[-6, 1, 0]}
-          fontSize={0.5}
-          color="#ff6600"
-          anchorX="center"
-          anchorY="middle"
-        >
+        <Text position={[-6, 1, 0]} fontSize={0.5} color="#ff6600" anchorX="center" anchorY="middle">
           ← Welcome Stage
         </Text>
 
-        <Text
-          position={[0, 1, 0]}
-          fontSize={0.5}
-          color="#ff6600"
-          anchorX="center"
-          anchorY="middle"
-        >
+        <Text position={[0, 1, 0]} fontSize={0.5} color="#ff6600" anchorX="center" anchorY="middle">
           🎤 Backstage →
         </Text>
 
-        <Text
-          position={[6, 1, 0]}
-          fontSize={0.5}
-          color="#ff6600"
-          anchorX="center"
-          anchorY="middle"
-        >
+        <Text position={[6, 1, 0]} fontSize={0.5} color="#ff6600" anchorX="center" anchorY="middle">
           🎫 Tickets →
         </Text>
       </group>
@@ -172,42 +121,12 @@ function CommunityRoomEnvironment() {
       <directionalLight position={[-5, 10, 5]} intensity={1.5} />
 
       {/* Warm Room Lighting - VERSTÄRKT */}
-      <pointLight
-        position={[-3, 5, -3]}
-        intensity={1.5}
-        color="#ff6600"
-        distance={15}
-      />
-      <pointLight
-        position={[3, 5, -3]}
-        intensity={1.5}
-        color="#ff6600"
-        distance={15}
-      />
-      <pointLight
-        position={[0, 5, 2]}
-        intensity={2.0}
-        color="#ffaa44"
-        distance={15}
-      />
-      <pointLight
-        position={[-5, 4, 0]}
-        intensity={1.5}
-        color="#FFE4B5"
-        distance={12}
-      />
-      <pointLight
-        position={[5, 4, 0]}
-        intensity={1.5}
-        color="#FFE4B5"
-        distance={12}
-      />
-      <pointLight
-        position={[0, 5, -5]}
-        intensity={1.8}
-        color="#F0E68C"
-        distance={15}
-      />
+      <pointLight position={[-3, 5, -3]} intensity={1.5} color="#ff6600" distance={15} />
+      <pointLight position={[3, 5, -3]} intensity={1.5} color="#ff6600" distance={15} />
+      <pointLight position={[0, 5, 2]} intensity={2.0} color="#ffaa44" distance={15} />
+      <pointLight position={[-5, 4, 0]} intensity={1.5} color="#FFE4B5" distance={12} />
+      <pointLight position={[5, 4, 0]} intensity={1.5} color="#FFE4B5" distance={12} />
+      <pointLight position={[0, 5, -5]} intensity={1.8} color="#F0E68C" distance={15} />
     </group>
   );
 }
@@ -223,38 +142,21 @@ function OnlineUsers() {
 
   return (
     <div className="absolute left-4 top-4 bg-black/80 backdrop-blur-sm rounded-lg p-4 w-64 max-h-96 overflow-y-auto">
-      <h3 className="text-orange-500 font-bold mb-3 text-lg">
-        🌟 Online im Community Room
-      </h3>
+      <h3 className="text-orange-500 font-bold mb-3 text-lg">🌟 Online im Community Room</h3>
       <div className="space-y-2">
-        {onlineUsers.map((user) => (
-          <div
-            key={user.id}
-            className="flex items-center space-x-3 p-2 rounded bg-gray-800/50"
-          >
-            <div
-              className={`w-3 h-3 rounded-full ${
-                user.isOnline ? "bg-green-500" : "bg-gray-500"
-              }`}
-            />
+        {onlineUsers.map(user => (
+          <div key={user.id} className="flex items-center space-x-3 p-2 rounded bg-gray-800/50">
+            <div className={`w-3 h-3 rounded-full ${user.isOnline ? "bg-green-500" : "bg-gray-500"}`} />
             <div className="flex-1">
               <div className="flex items-center space-x-2">
-                <span className="text-sm">
-                  {user.role === "BAND_MEMBER" ? "🎤" : "🎸"}
-                </span>
+                <span className="text-sm">{user.role === "BAND_MEMBER" ? "🎤" : "🎸"}</span>
                 <span
-                  className={`text-sm font-medium ${
-                    user.role === "BAND_MEMBER"
-                      ? "text-purple-400"
-                      : "text-white"
-                  }`}
+                  className={`text-sm font-medium ${user.role === "BAND_MEMBER" ? "text-purple-400" : "text-white"}`}
                 >
                   {user.name}
                 </span>
               </div>
-              <div className="text-xs text-gray-400">
-                {user.role === "BAND_MEMBER" ? "Metal Band" : "Metal Fan"}
-              </div>
+              <div className="text-xs text-gray-400">{user.role === "BAND_MEMBER" ? "Metal Band" : "Metal Fan"}</div>
             </div>
           </div>
         ))}
@@ -264,13 +166,7 @@ function OnlineUsers() {
         <div className="mt-4 pt-3 border-t border-gray-600">
           <div className="text-xs text-gray-400">
             Du bist als{" "}
-            <span
-              className={
-                session.user?.role === "BAND_MEMBER"
-                  ? "text-purple-400"
-                  : "text-orange-400"
-              }
-            >
+            <span className={session.user?.role === "BAND_MEMBER" ? "text-purple-400" : "text-orange-400"}>
               {session.user?.role === "BAND_MEMBER" ? "🎤 Band" : "🎸 Fan"}
             </span>{" "}
             online
@@ -315,39 +211,28 @@ function CommunityChat() {
     const user = session.user as any;
     const message = {
       id: Date.now().toString(),
-      user:
-        user.role === "BAND_MEMBER" && user.band
-          ? user.band.name
-          : user.name || "Unknown",
+      user: user.role === "BAND_MEMBER" && user.band ? user.band.name : user.name || "Unknown",
       role: user.role || "USER",
       message: newMessage.trim(),
       timestamp: new Date(),
     };
 
-    setMessages((prev) => [...prev, message]);
+    setMessages(prev => [...prev, message]);
     setNewMessage("");
   };
 
   return (
     <div className="absolute right-4 top-4 bg-black/80 backdrop-blur-sm rounded-lg p-4 w-80 h-96 flex flex-col">
-      <h3 className="text-orange-500 font-bold mb-3 text-lg">
-        💬 Community Chat
-      </h3>
+      <h3 className="text-orange-500 font-bold mb-3 text-lg">💬 Community Chat</h3>
 
       {/* Messages */}
       <div className="flex-1 overflow-y-auto space-y-3 mb-4 pr-2">
-        {messages.map((msg) => (
+        {messages.map(msg => (
           <div key={msg.id} className="bg-gray-800/50 rounded p-3">
             <div className="flex items-center space-x-2 mb-1">
-              <span className="text-sm">
-                {msg.role === "BAND_MEMBER" ? "🎤" : "🎸"}
-              </span>
+              <span className="text-sm">{msg.role === "BAND_MEMBER" ? "🎤" : "🎸"}</span>
               <span
-                className={`text-sm font-medium ${
-                  msg.role === "BAND_MEMBER"
-                    ? "text-purple-400"
-                    : "text-orange-400"
-                }`}
+                className={`text-sm font-medium ${msg.role === "BAND_MEMBER" ? "text-purple-400" : "text-orange-400"}`}
               >
                 {msg.user}
               </span>
@@ -369,8 +254,8 @@ function CommunityChat() {
           <input
             type="text"
             value={newMessage}
-            onChange={(e) => setNewMessage(e.target.value)}
-            onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
+            onChange={e => setNewMessage(e.target.value)}
+            onKeyPress={e => e.key === "Enter" && handleSendMessage()}
             placeholder="Nachricht eingeben..."
             className="flex-1 bg-gray-700 text-white px-3 py-2 rounded text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
           />
@@ -397,7 +282,7 @@ export default function CommunityRoom({ onRoomChange, isFullscreen }: Props) {
     days: 15,
     hours: 8,
     minutes: 42,
-    seconds: 17
+    seconds: 17,
   });
 
   // Countdown Timer Simulation
@@ -431,32 +316,38 @@ export default function CommunityRoom({ onRoomChange, isFullscreen }: Props) {
           isFullscreen ? "h-screen w-screen" : "h-[600px] w-full"
         } bg-gray-900 rounded-lg overflow-hidden`}
       >
-        <Canvas
-          camera={{ position: [0, 0, 8], fov: 75 }}
-          shadows
-          className="w-full h-full"
+        <WebGLCanvasWrapper
+          roomName="Community Hub"
+          roomIcon="💬"
+          onRoomChange={onRoomChange}
+          isFullscreen={isFullscreen}
         >
-          <CommunityRoomEnvironment />
-          <FPSControls boundaries={{ minX: -9, maxX: 9, minZ: -9, maxZ: 9 }} />
-          <OrbitControls
-            enablePan={true}
-            enableZoom={true}
-            enableRotate={true}
-            minDistance={2}
-            maxDistance={15}
-            maxPolarAngle={Math.PI / 2}
-          />
-        </Canvas>
+          <Canvas
+            camera={{ position: [0, 0, 8], fov: 75 }}
+            shadows
+            className="w-full h-full"
+            onCreated={state => {
+              console.log("Community Canvas created successfully with WebGL context");
+            }}
+          >
+            <CommunityRoomEnvironment />
+            <FPSControls boundaries={{ minX: -9, maxX: 9, minZ: -9, maxZ: 9 }} />
+            <OrbitControls
+              enablePan={true}
+              enableZoom={true}
+              enableRotate={true}
+              minDistance={2}
+              maxDistance={15}
+              maxPolarAngle={Math.PI / 2}
+            />
+          </Canvas>
+        </WebGLCanvasWrapper>
 
         {/* Coming Soon Interface */}
         <div className="absolute top-4 left-4 bg-gray-900/95 backdrop-blur-md p-6 rounded-xl border border-purple-500 w-96">
           <div className="text-center mb-4">
-            <h3 className="text-purple-400 font-bold text-xl mb-2">
-              🚧 Community Hub
-            </h3>
-            <div className="text-yellow-400 font-bold text-lg">
-              COMING SOON
-            </div>
+            <h3 className="text-purple-400 font-bold text-xl mb-2">🚧 Community Hub</h3>
+            <div className="text-yellow-400 font-bold text-lg">COMING SOON</div>
           </div>
 
           {/* Countdown */}
@@ -486,9 +377,7 @@ export default function CommunityRoom({ onRoomChange, isFullscreen }: Props) {
 
           {/* Features Preview */}
           <div className="space-y-3 text-sm">
-            <div className="text-center text-purple-300 font-bold mb-3">
-              🎯 Kommende Features:
-            </div>
+            <div className="text-center text-purple-300 font-bold mb-3">🎯 Kommende Features:</div>
             <div className="flex items-center gap-2 text-white">
               <span className="text-green-400">💬</span>
               <span>Live Chat mit anderen Metal-Fans</span>
@@ -518,9 +407,7 @@ export default function CommunityRoom({ onRoomChange, isFullscreen }: Props) {
                 <span className="text-gray-400">Bereit für Launch:</span>
                 <div className="flex items-center justify-center gap-1 mt-1">
                   <span className="text-lg">{session.user.image || "🤘"}</span>
-                  <span className="text-purple-300 font-semibold">
-                    {session.user.name || "Metal Fan"}
-                  </span>
+                  <span className="text-purple-300 font-semibold">{session.user.name || "Metal Fan"}</span>
                 </div>
               </div>
             </div>
@@ -543,9 +430,7 @@ export default function CommunityRoom({ onRoomChange, isFullscreen }: Props) {
         {!isFullscreen && (
           <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2">
             <div className="bg-black/80 backdrop-blur-sm rounded-lg px-6 py-3">
-              <p className="text-white text-sm text-center mb-2">
-                🏗️ Community Hub - COMING SOON!
-              </p>
+              <p className="text-white text-sm text-center mb-2">🏗️ Community Hub - COMING SOON!</p>
               <div className="flex space-x-4 text-xs text-gray-300">
                 <span>WASD - Bewegung</span>
                 <span>Maus - Umschauen</span>
@@ -558,9 +443,7 @@ export default function CommunityRoom({ onRoomChange, isFullscreen }: Props) {
         {/* Navigation Hints */}
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none">
           <div className="bg-black/60 backdrop-blur-sm rounded-lg px-4 py-2 text-center">
-            <p className="text-orange-400 text-sm font-medium">
-              Klicke auf die Portale im Raum zur Navigation
-            </p>
+            <p className="text-orange-400 text-sm font-medium">Klicke auf die Portale im Raum zur Navigation</p>
           </div>
         </div>
       </div>

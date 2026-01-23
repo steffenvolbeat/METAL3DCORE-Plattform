@@ -28,6 +28,7 @@ import StageLights from "./stadium/StageLights";
 import { LiveWebcamIntegration } from "./LiveWebcamIntegration";
 import { StadiumWebcamDisplay } from "./StadiumWebcamDisplay";
 import { RoomAccessControl } from "./RoomAccessControl";
+import { WebGLCanvasWrapper } from "@/shared/components/WebGLCanvasWrapper";
 
 // HALLENSTADION ZÜRICH - Fotorealistische Struktur
 function StadiumStructure({
@@ -121,11 +122,7 @@ function StadiumStructure({
             position={[i * roofGridSize, roofHeight, j * roofGridSize]}
             rotation={[0, j % 2 === 0 ? 0 : Math.PI / 2, 0]}
           >
-            <meshPhysicalMaterial
-              color={new Color(0.05, 0.05, 0.06)}
-              roughness={0.3}
-              metalness={0.9}
-            />
+            <meshPhysicalMaterial color={new Color(0.05, 0.05, 0.06)} roughness={0.3} metalness={0.9} />
           </Box>
         );
       }
@@ -140,33 +137,17 @@ function StadiumStructure({
 
     lightRigPositions.forEach((pos, i) => {
       elements.push(
-        <RoundedBox
-          key={`light-rig-${i}`}
-          args={[50, 1, 1]}
-          radius={0.1}
-          position={pos as [number, number, number]}
-        >
-          <meshPhysicalMaterial
-            color={new Color(0.08, 0.08, 0.1)}
-            roughness={0.2}
-            metalness={0.95}
-          />
+        <RoundedBox key={`light-rig-${i}`} args={[50, 1, 1]} radius={0.1} position={pos as [number, number, number]}>
+          <meshPhysicalMaterial color={new Color(0.08, 0.08, 0.1)} roughness={0.2} metalness={0.95} />
         </RoundedBox>
       );
 
       // Hängende Spot-Lichter am Rig
       for (let j = -4; j <= 4; j++) {
         elements.push(
-          <group
-            key={`hanging-light-${i}-${j}`}
-            position={[j * 5, pos[1] - 2, pos[2]]}
-          >
+          <group key={`hanging-light-${i}-${j}`} position={[j * 5, pos[1] - 2, pos[2]]}>
             <Cylinder args={[0.3, 0.25, 1.2]}>
-              <meshPhysicalMaterial
-                color={new Color(0.02, 0.02, 0.02)}
-                roughness={0.2}
-                metalness={0.8}
-              />
+              <meshPhysicalMaterial color={new Color(0.02, 0.02, 0.02)} roughness={0.2} metalness={0.8} />
             </Cylinder>
             <Sphere args={[0.2]} position={[0, -0.8, 0]}>
               <meshPhysicalMaterial
@@ -184,26 +165,12 @@ function StadiumStructure({
     elements.push(
       <group key="video-cube" position={[0, 35, 0]}>
         {/* Vier Seiten des Video-Cubes */}
-        {[0, 1, 2, 3].map((side) => (
+        {[0, 1, 2, 3].map(side => (
           <Plane
             key={`video-screen-${side}`}
             args={[15, 8]}
-            position={[
-              side === 0 ? 7.5 : side === 2 ? -7.5 : 0,
-              0,
-              side === 1 ? 7.5 : side === 3 ? -7.5 : 0,
-            ]}
-            rotation={[
-              0,
-              side === 0
-                ? Math.PI / 2
-                : side === 2
-                ? -Math.PI / 2
-                : side === 1
-                ? 0
-                : Math.PI,
-              0,
-            ]}
+            position={[side === 0 ? 7.5 : side === 2 ? -7.5 : 0, 0, side === 1 ? 7.5 : side === 3 ? -7.5 : 0]}
+            rotation={[0, side === 0 ? Math.PI / 2 : side === 2 ? -Math.PI / 2 : side === 1 ? 0 : Math.PI, 0]}
           >
             <meshPhysicalMaterial
               color={new Color(0.1, 0.15, 0.3)}
@@ -233,11 +200,7 @@ function StadiumStructure({
 }
 
 // REALISTISCHE HALLENSTADION TRIBÜNEN - Basierend auf echtem Foto
-function StadiumSeats({
-  onRoomChange,
-}: {
-  onRoomChange?: (room: string) => void;
-}) {
+function StadiumSeats({ onRoomChange }: { onRoomChange?: (room: string) => void }) {
   const seatsRef = useRef<Group>(null);
 
   // Hallenstadion Zürich Kapazität: ca. 15,000 Zuschauer
@@ -259,8 +222,7 @@ function StadiumSeats({
     const isInExitZone = (angle: number, tier: "lower" | "mid" | "upper") => {
       if (tier !== "lower") return false; // Nur untere Tribüne hat Ausgänge
 
-      const normalizedAngle =
-        ((angle % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
+      const normalizedAngle = ((angle % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
 
       for (const exitAngle of exitAngles) {
         const diff = Math.abs(normalizedAngle - exitAngle);
@@ -291,19 +253,11 @@ function StadiumSeats({
         elements.push(
           <group
             key={`lower-seat-${i}-${row}`}
-            position={[
-              x * (1 + row * 0.02),
-              2 + row * 0.8,
-              z * (1 + row * 0.02),
-            ]}
+            position={[x * (1 + row * 0.02), 2 + row * 0.8, z * (1 + row * 0.02)]}
             rotation={[0, angle + Math.PI, 0]}
           >
             <RoundedBox args={[3, 0.4, 0.5]} radius={0.05}>
-              <meshPhysicalMaterial
-                color={new Color(0.15, 0.15, 0.18)}
-                roughness={0.8}
-                metalness={0.1}
-              />
+              <meshPhysicalMaterial color={new Color(0.15, 0.15, 0.18)} roughness={0.8} metalness={0.1} />
             </RoundedBox>
           </group>
         );
@@ -316,14 +270,7 @@ function StadiumSeats({
       const z = Math.cos(exitAngle) * lowerTierRadius;
 
       // Definiere die Rooms für jeden Ausgang - BEIDE haben ALLE Rooms
-      const allRooms = [
-        "welcome",
-        "bandgallery",
-        "community",
-        "contact",
-        "backstage",
-        "ticket",
-      ];
+      const allRooms = ["welcome", "bandgallery", "community", "contact", "backstage", "ticket"];
       const exitRooms = allRooms;
 
       // Kompaktere Ausgänge für bessere Darstellung
@@ -331,11 +278,7 @@ function StadiumSeats({
       const exitWidth = 12;
 
       elements.push(
-        <group
-          key={`exit-marker-${idx}`}
-          position={[x, exitHeight / 2 + 1, z]}
-          rotation={[0, exitAngle + Math.PI, 0]}
-        >
+        <group key={`exit-marker-${idx}`} position={[x, exitHeight / 2 + 1, z]} rotation={[0, exitAngle + Math.PI, 0]}>
           {/* Leuchtender Ausgangs-Bogen - GRÖßER */}
           <Box args={[exitWidth, exitHeight, 0.5]}>
             <meshPhysicalMaterial
@@ -405,19 +348,11 @@ function StadiumSeats({
         elements.push(
           <group
             key={`mid-seat-${i}-${row}`}
-            position={[
-              x * (1 + row * 0.015),
-              midTierHeight + row * 0.7,
-              z * (1 + row * 0.015),
-            ]}
+            position={[x * (1 + row * 0.015), midTierHeight + row * 0.7, z * (1 + row * 0.015)]}
             rotation={[0, angle + Math.PI, 0]}
           >
             <RoundedBox args={[3.5, 0.4, 0.5]} radius={0.05}>
-              <meshPhysicalMaterial
-                color={new Color(0.12, 0.12, 0.15)}
-                roughness={0.8}
-                metalness={0.1}
-              />
+              <meshPhysicalMaterial color={new Color(0.12, 0.12, 0.15)} roughness={0.8} metalness={0.1} />
             </RoundedBox>
           </group>
         );
@@ -438,19 +373,11 @@ function StadiumSeats({
         elements.push(
           <group
             key={`upper-seat-${i}-${row}`}
-            position={[
-              x * (1 + row * 0.01),
-              upperTierHeight + row * 0.9,
-              z * (1 + row * 0.01),
-            ]}
+            position={[x * (1 + row * 0.01), upperTierHeight + row * 0.9, z * (1 + row * 0.01)]}
             rotation={[0, angle + Math.PI, 0]}
           >
             <RoundedBox args={[3.5, 0.4, 0.5]} radius={0.05}>
-              <meshPhysicalMaterial
-                color={new Color(0.1, 0.1, 0.13)}
-                roughness={0.8}
-                metalness={0.1}
-              />
+              <meshPhysicalMaterial color={new Color(0.1, 0.1, 0.13)} roughness={0.8} metalness={0.1} />
             </RoundedBox>
           </group>
         );
@@ -467,18 +394,10 @@ function StadiumSeats({
       const z = Math.cos(sectorAngle) * 60;
 
       elements.push(
-        <group
-          key={`sector-divider-${idx}`}
-          position={[x, 6, z]}
-          rotation={[0, sectorAngle, 0]}
-        >
+        <group key={`sector-divider-${idx}`} position={[x, 6, z]} rotation={[0, sectorAngle, 0]}>
           {/* Trennwand - NUR bis zur unteren Tribüne (Höhe 12m statt 30m) */}
           <Box args={[0.3, 12, 5]}>
-            <meshPhysicalMaterial
-              color={new Color(0.2, 0.2, 0.25)}
-              roughness={0.5}
-              metalness={0.6}
-            />
+            <meshPhysicalMaterial color={new Color(0.2, 0.2, 0.25)} roughness={0.5} metalness={0.6} />
           </Box>
 
           {/* Sektor-Beschriftung LINKS (von innen gesehen) */}
@@ -552,27 +471,14 @@ function StadiumSeats({
 
             {/* Fenster-Kreuzstreben - DICK und SICHTBAR */}
             <Box args={[4, 0.15, 0.1]} position={[0, 0, 0.3]}>
-              <meshPhysicalMaterial
-                color={new Color(0.02, 0.02, 0.03)}
-                roughness={0.1}
-                metalness={1}
-              />
+              <meshPhysicalMaterial color={new Color(0.02, 0.02, 0.03)} roughness={0.1} metalness={1} />
             </Box>
             <Box args={[0.15, 5, 0.1]} position={[0, 0, 0.3]}>
-              <meshPhysicalMaterial
-                color={new Color(0.02, 0.02, 0.03)}
-                roughness={0.1}
-                metalness={1}
-              />
+              <meshPhysicalMaterial color={new Color(0.02, 0.02, 0.03)} roughness={0.1} metalness={1} />
             </Box>
 
             {/* Lichtquelle hinter jedem Fenster */}
-            <pointLight
-              position={[0, 0, -1]}
-              color={new Color(1, 0.9, 0.7)}
-              intensity={15}
-              distance={8}
-            />
+            <pointLight position={[0, 0, -1]} color={new Color(1, 0.9, 0.7)} intensity={15} distance={8} />
           </group>
         ))}
 
@@ -614,11 +520,7 @@ function StadiumSeats({
           position={[x, wallHeight / 2, z]}
           rotation={[0, angle, 0]}
         >
-          <meshPhysicalMaterial
-            color={new Color(0.08, 0.08, 0.1)}
-            roughness={0.9}
-            metalness={0.1}
-          />
+          <meshPhysicalMaterial color={new Color(0.08, 0.08, 0.1)} roughness={0.9} metalness={0.1} />
         </Box>
       );
     }
@@ -655,30 +557,17 @@ function StadiumSeats({
       if (Math.abs(z) < 52) continue;
 
       elements.push(
-        <group
-          key={`crowd-person-${i}`}
-          position={[x, y, z]}
-          rotation={[0, sectionAngle + Math.PI, 0]}
-        >
+        <group key={`crowd-person-${i}`} position={[x, y, z]} rotation={[0, sectionAngle + Math.PI, 0]}>
           {/* Körper */}
           <Cylinder args={[0.15, 0.2, 0.8]}>
             <meshPhysicalMaterial
-              color={
-                new Color(
-                  Math.random() * 0.3,
-                  Math.random() * 0.3,
-                  Math.random() * 0.3
-                )
-              }
+              color={new Color(Math.random() * 0.3, Math.random() * 0.3, Math.random() * 0.3)}
               roughness={0.8}
             />
           </Cylinder>
           {/* Kopf */}
           <Sphere args={[0.15]} position={[0, 0.6, 0]}>
-            <meshPhysicalMaterial
-              color={new Color(0.6, 0.5, 0.4)}
-              roughness={0.9}
-            />
+            <meshPhysicalMaterial color={new Color(0.6, 0.5, 0.4)} roughness={0.9} />
           </Sphere>
         </group>
       );
@@ -719,9 +608,7 @@ function GiantScreenYouTubePlayer({
   ];
 
   const extractVideoId = (url: string) => {
-    const match = url.match(
-      /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/
-    );
+    const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/);
     return match ? match[1] : null;
   };
 
@@ -780,9 +667,7 @@ function GiantScreenYouTubePlayer({
             <div className="w-full max-w-7xl space-y-8">
               {/* Title */}
               <div className="flex justify-between items-center mb-8">
-                <h2 className="text-white font-bold text-6xl">
-                  🎸 VIDEO AUSWAHL
-                </h2>
+                <h2 className="text-white font-bold text-6xl">🎸 VIDEO AUSWAHL</h2>
                 <button
                   onClick={() => setShowVideoSelection(false)}
                   className="bg-gray-700 hover:bg-gray-600 text-white px-8 py-4 rounded-xl font-bold text-2xl"
@@ -796,10 +681,10 @@ function GiantScreenYouTubePlayer({
                 <input
                   type="text"
                   value={inputUrl}
-                  onChange={(e) => setInputUrl(e.target.value)}
+                  onChange={e => setInputUrl(e.target.value)}
                   placeholder="🔗 YouTube URL hier einfügen..."
                   className="flex-1 bg-gray-800 text-white px-8 py-6 rounded-2xl border-4 border-gray-600 focus:border-blue-500 focus:outline-none text-3xl"
-                  onKeyPress={(e) => e.key === "Enter" && handleUrlSubmit()}
+                  onKeyPress={e => e.key === "Enter" && handleUrlSubmit()}
                 />
                 <button
                   onClick={handleUrlSubmit}
@@ -811,7 +696,7 @@ function GiantScreenYouTubePlayer({
 
               {/* Preset Videos */}
               <div className="grid grid-cols-3 gap-6">
-                {presetVideos.map((video) => (
+                {presetVideos.map(video => (
                   <button
                     key={video.id}
                     onClick={() => {
@@ -863,10 +748,9 @@ function MainStage({
   const stageRef = useRef<Mesh>(null);
   const bandMembersRef = useRef<Group>(null);
 
-  useFrame((state) => {
+  useFrame(state => {
     if (stageRef.current) {
-      stageRef.current.position.y =
-        2.5 + Math.sin(state.clock.elapsedTime * 0.5) * 0.08;
+      stageRef.current.position.y = 2.5 + Math.sin(state.clock.elapsedTime * 0.5) * 0.08;
     }
 
     // Animierte Band-Mitglieder
@@ -880,18 +764,8 @@ function MainStage({
   return (
     <group>
       {/* HAUPT-BÜHNE - Größer und realistischer */}
-      <RoundedBox
-        ref={stageRef}
-        args={[45, 2.5, 20]}
-        radius={0.3}
-        position={[0, 2.5, -35]}
-      >
-        <meshPhysicalMaterial
-          color={new Color(0.03, 0.03, 0.05)}
-          roughness={0.3}
-          metalness={0.7}
-          clearcoat={0.8}
-        />
+      <RoundedBox ref={stageRef} args={[45, 2.5, 20]} radius={0.3} position={[0, 2.5, -35]}>
+        <meshPhysicalMaterial color={new Color(0.03, 0.03, 0.05)} roughness={0.3} metalness={0.7} clearcoat={0.8} />
       </RoundedBox>
 
       {/* BÜHNEN-FRONT - LED-Strip */}
@@ -928,32 +802,16 @@ function MainStage({
 
         {/* LED-Rahmen - Professionell */}
         <RoundedBox args={[42, 2, 1]} radius={0.2} position={[0, 12, -1]}>
-          <meshPhysicalMaterial
-            color={new Color(0.08, 0.08, 0.1)}
-            roughness={0.2}
-            metalness={0.9}
-          />
+          <meshPhysicalMaterial color={new Color(0.08, 0.08, 0.1)} roughness={0.2} metalness={0.9} />
         </RoundedBox>
         <RoundedBox args={[42, 2, 1]} radius={0.2} position={[0, -12, -1]}>
-          <meshPhysicalMaterial
-            color={new Color(0.08, 0.08, 0.1)}
-            roughness={0.2}
-            metalness={0.9}
-          />
+          <meshPhysicalMaterial color={new Color(0.08, 0.08, 0.1)} roughness={0.2} metalness={0.9} />
         </RoundedBox>
         <RoundedBox args={[2, 26, 1]} radius={0.2} position={[21, 0, -1]}>
-          <meshPhysicalMaterial
-            color={new Color(0.08, 0.08, 0.1)}
-            roughness={0.2}
-            metalness={0.9}
-          />
+          <meshPhysicalMaterial color={new Color(0.08, 0.08, 0.1)} roughness={0.2} metalness={0.9} />
         </RoundedBox>
         <RoundedBox args={[2, 26, 1]} radius={0.2} position={[-21, 0, -1]}>
-          <meshPhysicalMaterial
-            color={new Color(0.08, 0.08, 0.1)}
-            roughness={0.2}
-            metalness={0.9}
-          />
+          <meshPhysicalMaterial color={new Color(0.08, 0.08, 0.1)} roughness={0.2} metalness={0.9} />
         </RoundedBox>
       </group>
 
@@ -970,17 +828,8 @@ function MainStage({
             <meshPhysicalMaterial color={new Color(0.5, 0.4, 0.3)} />
           </Sphere>
           {/* Gitarre */}
-          <RoundedBox
-            args={[0.3, 1.5, 0.1]}
-            radius={0.05}
-            position={[0.5, 0, 0.3]}
-            rotation={[0, -0.3, 0]}
-          >
-            <meshPhysicalMaterial
-              color={new Color(0.8, 0.1, 0.1)}
-              metalness={0.8}
-              roughness={0.2}
-            />
+          <RoundedBox args={[0.3, 1.5, 0.1]} radius={0.05} position={[0.5, 0, 0.3]} rotation={[0, -0.3, 0]}>
+            <meshPhysicalMaterial color={new Color(0.8, 0.1, 0.1)} metalness={0.8} roughness={0.2} />
           </RoundedBox>
         </group>
 
@@ -992,17 +841,8 @@ function MainStage({
           <Sphere args={[0.4]} position={[0, 1.3, 0]}>
             <meshPhysicalMaterial color={new Color(0.5, 0.4, 0.3)} />
           </Sphere>
-          <RoundedBox
-            args={[0.25, 1.6, 0.1]}
-            radius={0.05}
-            position={[-0.5, 0, 0.3]}
-            rotation={[0, 0.3, 0]}
-          >
-            <meshPhysicalMaterial
-              color={new Color(0.1, 0.1, 0.1)}
-              metalness={0.7}
-              roughness={0.3}
-            />
+          <RoundedBox args={[0.25, 1.6, 0.1]} radius={0.05} position={[-0.5, 0, 0.3]} rotation={[0, 0.3, 0]}>
+            <meshPhysicalMaterial color={new Color(0.1, 0.1, 0.1)} metalness={0.7} roughness={0.3} />
           </RoundedBox>
         </group>
 
@@ -1025,23 +865,11 @@ function MainStage({
             <meshPhysicalMaterial color={new Color(0.5, 0.4, 0.35)} />
           </Sphere>
           {/* Mikrofon */}
-          <Cylinder
-            args={[0.05, 0.05, 2]}
-            position={[0, -0.5, 0.8]}
-            rotation={[0.3, 0, 0]}
-          >
-            <meshPhysicalMaterial
-              color={new Color(0.6, 0.6, 0.65)}
-              metalness={0.9}
-              roughness={0.1}
-            />
+          <Cylinder args={[0.05, 0.05, 2]} position={[0, -0.5, 0.8]} rotation={[0.3, 0, 0]}>
+            <meshPhysicalMaterial color={new Color(0.6, 0.6, 0.65)} metalness={0.9} roughness={0.1} />
           </Cylinder>
           <Sphere args={[0.15]} position={[0, 1, 1.5]}>
-            <meshPhysicalMaterial
-              color={new Color(0.3, 0.3, 0.35)}
-              metalness={0.8}
-              roughness={0.3}
-            />
+            <meshPhysicalMaterial color={new Color(0.3, 0.3, 0.35)} metalness={0.8} roughness={0.3} />
           </Sphere>
         </group>
       </group>
@@ -1049,57 +877,29 @@ function MainStage({
       {/* SCHLAGZEUG-SET */}
       <group position={[0, 4, -42]}>
         {/* Bass Drum */}
-        <Cylinder
-          args={[1.2, 1.2, 0.6]}
-          rotation={[0, 0, Math.PI / 2]}
-          position={[0, 0, 0]}
-        >
-          <meshPhysicalMaterial
-            color={new Color(0.1, 0.1, 0.15)}
-            metalness={0.6}
-            roughness={0.4}
-          />
+        <Cylinder args={[1.2, 1.2, 0.6]} rotation={[0, 0, Math.PI / 2]} position={[0, 0, 0]}>
+          <meshPhysicalMaterial color={new Color(0.1, 0.1, 0.15)} metalness={0.6} roughness={0.4} />
         </Cylinder>
 
         {/* Snare Drum */}
         <Cylinder args={[0.4, 0.4, 0.2]} position={[-0.8, 0.5, 0.5]}>
-          <meshPhysicalMaterial
-            color={new Color(0.8, 0.8, 0.85)}
-            metalness={0.9}
-            roughness={0.1}
-          />
+          <meshPhysicalMaterial color={new Color(0.8, 0.8, 0.85)} metalness={0.9} roughness={0.1} />
         </Cylinder>
 
         {/* Toms */}
         <Cylinder args={[0.35, 0.35, 0.25]} position={[0.3, 0.8, 0]}>
-          <meshPhysicalMaterial
-            color={new Color(0.1, 0.1, 0.15)}
-            metalness={0.6}
-            roughness={0.4}
-          />
+          <meshPhysicalMaterial color={new Color(0.1, 0.1, 0.15)} metalness={0.6} roughness={0.4} />
         </Cylinder>
         <Cylinder args={[0.4, 0.4, 0.3]} position={[0.9, 0.7, 0]}>
-          <meshPhysicalMaterial
-            color={new Color(0.1, 0.1, 0.15)}
-            metalness={0.6}
-            roughness={0.4}
-          />
+          <meshPhysicalMaterial color={new Color(0.1, 0.1, 0.15)} metalness={0.6} roughness={0.4} />
         </Cylinder>
 
         {/* Cymbals */}
         <Cylinder args={[0.5, 0.5, 0.02]} position={[-1.2, 1.5, 0]}>
-          <meshPhysicalMaterial
-            color={new Color(0.9, 0.85, 0.3)}
-            metalness={1}
-            roughness={0.2}
-          />
+          <meshPhysicalMaterial color={new Color(0.9, 0.85, 0.3)} metalness={1} roughness={0.2} />
         </Cylinder>
         <Cylinder args={[0.45, 0.45, 0.02]} position={[0.7, 1.6, -0.3]}>
-          <meshPhysicalMaterial
-            color={new Color(0.9, 0.85, 0.3)}
-            metalness={1}
-            roughness={0.2}
-          />
+          <meshPhysicalMaterial color={new Color(0.9, 0.85, 0.3)} metalness={1} roughness={0.2} />
         </Cylinder>
       </group>
 
@@ -1115,11 +915,7 @@ function MainStage({
                 radius={0.05}
                 position={[col * 2.2 - 1.1, row * 1.3, 0]}
               >
-                <meshPhysicalMaterial
-                  color={new Color(0.05, 0.05, 0.05)}
-                  roughness={0.8}
-                  metalness={0.2}
-                />
+                <meshPhysicalMaterial color={new Color(0.05, 0.05, 0.05)} roughness={0.8} metalness={0.2} />
               </RoundedBox>
             ))
           )}
@@ -1173,10 +969,9 @@ function MainStage({
 function TrussLightingRig() {
   const trussRef = useRef<Group>(null);
 
-  useFrame((state) => {
+  useFrame(state => {
     if (trussRef.current) {
-      trussRef.current.rotation.y =
-        Math.sin(state.clock.elapsedTime * 0.1) * 0.02;
+      trussRef.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.1) * 0.02;
     }
   });
 
@@ -1195,32 +990,15 @@ function TrussLightingRig() {
         <group key={`main-truss-${i}`} position={[pos[0], 18, -25 + pos[2]]}>
           {/* Haupt-Truss-Balken */}
           <RoundedBox args={[20, 0.4, 0.4]} radius={0.05}>
-            <meshPhysicalMaterial
-              color={new Color(0.1, 0.1, 0.12)}
-              metalness={0.9}
-              roughness={0.1}
-              clearcoat={1}
-            />
+            <meshPhysicalMaterial color={new Color(0.1, 0.1, 0.12)} metalness={0.9} roughness={0.1} clearcoat={1} />
           </RoundedBox>
 
           {/* Verstrebungen */}
-          <RoundedBox
-            args={[0.2, 3, 0.2]}
-            radius={0.02}
-            position={[-8, 1.8, 0]}
-          >
-            <meshPhysicalMaterial
-              color={new Color(0.1, 0.1, 0.12)}
-              metalness={0.9}
-              roughness={0.1}
-            />
+          <RoundedBox args={[0.2, 3, 0.2]} radius={0.02} position={[-8, 1.8, 0]}>
+            <meshPhysicalMaterial color={new Color(0.1, 0.1, 0.12)} metalness={0.9} roughness={0.1} />
           </RoundedBox>
           <RoundedBox args={[0.2, 3, 0.2]} radius={0.02} position={[8, 1.8, 0]}>
-            <meshPhysicalMaterial
-              color={new Color(0.1, 0.1, 0.12)}
-              metalness={0.9}
-              roughness={0.1}
-            />
+            <meshPhysicalMaterial color={new Color(0.1, 0.1, 0.12)} metalness={0.9} roughness={0.1} />
           </RoundedBox>
 
           {/* Moving Head Lights */}
@@ -1254,11 +1032,7 @@ function TrussLightingRig() {
         <group key={`side-tower-${i}`} position={[x, 12, -25]}>
           {/* Turm-Struktur */}
           <RoundedBox args={[0.6, 12, 0.6]} radius={0.05}>
-            <meshPhysicalMaterial
-              color={new Color(0.08, 0.08, 0.1)}
-              metalness={0.9}
-              roughness={0.1}
-            />
+            <meshPhysicalMaterial color={new Color(0.08, 0.08, 0.1)} metalness={0.9} roughness={0.1} />
           </RoundedBox>
 
           {/* LED-Panels an Türmen */}
@@ -1292,7 +1066,7 @@ function TrussLightingRig() {
 function LaserSystem() {
   const laserRef = useRef<Group>(null);
 
-  useFrame((state) => {
+  useFrame(state => {
     const time = state.clock.elapsedTime;
     if (laserRef.current) {
       laserRef.current.children.forEach((child, i) => {
@@ -1321,11 +1095,7 @@ function LaserSystem() {
         <group key={`laser-unit-${i}`} position={pos}>
           {/* Laser-Gehäuse */}
           <RoundedBox args={[1.2, 0.8, 1.5]} radius={0.1}>
-            <meshPhysicalMaterial
-              color={new Color(0.02, 0.02, 0.02)}
-              metalness={0.9}
-              roughness={0.1}
-            />
+            <meshPhysicalMaterial color={new Color(0.02, 0.02, 0.02)} metalness={0.9} roughness={0.1} />
           </RoundedBox>
 
           {/* Laser-Strahlen */}
@@ -1334,11 +1104,7 @@ function LaserSystem() {
             const distance = 40;
             return (
               <group key={`laser-beam-${i}-${j}`} rotation={[0, angle, 0]}>
-                <Cylinder
-                  args={[0.02, 0.01, distance]}
-                  position={[0, 0, -distance / 2]}
-                  rotation={[Math.PI / 2, 0, 0]}
-                >
+                <Cylinder args={[0.02, 0.01, distance]} position={[0, 0, -distance / 2]} rotation={[Math.PI / 2, 0, 0]}>
                   <meshPhysicalMaterial
                     color={new Color(1, 0.1, 0.1)}
                     emissive={new Color(1, 0.2, 0.2)}
@@ -1370,11 +1136,7 @@ function LaserSystem() {
       lasers.push(
         <group key={`floor-laser-${i}`} position={[x, 4, -20]}>
           <Cylinder args={[0.15, 0.15, 0.8]}>
-            <meshPhysicalMaterial
-              color={new Color(0.05, 0.05, 0.05)}
-              metalness={0.9}
-              roughness={0.1}
-            />
+            <meshPhysicalMaterial color={new Color(0.05, 0.05, 0.05)} metalness={0.9} roughness={0.1} />
           </Cylinder>
 
           {/* Vertikaler Laser-Strahl */}
@@ -1401,7 +1163,7 @@ function LaserSystem() {
 function ProfessionalSoundSystem() {
   const soundRef = useRef<Group>(null);
 
-  useFrame((state) => {
+  useFrame(state => {
     if (soundRef.current) {
       const bass = Math.sin(state.clock.elapsedTime * 2) * 0.02;
       soundRef.current.children.forEach((child, i) => {
@@ -1421,32 +1183,15 @@ function ProfessionalSoundSystem() {
       const paElements = [];
       for (let i = 0; i < 8; i++) {
         paElements.push(
-          <RoundedBox
-            key={`pa-box-${side}-${i}`}
-            args={[1.2, 0.8, 1.0]}
-            radius={0.08}
-            position={[0, i * 0.9, 0]}
-          >
-            <meshPhysicalMaterial
-              color={new Color(0.02, 0.02, 0.02)}
-              metalness={0.1}
-              roughness={0.8}
-            />
+          <RoundedBox key={`pa-box-${side}-${i}`} args={[1.2, 0.8, 1.0]} radius={0.08} position={[0, i * 0.9, 0]}>
+            <meshPhysicalMaterial color={new Color(0.02, 0.02, 0.02)} metalness={0.1} roughness={0.8} />
           </RoundedBox>
         );
 
         // Lautsprecher-Membranen
         paElements.push(
-          <Cylinder
-            key={`speaker-${side}-${i}`}
-            args={[0.25, 0.25, 0.05]}
-            position={[0, i * 0.9, 0.5]}
-          >
-            <meshPhysicalMaterial
-              color={new Color(0.1, 0.1, 0.1)}
-              metalness={0.3}
-              roughness={0.7}
-            />
+          <Cylinder key={`speaker-${side}-${i}`} args={[0.25, 0.25, 0.05]} position={[0, i * 0.9, 0.5]}>
+            <meshPhysicalMaterial color={new Color(0.1, 0.1, 0.1)} metalness={0.3} roughness={0.7} />
           </Cylinder>
         );
       }
@@ -1460,29 +1205,14 @@ function ProfessionalSoundSystem() {
       // SUBWOOFER-ARRAYS
       for (let sub = 0; sub < 4; sub++) {
         elements.push(
-          <group
-            key={`sub-array-${side}-${sub}`}
-            position={[x + (side === 0 ? 3 : -3), 2.5, -18 + sub * 2]}
-          >
-            <RoundedBox
-              args={[2, 1.8, 1.8]}
-              radius={0.1}
-              userData={{ isSubwoofer: true }}
-            >
-              <meshPhysicalMaterial
-                color={new Color(0.01, 0.01, 0.01)}
-                metalness={0.1}
-                roughness={0.9}
-              />
+          <group key={`sub-array-${side}-${sub}`} position={[x + (side === 0 ? 3 : -3), 2.5, -18 + sub * 2]}>
+            <RoundedBox args={[2, 1.8, 1.8]} radius={0.1} userData={{ isSubwoofer: true }}>
+              <meshPhysicalMaterial color={new Color(0.01, 0.01, 0.01)} metalness={0.1} roughness={0.9} />
             </RoundedBox>
 
             {/* Massive Sub-Woofer */}
             <Cylinder args={[0.6, 0.6, 0.1]} position={[0, 0, 0.9]}>
-              <meshPhysicalMaterial
-                color={new Color(0.05, 0.05, 0.05)}
-                metalness={0.4}
-                roughness={0.8}
-              />
+              <meshPhysicalMaterial color={new Color(0.05, 0.05, 0.05)} metalness={0.4} roughness={0.8} />
             </Cylinder>
           </group>
         );
@@ -1493,24 +1223,12 @@ function ProfessionalSoundSystem() {
     [-8, -3, 3, 8].forEach((x, i) => {
       elements.push(
         <group key={`monitor-${i}`} position={[x, 4.2, -18]}>
-          <RoundedBox
-            args={[1.5, 0.8, 1.2]}
-            radius={0.08}
-            rotation={[-Math.PI / 6, 0, 0]}
-          >
-            <meshPhysicalMaterial
-              color={new Color(0.02, 0.02, 0.02)}
-              metalness={0.1}
-              roughness={0.8}
-            />
+          <RoundedBox args={[1.5, 0.8, 1.2]} radius={0.08} rotation={[-Math.PI / 6, 0, 0]}>
+            <meshPhysicalMaterial color={new Color(0.02, 0.02, 0.02)} metalness={0.1} roughness={0.8} />
           </RoundedBox>
 
           <Cylinder args={[0.2, 0.2, 0.05]} position={[0, 0, 0.6]}>
-            <meshPhysicalMaterial
-              color={new Color(0.1, 0.1, 0.1)}
-              metalness={0.3}
-              roughness={0.7}
-            />
+            <meshPhysicalMaterial color={new Color(0.1, 0.1, 0.1)} metalness={0.3} roughness={0.7} />
           </Cylinder>
         </group>
       );
@@ -1528,26 +1246,13 @@ function ProfessionalSoundSystem() {
         <group key={`delay-tower-${i}`} position={pos}>
           {/* Tower Structure */}
           <RoundedBox args={[0.8, 8, 0.8]} radius={0.05}>
-            <meshPhysicalMaterial
-              color={new Color(0.05, 0.05, 0.05)}
-              metalness={0.7}
-              roughness={0.3}
-            />
+            <meshPhysicalMaterial color={new Color(0.05, 0.05, 0.05)} metalness={0.7} roughness={0.3} />
           </RoundedBox>
 
           {/* Delay Speakers */}
           {[0, 2, 4].map((y, idx) => (
-            <RoundedBox
-              key={`delay-speaker-${i}-${idx}`}
-              args={[1.0, 0.6, 0.8]}
-              radius={0.06}
-              position={[0, y - 2, 0]}
-            >
-              <meshPhysicalMaterial
-                color={new Color(0.02, 0.02, 0.02)}
-                metalness={0.1}
-                roughness={0.8}
-              />
+            <RoundedBox key={`delay-speaker-${i}-${idx}`} args={[1.0, 0.6, 0.8]} radius={0.06} position={[0, y - 2, 0]}>
+              <meshPhysicalMaterial color={new Color(0.02, 0.02, 0.02)} metalness={0.1} roughness={0.8} />
             </RoundedBox>
           ))}
         </group>
@@ -1691,11 +1396,7 @@ function StadiumLighting() {
             penumbra={0}
             intensity={15}
             color={new Color(1, 0.1, 0.1)}
-            target-position={[
-              Math.sin(angle) * 40,
-              10,
-              -30 + Math.cos(angle) * 40,
-            ]}
+            target-position={[Math.sin(angle) * 40, 10, -30 + Math.cos(angle) * 40]}
           />
         );
       })}
@@ -1718,9 +1419,7 @@ function StadiumLighting() {
       />
 
       {/* HINTERGRUND-FILL-LICHT für sanfte Schatten */}
-      <hemisphereLight
-        args={[new Color(0.2, 0.2, 0.3), new Color(0.05, 0.05, 0.08), 0.5]}
-      />
+      <hemisphereLight args={[new Color(0.2, 0.2, 0.3), new Color(0.05, 0.05, 0.08), 0.5]} />
     </group>
   );
 }
@@ -1732,17 +1431,11 @@ interface StadionRoomProps {
 }
 
 // HALLENSTADION ZÜRICH - Hauptkomponente
-export default function StadionRoom({
-  onRoomChange,
-  isFullscreen = false,
-  onFullscreen,
-}: StadionRoomProps) {
+export default function StadionRoom({ onRoomChange, isFullscreen = false, onFullscreen }: StadionRoomProps) {
   const [controlMode, setControlMode] = useState<"fps" | "orbit">("fps");
 
   // Giant Screen Control States
-  const [screenMode, setScreenMode] = useState<"off" | "youtube" | "live">(
-    "youtube"
-  );
+  const [screenMode, setScreenMode] = useState<"off" | "youtube" | "live">("youtube");
   const [currentVideo, setCurrentVideo] = useState("CD-E-LDc384");
   const [inputUrl, setInputUrl] = useState("");
   const [showVideoSelection, setShowVideoSelection] = useState(false);
@@ -1847,9 +1540,7 @@ export default function StadionRoom({
           {showVideoSelection && screenMode === "youtube" && (
             <div className="bg-black/95 backdrop-blur-md p-4 rounded-xl border-2 border-blue-500/50 shadow-2xl">
               <div className="flex justify-between items-center mb-3">
-                <h3 className="text-white font-bold text-lg">
-                  🎸 VIDEO AUSWAHL
-                </h3>
+                <h3 className="text-white font-bold text-lg">🎸 VIDEO AUSWAHL</h3>
                 <button
                   onClick={() => setShowVideoSelection(false)}
                   className="text-white hover:text-red-500 font-bold text-xl transition-colors"
@@ -1863,16 +1554,14 @@ export default function StadionRoom({
                 <input
                   type="text"
                   value={inputUrl}
-                  onChange={(e) => setInputUrl(e.target.value)}
+                  onChange={e => setInputUrl(e.target.value)}
                   placeholder="🔗 YouTube URL hier einfügen..."
                   className="w-full px-3 py-2 bg-gray-900 text-white border border-gray-700 rounded-lg focus:border-blue-500 focus:outline-none text-sm"
                 />
                 <button
                   onClick={() => {
                     if (inputUrl) {
-                      const videoId =
-                        inputUrl.split("v=")[1]?.split("&")[0] ||
-                        inputUrl.split("/").pop();
+                      const videoId = inputUrl.split("v=")[1]?.split("&")[0] || inputUrl.split("/").pop();
                       if (videoId) {
                         setCurrentVideo(videoId);
                         setShowVideoSelection(false);
@@ -1896,7 +1585,7 @@ export default function StadionRoom({
                   { title: "Rammstein - Engel", id: "x2rQzv8OWEY" },
                   { title: "Slipknot - Duality", id: "6Xmq7BgUjqw" },
                   { title: "Metallica - Enter Sandman", id: "CD-E-LDc384" },
-                ].map((video) => (
+                ].map(video => (
                   <button
                     key={video.id}
                     onClick={() => {
@@ -1921,237 +1610,215 @@ export default function StadionRoom({
           )}
         </div>
 
-        <Canvas
-          shadows
-          camera={{
-            position: [0, 12, 55],
-            fov: 70,
-            near: 0.1,
-            far: 400,
-          }}
-          gl={{
-            antialias: true,
-            alpha: false,
-            powerPreference: "high-performance",
-            toneMapping: THREE.ACESFilmicToneMapping,
-            toneMappingExposure: 1.2,
-          }}
-          dpr={[1, 2]}
-          style={{
-            background: "linear-gradient(to bottom, #000000, #0a0a0f, #050510)",
-          }}
+        <WebGLCanvasWrapper
+          roomName="Metal Arena Stadium"
+          roomIcon="🏟️"
+          onRoomChange={onRoomChange}
+          isFullscreen={isFullscreen}
         >
-          {/* UMGEBUNG - Metal Concert Atmosphere */}
-          <Environment preset="night" background={false} />
-          <fog attach="fog" args={[new Color(0.02, 0.02, 0.05), 40, 200]} />
-
-          {/* BELEUCHTUNG */}
-          <StadiumLighting />
-
-          {/* STADIUM-STRUKTUR */}
-          <StadiumStructure
-            onRoomChange={
-              onRoomChange ? () => onRoomChange("welcome") : undefined
-            }
-            handleRoomChange={handleRoomChange}
-          />
-          <StadiumSeats onRoomChange={onRoomChange} />
-          <MainStage
-            screenMode={screenMode}
-            currentVideo={currentVideo}
-            showVideoSelection={showVideoSelection}
-            setShowVideoSelection={setShowVideoSelection}
-            setCurrentVideo={setCurrentVideo}
-            inputUrl={inputUrl}
-            setInputUrl={setInputUrl}
-          />
-          <StageLights />
-
-          {/* 🎥 LIVE WEBCAM DISPLAY - NEW FEATURE (non-intrusive) */}
-          <StadiumWebcamDisplay
-            webcamUsers={webcamUsers}
-            scene={sceneRef.current}
-            camera={cameraRef.current}
-            renderer={rendererRef.current}
-          />
-
-          {/* ATMOSPHÄRISCHE EFFEKTE - Wie beim echten Konzert */}
-
-          {/* SPARKLES für Konzert-Atmosphäre */}
-          <Sparkles
-            count={200}
-            scale={[80, 40, 80]}
-            size={2}
-            speed={0.3}
-            opacity={0.6}
-            color={new Color(1, 0.8, 0.4)}
-            position={[0, 15, 0]}
-          />
-
-          {/* BÜHNEN-NEBEL SIMULATION */}
-          {Array.from({ length: 30 }).map((_, i) => {
-            const angle = (i / 30) * Math.PI * 2;
-            const radius = 15 + Math.random() * 10;
-            return (
-              <Sphere
-                key={`fog-particle-${i}`}
-                args={[1 + Math.random() * 2]}
-                position={[
-                  Math.sin(angle) * radius,
-                  1 + Math.random() * 3,
-                  -35 + Math.cos(angle) * radius,
-                ]}
-              >
-                <meshPhysicalMaterial
-                  color={new Color(0.3, 0.3, 0.4)}
-                  transparent
-                  opacity={0.1}
-                  depthWrite={false}
-                />
-              </Sphere>
-            );
-          })}
-
-          {/* KONTAKT-SCHATTEN */}
-          <ContactShadows
-            position={[0, -0.1, 0]}
-            scale={150}
-            blur={2.5}
-            far={60}
-            opacity={0.7}
-            color={new Color(0.03, 0.03, 0.05)}
-          />
-
-          {/* STADIUM-TITEL */}
-          <Float speed={0.6} rotationIntensity={0.05} floatIntensity={0.2}>
-            <Text
-              position={[0, 38, 20]}
-              fontSize={4.5}
-              color={new Color(1.0, 0.3, 0.0)}
-              anchorX="center"
-              anchorY="middle"
-              outlineWidth={0.15}
-              outlineColor={new Color(0, 0, 0)}
-            >
-              🏟️ HALLENSTADION ZÜRICH 🏟️
-            </Text>
-          </Float>
-
-          <Text
-            position={[0, 32, 20]}
-            fontSize={2}
-            color={new Color(0.9, 0.9, 1.0)}
-            anchorX="center"
-            anchorY="middle"
+          <Canvas
+            shadows
+            camera={{
+              position: [0, 12, 55],
+              fov: 70,
+              near: 0.1,
+              far: 400,
+            }}
+            gl={{
+              antialias: true,
+              alpha: false,
+              powerPreference: "high-performance",
+              toneMapping: THREE.ACESFilmicToneMapping,
+              toneMappingExposure: 1.2,
+            }}
+            dpr={[1, 2]}
+            onCreated={state => {
+              console.log("Stadium Canvas created successfully with WebGL context");
+            }}
+            style={{
+              background: "linear-gradient(to bottom, #000000, #0a0a0f, #050510)",
+            }}
           >
-            FOTOREALISTISCHES 3D KONZERT-ERLEBNIS
-          </Text>
+            {/* UMGEBUNG - Metal Concert Atmosphere */}
+            <Environment preset="night" background={false} />
+            <fog attach="fog" args={[new Color(0.02, 0.02, 0.05), 40, 200]} />
 
-          {/* LIVE INDICATOR */}
-          <Float speed={2} floatIntensity={0.5}>
+            {/* BELEUCHTUNG */}
+            <StadiumLighting />
+
+            {/* STADIUM-STRUKTUR */}
+            <StadiumStructure
+              onRoomChange={onRoomChange ? () => onRoomChange("welcome") : undefined}
+              handleRoomChange={handleRoomChange}
+            />
+            <StadiumSeats onRoomChange={onRoomChange} />
+            <MainStage
+              screenMode={screenMode}
+              currentVideo={currentVideo}
+              showVideoSelection={showVideoSelection}
+              setShowVideoSelection={setShowVideoSelection}
+              setCurrentVideo={setCurrentVideo}
+              inputUrl={inputUrl}
+              setInputUrl={setInputUrl}
+            />
+            <StageLights />
+
+            {/* 🎥 LIVE WEBCAM DISPLAY - NEW FEATURE (non-intrusive) */}
+            <StadiumWebcamDisplay
+              webcamUsers={webcamUsers}
+              scene={sceneRef.current}
+              camera={cameraRef.current}
+              renderer={rendererRef.current}
+            />
+
+            {/* ATMOSPHÄRISCHE EFFEKTE - Wie beim echten Konzert */}
+
+            {/* SPARKLES für Konzert-Atmosphäre */}
+            <Sparkles
+              count={200}
+              scale={[80, 40, 80]}
+              size={2}
+              speed={0.3}
+              opacity={0.6}
+              color={new Color(1, 0.8, 0.4)}
+              position={[0, 15, 0]}
+            />
+
+            {/* BÜHNEN-NEBEL SIMULATION */}
+            {Array.from({ length: 30 }).map((_, i) => {
+              const angle = (i / 30) * Math.PI * 2;
+              const radius = 15 + Math.random() * 10;
+              return (
+                <Sphere
+                  key={`fog-particle-${i}`}
+                  args={[1 + Math.random() * 2]}
+                  position={[Math.sin(angle) * radius, 1 + Math.random() * 3, -35 + Math.cos(angle) * radius]}
+                >
+                  <meshPhysicalMaterial color={new Color(0.3, 0.3, 0.4)} transparent opacity={0.1} depthWrite={false} />
+                </Sphere>
+              );
+            })}
+
+            {/* KONTAKT-SCHATTEN */}
+            <ContactShadows
+              position={[0, -0.1, 0]}
+              scale={150}
+              blur={2.5}
+              far={60}
+              opacity={0.7}
+              color={new Color(0.03, 0.03, 0.05)}
+            />
+
+            {/* STADIUM-TITEL */}
+            <Float speed={0.6} rotationIntensity={0.05} floatIntensity={0.2}>
+              <Text
+                position={[0, 38, 20]}
+                fontSize={4.5}
+                color={new Color(1.0, 0.3, 0.0)}
+                anchorX="center"
+                anchorY="middle"
+                outlineWidth={0.15}
+                outlineColor={new Color(0, 0, 0)}
+              >
+                🏟️ HALLENSTADION ZÜRICH 🏟️
+              </Text>
+            </Float>
+
             <Text
-              position={[0, 22, -46]}
-              fontSize={2.5}
-              color={new Color(1, 0, 0)}
+              position={[0, 32, 20]}
+              fontSize={2}
+              color={new Color(0.9, 0.9, 1.0)}
               anchorX="center"
               anchorY="middle"
-              outlineWidth={0.1}
-              outlineColor={new Color(1, 1, 1)}
             >
-              ● LIVE NOW
+              FOTOREALISTISCHES 3D KONZERT-ERLEBNIS
             </Text>
-          </Float>
 
-          {/* STERNEN-HIMMEL */}
-          <Stars
-            radius={200}
-            depth={150}
-            count={500}
-            factor={4}
-            saturation={0.1}
-            fade
-            speed={0.2}
-          />
+            {/* LIVE INDICATOR */}
+            <Float speed={2} floatIntensity={0.5}>
+              <Text
+                position={[0, 22, -46]}
+                fontSize={2.5}
+                color={new Color(1, 0, 0)}
+                anchorX="center"
+                anchorY="middle"
+                outlineWidth={0.1}
+                outlineColor={new Color(1, 1, 1)}
+              >
+                ● LIVE NOW
+              </Text>
+            </Float>
 
-          {/* BEWEGUNGSSTEUERUNG */}
-          {controlMode === "fps" ? (
-            <FPSControls
-              movementSpeed={12}
-              lookSpeed={0.002}
-              boundaries={{ minX: -95, maxX: 95, minZ: -95, maxZ: 95 }}
-            />
-          ) : (
-            <OrbitControls
-              enableZoom={true}
-              enablePan={true}
-              enableRotate={true}
-              maxDistance={180}
-              minDistance={10}
-              maxPolarAngle={Math.PI / 2.1}
-              minPolarAngle={Math.PI / 8}
-              enableDamping={true}
-              dampingFactor={0.05}
-              target={[0, 10, -20]}
-              maxAzimuthAngle={Math.PI * 2}
-              minAzimuthAngle={-Math.PI * 2}
-            />
-          )}
+            {/* STERNEN-HIMMEL */}
+            <Stars radius={200} depth={150} count={500} factor={4} saturation={0.1} fade speed={0.2} />
 
-          {/* EXIT DOOR INSTRUCTIONS */}
-          {onRoomChange && (
-            <Html position={[0, 8, 40]} center distanceFactor={12}>
-              <div className="bg-black/80 backdrop-blur-sm rounded-lg p-4 text-center">
-                <h3 className="text-white font-bold mb-2">🚪 Navigation</h3>
-                <p className="text-gray-300 text-xs mb-2">
-                  🛡️ Kollision aktiv - Boden sicher
-                </p>
-                <div className="flex gap-2 mb-2">
-                  <button
-                    onClick={() => handleControlMode("fps")}
-                    className={`px-3 py-1 rounded text-sm ${
-                      controlMode === "fps"
-                        ? "bg-red-500 text-white"
-                        : "bg-gray-600 text-gray-300"
-                    }`}
-                  >
-                    🏃 FPS (WASD)
-                  </button>
-                  <button
-                    onClick={() => handleControlMode("orbit")}
-                    className={`px-3 py-1 rounded text-sm ${
-                      controlMode === "orbit"
-                        ? "bg-red-500 text-white"
-                        : "bg-gray-600 text-gray-300"
-                    }`}
-                  >
-                    🎥 Orbit
-                  </button>
+            {/* BEWEGUNGSSTEUERUNG */}
+            {controlMode === "fps" ? (
+              <FPSControls
+                movementSpeed={12}
+                lookSpeed={0.002}
+                boundaries={{ minX: -95, maxX: 95, minZ: -95, maxZ: 95 }}
+              />
+            ) : (
+              <OrbitControls
+                enableZoom={true}
+                enablePan={true}
+                enableRotate={true}
+                maxDistance={180}
+                minDistance={10}
+                maxPolarAngle={Math.PI / 2.1}
+                minPolarAngle={Math.PI / 8}
+                enableDamping={true}
+                dampingFactor={0.05}
+                target={[0, 10, -20]}
+                maxAzimuthAngle={Math.PI * 2}
+                minAzimuthAngle={-Math.PI * 2}
+              />
+            )}
+
+            {/* EXIT DOOR INSTRUCTIONS */}
+            {onRoomChange && (
+              <Html position={[0, 8, 40]} center distanceFactor={12}>
+                <div className="bg-black/80 backdrop-blur-sm rounded-lg p-4 text-center">
+                  <h3 className="text-white font-bold mb-2">🚪 Navigation</h3>
+                  <p className="text-gray-300 text-xs mb-2">🛡️ Kollision aktiv - Boden sicher</p>
+                  <div className="flex gap-2 mb-2">
+                    <button
+                      onClick={() => handleControlMode("fps")}
+                      className={`px-3 py-1 rounded text-sm ${
+                        controlMode === "fps" ? "bg-red-500 text-white" : "bg-gray-600 text-gray-300"
+                      }`}
+                    >
+                      🏃 FPS (WASD)
+                    </button>
+                    <button
+                      onClick={() => handleControlMode("orbit")}
+                      className={`px-3 py-1 rounded text-sm ${
+                        controlMode === "orbit" ? "bg-red-500 text-white" : "bg-gray-600 text-gray-300"
+                      }`}
+                    >
+                      🎥 Orbit
+                    </button>
+                  </div>
+                  {onFullscreen && (
+                    <button
+                      onClick={onFullscreen}
+                      className="px-3 py-1 rounded text-sm bg-blue-600 hover:bg-blue-700 text-white w-full mb-2"
+                      title={isFullscreen ? "Vollbild verlassen" : "Vollbild"}
+                    >
+                      {isFullscreen ? "📱 Normal" : "🖥️ Vollbild"}
+                    </button>
+                  )}
+                  <p className="text-green-400 text-sm font-bold mb-2">🚪 Klicke auf EXIT-Türen zum Verlassen</p>
+                  <p className="text-yellow-400 text-xs font-bold">🔴 LIVE KONZERT Button auf Giant Screen!</p>
                 </div>
-                {onFullscreen && (
-                  <button
-                    onClick={onFullscreen}
-                    className="px-3 py-1 rounded text-sm bg-blue-600 hover:bg-blue-700 text-white w-full mb-2"
-                    title={isFullscreen ? "Vollbild verlassen" : "Vollbild"}
-                  >
-                    {isFullscreen ? "📱 Normal" : "🖥️ Vollbild"}
-                  </button>
-                )}
-                <p className="text-green-400 text-sm font-bold mb-2">
-                  🚪 Klicke auf EXIT-Türen zum Verlassen
-                </p>
-                <p className="text-yellow-400 text-xs font-bold">
-                  🔴 LIVE KONZERT Button auf Giant Screen!
-                </p>
-              </div>
-            </Html>
-          )}
-        </Canvas>
+              </Html>
+            )}
+          </Canvas>
+        </WebGLCanvasWrapper>
 
         {/* 🎥 LIVE WEBCAM INTEGRATION - NEW FEATURE */}
-        <LiveWebcamIntegration
-          isInStadium={true}
-          onWebcamUsersUpdate={handleWebcamUsersUpdate}
-        />
+        <LiveWebcamIntegration isInStadium={true} onWebcamUsersUpdate={handleWebcamUsersUpdate} />
 
         {/* Fullscreen Exit Button */}
         {isFullscreen && (

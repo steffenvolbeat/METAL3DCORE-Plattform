@@ -81,18 +81,8 @@ export default function LoginForm({ onToggleMode, onClose }: Props) {
         onClick={onClose}
         className="absolute top-4 right-4 text-theme-secondary hover:text-theme-accent transition-all duration-300 hover:scale-110 hover:rotate-90 z-10"
       >
-        <svg
-          className="w-6 h-6"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M6 18L18 6M6 6l12 12"
-          />
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
         </svg>
       </button>
 
@@ -100,9 +90,7 @@ export default function LoginForm({ onToggleMode, onClose }: Props) {
         <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-orange-500 to-red-600 rounded-full mb-4 shadow-lg animate-pulse-glow">
           <span className="text-3xl">🎸</span>
         </div>
-        <h2 className="text-3xl font-black text-theme-primary mb-2 tracking-tight">
-          Welcome Back!
-        </h2>
+        <h2 className="text-3xl font-black text-theme-primary mb-2 tracking-tight">Welcome Back!</h2>
         <p className="text-theme-secondary">Melde dich bei Metal3DCore an</p>
       </div>
 
@@ -118,10 +106,7 @@ export default function LoginForm({ onToggleMode, onClose }: Props) {
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
         {/* Email Field */}
         <div className="space-y-2">
-          <label
-            htmlFor="email"
-            className="block text-sm font-bold text-theme-primary"
-          >
+          <label htmlFor="email" className="block text-sm font-bold text-theme-primary">
             E-Mail-Adresse
           </label>
           <input
@@ -130,6 +115,7 @@ export default function LoginForm({ onToggleMode, onClose }: Props) {
             id="email"
             className="w-full px-4 py-3 bg-theme-card/50 border-2 border-theme-secondary/30 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-theme-accent focus:border-theme-accent text-theme-primary placeholder-theme-secondary/50 transition-all duration-300 hover:border-theme-accent/50"
             placeholder="deine@email.com"
+            data-cy="email-input"
           />
           {errors.email && (
             <p className="text-sm text-red-400 flex items-center gap-1 animate-in slide-in-from-left-1 duration-200">
@@ -140,10 +126,7 @@ export default function LoginForm({ onToggleMode, onClose }: Props) {
 
         {/* Password Field */}
         <div className="space-y-2">
-          <label
-            htmlFor="password"
-            className="block text-sm font-bold text-theme-primary"
-          >
+          <label htmlFor="password" className="block text-sm font-bold text-theme-primary">
             Passwort
           </label>
           <input
@@ -152,6 +135,7 @@ export default function LoginForm({ onToggleMode, onClose }: Props) {
             id="password"
             className="w-full px-4 py-3 bg-theme-card/50 border-2 border-theme-secondary/30 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-theme-accent focus:border-theme-accent text-theme-primary placeholder-theme-secondary/50 transition-all duration-300 hover:border-theme-accent/50"
             placeholder="••••••••"
+            data-cy="password-input"
           />
           {errors.password && (
             <p className="text-sm text-red-400 flex items-center gap-1 animate-in slide-in-from-left-1 duration-200">
@@ -165,23 +149,13 @@ export default function LoginForm({ onToggleMode, onClose }: Props) {
           type="submit"
           disabled={isLoading}
           className="group relative w-full overflow-hidden bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white font-bold py-3.5 px-4 rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 shadow-xl hover:shadow-2xl mt-6"
+          data-cy="login-submit"
         >
           <div className="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
           {isLoading ? (
             <div className="relative flex items-center justify-center gap-2">
-              <svg
-                className="animate-spin h-5 w-5 text-white"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <circle
-                  className="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  strokeWidth="4"
-                ></circle>
+              <svg className="animate-spin h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                 <path
                   className="opacity-75"
                   fill="currentColor"
@@ -203,9 +177,7 @@ export default function LoginForm({ onToggleMode, onClose }: Props) {
             <div className="w-full border-t border-theme-secondary/30"></div>
           </div>
           <div className="relative flex justify-center text-sm">
-            <span className="px-3 bg-black/90 text-theme-secondary font-medium">
-              Oder
-            </span>
+            <span className="px-3 bg-black/90 text-theme-secondary font-medium">Oder</span>
           </div>
         </div>
       </div>

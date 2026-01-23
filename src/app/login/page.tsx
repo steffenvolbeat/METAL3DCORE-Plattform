@@ -16,7 +16,10 @@ function LoginPageContent() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div
+      className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8"
+      data-cy="login-page"
+    >
       <div className="w-full max-w-lg">
         <div className="backdrop-blur-xl bg-black/90 rounded-2xl border-2 border-theme-primary/30 shadow-2xl shadow-theme-primary/20 relative overflow-hidden">
           <LoginForm onClose={handleClose} onToggleMode={handleToggleMode} />

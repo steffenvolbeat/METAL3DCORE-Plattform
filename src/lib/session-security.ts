@@ -132,9 +132,7 @@ class SessionStore {
    * Get all sessions for a user
    */
   getUserSessions(userId: string): SessionMetadata[] {
-    return Array.from(this.sessions.values()).filter(
-      (session) => session.userId === userId
-    );
+    return Array.from(this.sessions.values()).filter(session => session.userId === userId);
   }
 
   /**
