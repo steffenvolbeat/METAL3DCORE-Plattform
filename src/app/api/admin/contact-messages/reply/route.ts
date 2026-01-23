@@ -46,15 +46,8 @@ export async function POST(request: NextRequest) {
     // Auth Check
     const session = await getServerSession(authOptions);
 
-    if (
-      !session?.user ||
-      !session.user.role ||
-      !["ADMIN", "MODERATOR"].includes(session.user.role)
-    ) {
-      return NextResponse.json(
-        { error: "Unauthorized - Admin access required" },
-        { status: 403 }
-      );
+    if (!session?.user || !session.user.role || !["ADMIN", "MODERATOR"].includes(session.user.role)) {
+      return NextResponse.json({ error: "Unauthorized - Admin access required" }, { status: 403 });
     }
 
     // Validation
@@ -79,10 +72,7 @@ export async function POST(request: NextRequest) {
     });
 
     if (!originalMessage) {
-      return NextResponse.json(
-        { error: "Contact message not found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "Contact message not found" }, { status: 404 });
     }
 
     // Create reply
@@ -144,9 +134,7 @@ ${content}
 
               <div style="background: #f0f0f0; padding: 15px; border-radius: 5px; margin: 20px 0;">
                 <p style="margin: 0 0 10px 0; font-weight: bold; color: #333;">Ihre ursprüngliche Nachricht:</p>
-                <p style="margin: 0; color: #555; font-style: italic;">${
-                  originalMessage.message
-                }</p>
+                <p style="margin: 0; color: #555; font-style: italic;">${originalMessage.message}</p>
               </div>
 
               <p style="color: #555; line-height: 1.6;">
@@ -160,9 +148,7 @@ ${content}
               </div>
 
               <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd; text-align: center; color: #666; font-size: 14px;">
-                <p>Mit rockigen Grüßen,<br>${
-                  session.user.name || "Das 3DMetal Support Team"
-                }</p>
+                <p>Mit rockigen Grüßen,<br>${session.user.name || "Das 3DMetal Support Team"}</p>
                 <p style="font-size: 12px; color: #999;">Ticket-ID: ${messageId}</p>
               </div>
             </div>
@@ -209,10 +195,7 @@ ${content}
     });
   } catch (error) {
     console.error("❌ Reply API Error:", error);
-    return NextResponse.json(
-      { error: "Failed to send reply" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to send reply" }, { status: 500 });
   }
 }
 
@@ -222,25 +205,15 @@ export async function GET(request: NextRequest) {
     // Auth Check
     const session = await getServerSession(authOptions);
 
-    if (
-      !session?.user ||
-      !session.user.role ||
-      !["ADMIN", "MODERATOR"].includes(session.user.role)
-    ) {
-      return NextResponse.json(
-        { error: "Unauthorized - Admin access required" },
-        { status: 403 }
-      );
+    if (!session?.user || !session.user.role || !["ADMIN", "MODERATOR"].includes(session.user.role)) {
+      return NextResponse.json({ error: "Unauthorized - Admin access required" }, { status: 403 });
     }
 
     const { searchParams } = new URL(request.url);
     const messageId = searchParams.get("messageId");
 
     if (!messageId) {
-      return NextResponse.json(
-        { error: "messageId is required" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "messageId is required" }, { status: 400 });
     }
 
     const replies = await prisma.contactReply.findMany({
@@ -264,9 +237,6 @@ export async function GET(request: NextRequest) {
     });
   } catch (error) {
     console.error("❌ Get Replies Error:", error);
-    return NextResponse.json(
-      { error: "Failed to fetch replies" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to fetch replies" }, { status: 500 });
   }
 }

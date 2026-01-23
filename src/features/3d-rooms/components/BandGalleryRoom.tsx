@@ -1,6 +1,6 @@
 "use client";
 
-import { Canvas } from "@react-three/fiber";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import {
   OrbitControls,
   Plane,
@@ -15,10 +15,9 @@ import {
   Sphere,
   Sparkles,
 } from "@react-three/drei";
-import { useState, Suspense } from "react";
-import { Color, Vector3 } from "three";
+import { useState, Suspense, useRef } from "react";
+import { Color, Vector3, Group } from "three";
 import { FPSControls } from "@/shared/components/3d";
-import { WebGLCanvasWrapper } from "@/shared/components/WebGLCanvasWrapper";
 
 // BAND GALLERY ROOM Images - 360° Galerie mit Medien-Daten
 const bandImages = [
@@ -210,6 +209,9 @@ function InteractiveArtwork({ img, index, position, rotation }: any) {
   const [showVideo, setShowVideo] = useState(false);
   const [videoStarted, setVideoStarted] = useState(false);
   const [editableEvents, setEditableEvents] = useState(img.events || []);
+  const groupRef = useRef<Group | null>(null);
+  const { camera } = useThree();
+  const lookAtTarget = useRef(new Vector3());
 
   const handleClick = () => {
     if (!isFlipped) {
@@ -238,10 +240,22 @@ function InteractiveArtwork({ img, index, position, rotation }: any) {
     setEditableEvents(newEvents);
   };
 
+  useFrame(() => {
+    if (!groupRef.current) return;
+    // Billboard the artwork towards the camera while keeping it upright
+    const target = lookAtTarget.current;
+    target.set(camera.position.x, groupRef.current.position.y, camera.position.z);
+    groupRef.current.lookAt(target);
+    // Maintain flip state (180° around Y when showing back/video)
+    if (isFlipped) {
+      groupRef.current.rotateY(Math.PI);
+    }
+  });
+
   return (
     <group
+      ref={groupRef}
       position={position}
-      rotation={[0, rotation[1] + (isFlipped ? Math.PI : 0), 0]}
       onClick={handleClick}
       onPointerOver={e => {
         e.stopPropagation();
@@ -304,12 +318,19 @@ function InteractiveArtwork({ img, index, position, rotation }: any) {
           <Box args={[4.3, 6.3, 0.35]} position={[0, 3.25, 0.05]}>
             <meshBasicMaterial color={new Color(0, 0, 0)} />
           </Box>
-          <Html position={[0, 3.25, 0.25]} center distanceFactor={1}>
+          <Html
+            position={[0, 3.25, 0.25]}
+            center
+            distanceFactor={8}
+            onPointerDown={e => e.stopPropagation()}
+            onClick={e => e.stopPropagation()}
+            onWheel={e => e.stopPropagation()}
+          >
             <div
-              className="bg-gradient-to-br from-purple-900 via-black to-purple-900"
+              className="bg-linear-to-br from-purple-900 via-black to-purple-900"
               style={{
-                width: "min(95vw, 800px)",
-                minHeight: "600px",
+                width: "min(28vw, 1024px)",
+                minHeight: "700px",
                 maxHeight: "90vh",
                 display: "flex",
                 flexDirection: "column",
@@ -324,11 +345,11 @@ function InteractiveArtwork({ img, index, position, rotation }: any) {
               }}
             >
               {/* VIDEO ICON & BAND INFO */}
-              <div className="text-center mb-8">
-                <div className="w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 bg-gradient-to-br from-red-500 to-red-700 rounded-full flex items-center justify-center mb-6 shadow-2xl shadow-red-500/50 mx-auto animate-pulse">
+              <div className="relative justify-center text-center mb-8">
+                <div className="w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 bg-linear-to-br from-red-500 to-red-700 rounded-full flex items-center justify-center mb-6 shadow-2xl shadow-red-500/50 mx-auto animate-pulse">
                   <span className="text-6xl md:text-7xl lg:text-9xl">🎬</span>
                 </div>
-                <h2 className="text-3xl md:text-5xl lg:text-6xl font-black mb-4 bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent px-4">
+                <h2 className="text-3xl md:text-5xl lg:text-6xl font-black mb-4 bg-linear-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent px-4">
                   {img.title}
                 </h2>
                 <p className="text-2xl md:text-3xl lg:text-4xl text-purple-300 mb-3">Official Music Video</p>
@@ -351,10 +372,12 @@ function InteractiveArtwork({ img, index, position, rotation }: any) {
                     );
                   }
                 }}
-                className="w-full max-w-lg bg-gradient-to-r from-red-600 via-red-500 to-red-600 hover:from-red-700 hover:via-red-600 hover:to-red-700 text-white text-2xl md:text-4xl lg:text-5xl font-black py-6 md:py-8 lg:py-10 rounded-3xl shadow-2xl shadow-red-500/50 transition-all duration-300 hover:scale-105 hover:shadow-red-400/70 flex items-center justify-center gap-4 md:gap-6 mb-6"
+                className="w-full max-w-lg bg-linear-to-r from-red-600 via-red-500 to-red-600 hover:from-red-700 hover:via-red-600 hover:to-red-700 text-white text-2xl md:text-4xl lg:text-5xl font-black py-6 md:py-8 lg:py-10 rounded-3xl shadow-2xl shadow-red-500/50 transition-all duration-300 hover:scale-105 hover:shadow-red-400/70 flex items-center justify-center gap-4 md:gap-6 mb-6"
               >
-                <span className="text-4xl md:text-6xl lg:text-7xl">▶️</span>
-                <span className="leading-tight">VIDEO ABSPIELEN</span>
+                <span className="text-4xl md:text-6xl lg:text-4xl">▶️</span>
+                <div className="flex col-1 m-3.5">
+                  <span className="leading-tight text-2xl">VIDEO ABSPIELEN</span>
+                </div>
               </button>
 
               {/* EVENT DATA BUTTON */}
@@ -364,7 +387,7 @@ function InteractiveArtwork({ img, index, position, rotation }: any) {
                   setShowVideo(false);
                   setVideoStarted(false);
                 }}
-                className="w-full max-w-lg bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 hover:from-yellow-500 hover:via-orange-600 hover:to-red-600 text-white text-xl md:text-3xl lg:text-4xl font-black py-5 md:py-7 lg:py-8 rounded-2xl shadow-2xl shadow-orange-500/50 transition-all duration-300 hover:scale-105 hover:shadow-orange-400/70 flex items-center justify-center gap-3 md:gap-4"
+                className="w-full max-w-lg bg-linear-to-r from-yellow-400 via-orange-500 to-red-500 hover:from-yellow-500 hover:via-orange-600 hover:to-red-600 text-white text-xl md:text-3xl lg:text-4xl font-black py-5 md:py-7 lg:py-8 rounded-2xl shadow-2xl shadow-orange-500/50 transition-all duration-300 hover:scale-105 hover:shadow-orange-400/70 flex items-center justify-center gap-3 md:gap-4"
               >
                 <span>🎟️</span>
                 <span className="leading-tight">Event-Daten anzeigen</span>
@@ -380,11 +403,18 @@ function InteractiveArtwork({ img, index, position, rotation }: any) {
           <Box args={[4.3, 6.3, 0.35]} position={[0, 3.25, -0.05]}>
             <meshBasicMaterial color={new Color(0, 0, 0)} />
           </Box>
-          <Html position={[0, 3.25, -0.25]} center distanceFactor={1}>
+          <Html
+            position={[0, 3.25, -0.25]}
+            center
+            distanceFactor={8}
+            onPointerDown={e => e.stopPropagation()}
+            onClick={e => e.stopPropagation()}
+            onWheel={e => e.stopPropagation()}
+          >
             <div
-              className="bg-gradient-to-br from-purple-900 to-black text-white"
+              className="bg-linear-to-br from-purple-900 to-black text-white"
               style={{
-                width: "min(95vw, 900px)",
+                width: "min(30vw, 1024px)",
                 minHeight: "500px",
                 maxHeight: "90vh",
                 overflow: "auto",
@@ -398,7 +428,7 @@ function InteractiveArtwork({ img, index, position, rotation }: any) {
               }}
             >
               <div className="text-center mb-8">
-                <h2 className="text-3xl md:text-4xl lg:text-5xl font-black mb-3 bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent px-4">
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-black mb-3 bg-linear-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent px-4">
                   🎸 {img.title}
                 </h2>
                 <p className="text-xl md:text-2xl text-purple-300">🎟️ Tour Dates & Tickets 🎟️</p>
@@ -406,7 +436,7 @@ function InteractiveArtwork({ img, index, position, rotation }: any) {
               {editableEvents.map((event: any, eventIndex: number) => (
                 <div
                   key={eventIndex}
-                  className="mb-8 p-6 md:p-8 lg:p-10 bg-gradient-to-br from-black/90 to-purple-900/50 rounded-2xl border-3 border-purple-400 shadow-2xl shadow-purple-500/50 hover:border-yellow-400 transition-all duration-300 hover:scale-[1.01]"
+                  className="mb-8 p-6 md:p-8 lg:p-10 bg-linear-to-br from-black/90 to-purple-900/50 rounded-2xl border-3 border-purple-400 shadow-2xl shadow-purple-500/50 hover:border-yellow-400 transition-all duration-300 hover:scale-[1.01]"
                 >
                   <div className="mb-6">
                     <label className="block text-lg md:text-xl lg:text-2xl text-purple-200 mb-3 font-black">
@@ -416,7 +446,7 @@ function InteractiveArtwork({ img, index, position, rotation }: any) {
                       type="text"
                       value={event.date}
                       onChange={e => updateEvent(eventIndex, "date", e.target.value)}
-                      className="w-full bg-gradient-to-r from-purple-700 to-purple-800 text-white p-4 md:p-5 lg:p-6 rounded-xl text-base md:text-lg lg:text-xl border-3 border-purple-400 focus:border-yellow-400 focus:ring-4 focus:ring-yellow-400/50 focus:outline-none font-bold shadow-lg transition-all duration-200 hover:shadow-yellow-400/30"
+                      className="w-full bg-linear-to-r from-purple-700 to-purple-800 text-white p-4 md:p-5 lg:p-6 rounded-xl text-base md:text-lg lg:text-xl border-3 border-purple-400 focus:border-yellow-400 focus:ring-4 focus:ring-yellow-400/50 focus:outline-none font-bold shadow-lg transition-all duration-200 hover:shadow-yellow-400/30"
                       placeholder="z.B. 15.05.2026"
                     />
                   </div>
@@ -428,7 +458,7 @@ function InteractiveArtwork({ img, index, position, rotation }: any) {
                       type="text"
                       value={event.venue}
                       onChange={e => updateEvent(eventIndex, "venue", e.target.value)}
-                      className="w-full bg-gradient-to-r from-purple-700 to-purple-800 text-white p-4 md:p-5 lg:p-6 rounded-xl text-base md:text-lg lg:text-xl border-3 border-purple-400 focus:border-yellow-400 focus:ring-4 focus:ring-yellow-400/50 focus:outline-none font-bold shadow-lg transition-all duration-200 hover:shadow-yellow-400/30"
+                      className="w-full bg-linear-to-r from-purple-700 to-purple-800 text-white p-4 md:p-5 lg:p-6 rounded-xl text-base md:text-lg lg:text-xl border-3 border-purple-400 focus:border-yellow-400 focus:ring-4 focus:ring-yellow-400/50 focus:outline-none font-bold shadow-lg transition-all duration-200 hover:shadow-yellow-400/30"
                       placeholder="z.B. Mercedes-Benz Arena Berlin"
                     />
                   </div>
@@ -440,13 +470,13 @@ function InteractiveArtwork({ img, index, position, rotation }: any) {
                       type="text"
                       value={event.price}
                       onChange={e => updateEvent(eventIndex, "price", e.target.value)}
-                      className="w-full bg-gradient-to-r from-purple-700 to-purple-800 text-white p-4 md:p-5 lg:p-6 rounded-xl text-base md:text-lg lg:text-xl border-3 border-purple-400 focus:border-yellow-400 focus:ring-4 focus:ring-yellow-400/50 focus:outline-none font-bold shadow-lg transition-all duration-200 hover:shadow-yellow-400/30"
+                      className="w-full bg-linear-to-r from-purple-700 to-purple-800 text-white p-4 md:p-5 lg:p-6 rounded-xl text-base md:text-lg lg:text-xl border-3 border-purple-400 focus:border-yellow-400 focus:ring-4 focus:ring-yellow-400/50 focus:outline-none font-bold shadow-lg transition-all duration-200 hover:shadow-yellow-400/30"
                       placeholder="z.B. 89€"
                     />
                   </div>
                 </div>
               ))}
-              <button className="w-full mt-8 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-black font-black text-xl md:text-2xl lg:text-3xl py-5 md:py-6 rounded-2xl shadow-2xl shadow-yellow-500/50 transition-all duration-300 hover:scale-105 hover:shadow-yellow-400/70">
+              <button className="w-full mt-8 bg-linear-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-black font-black text-xl md:text-2xl lg:text-3xl py-5 md:py-6 rounded-2xl shadow-2xl shadow-yellow-500/50 transition-all duration-300 hover:scale-105 hover:shadow-yellow-400/70">
                 🖼️ Zurück zum Artwork 🔄
               </button>
             </div>
@@ -476,262 +506,239 @@ export default function BandGalleryRoom({ onRoomChange, isFullscreen = false }: 
         isFullscreen ? "fixed inset-0 z-50 bg-black" : "w-full h-64 sm:h-80 lg:h-96 bg-black rounded-lg overflow-hidden"
       }
     >
-      <WebGLCanvasWrapper
-        roomName="Band Gallery VIP"
-        roomIcon="🖼️"
-        onRoomChange={onRoomChange}
-        isFullscreen={isFullscreen}
+      <Canvas
+        camera={{ position: [0, 12, 35], fov: 80 }}
+        style={{ background: "linear-gradient(to bottom, #000000, #1a1a1a)" }}
       >
-        <Canvas
-          camera={{ position: [0, 12, 35], fov: 80 }}
-          style={{ background: "linear-gradient(to bottom, #000000, #1a1a1a)" }}
-          onCreated={state => {
-            console.log("Gallery Canvas created successfully with WebGL context");
-          }}
-        >
-          <Environment preset="city" />
+        <Environment preset="city" />
 
-          {/* Bewegungssteuerung */}
-          {controlMode === "fps" ? (
-            <FPSControls
-              movementSpeed={10}
-              lookSpeed={0.002}
-              boundaries={{
-                minX: -28, // Linke Wand
-                maxX: 28, // Rechte Wand (inkl. Bar-Bereich)
-                minZ: -12, // Rückwand
-                maxZ: 32, // Vorderwand
-              }}
-            />
-          ) : (
-            <OrbitControls
-              enableZoom={true}
-              enablePan={true}
-              enableRotate={true}
-              maxDistance={30}
-              minDistance={5}
-              maxPolarAngle={Math.PI / 2}
-              target={[0, 5, 0]}
-            />
-          )}
-
-          {/* LUXURIÖSE VIP-GALLERY ARCHITEKTUR */}
-          <VipGalleryArchitecture />
-
-          {/* MINIMALISTISCHE BELEUCHTUNG - WIE IM BILDSCHIRMFOTO */}
-          <ambientLight intensity={0.2} color="#404040" />
-
-          {/* Hauptlicht von oben */}
-          <directionalLight position={[0, 20, 0]} intensity={1} color="#ffffff" castShadow />
-
-          {/* Dezente Akzentbeleuchtung */}
-          <pointLight position={[0, 15, 0]} intensity={0.8} color="#ffffff" distance={40} decay={1} />
-
-          {/* VIP-LOUNGE BEREICH - LEDERSESSEL KREISFÖRMIG VERSETZT - ENGER */}
-          {/* Luxuriöse Ledersessel im engeren Kreis */}
-          {Array.from({ length: 8 }).map((_, i) => {
-            const angle = (i * Math.PI * 2) / 8;
-            const radius = 8;
-            const x = Math.cos(angle) * radius;
-            const z = Math.sin(angle) * radius + 5;
-            return (
-              <group key={`sessel-${i}`} position={[x, 0, z]} rotation={[0, -angle + Math.PI, 0]}>
-                {/* Sessel-Basis */}
-                <RoundedBox args={[1.8, 0.8, 1.8]} position={[0, 0.4, 0]}>
-                  <meshPhysicalMaterial
-                    color={new Color(0.2, 0.1, 0.05)}
-                    roughness={0.8}
-                    metalness={0.0}
-                    clearcoat={0.3}
-                  />
-                </RoundedBox>
-
-                {/* Rückenlehne */}
-                <RoundedBox args={[1.8, 1.5, 0.3]} position={[0, 1.2, -0.7]}>
-                  <meshPhysicalMaterial
-                    color={new Color(0.2, 0.1, 0.05)}
-                    roughness={0.8}
-                    metalness={0.0}
-                    clearcoat={0.3}
-                  />
-                </RoundedBox>
-
-                {/* Armlehnen */}
-                <RoundedBox args={[0.3, 1, 1.2]} position={[0.8, 0.9, 0]}>
-                  <meshPhysicalMaterial
-                    color={new Color(0.2, 0.1, 0.05)}
-                    roughness={0.8}
-                    metalness={0.0}
-                    clearcoat={0.3}
-                  />
-                </RoundedBox>
-                <RoundedBox args={[0.3, 1, 1.2]} position={[-0.8, 0.9, 0]}>
-                  <meshPhysicalMaterial
-                    color={new Color(0.2, 0.1, 0.05)}
-                    roughness={0.8}
-                    metalness={0.0}
-                    clearcoat={0.3}
-                  />
-                </RoundedBox>
-              </group>
-            );
-          })}
-
-          {/* PREMIUM BAR-BEREICH ZURÜCK */}
-          <group position={[20, 0, 10]}>
-            {/* Bar-Theke */}
-            <RoundedBox args={[1.5, 4, 10]} position={[0, 2, 0]}>
-              <meshPhysicalMaterial
-                color={new Color(0.1, 0.1, 0.12)}
-                roughness={0.2}
-                metalness={0.8}
-                clearcoat={1.0}
-                clearcoatRoughness={0.1}
-              />
-            </RoundedBox>
-
-            {/* Glasregal */}
-            <Box args={[0.4, 3, 8]} position={[-0.5, 5, 0]}>
-              <meshPhysicalMaterial
-                color={new Color(0.95, 0.95, 1.0)}
-                transmission={0.95}
-                thickness={0.4}
-                ior={1.52}
-                transparent
-                roughness={0.02}
-              />
-            </Box>
-
-            {/* Champagner-Flaschen */}
-            {Array.from({ length: 6 }).map((_, i) => (
-              <Cylinder key={`bottle-${i}`} args={[0.12, 0.1, 1.2]} position={[-0.4, 5.6, (i - 2.5) * 1.3]}>
-                <meshPhysicalMaterial
-                  color={new Color(0.1, 0.3, 0.1)}
-                  roughness={0.1}
-                  metalness={0.0}
-                  transmission={0.7}
-                  thickness={0.1}
-                  ior={1.5}
-                  transparent
-                />
-              </Cylinder>
-            ))}
-          </group>
-
-          {/* INTERAKTIVE BILDER VERSETZT UM DIE SESSEL VERTEILT - ENGER */}
-          {bandImages.slice(0, 10).map((img, i) => {
-            const angle = (i * Math.PI * 2) / 10;
-            const radius = 15;
-            const x = Math.cos(angle) * radius;
-            const z = Math.sin(angle) * radius + 5;
-            return (
-              <InteractiveArtwork
-                key={i}
-                img={img}
-                index={i}
-                position={[x, 0, z]}
-                rotation={[0, -angle + Math.PI, 0]}
-              />
-            );
-          })}
-
-          {/* Verbesserte Beleuchtung */}
-          <ambientLight intensity={0.4} color="#4a4a4a" />
-          <spotLight
-            position={[0, 10, 0]}
-            angle={Math.PI / 3}
-            penumbra={0.5}
-            intensity={2}
-            color="#9333ea"
-            castShadow
+        {/* Bewegungssteuerung */}
+        {controlMode === "fps" ? (
+          <FPSControls
+            movementSpeed={10}
+            lookSpeed={0.002}
+            boundaries={{
+              minX: -28, // Linke Wand
+              maxX: 28, // Rechte Wand (inkl. Bar-Bereich)
+              minZ: -12, // Rückwand
+              maxZ: 32, // Vorderwand
+            }}
           />
-          <spotLight position={[8, 8, 8]} angle={Math.PI / 4} penumbra={0.3} intensity={1.5} color="#ffffff" />
-          <spotLight position={[-8, 8, 8]} angle={Math.PI / 4} penumbra={0.3} intensity={1.5} color="#ffffff" />
+        ) : (
+          <OrbitControls
+            enableZoom={true}
+            enablePan={true}
+            enableRotate={true}
+            maxDistance={30}
+            minDistance={5}
+            maxPolarAngle={Math.PI / 2}
+            target={[0, 5, 0]}
+          />
+        )}
 
-          {/* VIP GALLERY TITEL */}
-          <Text
-            position={[0, 20, -28]}
-            fontSize={2.5}
-            color="#ffd700"
-            anchorX="center"
-            anchorY="middle"
-            outlineWidth={0.1}
-            outlineColor="#000000"
-          >
-            � VIP METAL LEGENDS GALLERY
-          </Text>
+        {/* LUXURIÖSE VIP-GALLERY ARCHITEKTUR */}
+        <VipGalleryArchitecture />
 
-          <Text
-            position={[0, 17, -28]}
-            fontSize={1.2}
-            color="#ffffff"
-            anchorX="center"
-            anchorY="middle"
-            outlineWidth={0.05}
-            outlineColor="#000000"
-          >
-            Premium Art Experience • WASD Movement • Mouse Look • Luxury Atmosphere
-          </Text>
+        {/* MINIMALISTISCHE BELEUCHTUNG - WIE IM BILDSCHIRMFOTO */}
+        <ambientLight intensity={0.2} color="#404040" />
 
-          {/* Portal back to Welcome Stage */}
-          {onRoomChange && (
-            <Float speed={1.5} rotationIntensity={0.5} floatIntensity={0.5}>
-              <group
-                onClick={() => onRoomChange("welcome")}
-                onPointerOver={e => (document.body.style.cursor = "pointer")}
-                onPointerOut={e => (document.body.style.cursor = "auto")}
+        {/* Hauptlicht von oben */}
+        <directionalLight position={[0, 20, 0]} intensity={1} color="#ffffff" castShadow />
+
+        {/* Dezente Akzentbeleuchtung */}
+        <pointLight position={[0, 15, 0]} intensity={0.8} color="#ffffff" distance={40} decay={1} />
+
+        {/* VIP-LOUNGE BEREICH - LEDERSESSEL KREISFÖRMIG VERSETZT - ENGER */}
+        {/* Luxuriöse Ledersessel im engeren Kreis */}
+        {Array.from({ length: 8 }).map((_, i) => {
+          const angle = (i * Math.PI * 2) / 8;
+          const radius = 8;
+          const x = Math.cos(angle) * radius;
+          const z = Math.sin(angle) * radius + 5;
+          return (
+            <group key={`sessel-${i}`} position={[x, 0, z]} rotation={[0, -angle + Math.PI, 0]}>
+              {/* Sessel-Basis */}
+              <RoundedBox args={[1.8, 0.8, 1.8]} position={[0, 0.4, 0]}>
+                <meshPhysicalMaterial
+                  color={new Color(0.2, 0.1, 0.05)}
+                  roughness={0.8}
+                  metalness={0.0}
+                  clearcoat={0.3}
+                />
+              </RoundedBox>
+
+              {/* Rückenlehne */}
+              <RoundedBox args={[1.8, 1.5, 0.3]} position={[0, 1.2, -0.7]}>
+                <meshPhysicalMaterial
+                  color={new Color(0.2, 0.1, 0.05)}
+                  roughness={0.8}
+                  metalness={0.0}
+                  clearcoat={0.3}
+                />
+              </RoundedBox>
+
+              {/* Armlehnen */}
+              <RoundedBox args={[0.3, 1, 1.2]} position={[0.8, 0.9, 0]}>
+                <meshPhysicalMaterial
+                  color={new Color(0.2, 0.1, 0.05)}
+                  roughness={0.8}
+                  metalness={0.0}
+                  clearcoat={0.3}
+                />
+              </RoundedBox>
+              <RoundedBox args={[0.3, 1, 1.2]} position={[-0.8, 0.9, 0]}>
+                <meshPhysicalMaterial
+                  color={new Color(0.2, 0.1, 0.05)}
+                  roughness={0.8}
+                  metalness={0.0}
+                  clearcoat={0.3}
+                />
+              </RoundedBox>
+            </group>
+          );
+        })}
+
+        {/* PREMIUM BAR-BEREICH ZURÜCK */}
+        <group position={[20, 0, 10]}>
+          {/* Bar-Theke */}
+          <RoundedBox args={[1.5, 4, 10]} position={[0, 2, 0]}>
+            <meshPhysicalMaterial
+              color={new Color(0.1, 0.1, 0.12)}
+              roughness={0.2}
+              metalness={0.8}
+              clearcoat={1.0}
+              clearcoatRoughness={0.1}
+            />
+          </RoundedBox>
+
+          {/* Glasregal */}
+          <Box args={[0.4, 3, 8]} position={[-0.5, 5, 0]}>
+            <meshPhysicalMaterial
+              color={new Color(0.95, 0.95, 1.0)}
+              transmission={0.95}
+              thickness={0.4}
+              ior={1.52}
+              transparent
+              roughness={0.02}
+            />
+          </Box>
+
+          {/* Champagner-Flaschen */}
+          {Array.from({ length: 6 }).map((_, i) => (
+            <Cylinder key={`bottle-${i}`} args={[0.12, 0.1, 1.2]} position={[-0.4, 5.6, (i - 2.5) * 1.3]}>
+              <meshPhysicalMaterial
+                color={new Color(0.1, 0.3, 0.1)}
+                roughness={0.1}
+                metalness={0.0}
+                transmission={0.7}
+                thickness={0.1}
+                ior={1.5}
+                transparent
+              />
+            </Cylinder>
+          ))}
+        </group>
+
+        {/* INTERAKTIVE BILDER VERSETZT UM DIE SESSEL VERTEILT - ENGER */}
+        {bandImages.slice(0, 10).map((img, i) => {
+          const angle = (i * Math.PI * 2) / 10;
+          const radius = 15;
+          const x = Math.cos(angle) * radius;
+          const z = Math.sin(angle) * radius + 5;
+          return (
+            <InteractiveArtwork key={i} img={img} index={i} position={[x, 0, z]} rotation={[0, -angle + Math.PI, 0]} />
+          );
+        })}
+
+        {/* Verbesserte Beleuchtung */}
+        <ambientLight intensity={0.4} color="#4a4a4a" />
+        <spotLight position={[0, 10, 0]} angle={Math.PI / 3} penumbra={0.5} intensity={2} color="#9333ea" castShadow />
+        <spotLight position={[8, 8, 8]} angle={Math.PI / 4} penumbra={0.3} intensity={1.5} color="#ffffff" />
+        <spotLight position={[-8, 8, 8]} angle={Math.PI / 4} penumbra={0.3} intensity={1.5} color="#ffffff" />
+
+        {/* VIP GALLERY TITEL */}
+        <Text
+          position={[0, 20, -28]}
+          fontSize={2.5}
+          color="#ffd700"
+          anchorX="center"
+          anchorY="middle"
+          outlineWidth={0.1}
+          outlineColor="#000000"
+        >
+          � VIP METAL LEGENDS GALLERY
+        </Text>
+
+        <Text
+          position={[0, 17, -28]}
+          fontSize={1.2}
+          color="#ffffff"
+          anchorX="center"
+          anchorY="middle"
+          outlineWidth={0.05}
+          outlineColor="#000000"
+        >
+          Premium Art Experience • WASD Movement • Mouse Look • Luxury Atmosphere
+        </Text>
+
+        {/* Portal back to Welcome Stage */}
+        {onRoomChange && (
+          <Float speed={1.5} rotationIntensity={0.5} floatIntensity={0.5}>
+            <group
+              onClick={() => onRoomChange("welcome")}
+              onPointerOver={e => (document.body.style.cursor = "pointer")}
+              onPointerOut={e => (document.body.style.cursor = "auto")}
+            >
+              <RoundedBox args={[2, 3, 0.5]} position={[0, 1.5, 9]}>
+                <meshPhysicalMaterial
+                  color="#ff6b35"
+                  metalness={0.8}
+                  roughness={0.2}
+                  clearcoat={1}
+                  emissive="#ff6b35"
+                  emissiveIntensity={0.3}
+                />
+              </RoundedBox>
+              <Text position={[0, 2.5, 9.3]} fontSize={0.3} color="#ffffff" anchorX="center" anchorY="middle">
+                🚪 BACK TO WELCOME
+              </Text>
+            </group>
+          </Float>
+        )}
+
+        {/* Control Mode Toggle UI */}
+        <Html position={[0, -1, 8]} center distanceFactor={10}>
+          <div className="bg-gradient-to-br from-black/90 to-purple-900/80 backdrop-blur-md rounded-2xl p-8 text-center shadow-2xl border-2 border-purple-500/50">
+            <h3 className="text-white font-black mb-6 text-2xl bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+              🎮 Steuerung
+            </h3>
+            <div className="flex gap-4">
+              <button
+                onClick={() => setControlMode("fps")}
+                className={`px-8 py-4 rounded-xl text-lg font-bold transition-all duration-300 ${
+                  controlMode === "fps"
+                    ? "bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg shadow-purple-500/50 scale-105"
+                    : "bg-gray-700 text-gray-300 hover:bg-gray-600 hover:scale-105"
+                }`}
               >
-                <RoundedBox args={[2, 3, 0.5]} position={[0, 1.5, 9]}>
-                  <meshPhysicalMaterial
-                    color="#ff6b35"
-                    metalness={0.8}
-                    roughness={0.2}
-                    clearcoat={1}
-                    emissive="#ff6b35"
-                    emissiveIntensity={0.3}
-                  />
-                </RoundedBox>
-                <Text position={[0, 2.5, 9.3]} fontSize={0.3} color="#ffffff" anchorX="center" anchorY="middle">
-                  🚪 BACK TO WELCOME
-                </Text>
-              </group>
-            </Float>
-          )}
-
-          {/* Control Mode Toggle UI */}
-          <Html position={[0, -1, 8]} center distanceFactor={10}>
-            <div className="bg-gradient-to-br from-black/90 to-purple-900/80 backdrop-blur-md rounded-2xl p-8 text-center shadow-2xl border-2 border-purple-500/50">
-              <h3 className="text-white font-black mb-6 text-2xl bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                🎮 Steuerung
-              </h3>
-              <div className="flex gap-4">
-                <button
-                  onClick={() => setControlMode("fps")}
-                  className={`px-8 py-4 rounded-xl text-lg font-bold transition-all duration-300 ${
-                    controlMode === "fps"
-                      ? "bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg shadow-purple-500/50 scale-105"
-                      : "bg-gray-700 text-gray-300 hover:bg-gray-600 hover:scale-105"
-                  }`}
-                >
-                  🎮 FPS Mode
-                  <div className="text-xs mt-1">WASD + Maus</div>
-                </button>
-                <button
-                  onClick={() => setControlMode("orbit")}
-                  className={`px-8 py-4 rounded-xl text-lg font-bold transition-all duration-300 ${
-                    controlMode === "orbit"
-                      ? "bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg shadow-purple-500/50 scale-105"
-                      : "bg-gray-700 text-gray-300 hover:bg-gray-600 hover:scale-105"
-                  }`}
-                >
-                  🖱️ Orbit Mode
-                  <div className="text-xs mt-1">Drag & Scroll</div>
-                </button>
-              </div>
+                🎮 FPS Mode
+                <div className="text-xs mt-1">WASD + Maus</div>
+              </button>
+              <button
+                onClick={() => setControlMode("orbit")}
+                className={`px-8 py-4 rounded-xl text-lg font-bold transition-all duration-300 ${
+                  controlMode === "orbit"
+                    ? "bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg shadow-purple-500/50 scale-105"
+                    : "bg-gray-700 text-gray-300 hover:bg-gray-600 hover:scale-105"
+                }`}
+              >
+                🖱️ Orbit Mode
+                <div className="text-xs mt-1">Drag & Scroll</div>
+              </button>
             </div>
-          </Html>
-        </Canvas>
-      </WebGLCanvasWrapper>
+          </div>
+        </Html>
+      </Canvas>
 
       {/* Fullscreen Exit Button */}
       {isFullscreen && (

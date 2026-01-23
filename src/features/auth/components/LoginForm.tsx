@@ -105,17 +105,16 @@ export default function LoginForm({ onToggleMode, onClose }: Props) {
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
         {/* Email Field */}
-        <div className="space-y-2">
-          <label htmlFor="email" className="block text-sm font-bold text-theme-primary">
+        <div className="relative flex-1 space-y-2">
+          <label htmlFor="email" className="flex items-center justify-center text-sm font-bold text-theme-primary">
             E-Mail-Adresse
           </label>
           <input
             {...register("email")}
             type="email"
             id="email"
-            className="w-full px-4 py-3 bg-theme-card/50 border-2 border-theme-secondary/30 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-theme-accent focus:border-theme-accent text-theme-primary placeholder-theme-secondary/50 transition-all duration-300 hover:border-theme-accent/50"
+            className="w-full px-4 py-3 bg-theme-card/50 border-2 border-theme-secondary/30 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-theme-accent focus:border-theme-accent text-theme-primary placeholder-theme-secondary/50 transition-all duration-300 hover:border-theme-accent/50 text-center placeholder:text-center"
             placeholder="deine@email.com"
-            data-cy="email-input"
           />
           {errors.email && (
             <p className="text-sm text-red-400 flex items-center gap-1 animate-in slide-in-from-left-1 duration-200">
@@ -125,17 +124,16 @@ export default function LoginForm({ onToggleMode, onClose }: Props) {
         </div>
 
         {/* Password Field */}
-        <div className="space-y-2">
-          <label htmlFor="password" className="block text-sm font-bold text-theme-primary">
+        <div className="relative flex-1 space-y-2">
+          <label htmlFor="password" className="flex items-center justify-center text-sm font-bold text-theme-primary">
             Passwort
           </label>
           <input
             {...register("password")}
             type="password"
             id="password"
-            className="w-full px-4 py-3 bg-theme-card/50 border-2 border-theme-secondary/30 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-theme-accent focus:border-theme-accent text-theme-primary placeholder-theme-secondary/50 transition-all duration-300 hover:border-theme-accent/50"
+            className="w-full px-4 py-3 bg-theme-card/50 border-2 border-theme-secondary/30 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-theme-accent focus:border-theme-accent text-theme-primary placeholder-theme-secondary/50 transition-all duration-300 hover:border-theme-accent/50 text-center placeholder:text-center"
             placeholder="••••••••"
-            data-cy="password-input"
           />
           {errors.password && (
             <p className="text-sm text-red-400 flex items-center gap-1 animate-in slide-in-from-left-1 duration-200">
@@ -149,7 +147,6 @@ export default function LoginForm({ onToggleMode, onClose }: Props) {
           type="submit"
           disabled={isLoading}
           className="group relative w-full overflow-hidden bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white font-bold py-3.5 px-4 rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 shadow-xl hover:shadow-2xl mt-6"
-          data-cy="login-submit"
         >
           <div className="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
           {isLoading ? (

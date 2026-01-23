@@ -1,12 +1,10 @@
 "use client";
 
 import React, { Suspense, useState, useRef } from "react";
-import { useFrame } from "@react-three/fiber";
-import { SafeCanvas as Canvas } from "@/shared/components/SafeCanvas";
+import { Canvas, useFrame } from "@react-three/fiber";
 import { Environment, Center, Float, Box, Plane, Html } from "@react-three/drei";
 import * as THREE from "three";
 import { FPSControls } from "@/shared/components/3d";
-import { WebGLCanvasWrapper } from "@/shared/components/WebGLCanvasWrapper";
 
 // Typen für Props
 interface ContactStageProps {
@@ -55,14 +53,14 @@ function ContactInfoWall() {
 
       {/* 3D Contact Info */}
       <Html position={[0.1, 2, 0]} rotation={[0, -Math.PI / 2, 0]} transform occlude distanceFactor={15}>
-        <div className="glass-panel p-6 md:p-8 rounded-2xl border-2 border-orange-500 shadow-2xl w-80 sm:w-96">
+        <div className="glass-panel p-6 md:p-8 rounded-2xl border-2 border-orange-500 shadow-2xl w-80 sm:w-96 mx-auto text-center">
           <div className="text-center mb-6">
             <h3 className="panel-heading text-2xl md:text-3xl text-orange-500 mb-3">🎸 METAL SUPPORT</h3>
             <div className="w-full h-1 bg-gradient-to-r from-orange-500 via-red-600 to-orange-500 rounded"></div>
           </div>
 
           <div className="space-y-5 text-theme-primary">
-            <div className="flex items-start space-x-3 hover:bg-orange-500/10 p-3 rounded-lg transition-colors">
+            <div className="flex items-start justify-center gap-3 hover:bg-orange-500/10 p-3 rounded-lg transition-colors text-left">
               <div className="text-2xl flex-shrink-0">📧</div>
               <div className="min-w-0">
                 <p className="font-bold text-orange-400 text-sm md:text-base">E-Mail Support</p>
@@ -70,7 +68,7 @@ function ContactInfoWall() {
               </div>
             </div>
 
-            <div className="flex items-start space-x-3 hover:bg-orange-500/10 p-3 rounded-lg transition-colors">
+            <div className="flex items-start justify-center gap-3 hover:bg-orange-500/10 p-3 rounded-lg transition-colors text-left">
               <div className="text-2xl flex-shrink-0">📞</div>
               <div className="min-w-0">
                 <p className="font-bold text-orange-400 text-sm md:text-base">Hotline</p>
@@ -79,7 +77,7 @@ function ContactInfoWall() {
               </div>
             </div>
 
-            <div className="flex items-start space-x-3 hover:bg-orange-500/10 p-3 rounded-lg transition-colors">
+            <div className="flex items-start justify-center gap-3 hover:bg-orange-500/10 p-3 rounded-lg transition-colors text-left">
               <div className="text-2xl flex-shrink-0">💬</div>
               <div className="min-w-0">
                 <p className="font-bold text-orange-400 text-sm md:text-base">Live Chat</p>
@@ -87,11 +85,11 @@ function ContactInfoWall() {
               </div>
             </div>
 
-            <div className="flex items-start space-x-3 hover:bg-orange-500/10 p-3 rounded-lg transition-colors">
+            <div className="flex items-start justify-center gap-3 hover:bg-orange-500/10 p-3 rounded-lg transition-colors text-left">
               <div className="text-2xl flex-shrink-0">🎵</div>
               <div className="min-w-0">
                 <p className="font-bold text-orange-400 text-sm md:text-base">Social Media</p>
-                <div className="flex flex-wrap gap-2 text-xs md:text-sm mt-1">
+                <div className="flex flex-wrap gap-2 text-xs md:text-sm mt-1 justify-center">
                   <span className="text-blue-400 hover:text-blue-300 cursor-pointer">Facebook</span>
                   <span className="text-purple-400 hover:text-purple-300 cursor-pointer">Instagram</span>
                   <span className="text-red-400 hover:text-red-300 cursor-pointer">YouTube</span>
@@ -218,7 +216,7 @@ function MessageWall() {
 
       {/* 3D Message Form */}
       <Html position={[-0.1, 0, 0]} rotation={[0, Math.PI / 2, 0]} transform occlude distanceFactor={12}>
-        <div className="glass-panel p-5 md:p-6 rounded-2xl border-2 border-blue-500 shadow-2xl w-80 sm:w-96 lg:w-[420px]">
+        <div className="glass-panel p-5 md:p-6 rounded-2xl border-2 border-blue-500 shadow-2xl w-80 sm:w-96 lg:w-[420px] mx-auto text-center">
           <div className="text-center mb-5">
             <h3 className="panel-heading text-xl md:text-2xl text-blue-400 mb-3">🎤 METAL MESSAGE</h3>
             <div className="w-full h-1 bg-gradient-to-r from-blue-500 via-purple-600 to-blue-500 rounded"></div>
@@ -237,9 +235,9 @@ function MessageWall() {
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-3">
+          <form onSubmit={handleSubmit} className="space-y-3 text-center">
             <div>
-              <label className="block text-theme-primary font-semibold mb-2 text-xs md:text-sm">
+              <label className="block text-theme-primary font-semibold mb-2 text-xs md:text-sm text-center">
                 🤘 Dein Metal-Name
               </label>
               <input
@@ -247,7 +245,7 @@ function MessageWall() {
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                className="w-full px-3 py-2.5 bg-black/40 border border-theme-secondary rounded-lg text-theme-primary placeholder:text-theme-secondary focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all text-sm"
+                className="w-full px-3 py-2.5 bg-black/40 border border-theme-secondary rounded-lg text-theme-primary placeholder:text-theme-secondary focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all text-sm text-center placeholder:text-center"
                 required
                 disabled={isSubmitting}
                 placeholder="z.B. Metal Master"
@@ -255,7 +253,7 @@ function MessageWall() {
             </div>
 
             <div>
-              <label className="block text-theme-primary font-semibold mb-2 text-xs md:text-sm">
+              <label className="block text-theme-primary font-semibold mb-2 text-xs md:text-sm text-center">
                 ✉️ E-Mail Adresse
               </label>
               <input
@@ -263,7 +261,7 @@ function MessageWall() {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full px-3 py-2.5 bg-black/40 border border-theme-secondary rounded-lg text-theme-primary placeholder:text-theme-secondary focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all text-sm"
+                className="w-full px-3 py-2.5 bg-black/40 border border-theme-secondary rounded-lg text-theme-primary placeholder:text-theme-secondary focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all text-sm text-center placeholder:text-center"
                 required
                 disabled={isSubmitting}
                 placeholder="metal@rock.com"
@@ -271,13 +269,15 @@ function MessageWall() {
             </div>
 
             <div>
-              <label className="block text-theme-primary font-semibold mb-2 text-xs md:text-sm">🎯 Metal-Thema</label>
+              <label className="block text-theme-primary font-semibold mb-2 text-xs md:text-sm text-center">
+                🎯 Metal-Thema
+              </label>
               <input
                 type="text"
                 name="subject"
                 value={formData.subject}
                 onChange={handleChange}
-                className="w-full px-3 py-2.5 bg-black/40 border border-theme-secondary rounded-lg text-theme-primary placeholder:text-theme-secondary focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all text-sm"
+                className="w-full px-3 py-2.5 bg-black/40 border border-theme-secondary rounded-lg text-theme-primary placeholder:text-theme-secondary focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all text-sm text-center placeholder:text-center"
                 required
                 disabled={isSubmitting}
                 placeholder="Heavy Metal Anfrage"
@@ -285,7 +285,7 @@ function MessageWall() {
             </div>
 
             <div>
-              <label className="block text-white font-medium mb-1 text-sm">�️ Deine Metal-Message</label>
+              <label className="block text-white font-medium mb-1 text-sm text-center">�️ Deine Metal-Message</label>
               <textarea
                 name="message"
                 value={formData.message}
@@ -414,72 +414,6 @@ function ContactScene() {
 
 // Haupt-Komponente mit responsive Metal Pulse Design
 export default function ContactStage({ isFullscreen = false, onRoomChange, onFullscreen }: ContactStageProps) {
-  const [showWebGLFallback, setShowWebGLFallback] = useState(false);
-
-  const handleWebGLFail = () => {
-    console.warn("ContactStage: WebGL failed, showing fallback");
-    setShowWebGLFallback(true);
-  };
-
-  // WebGL fallback component for Contact
-  if (showWebGLFallback) {
-    return (
-      <div
-        className={
-          isFullscreen
-            ? "fixed inset-0 z-50 bg-gradient-to-b from-blue-900 to-gray-900"
-            : "w-full h-full bg-gradient-to-b from-blue-900 to-gray-900 rounded-lg overflow-hidden flex items-center justify-center"
-        }
-      >
-        <div className="text-center space-y-6 p-8 max-w-md mx-auto">
-          <div className="text-8xl mb-6 animate-bounce">📞</div>
-          <h2 className="text-4xl font-bold text-white mb-4">Contact</h2>
-          <p className="text-gray-300 mb-8 text-lg leading-relaxed">
-            3D-Navigation ist auf diesem System nicht verfügbar.
-            <br />
-            WebGL wird möglicherweise nicht unterstützt.
-          </p>
-
-          <div className="grid grid-cols-2 gap-4 text-sm">
-            <button
-              onClick={() => onRoomChange?.("welcome")}
-              className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded transition-colors"
-            >
-              🏠 Welcome
-            </button>
-            <button
-              onClick={() => onRoomChange?.("gallery")}
-              className="bg-purple-600 hover:bg-purple-700 text-white py-2 px-4 rounded transition-colors"
-            >
-              🖼️ Gallery
-            </button>
-            <button
-              onClick={() => onRoomChange?.("tickets")}
-              className="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded transition-colors"
-            >
-              🎫 Tickets
-            </button>
-            <button
-              onClick={() => onRoomChange?.("backstage")}
-              className="bg-orange-600 hover:bg-orange-700 text-white py-2 px-4 rounded transition-colors"
-            >
-              🎸 Backstage
-            </button>
-          </div>
-
-          <div className="text-xs text-gray-400 mt-6 space-y-2">
-            <p>💡 Lösungsvorschläge:</p>
-            <ul className="list-disc list-inside text-left space-y-1">
-              <li>Browser aktualisieren</li>
-              <li>Hardware-Beschleunigung aktivieren</li>
-              <li>Anderen Browser verwenden (Chrome/Firefox)</li>
-              <li>GPU-Treiber aktualisieren</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    );
-  }
   return (
     <div
       className={
@@ -529,36 +463,23 @@ export default function ContactStage({ isFullscreen = false, onRoomChange, onFul
           }
         >
           {/* 3D Scene */}
-          <WebGLCanvasWrapper
-            roomName="Contact Arena"
-            roomIcon="📞"
-            onRoomChange={onRoomChange}
-            isFullscreen={isFullscreen}
-          >
-            <Suspense fallback={<LoadingFallback />}>
-              <Canvas
-                camera={{
-                  position: [0, 2, 10],
-                  fov: 75,
-                }}
-                className="w-full h-full rounded-2xl"
-                gl={{
-                  antialias: true,
-                  alpha: false,
-                  failIfMajorPerformanceCaveat: true, // Fail gracefully when WebGL is problematic
-                  preserveDrawingBuffer: false, // Better memory management
-                }}
-                shadows={false}
-                dpr={[1, 2]}
-                onWebGLFail={handleWebGLFail}
-                onCreated={state => {
-                  console.log("Contact Canvas created successfully with WebGL context");
-                }}
-              >
-                <ContactScene />
-              </Canvas>
-            </Suspense>
-          </WebGLCanvasWrapper>
+          <Suspense fallback={<LoadingFallback />}>
+            <Canvas
+              camera={{
+                position: [0, 2, 10],
+                fov: 75,
+              }}
+              className="w-full h-full rounded-2xl"
+              gl={{
+                antialias: true,
+                alpha: false,
+              }}
+              shadows={false}
+              dpr={[1, 2]}
+            >
+              <ContactScene />
+            </Canvas>
+          </Suspense>
 
           {/* 3D Overlay Controls - Responsive */}
           <div className="absolute bottom-4 left-4 right-4 z-50 pointer-events-none">

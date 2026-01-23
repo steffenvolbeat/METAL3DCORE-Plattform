@@ -163,7 +163,7 @@ export default function IntroPage({ onComplete }: { onComplete: () => void }) {
             />
             <EnhancedSpaceScene 
               beatData={beatData} 
-              videoId="2Y3cPb9VGOg"
+              videoId="OzjJDUVCuKM"
               onBeatDetection={handleBeatDetection}
             />
             {/* Cinematic Camera System */}
