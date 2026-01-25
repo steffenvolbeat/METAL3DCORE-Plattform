@@ -1,3 +1,4 @@
+import "@rushstack/eslint-patch/modern-module-resolution";
 import nextConfig from "eslint-config-next";
 
 // Flat config in ESM; Vercel Next.js expects eslint.config.js (ESM)
