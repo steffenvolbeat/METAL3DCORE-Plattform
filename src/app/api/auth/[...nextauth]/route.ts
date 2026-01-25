@@ -32,7 +32,7 @@ declare module "next-auth/jwt" {
   }
 }
 
-export const authOptions: NextAuthOptions = {
+const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
   },
@@ -61,10 +61,7 @@ export const authOptions: NextAuthOptions = {
           }
 
           // Passwort-Verifikation mit bcrypt
-          const isPasswordValid = await compare(
-            credentials.password,
-            user.password
-          );
+          const isPasswordValid = await compare(credentials.password, user.password);
 
           if (!isPasswordValid) {
             throw new Error("Ungültige Email oder Passwort");
@@ -79,9 +76,7 @@ export const authOptions: NextAuthOptions = {
           };
         } catch (error) {
           console.error("NextAuth authorize error:", error);
-          throw new Error(
-            "Anmeldung fehlgeschlagen. Bitte versuchen Sie es später erneut."
-          );
+          throw new Error("Anmeldung fehlgeschlagen. Bitte versuchen Sie es später erneut.");
         }
       },
     }),
@@ -130,4 +125,5 @@ export const authOptions: NextAuthOptions = {
 
 const handler = NextAuth(authOptions);
 
+// Next.js route handler export signature
 export { handler as GET, handler as POST };
