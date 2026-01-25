@@ -1,6 +1,5 @@
 // prisma/seed.ts
 import { PrismaClient, UserRole, TicketType, TicketStatus, MessagePriority, ContactStatus } from "@prisma/client";
-import { hashSync } from "bcryptjs";
 
 const prisma = new PrismaClient();
 let warned = false;
@@ -23,17 +22,28 @@ async function main() {
     },
   });
 
-  await prisma.user.upsert({
+  const band = await prisma.user.upsert({
     where: { email: "band@example.com" },
     update: { role: UserRole.BAND },
-    create: { email: "band@example.com", role: UserRole.BAND, username: "band" },
+    create: {
+      email: "band@example.com",
+      role: UserRole.BAND,
+      username: "band",
+      password: hashSync("Band123!", 10),
+    },
   });
 
   const fan = await prisma.user.upsert({
     where: { email: "fan@example.com" },
     update: { role: UserRole.FAN },
-    create: { email: "fan@example.com", role: UserRole.FAN, username: "fan" },
+    create: {
+      email: "fan@example.com",
+      role: UserRole.FAN,
+      username: "fan",
+      password: hashSync("Fan123!", 10),
+    },
   });
+    password: hashSync("Fan123!", 10),
 
   await prisma.ticket.createMany({
     data: [
