@@ -1,5 +1,5 @@
 // prisma/seed.ts
-import { PrismaClient, UserRole, TicketType, TicketStatus, MessagePriority, ContactStatus } from "@prisma/client";
+import { PrismaClient, UserRole, MessagePriority, ContactStatus } from "@prisma/client";
 import { hashSync } from "bcryptjs";
 
 const prisma = new PrismaClient();
@@ -45,14 +45,7 @@ async function main() {
     },
   });
 
-  await prisma.ticket.createMany({
-    data: [
-      { userId: fan.id, ticketType: TicketType.STANDARD, price: 45, status: TicketStatus.ACTIVE },
-      { userId: fan.id, ticketType: TicketType.VIP, price: 89, status: TicketStatus.ACTIVE },
-      { userId: fan.id, ticketType: TicketType.BACKSTAGE, price: 150, status: TicketStatus.ACTIVE },
-    ],
-    skipDuplicates: true,
-  });
+  // Ticket seeding skipped: Ticket requires eventId and richer fields. Add when event seed is ready.
 
   await prisma.contactMessage.upsert({
     where: { id: "seed-contact-1" },
