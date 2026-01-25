@@ -1,0 +1,13 @@
+                                                            Liste der Datenbanken
+      Name       |   Eigentümer    | Kodierung | Locale-Provider | Sortierfolge | Zeichentyp  | Locale | ICU-Regeln |   Zugriffsprivilegien   
+-----------------+-----------------+-----------+-----------------+--------------+-------------+--------+------------+-------------------------
+ metal3dcore_dev | metaluser       | UTF8      | libc            | de_DE.UTF-8  | de_DE.UTF-8 |        |            | =Tc/metaluser          +
+                 |                 |           |                 |              |             |        |            | metaluser=CTc/metaluser
+ nu-metal-ubuntu | nu-metal-ubuntu | UTF8      | libc            | de_DE.UTF-8  | de_DE.UTF-8 |        |            | 
+ postgres        | postgres        | UTF8      | libc            | de_DE.UTF-8  | de_DE.UTF-8 |        |            | 
+ template0       | postgres        | UTF8      | libc            | de_DE.UTF-8  | de_DE.UTF-8 |        |            | =c/postgres            +
+                 |                 |           |                 |              |             |        |            | postgres=CTc/postgres
+ template1       | postgres        | UTF8      | libc            | de_DE.UTF-8  | de_DE.UTF-8 |        |            | =c/postgres            +
+                 |                 |           |                 |              |             |        |            | postgres=CTc/postgres
+(5 Zeilen)
+

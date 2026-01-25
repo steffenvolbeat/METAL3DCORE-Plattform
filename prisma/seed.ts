@@ -1,5 +1,5 @@
 // prisma/seed.ts
-import { PrismaClient, UserRole, TicketType, TicketStatus, MessagePriority, MessageStatus } from "@prisma/client";
+import { PrismaClient, UserRole, TicketType, TicketStatus, MessagePriority, ContactStatus } from "@prisma/client";
 
 const prisma = new PrismaClient();
 let warned = false;
