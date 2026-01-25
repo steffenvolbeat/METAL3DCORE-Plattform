@@ -1,12 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
-export async function DELETE(
-  req: NextRequest,
-  context: { params: Promise<{ ticketId: string }> }
-) {
+export async function DELETE(req: NextRequest, context: { params: Promise<{ ticketId: string }> }) {
   try {
     const session = await getServerSession(authOptions);
 
@@ -23,17 +20,11 @@ export async function DELETE(
     });
 
     if (!ticket) {
-      return NextResponse.json(
-        { error: "Ticket nicht gefunden" },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "Ticket nicht gefunden" }, { status: 404 });
     }
 
     if (ticket.user.email !== session.user.email) {
-      return NextResponse.json(
-        { error: "Kein Zugriff auf dieses Ticket" },
-        { status: 403 }
-      );
+      return NextResponse.json({ error: "Kein Zugriff auf dieses Ticket" }, { status: 403 });
     }
 
     // Lösche das Ticket und alle verknüpften Payments (CASCADE)
@@ -54,9 +45,6 @@ export async function DELETE(
     });
   } catch (error) {
     console.error("Fehler beim Löschen des Tickets:", error);
-    return NextResponse.json(
-      { error: "Serverfehler beim Löschen" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Serverfehler beim Löschen" }, { status: 500 });
   }
 }

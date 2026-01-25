@@ -1,7 +1,7 @@
 // 🎸 API Route - Coming Soon Data Management
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/lib/auth";
 
 // Initial Coming Soon Data based on COMING_SOON.md
 const INITIAL_DATA = {

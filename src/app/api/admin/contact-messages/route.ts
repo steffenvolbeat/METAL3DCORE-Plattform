@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/lib/auth";
 
 // 🎸 3DMetal Platform - Admin Contact Messages API
 // CRUD Operations für Ticket-Management System
@@ -12,15 +12,8 @@ export async function GET(request: NextRequest) {
     // Auth Check - Nur ADMIN & MODERATOR
     const session = await getServerSession(authOptions);
 
-    if (
-      !session?.user ||
-      !session.user.role ||
-      !["ADMIN", "MODERATOR"].includes(session.user.role)
-    ) {
-      return NextResponse.json(
-        { error: "Unauthorized - Admin access required" },
-        { status: 403 }
-      );
+    if (!session?.user || !session.user.role || !["ADMIN", "MODERATOR"].includes(session.user.role)) {
+      return NextResponse.json({ error: "Unauthorized - Admin access required" }, { status: 403 });
     }
 
     // Query Parameters
@@ -103,17 +96,17 @@ export async function GET(request: NextRequest) {
         total,
         pages: Math.ceil(total / limit),
       },
-      stats: stats.reduce((acc, stat) => {
-        acc[stat.status] = stat._count;
-        return acc;
-      }, {} as Record<string, number>),
+      stats: stats.reduce(
+        (acc, stat) => {
+          acc[stat.status] = stat._count;
+          return acc;
+        },
+        {} as Record<string, number>
+      ),
     });
   } catch (error) {
     console.error("❌ Admin Contact Messages API Error:", error);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }
 
@@ -123,25 +116,15 @@ export async function PATCH(request: NextRequest) {
     // Auth Check
     const session = await getServerSession(authOptions);
 
-    if (
-      !session?.user ||
-      !session.user.role ||
-      !["ADMIN", "MODERATOR"].includes(session.user.role)
-    ) {
-      return NextResponse.json(
-        { error: "Unauthorized - Admin access required" },
-        { status: 403 }
-      );
+    if (!session?.user || !session.user.role || !["ADMIN", "MODERATOR"].includes(session.user.role)) {
+      return NextResponse.json({ error: "Unauthorized - Admin access required" }, { status: 403 });
     }
 
     const body = await request.json();
     const { messageId, status, priority, assignedToId, isSpam } = body;
 
     if (!messageId) {
-      return NextResponse.json(
-        { error: "messageId is required" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "messageId is required" }, { status: 400 });
     }
 
     // Build update data
@@ -191,10 +174,7 @@ export async function PATCH(request: NextRequest) {
     });
   } catch (error) {
     console.error("❌ Update Contact Message Error:", error);
-    return NextResponse.json(
-      { error: "Failed to update message" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to update message" }, { status: 500 });
   }
 }
 
@@ -205,20 +185,14 @@ export async function DELETE(request: NextRequest) {
     const session = await getServerSession(authOptions);
 
     if (!session?.user || session.user.role !== "ADMIN") {
-      return NextResponse.json(
-        { error: "Unauthorized - Admin access required" },
-        { status: 403 }
-      );
+      return NextResponse.json({ error: "Unauthorized - Admin access required" }, { status: 403 });
     }
 
     const { searchParams } = new URL(request.url);
     const messageId = searchParams.get("messageId");
 
     if (!messageId) {
-      return NextResponse.json(
-        { error: "messageId is required" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "messageId is required" }, { status: 400 });
     }
 
     // Hard delete (inkl. aller Replies durch Cascade)
@@ -232,9 +206,6 @@ export async function DELETE(request: NextRequest) {
     });
   } catch (error) {
     console.error("❌ Delete Contact Message Error:", error);
-    return NextResponse.json(
-      { error: "Failed to delete message" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to delete message" }, { status: 500 });
   }
 }
