@@ -9,38 +9,30 @@ import Stripe from "stripe";
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
 
 // Only initialize Stripe if secret key is available and not a disabled placeholder
-const stripe = stripeSecretKey && !stripeSecretKey.includes('dev_disabled') 
-  ? new Stripe(stripeSecretKey, {
-      apiVersion: "2025-11-17.clover",
-    })
-  : null;
+const stripe =
+  stripeSecretKey && !stripeSecretKey.includes("dev_disabled")
+    ? new Stripe(stripeSecretKey, {
+        apiVersion: "2025-12-15.clover",
+      })
+    : null;
 
 export async function POST(request: NextRequest) {
   try {
     // Check if Stripe is available
     if (!stripe) {
-      return NextResponse.json(
-        { error: "Stripe not configured - payment system disabled" },
-        { status: 503 }
-      );
+      return NextResponse.json({ error: "Stripe not configured - payment system disabled" }, { status: 503 });
     }
 
     const session = await getServerSession();
 
     if (!session?.user?.email) {
-      return NextResponse.json(
-        { error: "Anmeldung erforderlich" },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: "Anmeldung erforderlich" }, { status: 401 });
     }
 
     const { ticketIds, eventId } = await request.json();
 
     if (!ticketIds || !Array.isArray(ticketIds) || ticketIds.length === 0) {
-      return NextResponse.json(
-        { error: "Ticket IDs erforderlich" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Ticket IDs erforderlich" }, { status: 400 });
     }
 
     // Tickets aus Datenbank holen
@@ -55,33 +47,27 @@ export async function POST(request: NextRequest) {
     });
 
     if (tickets.length === 0) {
-      return NextResponse.json(
-        { error: "Keine gültigen Tickets gefunden" },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "Keine gültigen Tickets gefunden" }, { status: 404 });
     }
 
     // Line Items für Stripe Checkout
-    const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] =
-      tickets.map((ticket) => ({
-        price_data: {
-          currency: "eur",
-          product_data: {
-            name: `🎫 Metal3DCore Ticket - ${ticket.type}`,
-            description: `${ticket.event.title} - ${ticket.event.venue}`,
-            images: [
-              "https://via.placeholder.com/800x600/FF6600/FFFFFF?text=Metal3DCore+Ticket",
-            ],
-            metadata: {
-              ticketId: ticket.id,
-              eventId: ticket.eventId,
-              ticketType: ticket.type,
-            },
+    const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = tickets.map(ticket => ({
+      price_data: {
+        currency: "eur",
+        product_data: {
+          name: `🎫 Metal3DCore Ticket - ${ticket.type}`,
+          description: `${ticket.event.title} - ${ticket.event.venue}`,
+          images: ["https://via.placeholder.com/800x600/FF6600/FFFFFF?text=Metal3DCore+Ticket"],
+          metadata: {
+            ticketId: ticket.id,
+            eventId: ticket.eventId,
+            ticketType: ticket.type,
           },
-          unit_amount: Math.round(Number(ticket.price) * 100), // Preis in Cents
         },
-        quantity: 1,
-      }));
+        unit_amount: Math.round(Number(ticket.price) * 100), // Preis in Cents
+      },
+      quantity: 1,
+    }));
 
     // Stripe Checkout Session erstellen
     const checkoutSession = await stripe.checkout.sessions.create({
@@ -148,10 +134,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    return NextResponse.json(
-      { error: "Fehler beim Erstellen der Checkout Session" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Fehler beim Erstellen der Checkout Session" }, { status: 500 });
   }
 }
 
@@ -160,20 +143,14 @@ export async function GET(request: NextRequest) {
   try {
     // Check if Stripe is available
     if (!stripe) {
-      return NextResponse.json(
-        { error: "Stripe not configured - payment system disabled" },
-        { status: 503 }
-      );
+      return NextResponse.json({ error: "Stripe not configured - payment system disabled" }, { status: 503 });
     }
 
     const url = new URL(request.url);
     const sessionId = url.searchParams.get("session_id");
 
     if (!sessionId) {
-      return NextResponse.json(
-        { error: "Session ID erforderlich" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Session ID erforderlich" }, { status: 400 });
     }
 
     // Stripe Session abrufen
@@ -190,9 +167,6 @@ export async function GET(request: NextRequest) {
     });
   } catch (error) {
     console.error("Stripe session retrieval error:", error);
-    return NextResponse.json(
-      { error: "Fehler beim Abrufen der Session" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Fehler beim Abrufen der Session" }, { status: 500 });
   }
 }
