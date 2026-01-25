@@ -52,13 +52,13 @@ async function main() {
     update: {},
     create: {
       id: "seed-contact-1",
-      userId: fan.id,
       name: "Seed User",
       email: "fan@example.com",
       subject: "Coming Soon",
       message: "Contact system seed message (coming soon).",
       priority: MessagePriority.NORMAL,
       status: ContactStatus.NEW,
+      dataRetention: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
     },
   });
 }
