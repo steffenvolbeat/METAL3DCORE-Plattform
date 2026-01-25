@@ -1,17 +1,11 @@
-import { defineConfig } from "eslint";
 import nextConfig from "eslint-config-next";
 
-const eslintConfig = defineConfig([
-  nextConfig,
-  {
-    ignores: [
-      ".next/**",
-      "out/**", 
-      "build/**",
-      "next-env.d.ts",
-      "node_modules/**",
-    ],
-  },
-]);
+// eslint-config-next already returns a flat config array. Spread it and append custom ignores.
+const baseConfigs = Array.isArray(nextConfig) ? nextConfig : [nextConfig];
 
-export default eslintConfig;
+export default [
+  ...baseConfigs,
+  {
+    ignores: [".next/**", "out/**", "build/**", "next-env.d.ts", "node_modules/**"],
+  },
+];
