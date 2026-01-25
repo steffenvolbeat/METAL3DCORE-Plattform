@@ -1,5 +1,6 @@
 // prisma/seed.ts
 import { PrismaClient, UserRole, TicketType, TicketStatus, MessagePriority, ContactStatus } from "@prisma/client";
+import { hashSync } from "bcryptjs";
 
 const prisma = new PrismaClient();
 let warned = false;
@@ -14,7 +15,12 @@ async function main() {
   const admin = await prisma.user.upsert({
     where: { email: "admin@example.com" },
     update: { role: UserRole.ADMIN },
-    create: { email: "admin@example.com", role: UserRole.ADMIN, username: "admin" },
+    create: {
+      email: "admin@example.com",
+      role: UserRole.ADMIN,
+      username: "admin",
+      password: hashSync("Admin123!", 10),
+    },
   });
 
   await prisma.user.upsert({
