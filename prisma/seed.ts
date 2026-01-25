@@ -1,5 +1,6 @@
 // prisma/seed.ts
 import { PrismaClient, UserRole, TicketType, TicketStatus, MessagePriority, ContactStatus } from "@prisma/client";
+import { hashSync } from "bcryptjs";
 
 const prisma = new PrismaClient();
 let warned = false;
@@ -43,7 +44,6 @@ async function main() {
       password: hashSync("Fan123!", 10),
     },
   });
-    password: hashSync("Fan123!", 10),
 
   await prisma.ticket.createMany({
     data: [
@@ -65,7 +65,7 @@ async function main() {
       subject: "Coming Soon",
       message: "Contact system seed message (coming soon).",
       priority: MessagePriority.NORMAL,
-      status: MessageStatus.NEW,
+      status: ContactStatus.NEW,
     },
   });
 }
