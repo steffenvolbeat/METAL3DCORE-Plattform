@@ -609,16 +609,17 @@ SOFORT-WORKAROUND:
                 }
               }}
               onError={(e) => {
+                const video = e.target as HTMLVideoElement | null;
                 console.error("❌ Video error:", {
                   error: e,
-                  target: e.target,
-                  currentSrc: e.target?.currentSrc,
-                  networkState: e.target?.networkState,
-                  readyState: e.target?.readyState,
-                  videoWidth: e.target?.videoWidth,
-                  videoHeight: e.target?.videoHeight,
-                  srcObject: !!e.target?.srcObject,
-                  paused: e.target?.paused
+                  target: video,
+                  currentSrc: video?.currentSrc,
+                  networkState: video?.networkState,
+                  readyState: video?.readyState,
+                  videoWidth: video?.videoWidth,
+                  videoHeight: video?.videoHeight,
+                  srcObject: !!video?.srcObject,
+                  paused: video?.paused
                 });
                 
                 // Try to restart the webcam if there's an error
