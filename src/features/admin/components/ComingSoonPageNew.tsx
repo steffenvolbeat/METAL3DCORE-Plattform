@@ -37,12 +37,13 @@ function formatRelativeTime(date: Date) {
   return `vor ${days} Tagen`;
 }
 
-function metricAccent(tone: "success" | "warning" | "info" | "danger") {
+function metricAccent(tone: "success" | "warning" | "info" | "danger" | "error") {
   switch (tone) {
     case "success":
       return "border border-emerald-500/40";
     case "warning":
       return "border border-amber-500/40";
+    case "error":
     case "danger":
       return "border border-red-500/40";
     case "info":
