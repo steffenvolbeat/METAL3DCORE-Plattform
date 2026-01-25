@@ -2,12 +2,8 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   /* config options here */
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
-  experimental: {
-    turbo: {},
-  },
+  // Turbopack config (replaces deprecated experimental.turbo)
+  turbopack: {},
   async headers() {
     return [
       {
