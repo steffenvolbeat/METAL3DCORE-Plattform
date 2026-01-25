@@ -45,7 +45,7 @@ async function main() {
     },
   });
 
-  // Ticket seeding skipped: Ticket requires eventId and richer fields. Add when event seed is ready.
+  // Ticket seeding skipped until event data is available; add tickets when events are seeded.
 
   await prisma.contactMessage.upsert({
     where: { id: "seed-contact-1" },
