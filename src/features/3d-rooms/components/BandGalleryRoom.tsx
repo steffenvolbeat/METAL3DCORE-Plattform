@@ -267,14 +267,9 @@ function InteractiveArtwork({ img, index, position, rotation }: any) {
         <>
           {/* BAND BILD */}
           <Suspense fallback={null}>
-            <Image
-              url={img.url}
-              position={[0, 3.25, 0.2]}
-              scale={[4.2, 6.2]}
-              transparent
-              toneMapped={false}
-              // alt={img.title} // React Three Fiber unterstützt kein alt-Attribut
-            />
+            {/* Drei Image ist kein DOM-Image; Alt-Regel lokal unterdrücken */}
+            {/* eslint-disable-next-line jsx-a11y/alt-text */}
+            <Image url={img.url} position={[0, 3.25, 0.2]} scale={[4.2, 6.2]} transparent toneMapped={false} />
           </Suspense>
 
           {/* BAND NAME - GROß UND GOLDEN */}

@@ -7,12 +7,7 @@ import { WebcamUser, StadiumWebcamDisplayProps } from "../types/webcam.types";
 export function StadiumWebcamDisplay({ webcamUsers, scene, camera, renderer }: StadiumWebcamDisplayProps) {
   const videoTexturesRef = useRef<Map<string, THREE.VideoTexture>>(new Map());
   const videoMeshesRef = useRef<Map<string, THREE.Group>>(new Map());
-
-  // 🛡️ EARLY RETURN IF ESSENTIAL PROPS ARE MISSING
-  if (!scene || !camera || !renderer) {
-    console.warn("StadiumWebcamDisplay: Missing essential Three.js objects");
-    return null;
-  }
+  const isReady = Boolean(scene && camera && renderer);
 
   // 🎥 CREATE VIDEO TEXTURE FROM WEBCAM STREAM
   const createVideoTexture = useCallback((videoElement: HTMLVideoElement): THREE.VideoTexture => {
@@ -99,18 +94,24 @@ export function StadiumWebcamDisplay({ webcamUsers, scene, camera, renderer }: S
       group.position.set(user.position.x, user.position.y, user.position.z);
 
       // Make screen always face the camera (billboard effect) - with null check
-      if (camera?.position) {
+      if (camera && camera.position) {
         group.lookAt(camera.position);
       }
 
       return group;
     },
-    [camera?.position]
+    [camera]
   );
+
+  useEffect(() => {
+    if (!isReady) {
+      console.warn("StadiumWebcamDisplay: Missing essential Three.js objects");
+    }
+  }, [isReady]);
 
   // 🔄 UPDATE WEBCAM DISPLAYS
   useEffect(() => {
-    if (!scene) return;
+    if (!isReady || !scene || !camera || !renderer) return;
 
     webcamUsers.forEach(user => {
       if (!user.isActive) return;
@@ -154,10 +155,12 @@ export function StadiumWebcamDisplay({ webcamUsers, scene, camera, renderer }: S
         }
       }
     });
-  }, [camera, createVideoTexture, createWebcamMesh, scene, webcamUsers]);
+  }, [camera, createVideoTexture, createWebcamMesh, isReady, renderer, scene, webcamUsers]);
 
   // 🎬 ANIMATION LOOP - Update video textures
   useEffect(() => {
+    if (!isReady) return;
+
     const animate = () => {
       // Update all video textures
       videoTexturesRef.current.forEach(texture => {
@@ -177,10 +180,12 @@ export function StadiumWebcamDisplay({ webcamUsers, scene, camera, renderer }: S
     };
 
     animate();
-  }, []);
+  }, [isReady]);
 
   // 🧹 CLEANUP
   useEffect(() => {
+    if (!isReady || !scene) return;
+
     const textures = videoTexturesRef.current;
     const meshes = videoMeshesRef.current;
 
@@ -191,7 +196,7 @@ export function StadiumWebcamDisplay({ webcamUsers, scene, camera, renderer }: S
       meshes.forEach(mesh => scene.remove(mesh));
       meshes.clear();
     };
-  }, [scene]);
+  }, [isReady, scene]);
 
   return null; // This component only manages 3D objects, no DOM rendering
 }
