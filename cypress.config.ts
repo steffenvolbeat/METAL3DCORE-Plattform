@@ -33,6 +33,5 @@ export default defineConfig({
       framework: "next",
       bundler: "webpack",
     },
->>>>>>> CheckoutMain
   },
 });

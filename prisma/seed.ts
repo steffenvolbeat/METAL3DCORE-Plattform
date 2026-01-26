@@ -19,12 +19,8 @@ async function main() {
       email: "admin@example.com",
       role: UserRole.ADMIN,
       username: "admin",
-<<<<<<< HEAD
       password: hashSync("Admin123!", 10),
-=======
-      password: "hashed_password_placeholder",
       name: "Admin User",
->>>>>>> CheckoutMain
     },
   });
 
@@ -35,12 +31,8 @@ async function main() {
       email: "band@example.com",
       role: UserRole.BAND,
       username: "band",
-<<<<<<< HEAD
       password: hashSync("Band123!", 10),
-=======
-      password: "hashed_password_placeholder",
       name: "Band User",
->>>>>>> CheckoutMain
     },
   });
 
@@ -51,17 +43,12 @@ async function main() {
       email: "fan@example.com",
       role: UserRole.FAN,
       username: "fan",
-<<<<<<< HEAD
       password: hashSync("Fan123!", 10),
+      name: "Fan User",
     },
   });
 
   // Ticket seeding skipped until event data is available; add tickets when events are seeded.
-=======
-      password: "hashed_password_placeholder",
-      name: "Fan User",
-    },
-  });
 
   // Create a seed band
   await prisma.band.upsert({
@@ -123,7 +110,6 @@ async function main() {
     ],
     skipDuplicates: true,
   });
->>>>>>> CheckoutMain
 
   await prisma.contactMessage.upsert({
     where: { id: "seed-contact-1" },
@@ -136,11 +122,7 @@ async function main() {
       message: "Contact system seed message (coming soon).",
       priority: MessagePriority.NORMAL,
       status: ContactStatus.NEW,
-<<<<<<< HEAD
-      dataRetention: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
-=======
       dataRetention: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000), // 1 year from now
->>>>>>> CheckoutMain
     },
   });
 }

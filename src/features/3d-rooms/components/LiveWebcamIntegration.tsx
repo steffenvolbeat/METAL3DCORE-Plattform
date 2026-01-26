@@ -229,7 +229,7 @@ Versuchen Sie:
 
       setAutoTestResult(`✅ ${cameras.length} Kamera(s) bereit`);
     } catch (error) {
-      console.warn("AUTO-TEST Issue (normal):", error.message);
+      console.warn("AUTO-TEST Issue (normal):", error instanceof Error ? error.message : String(error));
       setAutoTestResult("⚠️ Test fehlgeschlagen");
     }
   }, [startWebcam]);
