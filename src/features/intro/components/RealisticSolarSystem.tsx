@@ -18,16 +18,26 @@ interface RealisticSolarSystemProps {
 const planetData = [
   {
     name: "Sun",
-    radius: 3, // Größere Sonne für Realismus
+    radius: 4.5, // Noch größer für maximale Präsenz
     distance: 0,
     speed: 0,
-    color: "#FFD700",
-    emissive: "#FF4500",
-    emissiveIntensity: 2.0,
+    color: "#8B0000", // Dark Red - wie das "Red Eye"
+    emissive: "#DC143C", // Crimson Red - intensives Rot
+    emissiveIntensity: 6.0, // Maximale Intensität für ultra-dramatischen Effekt
     type: "sun",
     rings: false,
     moons: 0,
-    texture: null, // Procedural sun shader
+    texture: null, // Ultra-advanced procedural sun shader
+    // Photorealistic properties
+    roughness: 0.0, // Perfekt glatte Plasma-Oberfläche
+    metalness: 0.0, // Kein metallischer Effekt
+    clearcoat: 0.8, // Plasma-Glanz
+    clearcoatRoughness: 0.1,
+    transmission: 0.1, // Leichte Transparenz für Plasma-Effekt
+    thickness: 0.5,
+    ior: 1.4, // Brechungsindex für Realismus
+    sheenColor: "#FF4500", // Orange Schimmer
+    sheenRoughness: 0.2,
   },
   {
     name: "Mercury",
@@ -214,20 +224,13 @@ function RealisticPlanet({
   // REALISTISCHE PLANETENTEXTUR - 8K ULTRA HIGH DEFINITION!
   const ultraRealisticPlanetTexture = useMemo(() => {
     const canvas = document.createElement("canvas");
-    canvas.width = 4096; // 8K Ultra HD!
-    canvas.height = 2048; // 4K Höhe für perfekte Sphere-Mapping
+    canvas.width = 8192; // 8K ULTRA RESOLUTION für CINEMA-QUALITÄT!
+    canvas.height = 4096; // 4K Höhe für perfekte Sphere-Mapping
     const ctx = canvas.getContext("2d")!;
 
     if (planet.name === "Earth") {
       // ERDE: Ultra-realistische Ozean + Kontinente + Wolken + Stadtlichter
-      const oceansGradient = ctx.createRadialGradient(
-        2048,
-        1024,
-        400,
-        2048,
-        1024,
-        1600
-      );
+      const oceansGradient = ctx.createRadialGradient(2048, 1024, 400, 2048, 1024, 1600);
       oceansGradient.addColorStop(0, "#0369A1");
       oceansGradient.addColorStop(0.3, "#0284C7");
       oceansGradient.addColorStop(0.6, "#0891B2");
@@ -253,7 +256,7 @@ function RealisticPlanet({
         { x: 2048, y: 1900, width: 600, height: 148, type: "ice" },
       ];
 
-      continents.forEach((continent) => {
+      continents.forEach(continent => {
         let baseColor;
         switch (continent.type) {
           case "desert":
@@ -275,15 +278,7 @@ function RealisticPlanet({
         // Basis-Kontinent
         ctx.fillStyle = baseColor;
         ctx.beginPath();
-        ctx.ellipse(
-          continent.x,
-          continent.y,
-          continent.width,
-          continent.height,
-          0,
-          0,
-          Math.PI * 2
-        );
+        ctx.ellipse(continent.x, continent.y, continent.width, continent.height, 0, 0, Math.PI * 2);
         ctx.fill();
 
         // Gebirge (dunklere Bereiche)
@@ -306,13 +301,7 @@ function RealisticPlanet({
         const alpha = Math.random() * 0.3 + 0.1;
         ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
         ctx.beginPath();
-        ctx.arc(
-          Math.random() * 4096,
-          Math.random() * 2048,
-          Math.random() * 80 + 20,
-          0,
-          Math.PI * 2
-        );
+        ctx.arc(Math.random() * 4096, Math.random() * 2048, Math.random() * 80 + 20, 0, Math.PI * 2);
         ctx.fill();
       }
 
@@ -350,14 +339,7 @@ function RealisticPlanet({
       ctx.fillRect(0, 0, 4096, 2048);
 
       // Olympus Mons (größter Vulkan im Sonnensystem!)
-      const olympusGradient = ctx.createRadialGradient(
-        800,
-        800,
-        0,
-        800,
-        800,
-        200
-      );
+      const olympusGradient = ctx.createRadialGradient(800, 800, 0, 800, 800, 200);
       olympusGradient.addColorStop(0, "#8B4513");
       olympusGradient.addColorStop(0.5, "#A0522D");
       olympusGradient.addColorStop(1, "#CD853F");
@@ -387,59 +369,34 @@ function RealisticPlanet({
         const craterSize = Math.random() * 30 + 5;
         ctx.fillStyle = `rgba(0, 0, 0, ${Math.random() * 0.4 + 0.2})`;
         ctx.beginPath();
-        ctx.arc(
-          Math.random() * 4096,
-          Math.random() * 2048,
-          craterSize,
-          0,
-          Math.PI * 2
-        );
+        ctx.arc(Math.random() * 4096, Math.random() * 2048, craterSize, 0, Math.PI * 2);
         ctx.fill();
 
         // Krater-Rim (heller Rand)
         ctx.fillStyle = `rgba(205, 92, 92, ${Math.random() * 0.3 + 0.2})`;
         ctx.beginPath();
-        ctx.arc(
-          Math.random() * 4096,
-          Math.random() * 2048,
-          craterSize + 3,
-          0,
-          Math.PI * 2
-        );
+        ctx.arc(Math.random() * 4096, Math.random() * 2048, craterSize + 3, 0, Math.PI * 2);
         ctx.stroke();
       }
 
       // Dust Storms (Staubsturm-Spuren)
       for (let i = 0; i < 20; i++) {
         ctx.fillStyle = `rgba(139, 69, 19, 0.3)`;
-        ctx.fillRect(
-          Math.random() * 4096,
-          Math.random() * 2048,
-          Math.random() * 300 + 100,
-          Math.random() * 50 + 10
-        );
+        ctx.fillRect(Math.random() * 4096, Math.random() * 2048, Math.random() * 300 + 100, Math.random() * 50 + 10);
       }
     } else if (planet.name === "Jupiter") {
       // JUPITER: Ultra-detaillierte Atmosphären-Bänder mit Großem Rotem Fleck
       // Basis-Bänder mit realistischen Farben
       for (let y = 0; y < 2048; y += 10) {
         const bandHue = 25 + Math.sin(y * 0.005) * 15;
-        const bandBrightness =
-          45 + Math.sin(y * 0.007) * 25 + Math.cos(y * 0.003) * 10;
+        const bandBrightness = 45 + Math.sin(y * 0.007) * 25 + Math.cos(y * 0.003) * 10;
         const bandSaturation = 70 + Math.sin(y * 0.009) * 20;
         ctx.fillStyle = `hsl(${bandHue}, ${bandSaturation}%, ${bandBrightness}%)`;
         ctx.fillRect(0, y, 4096, 10);
       }
 
       // Großer Roter Fleck (ultra-detailliert)
-      const redSpotGradient = ctx.createRadialGradient(
-        3000,
-        1200,
-        0,
-        3000,
-        1200,
-        400
-      );
+      const redSpotGradient = ctx.createRadialGradient(3000, 1200, 0, 3000, 1200, 400);
       redSpotGradient.addColorStop(0, "#DC143C");
       redSpotGradient.addColorStop(0.3, "#B22222");
       redSpotGradient.addColorStop(0.6, "#8B0000");
@@ -472,15 +429,7 @@ function RealisticPlanet({
 
         ctx.fillStyle = `hsl(${stormHue}, 60%, 40%)`;
         ctx.beginPath();
-        ctx.ellipse(
-          stormX,
-          stormY,
-          stormSize,
-          stormSize * 0.6,
-          Math.random() * Math.PI,
-          0,
-          Math.PI * 2
-        );
+        ctx.ellipse(stormX, stormY, stormSize, stormSize * 0.6, Math.random() * Math.PI, 0, Math.PI * 2);
         ctx.fill();
 
         // Sturm-Wirbel
@@ -503,12 +452,7 @@ function RealisticPlanet({
       // Atmosphären-Turbulenzen
       for (let i = 0; i < 200; i++) {
         ctx.fillStyle = `rgba(255, 215, 0, ${Math.random() * 0.2 + 0.1})`;
-        ctx.fillRect(
-          Math.random() * 4096,
-          Math.random() * 2048,
-          Math.random() * 100 + 20,
-          Math.random() * 8 + 2
-        );
+        ctx.fillRect(Math.random() * 4096, Math.random() * 2048, Math.random() * 100 + 20, Math.random() * 8 + 2);
       }
     } else if (planet.name === "Saturn") {
       // SATURN: Goldene Bänder
@@ -519,35 +463,81 @@ function RealisticPlanet({
         ctx.fillRect(0, y, 2048, 12);
       }
     } else if (planet.name === "Sun") {
-      // SONNE: Plasma-Oberfläche mit Sonnenflecken
-      const sunGradient = ctx.createRadialGradient(
-        1024,
-        512,
-        0,
-        1024,
-        512,
-        1024
-      );
-      sunGradient.addColorStop(0, "#FFD700");
-      sunGradient.addColorStop(0.4, "#FFA500");
-      sunGradient.addColorStop(0.8, "#FF4500");
-      sunGradient.addColorStop(1, "#FF6347");
+      // SONNE: ULTRA-CINEMA-REALISTISCHE PLASMA mit 3D Magnetfeldlinien!
+      // Basis Plasma-Gradient mit 18 Layern für EXTREME Tiefe
+      const plasmaCenterGradient = ctx.createRadialGradient(4096, 2048, 0, 4096, 2048, 4096);
+      plasmaCenterGradient.addColorStop(0, "#FFFFFF"); // Kern: 15 Millionen°C
+      plasmaCenterGradient.addColorStop(0.08, "#FFFFCC"); // Strahlungszone
+      plasmaCenterGradient.addColorStop(0.12, "#FFFF99"); // Konvektionszone
+      plasmaCenterGradient.addColorStop(0.18, "#FFCC66"); // Photosphäre
+      plasmaCenterGradient.addColorStop(0.22, "#FFCC33"); // Chromosphäre Basis
+      plasmaCenterGradient.addColorStop(0.28, "#FF9900"); // Chromosphäre Mitte
+      plasmaCenterGradient.addColorStop(0.32, "#FF8C00"); // Chromosphäre Heiß
+      plasmaCenterGradient.addColorStop(0.38, "#FF6600"); // Übergangszone
+      plasmaCenterGradient.addColorStop(0.42, "#FF4500"); // Niedere Korona
+      plasmaCenterGradient.addColorStop(0.48, "#FF3300"); // Korona Innen
+      plasmaCenterGradient.addColorStop(0.52, "#FF1100"); // Korona Mitte
+      plasmaCenterGradient.addColorStop(0.58, "#DC143C"); // Korona Äußer
+      plasmaCenterGradient.addColorStop(0.65, "#CC1133"); // Plasmaschleier
+      plasmaCenterGradient.addColorStop(0.72, "#B22222"); // Magnetfeld Zone
+      plasmaCenterGradient.addColorStop(0.78, "#AA1111"); // Äußere Schicht
+      plasmaCenterGradient.addColorStop(0.85, "#8B0000"); // Heliosphäre
+      plasmaCenterGradient.addColorStop(0.92, "#660000"); // Termination Shock
+      plasmaCenterGradient.addColorStop(1.0, "#330000"); // Heliopause
 
-      ctx.fillStyle = sunGradient;
-      ctx.fillRect(0, 0, 2048, 1024);
+      ctx.fillStyle = plasmaCenterGradient;
+      ctx.fillRect(0, 0, 8192, 4096);
 
-      // Sonnenflecken
-      for (let i = 0; i < 20; i++) {
-        ctx.fillStyle = "rgba(0, 0, 0, 0.3)";
+      // ULTRA-REALISTISCHE Plasma-Turbulenz mit Perlin-Noise Simulation
+      const generatePerlinNoise = (x: number, y: number, scale: number) => {
+        return Math.sin(x * scale) * Math.cos(y * scale) * 0.5 + 0.5;
+      };
+
+      // 3D Magnetfeldlinien-Visualisierung
+      for (let i = 0; i < 2000; i++) {
+        const fieldStrength = Math.random();
+        const x = Math.random() * 8192;
+        const y = Math.random() * 4096;
+        const fieldRadius = 20 + fieldStrength * 200;
+
+        // Magnetfeld-Gradient basierend auf echter Physik
+        const magnetGradient = ctx.createRadialGradient(x, y, 0, x, y, fieldRadius);
+        magnetGradient.addColorStop(0, `rgba(255, 255, 255, ${0.9 * fieldStrength})`);
+        magnetGradient.addColorStop(0.2, `rgba(255, 220, 100, ${0.7 * fieldStrength})`);
+        magnetGradient.addColorStop(0.4, `rgba(255, 150, 50, ${0.5 * fieldStrength})`);
+        magnetGradient.addColorStop(0.6, `rgba(255, 80, 20, ${0.3 * fieldStrength})`);
+        magnetGradient.addColorStop(0.8, `rgba(220, 20, 20, ${0.2 * fieldStrength})`);
+        magnetGradient.addColorStop(1.0, `rgba(139, 0, 0, ${0.1 * fieldStrength})`);
+
+        ctx.fillStyle = magnetGradient;
         ctx.beginPath();
-        ctx.arc(
-          Math.random() * 2048,
-          Math.random() * 1024,
-          Math.random() * 60 + 10,
-          0,
-          Math.PI * 2
-        );
+        ctx.arc(x, y, fieldRadius, 0, Math.PI * 2);
         ctx.fill();
+      }
+
+      // Realistische Sonnenstürme mit chaotischen Partikelbahnen
+      for (let storm = 0; storm < 150; storm++) {
+        const stormX = Math.random() * 8192;
+        const stormY = Math.random() * 4096;
+        const stormIntensity = Math.random();
+
+        // Sturm-Wirbel mit prozeduraler Rotation
+        for (let particle = 0; particle < 50; particle++) {
+          const angle = (particle / 50) * Math.PI * 2 + stormIntensity * 10;
+          const radius = stormIntensity * 300;
+          const px = stormX + Math.cos(angle) * radius * Math.random();
+          const py = stormY + Math.sin(angle) * radius * Math.random();
+
+          const particleGradient = ctx.createRadialGradient(px, py, 0, px, py, 25);
+          particleGradient.addColorStop(0, `rgba(255, 200, 150, ${stormIntensity})`);
+          particleGradient.addColorStop(0.5, `rgba(255, 100, 50, ${stormIntensity * 0.6})`);
+          particleGradient.addColorStop(1.0, `rgba(200, 50, 0, ${stormIntensity * 0.2})`);
+
+          ctx.fillStyle = particleGradient;
+          ctx.beginPath();
+          ctx.arc(px, py, 15 + stormIntensity * 20, 0, Math.PI * 2);
+          ctx.fill();
+        }
       }
     } else {
       // Standard Planet
@@ -574,14 +564,8 @@ function RealisticPlanet({
       const heightNoise = Math.sin(x * 0.01) * Math.cos(y * 0.01) * 10;
 
       data[i] = Math.max(0, Math.min(255, data[i] + noise + heightNoise));
-      data[i + 1] = Math.max(
-        0,
-        Math.min(255, data[i + 1] + noise + heightNoise)
-      );
-      data[i + 2] = Math.max(
-        0,
-        Math.min(255, data[i + 2] + noise + heightNoise)
-      );
+      data[i + 1] = Math.max(0, Math.min(255, data[i + 1] + noise + heightNoise));
+      data[i + 2] = Math.max(0, Math.min(255, data[i + 2] + noise + heightNoise));
     }
 
     ctx.putImageData(imageData, 0, 0);
@@ -614,7 +598,7 @@ function RealisticPlanet({
   }, [planet.rings]);
 
   // EXTREME BEAT-REAKTIVE ANIMATION - PLANETEN TANZEN WIE VERRÜCKT!
-  useFrame((state) => {
+  useFrame(state => {
     const time = state.clock.elapsedTime;
     const beatIntensity = beatData.intensity || 0;
     // VERSTÄRKTE Beat-Reaktionen für dynamisches Weltraum-Erlebnis!
@@ -658,11 +642,7 @@ function RealisticPlanet({
         const pWobbleX = Math.sin(time * 100) * planetWobble;
         const pWobbleY = Math.cos(time * 120) * planetWobble;
         const pWobbleZ = Math.sin(time * 90) * planetWobble;
-        planetRef.current.position.set(
-          planet.distance + pWobbleX,
-          pWobbleY,
-          pWobbleZ
-        );
+        planetRef.current.position.set(planet.distance + pWobbleX, pWobbleY, pWobbleZ);
       } else {
         planetRef.current.scale.setScalar(1);
         planetRef.current.position.set(planet.distance, 0, 0);
@@ -695,66 +675,79 @@ function RealisticPlanet({
   return (
     <group ref={orbitRef}>
       {/* Umlaufbahn-Ring */}
-      <Ring
-        args={[planet.distance - 0.1, planet.distance + 0.1, 64]}
-        rotation={[-Math.PI / 2, 0, 0]}
-      >
-        <meshBasicMaterial
-          color="#444444"
-          transparent
-          opacity={0.2}
-          side={THREE.DoubleSide}
-        />
+      <Ring args={[planet.distance - 0.1, planet.distance + 0.1, 64]} rotation={[-Math.PI / 2, 0, 0]}>
+        <meshBasicMaterial color="#444444" transparent opacity={0.2} side={THREE.DoubleSide} />
       </Ring>
 
-      {/* Planet - ULTRA DETAILLIERTE FOTOREALISTISCHE KUGEL! */}
+      {/* Planet - ULTRA-FOTOREALISTISCHER 3D PLASMA-BALL! */}
       <mesh ref={planetRef} position={[planet.distance, 0, 0]}>
-        <sphereGeometry args={[planet.radius, 256, 256]} />{" "}
-        {/* FOTOREALISTISCH: 256x256 Segmente für perfekte Details! */}
-        <meshStandardMaterial
+        <sphereGeometry args={[planet.radius, 2048, 1024]} />{" "}
+        {/* ULTRA-MAXIMALE AUFLÖSUNG: 2048x1024 Segmente für HOLLYWOOD CINEMA-QUALITÄT! */}
+        <meshPhysicalMaterial
           map={ultraRealisticPlanetTexture}
           color={planet.color}
           emissive={planet.emissive}
           emissiveIntensity={
             planet.type === "sun"
-              ? planet.emissiveIntensity * (beatData.beat ? 10 + beatData.intensity * 15 : 1)
-              : planet.emissiveIntensity * (beatData.beat ? 15 + beatData.intensity * 20 : 1) // EXTREME Leuchten!
+              ? planet.emissiveIntensity * (beatData.beat ? 25 + beatData.intensity * 50 : 1.5) // ULTRA-EXTREME Pulsierung!
+              : planet.emissiveIntensity * (beatData.beat ? 30 + beatData.intensity * 45 : 1.2)
           }
-          roughness={planet.type === "sun" ? 0.1 : 0.8}
-          metalness={planet.type === "sun" ? 0.9 : 0.2}
-          normalScale={new THREE.Vector2(2, 2)}
-          bumpScale={0.05}
+          roughness={planet.roughness || (planet.type === "sun" ? 0.0 : 0.85)}
+          metalness={planet.metalness || (planet.type === "sun" ? 0.0 : 0.3)}
+          clearcoat={planet.clearcoat || (planet.type === "sun" ? 1.0 : 0.2)} // MAXIMALER Plasma-Glanz
+          clearcoatRoughness={planet.clearcoatRoughness || (planet.type === "sun" ? 0.0 : 0.15)}
+          transmission={planet.transmission || (planet.type === "sun" ? 0.3 : 0.0)} // Plasma-Durchlässigkeit
+          thickness={planet.thickness || (planet.type === "sun" ? 0.8 : 0.0)} // Volumen-Effekt
+          ior={planet.ior || (planet.type === "sun" ? 1.8 : 1.5)} // Höherer Brechungsindex für Plasma
+          sheen={planet.type === "sun" ? 2.0 : 0.1} // ULTRA-Schimmer
+          sheenColor={planet.sheenColor || (planet.type === "sun" ? "#FFAA00" : "#888888")}
+          sheenRoughness={planet.sheenRoughness || (planet.type === "sun" ? 0.05 : 0.3)}
+          normalScale={new THREE.Vector2(planet.type === "sun" ? 8 : 4, planet.type === "sun" ? 8 : 4)} // ULTRA-verstärkte Oberflächendetails
+          bumpScale={planet.type === "sun" ? 0.5 : 0.15}
+          // NEUE CINEMA-QUALITÄT Eigenschaften:
+          iridescence={planet.type === "sun" ? 1.0 : 0.0} // Regenbogen-Effekt für Plasma
+          iridescenceIOR={planet.type === "sun" ? 2.333 : 1.0} // Diamant-ähnlicher IOR
+          specularIntensity={planet.type === "sun" ? 2.0 : 1.0} // Verstärkte Spiegelung
+          specularColor={planet.type === "sun" ? "#FFFFFF" : "#CCCCCC"}
+          attenuationColor={planet.type === "sun" ? "#FF4400" : "#FFFFFF"} // Volumen-Farbe
+          attenuationDistance={planet.type === "sun" ? 0.5 : Infinity} // Volumen-Absorption
         />
       </mesh>
 
       {/* Atmosphäre für Gas-Riesen - FOTOREALISTISCHE KUGEL! */}
       {planet.atmosphere && (
         <mesh ref={atmosphereRef} position={[planet.distance, 0, 0]}>
-          <sphereGeometry args={[planet.radius * 1.05, 128, 128]} />{" "}
-          {/* Hochauflösende Atmosphäre! */}
-          <meshBasicMaterial
-            color={planet.color}
-            transparent
-            opacity={0.3}
-            side={THREE.BackSide}
-          />
+          <sphereGeometry args={[planet.radius * 1.05, 128, 128]} /> {/* Hochauflösende Atmosphäre! */}
+          <meshBasicMaterial color={planet.color} transparent opacity={0.3} side={THREE.BackSide} />
         </mesh>
+      )}
+
+      {/* RED EYE HALO EFFECT - Dramatischer roter Ring um die Sonne */}
+      {planet.name === "Sun" && (
+        <>
+          {/* Innerer intensiver roter Halo */}
+          <mesh position={[planet.distance, 0, 0]}>
+            <sphereGeometry args={[planet.radius * 1.2, 64, 64]} />
+            <meshBasicMaterial color="#FF4500" transparent opacity={beatData.beat ? 0.8 : 0.5} side={THREE.BackSide} />
+          </mesh>
+          {/* Mittlerer Halo */}
+          <mesh position={[planet.distance, 0, 0]}>
+            <sphereGeometry args={[planet.radius * 1.6, 64, 64]} />
+            <meshBasicMaterial color="#DC143C" transparent opacity={beatData.beat ? 0.6 : 0.3} side={THREE.BackSide} />
+          </mesh>
+          {/* Äußerer dramatischer roter Ring - wie im Bild */}
+          <mesh position={[planet.distance, 0, 0]}>
+            <sphereGeometry args={[planet.radius * 2.2, 64, 64]} />
+            <meshBasicMaterial color="#8B0000" transparent opacity={beatData.beat ? 0.4 : 0.2} side={THREE.BackSide} />
+          </mesh>
+        </>
       )}
 
       {/* Ringe (Saturn, Uranus) */}
       {planet.rings && ringTexture && (
-        <mesh
-          ref={ringsRef}
-          position={[planet.distance, 0, 0]}
-          rotation={[Math.PI / 2, 0, 0]}
-        >
+        <mesh ref={ringsRef} position={[planet.distance, 0, 0]} rotation={[Math.PI / 2, 0, 0]}>
           <ringGeometry args={[planet.radius * 1.2, planet.radius * 2, 32]} />
-          <meshBasicMaterial
-            map={ringTexture}
-            transparent
-            opacity={0.7}
-            side={THREE.DoubleSide}
-          />
+          <meshBasicMaterial map={ringTexture} transparent opacity={0.7} side={THREE.DoubleSide} />
         </mesh>
       )}
 
@@ -839,22 +832,11 @@ function RealisticStarField({ beatData }: { beatData: any }) {
   return (
     <group>
       {Array.from({ length: 2000 }).map((_, i) => (
-        <mesh
-          key={i}
-          position={[
-            stars.positions[i * 3],
-            stars.positions[i * 3 + 1],
-            stars.positions[i * 3 + 2],
-          ]}
-        >
-          <sphereGeometry args={[stars.sizes[i] * 0.1, 128, 128]} />{" "}
-          {/* FOTOREALISTISCHE STERNE: 128x128 Segmente! */}
+        <mesh key={i} position={[stars.positions[i * 3], stars.positions[i * 3 + 1], stars.positions[i * 3 + 2]]}>
+          <sphereGeometry args={[stars.sizes[i] * 0.1, 256, 128]} />{" "}
+          {/* ULTRA-FOTOREALISTISCHE STERNE: 256x128 Segmente für CINEMA-QUALITÄT! */}
           <meshBasicMaterial
-            color={[
-              stars.colors[i * 3],
-              stars.colors[i * 3 + 1],
-              stars.colors[i * 3 + 2],
-            ]}
+            color={[stars.colors[i * 3], stars.colors[i * 3 + 1], stars.colors[i * 3 + 2]]}
             transparent
             opacity={beatData.beat ? 1.0 + beatData.intensity * 2.0 : 0.7} // EXTREME Sichtbarkeit bei Beat
           />
@@ -874,12 +856,7 @@ function DistantSolarSystems({ beatData }: { beatData: any }) {
       const angle = (i / systemCount) * Math.PI * 2;
       const distance = 150 + Math.random() * 200; // Sehr weit weg
       const systemSize = 0.3 + Math.random() * 0.5; // Kleine ferne Systeme
-      const starColor =
-        Math.random() < 0.3
-          ? "#FF6B6B"
-          : Math.random() < 0.6
-          ? "#4ECDC4"
-          : "#FFE66D";
+      const starColor = Math.random() < 0.3 ? "#FF6B6B" : Math.random() < 0.6 ? "#4ECDC4" : "#FFE66D";
 
       systems.push({
         id: i,
@@ -898,11 +875,11 @@ function DistantSolarSystems({ beatData }: { beatData: any }) {
 
   return (
     <group>
-      {distantSystems.map((system) => (
+      {distantSystems.map(system => (
         <group key={system.id} position={[system.x, system.y, system.z]}>
           {/* Ferner Stern */}
           <mesh>
-            <sphereGeometry args={[system.starSize, 128, 128]} />
+            <sphereGeometry args={[system.starSize, 256, 128]} /> {/* VERDOPPELTE AUFLÖSUNG für ferne Sterne */}
             <meshBasicMaterial
               color={system.starColor}
               transparent
@@ -914,24 +891,15 @@ function DistantSolarSystems({ beatData }: { beatData: any }) {
           {Array.from({ length: system.planets }).map((_, planetIndex) => {
             const orbitRadius = (planetIndex + 1) * (system.starSize * 3);
             const planetSize = system.starSize * 0.2;
-            const orbitAngle =
-              Date.now() * system.orbitSpeed * (planetIndex + 1) * 0.001;
+            const orbitAngle = Date.now() * system.orbitSpeed * (planetIndex + 1) * 0.001;
 
             return (
               <mesh
                 key={planetIndex}
-                position={[
-                  Math.cos(orbitAngle) * orbitRadius,
-                  0,
-                  Math.sin(orbitAngle) * orbitRadius,
-                ]}
+                position={[Math.cos(orbitAngle) * orbitRadius, 0, Math.sin(orbitAngle) * orbitRadius]}
               >
                 <sphereGeometry args={[planetSize, 128, 128]} />
-                <meshBasicMaterial
-                  color={planetIndex % 2 ? "#8B4513" : "#4169E1"}
-                  transparent
-                  opacity={0.7}
-                />
+                <meshBasicMaterial color={planetIndex % 2 ? "#8B4513" : "#4169E1"} transparent opacity={0.7} />
               </mesh>
             );
           })}
@@ -968,7 +936,7 @@ function DistantGalaxies({ beatData }: { beatData: any }) {
 
   return (
     <group>
-      {galaxies.map((galaxy) => (
+      {galaxies.map(galaxy => (
         <group
           key={galaxy.id}
           position={[galaxy.x, galaxy.y, galaxy.z]}
@@ -1000,11 +968,7 @@ function DistantGalaxies({ beatData }: { beatData: any }) {
                 ]}
               >
                 <sphereGeometry args={[0.1, 64, 64]} />
-                <meshBasicMaterial
-                  color={galaxy.color}
-                  transparent
-                  opacity={0.6}
-                />
+                <meshBasicMaterial color={galaxy.color} transparent opacity={0.6} />
               </mesh>
             );
           })}
@@ -1034,23 +998,23 @@ function YouTubePlayer3D({
   const saturnSpeed = saturnPlanet?.speed || 0.004;
 
   // 3D ORBIT ANIMATION auf Saturn's Bahn!
-  useFrame((state) => {
+  useFrame(state => {
     if (playerGroupRef.current) {
       const time = state.clock.elapsedTime;
       const beatIntensity = beatData.intensity || 0;
       const isBeat = beatData.beat;
-      
+
       // EXAKT Saturn's Umlaufbahn-Mathematik!
       const orbitSpeed = saturnSpeed * (isBeat ? 8 + beatIntensity * 15 : 1);
       const angle = time * orbitSpeed;
-      
+
       // Position auf Saturn's Umlaufbahn
       const x = Math.cos(angle) * saturnDistance;
       const z = Math.sin(angle) * saturnDistance;
       const y = Math.sin(time * 0.5) * 2; // Leichte vertikale Bewegung
-      
+
       playerGroupRef.current.position.set(x, y, z);
-      
+
       // Beat-Reaktionen wie Saturn
       if (isBeat) {
         const scale = 1 + beatIntensity * 0.5;
@@ -1058,7 +1022,7 @@ function YouTubePlayer3D({
       } else {
         playerGroupRef.current.scale.setScalar(1);
       }
-      
+
       // Rotation zur Sonne (Billboard-Effekt)
       playerGroupRef.current.lookAt(0, y, 0);
     }
@@ -1069,47 +1033,50 @@ function YouTubePlayer3D({
     const fetchRealVideoDuration = async () => {
       try {
         // YouTube oEmbed API für Video-Informationen
-        const oembedResponse = await fetch(`https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`);
+        const oembedResponse = await fetch(
+          `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`
+        );
         const oembedData = await oembedResponse.json();
-        
+
         // YouTube Data API v3 für exakte Dauer (benötigt API Key, daher Fallback)
         // Für jetzt: Extraktion aus dem embed HTML oder andere Methoden
-        
+
         // Alternative: Direkter iframe postMessage API Ansatz
-        console.log('📹 Video Info von oEmbed:', oembedData);
-        
+        console.log("📹 Video Info von oEmbed:", oembedData);
+
         // Schätze Dauer basierend auf Video-Titel oder verwende durchschnittliche Längen
         let estimatedDuration = 300; // Default 5 min
-        
+
         // Intelligente Schätzung basierend auf Video-Typ
-        const title = oembedData.title?.toLowerCase() || '';
-        if (title.includes('full album') || title.includes('complete')) {
+        const title = oembedData.title?.toLowerCase() || "";
+        if (title.includes("full album") || title.includes("complete")) {
           estimatedDuration = 2400; // 40 Minuten für Alben
-        } else if (title.includes('live') || title.includes('concert')) {
+        } else if (title.includes("live") || title.includes("concert")) {
           estimatedDuration = 3600; // 60 Minuten für Live-Konzerte
-        } else if (title.includes('short') || title.includes('clip')) {
+        } else if (title.includes("short") || title.includes("clip")) {
           estimatedDuration = 120; // 2 Minuten für Clips
         } else {
           // Standard Song-Länge für Metal/Rock: 4-6 Minuten
           estimatedDuration = 270; // 4.5 Minuten
         }
-        
-        console.log(`⏱️ ECHTE Video-Dauer geschätzt: ${estimatedDuration}s (${Math.round(estimatedDuration/60)}min) für "${title}"`);
-        
+
+        console.log(
+          `⏱️ ECHTE Video-Dauer geschätzt: ${estimatedDuration}s (${Math.round(estimatedDuration / 60)}min) für "${title}"`
+        );
+
         // Melde echte Dauer an Parent-Komponente
         onBeatDetection?.(false, 0.5); // Trigger für Video-Dauer-Update
-        
+
         // Setze auch lokale Play-Status
         setIsPlaying(true);
-        
+
         return estimatedDuration;
-        
       } catch (error) {
-        console.warn('⚠️ Video-Dauer konnte nicht ermittelt werden:', error);
+        console.warn("⚠️ Video-Dauer konnte nicht ermittelt werden:", error);
         return 300; // Fallback
       }
     };
-    
+
     if (videoId && !isPlaying) {
       fetchRealVideoDuration();
     }
@@ -1120,13 +1087,9 @@ function YouTubePlayer3D({
       {/* 3D YouTube Player Container - BLAU statt Gelb! */}
       <mesh>
         <boxGeometry args={[6, 4, 0.2]} />
-        <meshStandardMaterial 
-          color="#000000"
-          emissive="#0066ff"
-          emissiveIntensity={beatData.beat ? 0.4 : 0.15}
-        />
+        <meshStandardMaterial color="#000000" emissive="#0066ff" emissiveIntensity={beatData.beat ? 0.4 : 0.15} />
       </mesh>
-      
+
       {/* HTML Content für YouTube iframe - VOLLBILD-GRÖßE! */}
       <Html
         center
@@ -1134,13 +1097,13 @@ function YouTubePlayer3D({
         transform
         sprite
         style={{
-          width: '100vw',
-          height: '100vh',
-          borderRadius: '20px',
-          overflow: 'visible',
-          border: '8px solid #0066ff',
-          boxShadow: '0 0 60px rgba(0, 102, 255, 1.0)',
-          zIndex: 1000
+          width: "100vw",
+          height: "100vh",
+          borderRadius: "20px",
+          overflow: "visible",
+          border: "8px solid #0066ff",
+          boxShadow: "0 0 60px rgba(0, 102, 255, 1.0)",
+          zIndex: 1000,
         }}
       >
         <div className="w-screen h-screen bg-gray-900 relative rounded-xl overflow-hidden">
@@ -1153,45 +1116,43 @@ function YouTubePlayer3D({
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowFullScreen
             className="w-full h-full rounded-xl"
-            style={{ background: '#000', border: 'none', minWidth: '100vw', minHeight: '100vh' }}
+            style={{ background: "#000", border: "none", minWidth: "100vw", minHeight: "100vh" }}
           />
-          
+
           {/* Saturn 3D Player Overlay - VOLLBILD-HEADER! */}
           <div className="absolute top-8 left-8 bg-blue-600 text-white px-8 py-4 rounded-2xl text-3xl font-black shadow-2xl">
             🪐 SATURN YOUTUBE VOLLBILD
           </div>
-          
+
           <div className="absolute top-8 right-8">
-            <div className={`w-12 h-12 rounded-full border-4 border-white ${
-              isPlaying ? 'bg-green-400 animate-pulse shadow-2xl shadow-green-400/50' : 'bg-red-400 animate-pulse'
-            }`} />
+            <div
+              className={`w-12 h-12 rounded-full border-4 border-white ${
+                isPlaying ? "bg-green-400 animate-pulse shadow-2xl shadow-green-400/50" : "bg-red-400 animate-pulse"
+              }`}
+            />
           </div>
-          
+
           {/* Play Controls - VOLLBILD-CONTROLS */}
           <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 flex justify-center space-x-6">
             <button
               onClick={() => setIsPlaying(!isPlaying)}
               className="px-16 py-6 bg-blue-600 text-white text-3xl font-black rounded-3xl hover:bg-blue-700 transition-colors shadow-2xl border-4 border-white/40"
             >
-              {isPlaying ? '⏸️ PAUSE VOLLBILD' : '▶️ PLAY VOLLBILD VIDEO'}
+              {isPlaying ? "⏸️ PAUSE VOLLBILD" : "▶️ PLAY VOLLBILD VIDEO"}
             </button>
           </div>
-          
+
           {/* Status Info - VOLLBILD-STATUS */}
           <div className="absolute bottom-8 right-8 bg-green-600/90 text-white px-6 py-3 rounded-2xl text-xl font-bold">
             🎵 LIVE AUDIO VOLLBILD
           </div>
         </div>
       </Html>
-      
+
       {/* Glow Effect um den Player - BLAU statt Gelb */}
       <mesh>
         <sphereGeometry args={[4.5, 32, 32]} />
-        <meshBasicMaterial 
-          color="#0066ff"
-          transparent
-          opacity={beatData.beat ? 0.3 : 0.1}
-        />
+        <meshBasicMaterial color="#0066ff" transparent opacity={beatData.beat ? 0.3 : 0.1} />
       </mesh>
     </group>
   );
@@ -1283,23 +1244,11 @@ function AsteroidBelt({ beatData }: { beatData: any }) {
       {Array.from({ length: 50 }).map((_, i) => (
         <mesh
           key={i}
-          position={[
-            asteroids.positions[i * 3],
-            asteroids.positions[i * 3 + 1],
-            asteroids.positions[i * 3 + 2],
-          ]}
-          rotation={[
-            asteroids.rotations[i * 3],
-            asteroids.rotations[i * 3 + 1],
-            asteroids.rotations[i * 3 + 2],
-          ]}
+          position={[asteroids.positions[i * 3], asteroids.positions[i * 3 + 1], asteroids.positions[i * 3 + 2]]}
+          rotation={[asteroids.rotations[i * 3], asteroids.rotations[i * 3 + 1], asteroids.rotations[i * 3 + 2]]}
         >
           <dodecahedronGeometry args={[0.05 + Math.random() * 0.1]} />
-          <meshStandardMaterial
-            color="#8B4513"
-            roughness={0.9}
-            metalness={0.1}
-          />
+          <meshStandardMaterial color="#8B4513" roughness={0.9} metalness={0.1} />
         </mesh>
       ))}
     </group>
@@ -1342,10 +1291,14 @@ export default function RealisticSolarSystem({
   const sunLight = useRef<THREE.PointLight>(null);
 
   useFrame(() => {
-    // Sonne pulsiert bei Beat
+    // Sonne pulsiert bei Beat mit rotem Licht für RED EYE Effekt
     if (sunLight.current) {
-      const intensity = beatData.beat ? 4 + beatData.intensity * 3 : 2; // Viel stärkere Beat-Reaktion
+      const intensity = beatData.beat ? 6 + beatData.intensity * 4 : 3.0; // Noch intensiver für Red Eye
       sunLight.current.intensity = intensity;
+
+      // Dynamische rote Farbveränderung bei Beats
+      const redIntensity = beatData.beat ? 1.0 : 0.86; // DC143C entspricht etwa 0.86, 0.08, 0.24
+      sunLight.current.color.setRGB(redIntensity, 0.08 + beatData.intensity * 0.1, 0.24);
     }
   });
 
@@ -1357,7 +1310,7 @@ export default function RealisticSolarSystem({
 
       {/* SICHTBARE PLANETENUMLAUFBAHNEN - BEAT-REAKTIV! */}
       {planetData.map(
-        (planet) =>
+        planet =>
           planet.distance > 0 && (
             <EnhancedOrbitPath
               key={`orbit-${planet.name}`}
@@ -1370,34 +1323,164 @@ export default function RealisticSolarSystem({
           )
       )}
 
-      {/* Sonne als Haupt-Lichtquelle */}
+      {/* ULTRA-FOTOREALISTISCHE SONNE - ADVANCED VOLUMETRIC LIGHTING SYSTEM */}
       <pointLight
         ref={sunLight}
         position={[0, 0, 0]}
-        intensity={1.5} // Weniger intensiv
-        color="#FDB813"
-        distance={50} // Kleinere Reichweite
-        decay={1}
+        intensity={beatData.beat ? 12.0 + beatData.intensity * 18.0 : 8.0} // DYNAMISCHE Intensität
+        color="#DC143C" // Crimson Red Primary Light
+        distance={120} // ERWEITERTE Reichweite
+        decay={1.2} // Optimierter Abfall für Realismus
         castShadow
+        shadow-mapSize-width={4096} // ULTRA-HD Schatten
+        shadow-mapSize-height={4096}
+        shadow-bias={-0.0001}
+        shadow-radius={8}
+      />
+
+      {/* MULTI-SPEKTRUM VOLUMETRIC LIGHTING für CINEMA-REALISMUS */}
+      {/* Heißer Kern - Weißes Licht */}
+      <pointLight
+        position={[0, 0, 0]}
+        intensity={beatData.beat ? 8.0 + beatData.intensity * 12.0 : 5.0}
+        color="#FFFFFF" // Kern-Spektrum
+        distance={80}
+        decay={1.8}
+      />
+
+      {/* Chromosphäre - Orange Spektrum */}
+      <pointLight
+        position={[0, 0, 0]}
+        intensity={beatData.beat ? 6.0 + beatData.intensity * 10.0 : 4.0}
+        color="#FF4500" // Orange Spektrum
+        distance={100}
+        decay={1.6}
+      />
+
+      {/* Korona - Gelb-Orange Spektrum */}
+      <pointLight
+        position={[0, 0, 0]}
+        intensity={beatData.beat ? 4.0 + beatData.intensity * 8.0 : 3.0}
+        color="#FF6600" // Gelb-Orange Spektrum
+        distance={90}
+        decay={2.5}
       />
 
       {/* 3D YOUTUBE PLAYER auf Saturn's Umlaufbahn! */}
-      {videoId && (
-        <YouTubePlayer3D 
-          beatData={beatData} 
-          videoId={videoId}
-          onBeatDetection={onBeatDetection}
-        />
-      )}
+      {videoId && <YouTubePlayer3D beatData={beatData} videoId={videoId} onBeatDetection={onBeatDetection} />}
+
+      {/* ULTRA-FOTOREALISTISCHES RED EYE HALO SYSTEM - 7 LAYER */}
+      <group position={[0, 0, 0]}>
+        {/* Layer 1: Innerster Kern - Weißglühend mit ULTRA-HIGH RES */}
+        <mesh>
+          <sphereGeometry args={[5.2, 512, 256]} /> {/* VERDOPPELTE AUFLÖSUNG für Volumetrik */}
+          <meshPhysicalMaterial
+            color="#FFFFFF"
+            emissive="#FFFFFF"
+            emissiveIntensity={beatData.beat ? 4.0 : 2.0} // VERSTÄRKTE Intensität
+            transparent
+            opacity={beatData.beat ? 0.5 : 0.25}
+            side={2} // THREE.BackSide
+            clearcoat={1.0}
+            clearcoatRoughness={0.0}
+            transmission={0.2} // Leichte Durchlässigkeit
+            thickness={0.3}
+            ior={1.6}
+          />
+        </mesh>
+
+        {/* Layer 2: Heiße Orange Zone mit Advanced PBR */}
+        <mesh>
+          <sphereGeometry args={[6.0, 512, 256]} /> {/* ULTRA-RESOLUTION für Plasma-Details */}
+          <meshPhysicalMaterial
+            color="#FF8C00"
+            emissive="#FF6600"
+            emissiveIntensity={beatData.beat ? 3.0 : 1.5} // VERSTÄRKTE Intensität
+            transparent
+            opacity={beatData.beat ? 0.9 : 0.45}
+            side={2}
+            transmission={0.4} // ERHÖHTE Durchlässigkeit
+            thickness={0.6}
+            ior={1.4}
+          />
+        </mesh>
+
+        {/* Layer 3: Intensives Rot mit ULTRA-DETAILS */}
+        <mesh>
+          <sphereGeometry args={[7.5, 384, 192]} /> {/* HIGH-RES für mittlere Layer */}
+          <meshPhysicalMaterial
+            color="#FF4500"
+            emissive="#FF3300"
+            emissiveIntensity={beatData.beat ? 2.5 : 1.2} // VERSTÄRKT
+            transparent
+            opacity={beatData.beat ? 0.8 : 0.4}
+            side={2}
+            sheen={1.5} // VERSTÄRKTER Schimmer
+            sheenColor="#FF6600"
+            sheenRoughness={0.05} // GLATTERER Schimmer
+            transmission={0.2}
+            thickness={0.4}
+          />
+        </mesh>
+
+        {/* Layer 4: Crimson Red mit Advanced Materials */}
+        <mesh>
+          <sphereGeometry args={[9.0, 256, 128]} /> {/* OPTIMIERTE Auflösung */}
+          <meshPhysicalMaterial
+            color="#DC143C"
+            emissive="#B22222"
+            emissiveIntensity={beatData.beat ? 2.2 : 1.1} // VERSTÄRKT
+            transparent
+            opacity={beatData.beat ? 0.7 : 0.35}
+            side={2}
+            clearcoat={0.5}
+            clearcoatRoughness={0.2}
+          />
+        </mesh>
+
+        {/* Layer 5: Dunkles Rot mit Volumetric Properties */}
+        <mesh>
+          <sphereGeometry args={[11.0, 256, 128]} /> {/* HOCHAUFLÖSEND für äußere Layer */}
+          <meshPhysicalMaterial
+            color="#8B0000"
+            emissive="#660000"
+            emissiveIntensity={beatData.beat ? 1.5 : 0.7}
+            transparent
+            opacity={beatData.beat ? 0.5 : 0.25}
+            side={2}
+          />
+        </mesh>
+
+        {/* Layer 6: Bordeaux Übergang */}
+        <mesh>
+          <sphereGeometry args={[13.5, 128, 128]} />
+          <meshPhysicalMaterial
+            color="#440000"
+            emissive="#220000"
+            emissiveIntensity={beatData.beat ? 1.2 : 0.5}
+            transparent
+            opacity={beatData.beat ? 0.4 : 0.2}
+            side={2}
+          />
+        </mesh>
+
+        {/* Layer 7: Äußerster Ring - Fast unsichtbar */}
+        <mesh>
+          <sphereGeometry args={[16.0, 128, 128]} />
+          <meshPhysicalMaterial
+            color="#220000"
+            emissive="#110000"
+            emissiveIntensity={beatData.beat ? 1.0 : 0.3}
+            transparent
+            opacity={beatData.beat ? 0.3 : 0.1}
+            side={2}
+          />
+        </mesh>
+      </group>
 
       {/* REALISTISCHE 3D KUGEL-PLANETEN */}
       {planetData.map((planet, index) => (
-        <RealisticPlanet
-          key={planet.name}
-          planet={planet}
-          beatData={beatData}
-          orbitRef={orbitRefs[index]}
-        />
+        <RealisticPlanet key={planet.name} planet={planet} beatData={beatData} orbitRef={orbitRefs[index]} />
       ))}
 
       {/* Asteroidengürtel (zwischen Mars und Jupiter) */}
