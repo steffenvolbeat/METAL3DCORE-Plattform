@@ -8,6 +8,7 @@ import * as THREE from "three";
 import { FPSControls } from "@/shared/components/3d";
 import PaymentOptions, { usePaymentOptions } from "@/features/tickets/components/PaymentOptions";
 import { TICKET_PRICES } from "@/lib/access-control";
+import { WebGLCanvasWrapper } from "@/shared/components/WebGLCanvasWrapper";
 
 // Typen für Props
 interface TicketStageProps {
@@ -1501,16 +1502,26 @@ export default function TicketStage({ isFullscreen = false, onRoomChange, onFull
                 : "section-card h-96 sm:h-[600px] relative overflow-hidden"
             }
           >
-            <Suspense fallback={<LoadingFallback />}>
-              <Canvas
-                camera={{ position: [0, 2, 8], fov: 75 }}
-                className="w-full h-full rounded-2xl"
-                gl={{ antialias: true, alpha: false }}
-              >
-                <TicketScene />
-                <Environment preset="night" />
-              </Canvas>
-            </Suspense>
+            <WebGLCanvasWrapper
+              roomName="Ticket Arena"
+              roomIcon="🎫"
+              onRoomChange={onRoomChange}
+              isFullscreen={isFullscreen}
+            >
+              <Suspense fallback={<LoadingFallback />}>
+                <Canvas
+                  camera={{ position: [0, 2, 8], fov: 75 }}
+                  className="w-full h-full rounded-2xl"
+                  gl={{ antialias: true, alpha: false }}
+                  onCreated={state => {
+                    console.log("Ticket Canvas created successfully with WebGL context");
+                  }}
+                >
+                  <TicketScene />
+                  <Environment preset="night" />
+                </Canvas>
+              </Suspense>
+            </WebGLCanvasWrapper>
 
             {/* 3D Overlay Controls */}
             <div className="absolute bottom-4 left-4 right-4">

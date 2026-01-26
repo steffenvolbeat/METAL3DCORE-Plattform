@@ -45,6 +45,7 @@ function metricAccent(tone: "success" | "warning" | "info" | "danger" | "error")
       return "border border-amber-500/40";
     case "error":
     case "danger":
+    case "error":
       return "border border-red-500/40";
     case "info":
       return "border border-sky-500/40";
@@ -157,7 +158,7 @@ export function ComingSoonPageNew() {
 
   return (
     <div className="min-h-screen bg-theme-primary py-12 pt-24">
-      <div className="app-shell space-y-8">
+      <div className="app-shell space-y-8" data-cy="project-status">
         <header className="section-card">
           <div className="flex flex-wrap gap-4 items-start justify-between">
             <div>
@@ -267,7 +268,9 @@ export function ComingSoonPageNew() {
         </section>
 
         <section className="section-card">
-          <h2 className="panel-heading mb-4">Phasen Timeline</h2>
+          <h2 className="panel-heading mb-4" data-cy="phase-timeline">
+            Phasen Timeline
+          </h2>
           <div className="space-y-4">
             {phases.map(phase => {
               const barColor =
@@ -295,7 +298,9 @@ export function ComingSoonPageNew() {
         </section>
 
         <section className="section-card">
-          <h2 className="panel-heading mb-4">Kommende Feature-Phasen</h2>
+          <h2 className="panel-heading mb-4" data-cy="feature-phases">
+            Kommende Feature-Phasen
+          </h2>
           <div className="content-grid">
             {upcomingFeaturePhases.map(phase => (
               <article key={phase.title} className="glass-panel p-5">

@@ -2,14 +2,7 @@
 
 import React, { Suspense, useState, useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import {
-  Environment,
-  Center,
-  Float,
-  Box,
-  Plane,
-  Html,
-} from "@react-three/drei";
+import { Environment, Center, Float, Box, Plane, Html } from "@react-three/drei";
 import * as THREE from "three";
 import { FPSControls } from "@/shared/components/3d";
 
@@ -25,7 +18,7 @@ function LoadingFallback() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-theme-primary">
       <div className="section-card max-w-md text-center">
-        <div className="animate-spin h-14 w-14 border-4 border-orange-500 border-t-transparent rounded-full mx-auto mb-4"/>
+        <div className="animate-spin h-14 w-14 border-4 border-orange-500 border-t-transparent rounded-full mx-auto mb-4" />
         <p className="panel-heading text-xl mb-2">🎸 Metal Contact Arena</p>
         <p className="text-theme-secondary">Lädt 3D-Erlebnis...</p>
       </div>
@@ -37,30 +30,16 @@ function LoadingFallback() {
 function ContactInfoWall() {
   const meshRef = useRef<THREE.Mesh>(null);
 
-  useFrame((state) => {
-    if (
-      meshRef.current &&
-      meshRef.current.material &&
-      "color" in meshRef.current.material
-    ) {
+  useFrame(state => {
+    if (meshRef.current && meshRef.current.material && "color" in meshRef.current.material) {
       const material = meshRef.current.material as THREE.MeshStandardMaterial;
-      material.color.setHSL(
-        0.1,
-        0.8,
-        0.5 + Math.sin(state.clock.elapsedTime) * 0.1
-      );
+      material.color.setHSL(0.1, 0.8, 0.5 + Math.sin(state.clock.elapsedTime) * 0.1);
     }
   });
   return (
     <group position={[20, 5, 0]}>
       {/* Rechte Wand für Kontakt-Info */}
-      <Plane
-        ref={meshRef}
-        args={[8, 12]}
-        rotation={[0, -Math.PI / 2, 0]}
-        castShadow
-        receiveShadow
-      >
+      <Plane ref={meshRef} args={[8, 12]} rotation={[0, -Math.PI / 2, 0]} castShadow receiveShadow>
         <meshStandardMaterial
           color="#ff6b35"
           transparent
@@ -73,77 +52,47 @@ function ContactInfoWall() {
       </Plane>
 
       {/* 3D Contact Info */}
-      <Html
-        position={[0.1, 2, 0]}
-        rotation={[0, -Math.PI / 2, 0]}
-        transform
-        occlude
-        distanceFactor={15}
-      >
-        <div className="glass-panel p-6 md:p-8 rounded-2xl border-2 border-orange-500 shadow-2xl w-80 sm:w-96">
+      <Html position={[0.1, 2, 0]} rotation={[0, -Math.PI / 2, 0]} transform occlude distanceFactor={15}>
+        <div className="glass-panel p-6 md:p-8 rounded-2xl border-2 border-orange-500 shadow-2xl w-80 sm:w-96 mx-auto text-center">
           <div className="text-center mb-6">
-            <h3 className="panel-heading text-2xl md:text-3xl text-orange-500 mb-3">
-              🎸 METAL SUPPORT
-            </h3>
+            <h3 className="panel-heading text-2xl md:text-3xl text-orange-500 mb-3">🎸 METAL SUPPORT</h3>
             <div className="w-full h-1 bg-gradient-to-r from-orange-500 via-red-600 to-orange-500 rounded"></div>
           </div>
 
           <div className="space-y-5 text-theme-primary">
-            <div className="flex items-start space-x-3 hover:bg-orange-500/10 p-3 rounded-lg transition-colors">
+            <div className="flex items-start justify-center gap-3 hover:bg-orange-500/10 p-3 rounded-lg transition-colors text-left">
               <div className="text-2xl flex-shrink-0">📧</div>
               <div className="min-w-0">
-                <p className="font-bold text-orange-400 text-sm md:text-base">
-                  E-Mail Support
-                </p>
-                <p className="text-xs md:text-sm text-theme-secondary truncate">
-                  support@3dmetal.com
-                </p>
+                <p className="font-bold text-orange-400 text-sm md:text-base">E-Mail Support</p>
+                <p className="text-xs md:text-sm text-theme-secondary truncate">support@3dmetal.com</p>
               </div>
             </div>
 
-            <div className="flex items-start space-x-3 hover:bg-orange-500/10 p-3 rounded-lg transition-colors">
+            <div className="flex items-start justify-center gap-3 hover:bg-orange-500/10 p-3 rounded-lg transition-colors text-left">
               <div className="text-2xl flex-shrink-0">📞</div>
               <div className="min-w-0">
-                <p className="font-bold text-orange-400 text-sm md:text-base">
-                  Hotline
-                </p>
-                <p className="text-xs md:text-sm text-theme-secondary">
-                  +49 (0) 123 456 789
-                </p>
-                <p className="text-xs text-theme-secondary opacity-75">
-                  Mo-Fr 9:00-18:00
-                </p>
+                <p className="font-bold text-orange-400 text-sm md:text-base">Hotline</p>
+                <p className="text-xs md:text-sm text-theme-secondary">+49 (0) 123 456 789</p>
+                <p className="text-xs text-theme-secondary opacity-75">Mo-Fr 9:00-18:00</p>
               </div>
             </div>
 
-            <div className="flex items-start space-x-3 hover:bg-orange-500/10 p-3 rounded-lg transition-colors">
+            <div className="flex items-start justify-center gap-3 hover:bg-orange-500/10 p-3 rounded-lg transition-colors text-left">
               <div className="text-2xl flex-shrink-0">💬</div>
               <div className="min-w-0">
-                <p className="font-bold text-orange-400 text-sm md:text-base">
-                  Live Chat
-                </p>
-                <p className="text-xs md:text-sm text-theme-secondary">
-                  Sofort verfügbar
-                </p>
+                <p className="font-bold text-orange-400 text-sm md:text-base">Live Chat</p>
+                <p className="text-xs md:text-sm text-theme-secondary">Sofort verfügbar</p>
               </div>
             </div>
 
-            <div className="flex items-start space-x-3 hover:bg-orange-500/10 p-3 rounded-lg transition-colors">
+            <div className="flex items-start justify-center gap-3 hover:bg-orange-500/10 p-3 rounded-lg transition-colors text-left">
               <div className="text-2xl flex-shrink-0">🎵</div>
               <div className="min-w-0">
-                <p className="font-bold text-orange-400 text-sm md:text-base">
-                  Social Media
-                </p>
-                <div className="flex flex-wrap gap-2 text-xs md:text-sm mt-1">
-                  <span className="text-blue-400 hover:text-blue-300 cursor-pointer">
-                    Facebook
-                  </span>
-                  <span className="text-purple-400 hover:text-purple-300 cursor-pointer">
-                    Instagram
-                  </span>
-                  <span className="text-red-400 hover:text-red-300 cursor-pointer">
-                    YouTube
-                  </span>
+                <p className="font-bold text-orange-400 text-sm md:text-base">Social Media</p>
+                <div className="flex flex-wrap gap-2 text-xs md:text-sm mt-1 justify-center">
+                  <span className="text-blue-400 hover:text-blue-300 cursor-pointer">Facebook</span>
+                  <span className="text-purple-400 hover:text-purple-300 cursor-pointer">Instagram</span>
+                  <span className="text-red-400 hover:text-red-300 cursor-pointer">YouTube</span>
                 </div>
               </div>
             </div>
@@ -181,18 +130,10 @@ function MessageWall() {
 
   const meshRef = useRef<THREE.Mesh>(null);
 
-  useFrame((state) => {
-    if (
-      meshRef.current &&
-      meshRef.current.material &&
-      "color" in meshRef.current.material
-    ) {
+  useFrame(state => {
+    if (meshRef.current && meshRef.current.material && "color" in meshRef.current.material) {
       const material = meshRef.current.material as THREE.MeshStandardMaterial;
-      material.color.setHSL(
-        0.65,
-        0.8,
-        0.4 + Math.sin(state.clock.elapsedTime * 0.5) * 0.1
-      );
+      material.color.setHSL(0.65, 0.8, 0.4 + Math.sin(state.clock.elapsedTime * 0.5) * 0.1);
     }
   });
 
@@ -250,27 +191,18 @@ function MessageWall() {
     }
   };
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value, type } = e.target;
     setFormData({
       ...formData,
-      [name]:
-        type === "checkbox" ? (e.target as HTMLInputElement).checked : value,
+      [name]: type === "checkbox" ? (e.target as HTMLInputElement).checked : value,
     });
   };
 
   return (
     <group position={[-20, 5, 0]}>
       {/* Linke Wand für Message Form */}
-      <Plane
-        ref={meshRef}
-        args={[10, 12]}
-        rotation={[0, Math.PI / 2, 0]}
-        castShadow
-        receiveShadow
-      >
+      <Plane ref={meshRef} args={[10, 12]} rotation={[0, Math.PI / 2, 0]} castShadow receiveShadow>
         <meshStandardMaterial
           color="#3b82f6"
           transparent
@@ -283,18 +215,10 @@ function MessageWall() {
       </Plane>
 
       {/* 3D Message Form */}
-      <Html
-        position={[-0.1, 0, 0]}
-        rotation={[0, Math.PI / 2, 0]}
-        transform
-        occlude
-        distanceFactor={12}
-      >
-        <div className="glass-panel p-5 md:p-6 rounded-2xl border-2 border-blue-500 shadow-2xl w-80 sm:w-96 lg:w-[420px]">
+      <Html position={[-0.1, 0, 0]} rotation={[0, Math.PI / 2, 0]} transform occlude distanceFactor={12}>
+        <div className="glass-panel p-5 md:p-6 rounded-2xl border-2 border-blue-500 shadow-2xl w-80 sm:w-96 lg:w-[420px] mx-auto text-center">
           <div className="text-center mb-5">
-            <h3 className="panel-heading text-xl md:text-2xl text-blue-400 mb-3">
-              🎤 METAL MESSAGE
-            </h3>
+            <h3 className="panel-heading text-xl md:text-2xl text-blue-400 mb-3">🎤 METAL MESSAGE</h3>
             <div className="w-full h-1 bg-gradient-to-r from-blue-500 via-purple-600 to-blue-500 rounded"></div>
           </div>
 
@@ -311,9 +235,9 @@ function MessageWall() {
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-3">
+          <form onSubmit={handleSubmit} className="space-y-3 text-center">
             <div>
-              <label className="block text-theme-primary font-semibold mb-2 text-xs md:text-sm">
+              <label className="block text-theme-primary font-semibold mb-2 text-xs md:text-sm text-center">
                 🤘 Dein Metal-Name
               </label>
               <input
@@ -321,7 +245,7 @@ function MessageWall() {
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                className="w-full px-3 py-2.5 bg-black/40 border border-theme-secondary rounded-lg text-theme-primary placeholder:text-theme-secondary focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all text-sm"
+                className="w-full px-3 py-2.5 bg-black/40 border border-theme-secondary rounded-lg text-theme-primary placeholder:text-theme-secondary focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all text-sm text-center placeholder:text-center"
                 required
                 disabled={isSubmitting}
                 placeholder="z.B. Metal Master"
@@ -329,7 +253,7 @@ function MessageWall() {
             </div>
 
             <div>
-              <label className="block text-theme-primary font-semibold mb-2 text-xs md:text-sm">
+              <label className="block text-theme-primary font-semibold mb-2 text-xs md:text-sm text-center">
                 ✉️ E-Mail Adresse
               </label>
               <input
@@ -337,7 +261,7 @@ function MessageWall() {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full px-3 py-2.5 bg-black/40 border border-theme-secondary rounded-lg text-theme-primary placeholder:text-theme-secondary focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all text-sm"
+                className="w-full px-3 py-2.5 bg-black/40 border border-theme-secondary rounded-lg text-theme-primary placeholder:text-theme-secondary focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all text-sm text-center placeholder:text-center"
                 required
                 disabled={isSubmitting}
                 placeholder="metal@rock.com"
@@ -345,7 +269,7 @@ function MessageWall() {
             </div>
 
             <div>
-              <label className="block text-theme-primary font-semibold mb-2 text-xs md:text-sm">
+              <label className="block text-theme-primary font-semibold mb-2 text-xs md:text-sm text-center">
                 🎯 Metal-Thema
               </label>
               <input
@@ -353,7 +277,7 @@ function MessageWall() {
                 name="subject"
                 value={formData.subject}
                 onChange={handleChange}
-                className="w-full px-3 py-2.5 bg-black/40 border border-theme-secondary rounded-lg text-theme-primary placeholder:text-theme-secondary focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all text-sm"
+                className="w-full px-3 py-2.5 bg-black/40 border border-theme-secondary rounded-lg text-theme-primary placeholder:text-theme-secondary focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all text-sm text-center placeholder:text-center"
                 required
                 disabled={isSubmitting}
                 placeholder="Heavy Metal Anfrage"
@@ -361,9 +285,7 @@ function MessageWall() {
             </div>
 
             <div>
-              <label className="block text-white font-medium mb-1 text-sm">
-                �️ Deine Metal-Message
-              </label>
+              <label className="block text-white font-medium mb-1 text-sm text-center">�️ Deine Metal-Message</label>
               <textarea
                 name="message"
                 value={formData.message}
@@ -376,11 +298,7 @@ function MessageWall() {
               />
               <div className="flex justify-between items-center text-xs text-theme-secondary mt-1.5">
                 <span>Max. 2000 Zeichen</span>
-                <span
-                  className={
-                    formData.message.length > 1900 ? "text-orange-400" : ""
-                  }
-                >
+                <span className={formData.message.length > 1900 ? "text-orange-400" : ""}>
                   {formData.message.length}/2000
                 </span>
               </div>
@@ -398,20 +316,12 @@ function MessageWall() {
                 disabled={isSubmitting}
                 className="mt-1 w-4 h-4 accent-blue-500 cursor-pointer"
               />
-              <label
-                htmlFor="gdprConsent"
-                className="text-xs text-theme-secondary leading-relaxed cursor-pointer"
-              >
+              <label htmlFor="gdprConsent" className="text-xs text-theme-secondary leading-relaxed cursor-pointer">
                 Ich stimme der Verarbeitung meiner Daten gemäß der{" "}
-                <a
-                  href="/datenschutz"
-                  className="text-blue-400 hover:text-blue-300 underline"
-                  target="_blank"
-                >
+                <a href="/datenschutz" className="text-blue-400 hover:text-blue-300 underline" target="_blank">
                   Datenschutzerklärung
                 </a>{" "}
-                zu. Meine Daten werden verschlüsselt gespeichert und nach 90
-                Tagen automatisch gelöscht.
+                zu. Meine Daten werden verschlüsselt gespeichert und nach 90 Tagen automatisch gelöscht.
               </label>
             </div>
 
@@ -423,14 +333,10 @@ function MessageWall() {
               {isSubmitting ? (
                 <>
                   <div className="animate-spin rounded-full h-4 w-4 border-2 border-current border-t-transparent mr-2"></div>
-                  <span className="text-sm md:text-base">
-                    Metal wird gesendet...
-                  </span>
+                  <span className="text-sm md:text-base">Metal wird gesendet...</span>
                 </>
               ) : (
-                <span className="text-sm md:text-base">
-                  🤘 Metal Message abfeuern!
-                </span>
+                <span className="text-sm md:text-base">🤘 Metal Message abfeuern!</span>
               )}
             </button>
           </form>
@@ -446,27 +352,14 @@ function ContactScene() {
     <>
       {/* Verbesserte Beleuchtung für hellere Szene */}
       <ambientLight intensity={1.2} color="#ffffff" />
-      <directionalLight
-        position={[10, 10, 5]}
-        intensity={2.5}
-        color="#ffffff"
-      />
-      <directionalLight
-        position={[-10, 10, -5]}
-        intensity={1.5}
-        color="#ffffff"
-      />
+      <directionalLight position={[10, 10, 5]} intensity={2.5} color="#ffffff" />
+      <directionalLight position={[-10, 10, -5]} intensity={1.5} color="#ffffff" />
       <pointLight position={[10, 5, 10]} intensity={2} color="#ff6b35" />
       <pointLight position={[-10, 5, 10]} intensity={2} color="#3b82f6" />
       <pointLight position={[0, 10, 0]} intensity={1.5} color="#ffffff" />
 
       {/* Boden mit Metal-Design */}
-      <Plane
-        args={[60, 60]}
-        rotation={[-Math.PI / 2, 0, 0]}
-        position={[0, -3, 0]}
-        receiveShadow
-      >
+      <Plane args={[60, 60]} rotation={[-Math.PI / 2, 0, 0]} position={[0, -3, 0]} receiveShadow>
         <meshStandardMaterial color="#222222" metalness={0.5} roughness={0.5} />
       </Plane>
 
@@ -476,12 +369,7 @@ function ContactScene() {
       </Plane>
 
       {/* Decke */}
-      <Plane
-        args={[60, 60]}
-        rotation={[Math.PI / 2, 0, 0]}
-        position={[0, 22, 0]}
-        receiveShadow
-      >
+      <Plane args={[60, 60]} rotation={[Math.PI / 2, 0, 0]} position={[0, 22, 0]} receiveShadow>
         <meshStandardMaterial color="#0a0a0a" metalness={0.5} roughness={0.5} />
       </Plane>
 
@@ -503,18 +391,9 @@ function ContactScene() {
 
       {/* Reduzierte Partikel-Effekte für bessere Performance */}
       {Array.from({ length: 10 }).map((_, i) => (
-        <Float
-          key={i}
-          speed={1 + i * 0.1}
-          rotationIntensity={0.3}
-          floatIntensity={0.3}
-        >
+        <Float key={i} speed={1 + i * 0.1} rotationIntensity={0.3} floatIntensity={0.3}>
           <Box
-            position={[
-              (Math.random() - 0.5) * 40,
-              3 + Math.random() * 10,
-              (Math.random() - 0.5) * 30,
-            ]}
+            position={[(Math.random() - 0.5) * 40, 3 + Math.random() * 10, (Math.random() - 0.5) * 30]}
             args={[0.2, 0.2, 0.2]}
           >
             <meshBasicMaterial color={i % 2 === 0 ? "#ff6b35" : "#3b82f6"} />
@@ -534,17 +413,11 @@ function ContactScene() {
 }
 
 // Haupt-Komponente mit responsive Metal Pulse Design
-export default function ContactStage({
-  isFullscreen = false,
-  onRoomChange,
-  onFullscreen,
-}: ContactStageProps) {
+export default function ContactStage({ isFullscreen = false, onRoomChange, onFullscreen }: ContactStageProps) {
   return (
     <div
       className={
-        isFullscreen
-          ? "fixed inset-0 z-50 h-screen bg-theme-primary overflow-hidden"
-          : "min-h-screen bg-theme-primary"
+        isFullscreen ? "fixed inset-0 z-50 h-screen bg-theme-primary overflow-hidden" : "min-h-screen bg-theme-primary"
       }
     >
       {/* Header - nur wenn nicht fullscreen */}
@@ -558,18 +431,13 @@ export default function ContactStage({
                     🎤
                   </div>
                   <div>
-                    <p className="text-xs uppercase tracking-wide text-theme-secondary">
-                      Support & Kontakt
-                    </p>
-                    <h2 className="panel-heading text-2xl">
-                      Metal Contact Arena
-                    </h2>
+                    <p className="text-xs uppercase tracking-wide text-theme-secondary">Support & Kontakt</p>
+                    <h2 className="panel-heading text-2xl">Metal Contact Arena</h2>
                   </div>
                 </div>
                 <p className="text-theme-secondary text-sm leading-relaxed">
-                  Bewege dich in First-Person durch die Arena und finde die
-                  Message Wall & Support Info. WASD zum Bewegen, Maus zum
-                  Umschauen.
+                  Bewege dich in First-Person durch die Arena und finde die Message Wall & Support Info. WASD zum
+                  Bewegen, Maus zum Umschauen.
                 </p>
               </div>
               {onFullscreen && (

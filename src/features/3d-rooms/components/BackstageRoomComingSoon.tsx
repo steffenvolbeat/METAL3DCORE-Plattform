@@ -7,6 +7,7 @@ import * as THREE from "three";
 import { useSession } from "next-auth/react";
 import { FPSControls } from "@/shared/components/3d";
 import { RoomAccessControl } from "./RoomAccessControl";
+import { WebGLCanvasWrapper } from "@/shared/components/WebGLCanvasWrapper";
 
 interface BackstageRoomProps {
   isFullscreen?: boolean;
@@ -30,28 +31,19 @@ function BackstageScene3D() {
       <pointLight position={[10, 5, -10]} intensity={0.8} color="#ec4899" />
 
       {/* Floor */}
-      <Plane
-        args={[40, 40]}
-        rotation={[-Math.PI / 2, 0, 0]}
-        position={[0, -2, 0]}
-        receiveShadow
-      >
-        <meshStandardMaterial
-          color="#2a2a2a"
-          metalness={0.8}
-          roughness={0.2}
-        />
+      <Plane args={[40, 40]} rotation={[-Math.PI / 2, 0, 0]} position={[0, -2, 0]} receiveShadow>
+        <meshStandardMaterial color="#2a2a2a" metalness={0.8} roughness={0.2} />
       </Plane>
 
       {/* Walls */}
       <Plane args={[40, 25]} position={[0, 10.5, -20]}>
         <meshStandardMaterial color="#1a1a1a" />
       </Plane>
-      
+
       <Plane args={[40, 25]} position={[20, 10.5, 0]} rotation={[0, -Math.PI / 2, 0]}>
         <meshStandardMaterial color="#1a1a1a" />
       </Plane>
-      
+
       <Plane args={[40, 25]} position={[-20, 10.5, 0]} rotation={[0, Math.PI / 2, 0]}>
         <meshStandardMaterial color="#1a1a1a" />
       </Plane>
@@ -79,11 +71,7 @@ function BackstageScene3D() {
       </Box>
 
       {/* Ceiling */}
-      <Plane
-        args={[40, 40]}
-        rotation={[Math.PI / 2, 0, 0]}
-        position={[0, 23, 0]}
-      >
+      <Plane args={[40, 40]} rotation={[Math.PI / 2, 0, 0]} position={[0, 23, 0]}>
         <meshStandardMaterial color="#2a2a2a" />
       </Plane>
     </>
@@ -91,16 +79,13 @@ function BackstageScene3D() {
 }
 
 // MAIN COMPONENT - COMING SOON PAGE
-export default function BackstageRoomComingSoon({
-  isFullscreen = true,
-  onRoomChange,
-}: BackstageRoomProps) {
+export default function BackstageRoomComingSoon({ isFullscreen = true, onRoomChange }: BackstageRoomProps) {
   const { data: session } = useSession();
   const [countdown, setCountdown] = useState({
     days: 22,
     hours: 14,
     minutes: 37,
-    seconds: 52
+    seconds: 52,
   });
 
   // Countdown Timer Simulation
@@ -134,40 +119,46 @@ export default function BackstageRoomComingSoon({
           isFullscreen ? "fixed inset-0 z-50" : "w-full h-screen"
         } bg-gradient-to-br from-amber-900 via-purple-900 to-black relative overflow-hidden border-4 border-purple-500`}
       >
-        <Suspense
-          fallback={
-            <div className="flex items-center justify-center w-full h-full bg-gradient-to-br from-purple-900 to-black text-purple-300">
-              <div className="text-center">
-                <div className="animate-pulse text-6xl mb-4">🎭</div>
-                <p className="text-2xl font-bold">Loading Backstage...</p>
-              </div>
-            </div>
-          }
+        <WebGLCanvasWrapper
+          roomName="Backstage VIP Lounge"
+          roomIcon="🎭"
+          onRoomChange={onRoomChange}
+          isFullscreen={isFullscreen}
         >
-          <Canvas
-            camera={{ position: [0, 8, 20], fov: 60 }}
-            shadows
-            className="w-full h-full"
+          <Suspense
+            fallback={
+              <div className="flex items-center justify-center w-full h-full bg-gradient-to-br from-purple-900 to-black text-purple-300">
+                <div className="text-center">
+                  <div className="animate-pulse text-6xl mb-4">🎭</div>
+                  <p className="text-2xl font-bold">Loading Backstage...</p>
+                </div>
+              </div>
+            }
           >
-            <BackstageScene3D />
-            <FPSControls
-              movementSpeed={10}
-              lookSpeed={0.002}
-              enabled={true}
-              boundaries={{ minX: -18, maxX: 18, minZ: -18, maxZ: 18 }}
-            />
-          </Canvas>
-        </Suspense>
+            <Canvas
+              camera={{ position: [0, 8, 20], fov: 60 }}
+              shadows
+              className="w-full h-full"
+              onCreated={state => {
+                console.log("Backstage Canvas created successfully with WebGL context");
+              }}
+            >
+              <BackstageScene3D />
+              <FPSControls
+                movementSpeed={10}
+                lookSpeed={0.002}
+                enabled={true}
+                boundaries={{ minX: -18, maxX: 18, minZ: -18, maxZ: 18 }}
+              />
+            </Canvas>
+          </Suspense>
+        </WebGLCanvasWrapper>
 
         {/* Coming Soon Interface */}
         <div className="absolute top-4 left-4 bg-gray-900/95 backdrop-blur-md p-6 rounded-xl border border-purple-500 w-96 max-h-[80vh] overflow-y-auto">
           <div className="text-center mb-4">
-            <h3 className="text-purple-400 font-bold text-xl mb-2">
-              🎭 Backstage VIP Lounge
-            </h3>
-            <div className="text-yellow-400 font-bold text-lg">
-              COMING SOON
-            </div>
+            <h3 className="text-purple-400 font-bold text-xl mb-2">🎭 Backstage VIP Lounge</h3>
+            <div className="text-yellow-400 font-bold text-lg">COMING SOON</div>
           </div>
 
           {/* VIP Preview Badge */}
@@ -204,9 +195,7 @@ export default function BackstageRoomComingSoon({
 
           {/* Premium Features Preview */}
           <div className="space-y-3 text-sm">
-            <div className="text-center text-purple-300 font-bold mb-3">
-              👑 VIP Features:
-            </div>
+            <div className="text-center text-purple-300 font-bold mb-3">👑 VIP Features:</div>
             <div className="flex items-center gap-2 text-white">
               <span className="text-yellow-400">📺</span>
               <span>Exklusive Band Interviews</span>
@@ -261,9 +250,7 @@ export default function BackstageRoomComingSoon({
                 <span className="text-gray-400">VIP Bereit:</span>
                 <div className="flex items-center justify-center gap-1 mt-1">
                   <span className="text-lg">{session.user.image || "👑"}</span>
-                  <span className="text-purple-300 font-semibold">
-                    {session.user.name || "VIP Fan"}
-                  </span>
+                  <span className="text-purple-300 font-semibold">{session.user.name || "VIP Fan"}</span>
                 </div>
               </div>
             </div>
@@ -285,9 +272,7 @@ export default function BackstageRoomComingSoon({
         {/* AMBIENT OVERLAY */}
         <div className="absolute inset-0 pointer-events-none z-10 opacity-10">
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
-            <div className="text-purple-400/20 text-6xl font-bold">
-              👑 VIP BACKSTAGE COMING SOON 👑
-            </div>
+            <div className="text-purple-400/20 text-6xl font-bold">👑 VIP BACKSTAGE COMING SOON 👑</div>
           </div>
         </div>
       </div>

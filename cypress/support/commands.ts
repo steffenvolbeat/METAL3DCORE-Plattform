@@ -42,6 +42,11 @@ Cypress.Commands.add("waitForLoad", (timeout: number = 10000) => {
   cy.get("body", { timeout }).should("be.visible");
 });
 
+// Data-cy selector command from CheckoutMain
+Cypress.Commands.add("dataCy", (value: string) => {
+  return cy.get(`[data-cy=${value}]`);
+});
+
 // Type Definitionen für TypeScript
 declare global {
   namespace Cypress {
@@ -51,33 +56,9 @@ declare global {
       waitForPageLoad(): Chainable<void>;
       apiRequest(method: string, url: string, body?: any): Chainable<Cypress.Response<any>>;
       waitForLoad(timeout?: number): Chainable<void>;
+      dataCy(value: string): Chainable<JQuery<HTMLElement>>;
     }
   }
 }
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
-//
-// declare global {
-//   namespace Cypress {
-//     interface Chainable {
-//       login(email: string, password: string): Chainable<void>
-//       drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       dismiss(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       visit(originalFn: CommandOriginalFn, url: string, options: Partial<VisitOptions>): Chainable<Element>
-//     }
-//   }
-// }
+
+export {};

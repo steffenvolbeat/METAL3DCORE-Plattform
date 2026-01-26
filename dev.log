@@ -1,0 +1,1519 @@
+nohup: Eingabe wird ignoriert
+
+> metal3dcore-plattform@2.3.1-testing dev
+> next dev --turbopack
+
+ ⚠ The config property `experimental.turbo` is deprecated. Move this setting to `config.turbopack` or run `npx @next/codemod@latest next-experimental-turbo-to-turbopack .`
+   ▲ Next.js 15.5.9 (Turbopack)
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.0.35:3000
+   - Environments: .env
+   - Experiments (use with caution):
+     · turbo
+
+ ✓ Starting...
+ ✓ Compiled middleware in 115ms
+ ✓ Ready in 1050ms
+ ○ Compiling / ...
+ ✓ Compiled / in 4.1s
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 4710ms
+ ✓ Compiled /login in 463ms
+ GET /login 200 in 551ms
+ GET /login 200 in 84ms
+ GET /login 200 in 161ms
+ ✓ Compiled /api/auth/[...nextauth] in 499ms
+ GET /api/auth/session 200 in 556ms
+ GET /api/auth/providers 200 in 83ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 102ms
+ POST /api/auth/_log 200 in 247ms
+ GET /login 200 in 89ms
+ GET /api/auth/session 200 in 32ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 93ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 133ms
+ GET /api/auth/session 200 in 204ms
+ POST /api/auth/_log 200 in 319ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ GET /api/auth/session 200 in 191ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 402ms
+ ○ Compiling /dashboard ...
+ POST /api/auth/_log 200 in 251ms
+ ✓ Compiled /dashboard in 582ms
+ GET /dashboard 200 in 650ms
+ GET /api/auth/session 200 in 65ms
+ GET /login 200 in 70ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 291ms
+ GET /api/auth/session 200 in 40ms
+ GET /login 200 in 66ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 315ms
+ GET /api/auth/session 200 in 263ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 292ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 68ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 92ms
+ GET /api/auth/session 200 in 57ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 89ms
+ GET /api/auth/session 200 in 321ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 293ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 92ms
+ GET /api/auth/session 200 in 316ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 96ms
+ GET /api/auth/session 200 in 333ms
+ ○ Compiling /contact ...
+ ✓ Compiled /contact in 645ms
+ GET /contact 200 in 710ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 178ms
+ GET /api/auth/session 200 in 334ms
+ ○ Compiling /tickets ...
+ ✓ Compiled /tickets in 612ms
+ GET /tickets 200 in 668ms
+ GET /login?callbackUrl=%2Ftickets 200 in 52ms
+ GET /login?callbackUrl=%2Ftickets 200 in 42ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 91ms
+ GET /api/auth/session 200 in 98ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 89ms
+ GET /api/auth/session 200 in 345ms
+ ○ Compiling /admin/coming-soon ...
+ ✓ Compiled /admin/coming-soon in 669ms
+ GET /admin/coming-soon 200 in 787ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 306ms
+ GET /api/auth/session 200 in 313ms
+ ○ Compiling /_not-found/page ...
+ ✓ Compiled /_not-found/page in 504ms
+ GET /non-existent-page 404 in 624ms
+ GET / 200 in 51ms
+ GET /api/auth/session 200 in 309ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 97ms
+ GET /api/auth/session 200 in 320ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 103ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 98ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 100ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 92ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 319ms
+ GET /api/auth/session 200 in 191ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 297ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 40ms
+[Error: aborted] { code: 'ECONNRESET' }
+ ⨯ uncaughtException: [Error: aborted] { code: 'ECONNRESET' }
+ ⨯ uncaughtException:  [Error: aborted] { code: 'ECONNRESET' }
+ GET /contact 200 in 112ms
+ GET /tickets 200 in 67ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 82ms
+ GET /api/auth/session 200 in 57ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 110ms
+ GET /api/auth/session 200 in 323ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 302ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 108ms
+ GET /api/auth/session 200 in 332ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 99ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 151ms
+ GET /api/auth/session 200 in 141ms
+ GET /contact 200 in 69ms
+ GET /api/auth/session 200 in 335ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 100ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 128ms
+ GET /api/auth/session 200 in 151ms
+ POST /api/auth/_log 200 in 376ms
+ GET /tickets 200 in 68ms
+ GET /api/auth/session 200 in 331ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 93ms
+ GET /api/auth/session 200 in 110ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ GET / 200 in 96ms
+ POST /api/auth/_log 200 in 343ms
+ GET /admin/coming-soon 200 in 98ms
+ GET /api/auth/session 200 in 127ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 249ms
+ GET /api/auth/session 200 in 246ms
+ GET /non-existent-page 404 in 78ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ GET / 200 in 55ms
+ POST /api/auth/_log 200 in 313ms
+ GET /api/auth/session 200 in 241ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 102ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 324ms
+ GET /api/auth/session 200 in 362ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 112ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 88ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 113ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 108ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 360ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 555ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 97ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 94ms
+ GET /api/auth/session 200 in 66ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 98ms
+ GET /api/auth/session 200 in 333ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 311ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 100ms
+ GET /api/auth/session 200 in 324ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 89ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 128ms
+ GET /api/auth/session 200 in 146ms
+ GET /contact 200 in 70ms
+ GET /api/auth/session 200 in 329ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 100ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 148ms
+ GET /api/auth/session 200 in 163ms
+ POST /api/auth/_log 200 in 415ms
+ GET /tickets 200 in 81ms
+ GET /api/auth/session 200 in 336ms
+ GET /login?callbackUrl=%2Ftickets 200 in 76ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 98ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ GET /api/auth/session 200 in 104ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 85ms
+ POST /api/auth/_log 200 in 295ms
+ GET /admin/coming-soon 200 in 117ms
+ GET /api/auth/session 200 in 129ms
+ GET /api/auth/session 200 in 259ms
+ GET /non-existent-page 404 in 73ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 323ms
+ GET / 200 in 137ms
+ GET /api/auth/session 200 in 264ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ GET / 200 in 98ms
+ POST /api/auth/_log 200 in 339ms
+ GET /api/auth/session 200 in 319ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 110ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 92ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 101ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 122ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 278ms
+ GET /api/auth/session 200 in 179ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 309ms
+ POST /api/auth/_log 200 in 241ms
+ GET /login 200 in 86ms
+ GET /login 200 in 75ms
+ GET /api/auth/session 200 in 96ms
+ GET /login 200 in 87ms
+ GET /api/auth/session 200 in 320ms
+ GET /api/auth/providers 200 in 87ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 107ms
+ POST /api/auth/_log 200 in 322ms
+ GET /login 200 in 116ms
+ GET /api/auth/session 200 in 145ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 87ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 113ms
+ GET /api/auth/session 200 in 142ms
+ POST /api/auth/_log 200 in 346ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ GET /dashboard 200 in 85ms
+ POST /api/auth/_log 200 in 284ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ GET /login 200 in 75ms
+ POST /api/auth/_log 200 in 275ms
+ GET /api/auth/session 200 in 40ms
+ GET /login 200 in 106ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 340ms
+ GET /api/auth/session 200 in 268ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 305ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 236ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 145ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 93ms
+ GET /api/auth/session 200 in 320ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 88ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 90ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 90ms
+ GET /api/auth/session 200 in 288ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ GET /non-existent-page 404 in 70ms
+ POST /api/auth/_log 200 in 260ms
+ GET /api/auth/session 200 in 326ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 255ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 318ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 87ms
+ GET /api/auth/session 200 in 63ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 84ms
+ GET /api/auth/session 200 in 322ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 88ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ GET /api/auth/session 200 in 321ms
+ POST /api/auth/_log 200 in 313ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 85ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 132ms
+ GET /api/auth/session 200 in 118ms
+ GET /contact 200 in 70ms
+ GET /api/auth/session 200 in 348ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 86ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 113ms
+ GET /api/auth/session 200 in 111ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 257ms
+ GET /tickets 200 in 69ms
+ GET /api/auth/session 200 in 179ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 159ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 263ms
+ GET /api/auth/session 200 in 123ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 81ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 260ms
+ GET /admin/coming-soon 200 in 106ms
+ GET /api/auth/session 200 in 100ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 261ms
+ GET /api/auth/session 200 in 264ms
+ GET /non-existent-page 404 in 61ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ GET / 200 in 52ms
+ GET /api/auth/session 200 in 358ms
+ POST /api/auth/_log 200 in 341ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 80ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 332ms
+ GET /api/auth/session 200 in 260ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 73ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 97ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 80ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 80ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 327ms
+ GET /api/auth/session 200 in 271ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 375ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 302ms
+ GET /login 200 in 87ms
+ GET /login 200 in 74ms
+ GET /api/auth/session 200 in 89ms
+ GET /login 200 in 92ms
+ GET /api/auth/session 200 in 280ms
+ GET /api/auth/providers 200 in 95ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 96ms
+ POST /api/auth/_log 200 in 284ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ GET /login 200 in 104ms
+ GET /api/auth/session 200 in 97ms
+ POST /api/auth/_log 200 in 385ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 81ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ POST /api/auth/_log 200 in 345ms
+ GET / 200 in 187ms
+ GET /api/auth/session 200 in 213ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ GET /dashboard 200 in 78ms
+ POST /api/auth/_log 200 in 344ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 254ms
+ GET /login 200 in 74ms
+ GET /api/auth/session 200 in 31ms
+ GET /login 200 in 72ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 252ms
+ GET /api/auth/session 200 in 257ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 312ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 381ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 240ms
+ ✓ Compiled /register in 390ms
+ GET /register 200 in 441ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 79ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 84ms
+ GET /dashboard 200 in 99ms
+ GET /api/auth/session 200 in 96ms
+ GET /api/auth/session 200 in 32ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 88ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ GET / 200 in 117ms
+ GET /api/auth/session 200 in 128ms
+ POST /api/auth/_log 200 in 252ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 100ms
+ POST /api/auth/_log 200 in 291ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 252ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 140ms
+ GET /api/auth/session 200 in 145ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 259ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 86ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 265ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 116ms
+ GET /api/auth/session 200 in 113ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 275ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 82ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 328ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 121ms
+ GET /api/auth/session 200 in 132ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 147ms
+ POST /api/auth/_log 200 in 336ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 252ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 114ms
+ GET /api/auth/session 200 in 115ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 245ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 93ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 260ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 122ms
+ GET /api/auth/session 200 in 124ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 279ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 95ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 255ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 120ms
+ GET /api/auth/session 200 in 116ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 248ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 80ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 330ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 117ms
+ GET /api/auth/session 200 in 106ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 195ms
+ POST /api/auth/_log 200 in 345ms
+ GET /api/auth/session 200 in 182ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 336ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 119ms
+ GET /api/auth/session 200 in 128ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 315ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 165ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 329ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 202ms
+ GET /api/auth/session 200 in 203ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 326ms
+ GET /api/auth/session 200 in 254ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 305ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 305ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 80ms
+ GET /tickets 200 in 103ms
+ GET /api/auth/session 200 in 100ms
+ GET /api/auth/session 200 in 265ms
+ GET /login?callbackUrl=%2Ftickets 200 in 52ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 310ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 82ms
+ GET /tickets 200 in 101ms
+ GET /api/auth/session 200 in 105ms
+ GET /api/auth/session 200 in 252ms
+ GET /login?callbackUrl=%2Ftickets 200 in 52ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 310ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 80ms
+ GET /tickets 200 in 92ms
+ GET /api/auth/session 200 in 116ms
+ GET /api/auth/session 200 in 255ms
+ GET /login?callbackUrl=%2Ftickets 200 in 104ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 311ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 81ms
+ GET /tickets 200 in 100ms
+ GET /api/auth/session 200 in 102ms
+ GET /api/auth/session 200 in 256ms
+ GET /login?callbackUrl=%2Ftickets 200 in 52ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 315ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 124ms
+ GET /tickets 200 in 107ms
+ GET /api/auth/session 200 in 102ms
+ GET /api/auth/session 200 in 259ms
+ GET /login?callbackUrl=%2Ftickets 200 in 51ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 313ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 96ms
+ GET /contact 200 in 110ms
+ GET /api/auth/session 200 in 105ms
+ GET /api/auth/session 200 in 332ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 308ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 80ms
+ GET /contact 200 in 192ms
+ GET /api/auth/session 200 in 204ms
+ GET /api/auth/session 200 in 331ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 326ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 78ms
+ GET /contact 200 in 105ms
+ GET /api/auth/session 200 in 109ms
+ GET /api/auth/session 200 in 330ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 308ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 75ms
+ GET /contact 200 in 113ms
+ GET /api/auth/session 200 in 114ms
+ GET /api/auth/session 200 in 326ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 307ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 77ms
+ GET /contact 200 in 111ms
+ GET /api/auth/session 200 in 114ms
+ GET /api/auth/session 200 in 251ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 309ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 105ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 117ms
+ GET /api/auth/session 200 in 119ms
+ GET /api/auth/session 200 in 343ms
+ ○ Compiling /admin/contact-messages ...
+ ✓ Compiled /admin/contact-messages in 500ms
+ GET /admin/contact-messages 200 in 576ms
+ GET /api/auth/session 200 in 338ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ GET /api/auth/signin 200 in 247ms
+ POST /api/auth/_log 200 in 239ms
+ GET /api/auth/signin 200 in 236ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 76ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 118ms
+ GET /api/auth/session 200 in 119ms
+ GET /admin/contact-messages 200 in 106ms
+ GET /api/auth/session 200 in 94ms
+ GET /api/auth/session 200 in 256ms
+ GET /api/auth/signin 200 in 315ms
+ GET /api/auth/signin 200 in 244ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 242ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 306ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 79ms
+ GET /contact 200 in 116ms
+ GET /api/auth/session 200 in 119ms
+ GET /api/auth/session 200 in 333ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 308ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 76ms
+ GET /contact 200 in 107ms
+ GET /api/auth/session 200 in 111ms
+ GET /api/auth/session 200 in 330ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 350ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 73ms
+ GET /contact 200 in 147ms
+ GET /api/auth/session 200 in 147ms
+ GET /api/auth/session 200 in 332ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 310ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 78ms
+ GET /dashboard 200 in 105ms
+ GET /api/auth/session 200 in 105ms
+ GET /api/auth/session 200 in 261ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 305ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 76ms
+ GET /dashboard 200 in 100ms
+ GET /api/auth/session 200 in 100ms
+ GET /api/auth/session 200 in 257ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 306ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 86ms
+ GET /dashboard 200 in 108ms
+ GET /api/auth/session 200 in 97ms
+ GET /api/auth/session 200 in 258ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 317ms
+ GET /__/fonts/FiraCode-VF.woff2 404 in 69ms
+ GET /tickets 200 in 69ms
+ GET /api/auth/session 200 in 318ms
+ GET /login?callbackUrl=%2Ftickets 200 in 53ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 90ms
+ GET /tickets 200 in 108ms
+ GET /api/auth/session 200 in 125ms
+ GET /contact 200 in 79ms
+ GET /contact 200 in 102ms
+ GET /contact 200 in 74ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 302ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 249ms
+ GET /admin/contact-messages 200 in 82ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ GET /api/auth/session 200 in 42ms
+ GET /admin/coming-soon 200 in 65ms
+ POST /api/auth/_log 200 in 256ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ GET /dashboard 200 in 146ms
+ POST /api/auth/_log 200 in 397ms
+ GET /dashboard 200 in 68ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 267ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 74ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 332ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 76ms
+ POST /api/auth/_log 200 in 360ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 258ms
+ GET /contact 200 in 53ms
+ GET /api/auth/session 200 in 349ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 87ms
+ POST /api/auth/_log 200 in 250ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ ✓ Compiled /api/contact in 402ms
+ POST /api/auth/_log 200 in 351ms
+ POST /api/contact 400 in 688ms
+ GET /api/auth/session 200 in 321ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 237ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 149ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 80ms
+ GET /api/auth/session 200 in 336ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 81ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 74ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 97ms
+ GET /api/auth/session 200 in 296ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ GET /non-existent-page 404 in 69ms
+ POST /api/auth/_log 200 in 246ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 306ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 320ms
+ POST /api/auth/_log 200 in 238ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 100ms
+ GET /api/auth/session 200 in 53ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 74ms
+ GET /api/auth/session 200 in 416ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 318ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 104ms
+ GET /api/auth/session 200 in 342ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 99ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 126ms
+ GET /api/auth/session 200 in 140ms
+ GET /contact 200 in 70ms
+ GET /api/auth/session 200 in 353ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 99ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 123ms
+ GET /api/auth/session 200 in 137ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 340ms
+ GET /tickets 200 in 83ms
+ GET /api/auth/session 200 in 366ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 96ms
+ GET /api/auth/session 200 in 160ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 233ms
+ POST /api/auth/_log 200 in 269ms
+ GET /admin/coming-soon 200 in 106ms
+ GET /api/auth/session 200 in 140ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 326ms
+ GET /api/auth/session 200 in 251ms
+ GET /non-existent-page 404 in 77ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 338ms
+ GET / 200 in 146ms
+ GET /api/auth/session 200 in 294ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 96ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 351ms
+ GET /api/auth/session 200 in 248ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 101ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 95ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 98ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 94ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 262ms
+ GET /api/auth/session 200 in 176ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 240ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 312ms
+ POST /api/auth/_log 200 in 270ms
+ GET /login 200 in 124ms
+ GET /login 200 in 74ms
+ GET /api/auth/session 200 in 87ms
+ GET /login 200 in 84ms
+ GET /api/auth/session 200 in 247ms
+ GET /api/auth/providers 200 in 86ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 103ms
+ POST /api/auth/_log 200 in 337ms
+ GET /login 200 in 118ms
+ GET /api/auth/session 200 in 147ms
+ GET /api/auth/session 200 in 33ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 79ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 123ms
+ GET /api/auth/session 200 in 130ms
+ POST /api/auth/_log 200 in 346ms
+ GET /api/auth/session 200 in 35ms
+ GET /dashboard 200 in 79ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 298ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ GET /login 200 in 71ms
+ POST /api/auth/_log 200 in 278ms
+ GET /api/auth/session 200 in 42ms
+ GET /login 200 in 96ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 279ms
+ GET /api/auth/session 200 in 271ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 320ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 233ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 329ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 81ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 76ms
+ GET /dashboard 200 in 104ms
+ GET /api/auth/session 200 in 134ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 105ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 145ms
+ GET /api/auth/session 200 in 158ms
+ POST /api/auth/_log 200 in 376ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 120ms
+ POST /api/auth/_log 200 in 331ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 251ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 111ms
+ GET /api/auth/session 200 in 143ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 257ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 111ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 295ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 132ms
+ GET /api/auth/session 200 in 145ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 254ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 100ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 247ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 118ms
+ GET /api/auth/session 200 in 138ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 254ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 83ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 353ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 125ms
+ GET /api/auth/session 200 in 152ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 319ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ GET / 200 in 78ms
+ POST /api/auth/_log 200 in 344ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 123ms
+ GET /api/auth/session 200 in 149ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 259ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 83ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 279ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 127ms
+ GET /api/auth/session 200 in 152ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 261ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 79ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 274ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 111ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 251ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 155ms
+ GET /api/auth/session 200 in 126ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 260ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 118ms
+ GET /api/auth/session 200 in 119ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 257ms
+ GET /api/auth/session 200 in 27ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 101ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 261ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 124ms
+ GET /api/auth/session 200 in 142ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 258ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 239ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 375ms
+ POST /api/auth/_log 200 in 375ms
+ GET /tickets 200 in 80ms
+ GET /api/auth/session 200 in 337ms
+ GET /login?callbackUrl=%2Ftickets 200 in 58ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 84ms
+ GET /tickets 200 in 125ms
+ GET /api/auth/session 200 in 151ms
+ GET /contact 200 in 88ms
+ GET /contact 200 in 119ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ GET /contact 200 in 91ms
+ POST /api/auth/_log 200 in 285ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 261ms
+🚫 Rate limit exceeded for: /suppress-extension-errors.js IP: ::ffff:127.0.0.1
+⚠️ Auth endpoint accessed near rate limit: /api/auth/session IP: ::ffff:127.0.0.1
+🚫 Rate limit exceeded for: /admin/contact-messages IP: ::ffff:127.0.0.1
+🚫 Rate limit exceeded for: /admin/coming-soon IP: ::ffff:127.0.0.1
+⚠️ Auth endpoint accessed near rate limit: /api/auth/_log IP: ::ffff:127.0.0.1
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+🚫 Rate limit exceeded for: /dashboard IP: ::ffff:127.0.0.1
+ POST /api/auth/_log 200 in 272ms
+🚫 Rate limit exceeded for: /dashboard IP: ::ffff:127.0.0.1
+🚫 Rate limit exceeded for: / IP: ::ffff:127.0.0.1
+🚫 Rate limit exceeded for: / IP: ::ffff:127.0.0.1
+⚠️ Auth endpoint accessed near rate limit: /api/auth/_log IP: ::ffff:127.0.0.1
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+🚫 Rate limit exceeded for: / IP: ::ffff:127.0.0.1
+🚫 Rate limit exceeded for: /api/contact IP: ::ffff:127.0.0.1
+ POST /api/auth/_log 200 in 358ms
+⚠️ Auth endpoint accessed near rate limit: /api/auth/session IP: ::ffff:127.0.0.1
+⚠️ Auth endpoint accessed near rate limit: /api/auth/_log IP: ::ffff:127.0.0.1
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ GET /api/auth/session 200 in 259ms
+ POST /api/auth/_log 200 in 327ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 86ms
+ GET /admin/coming-soon 200 in 97ms
+ GET /api/auth/session 200 in 268ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 336ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 138ms
+ GET /admin/coming-soon 200 in 110ms
+ GET /api/auth/session 200 in 134ms
+ GET /api/auth/session 200 in 251ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 340ms
+ GET /admin/coming-soon 200 in 109ms
+ GET /api/auth/session 200 in 340ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 131ms
+ GET /dashboard 200 in 115ms
+ GET /api/auth/session 200 in 135ms
+ GET /api/auth/session 200 in 256ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 325ms
+ GET /contact 200 in 116ms
+ GET /api/auth/session 200 in 333ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 92ms
+ GET /contact 200 in 103ms
+ GET /api/auth/session 200 in 120ms
+ GET /api/auth/session 200 in 337ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 330ms
+ GET /contact 200 in 99ms
+ GET /api/auth/session 200 in 337ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 126ms
+ GET /dashboard 200 in 105ms
+ GET /api/auth/session 200 in 131ms
+ GET /api/auth/session 200 in 264ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 338ms
+ GET /non-existent-page 404 in 136ms
+ GET /api/auth/session 200 in 346ms
+ GET /api/test-error 404 in 81ms
+ GET /api/auth/session 200 in 337ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 97ms
+ GET /dashboard 200 in 160ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 332ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 241ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 89ms
+ GET /tickets 200 in 107ms
+ GET /api/auth/session 200 in 132ms
+ GET /contact 200 in 91ms
+ GET /api/auth/session 200 in 152ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 119ms
+ GET /api/auth/session 200 in 94ms
+ GET /api/auth/session 200 in 43ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 82ms
+ POST /api/auth/_log 200 in 258ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 254ms
+ GET /tickets 200 in 115ms
+ GET /api/auth/session 200 in 139ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ GET /contact 200 in 97ms
+ POST /api/auth/_log 200 in 259ms
+ GET /api/auth/session 200 in 138ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ GET /login 200 in 121ms
+ GET /api/auth/session 200 in 76ms
+ POST /api/auth/_log 200 in 395ms
+ GET /register 200 in 88ms
+ GET /api/auth/session 200 in 153ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ GET /api/auth/session 200 in 197ms
+ POST /api/auth/_log 200 in 349ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ GET / 200 in 109ms
+ POST /api/auth/_log 200 in 249ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 166ms
+ POST /api/auth/_log 200 in 331ms
+ ✓ Compiled /api/health in 179ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ GET /api/health 200 in 422ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 94ms
+ POST /api/auth/_log 200 in 240ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 350ms
+ GET /api/auth/session 200 in 207ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 88ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 348ms
+ GET /api/auth/session 200 in 251ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 345ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 92ms
+ GET /api/auth/session 200 in 193ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 102ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ GET /tickets 200 in 76ms
+ GET /api/auth/session 200 in 346ms
+ GET /login?callbackUrl=%2Ftickets 200 in 54ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 91ms
+ GET /tickets 200 in 189ms
+ GET /api/auth/session 200 in 162ms
+ GET /contact 200 in 89ms
+ GET /contact 200 in 87ms
+ GET /contact 200 in 83ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 320ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 258ms
+ GET /admin/contact-messages 200 in 73ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ GET /admin/coming-soon 200 in 68ms
+ POST /api/auth/_log 200 in 350ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ GET /dashboard 200 in 90ms
+ POST /api/auth/_log 200 in 363ms
+ GET /dashboard 200 in 64ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 348ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 98ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 256ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 89ms
+ POST /api/auth/_log 200 in 323ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 263ms
+ GET /contact 200 in 63ms
+ GET /api/auth/session 200 in 361ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 108ms
+ POST /api/auth/_log 200 in 259ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/contact 400 in 313ms
+ POST /api/auth/_log 200 in 334ms
+ GET /api/auth/session 200 in 240ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 326ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 84ms
+ GET /api/auth/session 200 in 342ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 100ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 142ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 108ms
+ GET /api/auth/session 200 in 312ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ GET /non-existent-page 404 in 104ms
+ POST /api/auth/_log 200 in 268ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 331ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 346ms
+ POST /api/auth/_log 200 in 345ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 91ms
+ GET /api/auth/session 200 in 60ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 91ms
+ GET /api/auth/session 200 in 352ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 334ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 100ms
+ GET /api/auth/session 200 in 346ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 99ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 129ms
+ GET /api/auth/session 200 in 133ms
+ GET /contact 200 in 71ms
+ GET /api/auth/session 200 in 384ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 98ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 144ms
+ GET /api/auth/session 200 in 162ms
+ POST /api/auth/_log 200 in 401ms
+ GET /tickets 200 in 69ms
+ GET /api/auth/session 200 in 360ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 93ms
+ GET /api/auth/session 200 in 150ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 182ms
+ POST /api/auth/_log 200 in 403ms
+ GET /admin/coming-soon 200 in 119ms
+ GET /api/auth/session 200 in 134ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 295ms
+ GET /api/auth/session 200 in 266ms
+ GET /non-existent-page 404 in 71ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ GET / 200 in 52ms
+ POST /api/auth/_log 200 in 344ms
+ GET /api/auth/session 200 in 253ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 88ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 445ms
+ GET /api/auth/session 200 in 247ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 85ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 93ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 107ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 85ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 264ms
+ GET /api/auth/session 200 in 175ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 241ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 333ms
+ POST /api/auth/_log 200 in 293ms
+ GET /login 200 in 69ms
+ GET /login 200 in 72ms
+ GET /api/auth/session 200 in 88ms
+ GET /login 200 in 69ms
+ GET /api/auth/session 200 in 254ms
+ GET /api/auth/providers 200 in 82ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 97ms
+ POST /api/auth/_log 200 in 342ms
+ GET /login 200 in 106ms
+ GET /api/auth/session 200 in 140ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 85ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 107ms
+ GET /api/auth/session 200 in 134ms
+ POST /api/auth/_log 200 in 344ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ GET /dashboard 200 in 90ms
+ POST /api/auth/_log 200 in 284ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ GET /api/auth/session 200 in 27ms
+ GET /login 200 in 74ms
+ POST /api/auth/_log 200 in 283ms
+ GET /login 200 in 84ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 328ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ GET /api/auth/session 200 in 248ms
+ POST /api/auth/_log 200 in 335ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 334ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 236ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 84ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 78ms
+ GET /dashboard 200 in 135ms
+ GET /api/auth/session 200 in 169ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 83ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 122ms
+ GET /api/auth/session 200 in 152ms
+ POST /api/auth/_log 200 in 386ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 95ms
+ POST /api/auth/_log 200 in 371ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 257ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 135ms
+ GET /api/auth/session 200 in 146ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 261ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 107ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 333ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 137ms
+ GET /api/auth/session 200 in 160ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 346ms
+ GET /api/auth/session 200 in 263ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 340ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 340ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 86ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 207ms
+ GET /api/auth/session 200 in 229ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 82ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 126ms
+ GET /api/auth/session 200 in 148ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 265ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 88ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 254ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 130ms
+ GET /api/auth/session 200 in 158ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 278ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 87ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 254ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 120ms
+ GET /api/auth/session 200 in 144ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 279ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 87ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 261ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 143ms
+ GET /api/auth/session 200 in 137ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 266ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 139ms
+ GET /api/auth/session 200 in 154ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 292ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 97ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 252ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 82ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 257ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 123ms
+ GET /api/auth/session 200 in 142ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 283ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 240ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 344ms
+ POST /api/auth/_log 200 in 345ms
+ GET /tickets 200 in 70ms
+ GET /api/auth/session 200 in 335ms
+ GET /login?callbackUrl=%2Ftickets 200 in 54ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 105ms
+ GET /tickets 200 in 110ms
+ GET /api/auth/session 200 in 154ms
+ GET /contact 200 in 85ms
+ GET /contact 200 in 79ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ GET /contact 200 in 84ms
+ POST /api/auth/_log 200 in 312ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 254ms
+ GET /admin/contact-messages 200 in 84ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ GET /api/auth/session 200 in 43ms
+ GET /admin/coming-soon 200 in 73ms
+ POST /api/auth/_log 200 in 258ms
+ GET /dashboard 200 in 85ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 373ms
+ GET /dashboard 200 in 95ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 177ms
+ POST /api/auth/_log 200 in 381ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 259ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 83ms
+ POST /api/auth/_log 200 in 378ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 255ms
+ GET /contact 200 in 172ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ GET /api/auth/session 200 in 394ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 91ms
+ POST /api/auth/_log 200 in 368ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 330ms
+ POST /api/contact 400 in 325ms
+ GET /api/auth/session 200 in 237ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 323ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 79ms
+🚫 Rate limit exceeded for: /suppress-extension-errors.js IP: ::ffff:127.0.0.1
+🚫 Rate limit exceeded for: /admin/coming-soon IP: ::ffff:127.0.0.1
+⚠️ Auth endpoint accessed near rate limit: /api/auth/session IP: ::ffff:127.0.0.1
+ GET /api/auth/session 200 in 105ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 241ms
+ GET /admin/coming-soon 200 in 103ms
+ GET /api/auth/session 200 in 138ms
+🚫 Rate limit exceeded for: /suppress-extension-errors.js IP: ::ffff:127.0.0.1
+⚠️ Auth endpoint accessed near rate limit: /api/auth/session IP: ::ffff:127.0.0.1
+ GET /api/auth/session 200 in 250ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 327ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 327ms
+ GET /admin/coming-soon 200 in 85ms
+ GET /api/auth/session 200 in 338ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 98ms
+ GET /dashboard 200 in 214ms
+ GET /api/auth/session 200 in 406ms
+ GET /api/auth/session 200 in 338ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 329ms
+ GET /contact 200 in 120ms
+ GET /api/auth/session 200 in 337ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 96ms
+ GET /contact 200 in 139ms
+ GET /api/auth/session 200 in 173ms
+ GET /api/auth/session 200 in 338ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 335ms
+ GET /contact 200 in 100ms
+ GET /api/auth/session 200 in 339ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 90ms
+ GET /dashboard 200 in 164ms
+ GET /api/auth/session 200 in 179ms
+ GET /api/auth/session 200 in 255ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 329ms
+ GET /non-existent-page 404 in 106ms
+ GET /api/auth/session 200 in 350ms
+ GET /api/test-error 404 in 78ms
+ GET /api/auth/session 200 in 335ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 85ms
+ GET /dashboard 200 in 107ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 334ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 247ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 138ms
+ GET /tickets 200 in 96ms
+ GET /api/auth/session 200 in 112ms
+ GET /contact 200 in 99ms
+ GET /api/auth/session 200 in 141ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 109ms
+ GET /api/auth/session 200 in 96ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ GET /api/auth/session 200 in 73ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 100ms
+ POST /api/auth/_log 200 in 369ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 275ms
+ GET /tickets 200 in 103ms
+ GET /api/auth/session 200 in 114ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 296ms
+ GET /contact 200 in 121ms
+ GET /api/auth/session 200 in 175ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 359ms
+ GET /login 200 in 102ms
+ GET /api/auth/session 200 in 46ms
+ GET /register 200 in 90ms
+ GET /api/auth/session 200 in 155ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 467ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ GET /api/auth/session 200 in 186ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 103ms
+ POST /api/auth/_log 200 in 368ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 359ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 93ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ GET /api/health 200 in 249ms
+ POST /api/auth/_log 200 in 245ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 110ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 354ms
+ GET /api/auth/session 200 in 218ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 88ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 352ms
+ GET /api/auth/session 200 in 279ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+ POST /api/auth/_log 200 in 329ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 85ms
+ GET /api/auth/session 200 in 169ms
+WelcomeStage Props: { onRoomChange: true, onOpenAuth: true, session: false }
+ GET / 200 in 87ms
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log
+⚠️ Skipping CSRF for auth endpoint: /api/auth/_log

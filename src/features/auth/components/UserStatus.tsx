@@ -134,6 +134,7 @@ export default function UserStatus({ onOpenAuth }: Props) {
       <button
         onClick={() => onOpenAuth("login")}
         className="px-4 py-2 text-sm font-bold text-theme-primary hover:text-theme-accent transition-all duration-200 hover:scale-105"
+        data-cy="login-link"
       >
         🔐 Login
       </button>

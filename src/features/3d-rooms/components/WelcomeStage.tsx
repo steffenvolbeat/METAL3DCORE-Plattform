@@ -1,5 +1,6 @@
 "use client";
 
+import React, { useState, useEffect, useRef } from "react";
 import { Canvas } from "@react-three/fiber";
 import * as THREE from "three";
 
@@ -18,7 +19,6 @@ import {
   Sparkles,
   Html,
 } from "@react-three/drei";
-import { useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Mesh, Vector3, Color } from "three";
 import { useSession } from "next-auth/react";
@@ -881,6 +881,101 @@ function HallenstadionLighting() {
   );
 }
 
+// WebGL Availability Check Component
+function WebGLAvailabilityChecker({ children, fallback }: { children: React.ReactNode; fallback: React.ReactNode }) {
+  const [webglAvailable, setWebglAvailable] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    // Check WebGL availability
+    const checkWebGL = () => {
+      try {
+        const canvas = document.createElement("canvas");
+        const gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
+        if (gl && gl instanceof WebGLRenderingContext) {
+          setWebglAvailable(true);
+        } else {
+          console.warn("WebGL not available - using fallback");
+          setWebglAvailable(false);
+        }
+      } catch (e) {
+        console.warn("WebGL check failed:", e);
+        setWebglAvailable(false);
+      }
+    };
+
+    checkWebGL();
+  }, []);
+
+  if (webglAvailable === null) {
+    return (
+      <div className="w-full h-full bg-gradient-to-b from-gray-900 to-black rounded-lg flex items-center justify-center">
+        <div className="text-center space-y-4">
+          <div className="animate-spin w-8 h-8 border-2 border-orange-500 border-t-transparent rounded-full mx-auto"></div>
+          <p className="text-gray-400">Initializing 3D Environment...</p>
+        </div>
+      </div>
+    );
+  }
+
+  return webglAvailable ? <>{children}</> : <>{fallback}</>;
+}
+
+// Fallback Component for when WebGL is not available
+function WebGLFallback({
+  onRoomChange,
+  isFullscreen,
+}: {
+  onRoomChange?: (room: string) => void;
+  isFullscreen?: boolean;
+}) {
+  return (
+    <div
+      className={
+        isFullscreen
+          ? "fixed inset-0 z-50 bg-gradient-to-b from-gray-900 to-black"
+          : "w-full h-64 sm:h-80 lg:h-96 bg-gradient-to-b from-gray-900 to-black rounded-lg overflow-hidden flex items-center justify-center"
+      }
+    >
+      <div className="text-center space-y-6 p-8 max-w-md mx-auto">
+        <div className="text-6xl mb-4">🏟️</div>
+        <h2 className="text-2xl font-bold text-white mb-4">Hallenstadion Zürich</h2>
+        <p className="text-gray-300 mb-6">3D-Navigation ist auf diesem System nicht verfügbar</p>
+
+        <div className="grid grid-cols-2 gap-4 text-sm">
+          <button
+            onClick={() => onRoomChange?.("stadium")}
+            className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded transition-colors"
+          >
+            🏟️ Stadium
+          </button>
+          <button
+            onClick={() => onRoomChange?.("gallery")}
+            className="bg-purple-600 hover:bg-purple-700 text-white py-2 px-4 rounded transition-colors"
+          >
+            🖼️ Gallery
+          </button>
+          <button
+            onClick={() => onRoomChange?.("tickets")}
+            className="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded transition-colors"
+          >
+            🎫 Tickets
+          </button>
+          <button
+            onClick={() => onRoomChange?.("backstage")}
+            className="bg-orange-600 hover:bg-orange-700 text-white py-2 px-4 rounded transition-colors"
+          >
+            🎸 Backstage
+          </button>
+        </div>
+
+        <div className="text-xs text-gray-400 mt-6">
+          <p>💡 Tipp: Für die beste Erfahrung verwenden Sie einen Browser mit WebGL-Unterstützung</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 interface WelcomeStageProps {
   onRoomChange?: (room: string) => void;
   isFullscreen?: boolean;
@@ -919,246 +1014,258 @@ export default function WelcomeStage({
   });
 
   return (
-    <div
-      className={
-        isFullscreen ? "fixed inset-0 z-50 bg-black" : "w-full h-64 sm:h-80 lg:h-96 bg-black rounded-lg overflow-hidden"
-      }
-    >
-      <Canvas
-        shadows
-        camera={{ position: [0, 2, 5], fov: 75 }}
-        style={{ background: "linear-gradient(to bottom, #0a0a0a, #1a1a1a)" }}
+    <WebGLAvailabilityChecker fallback={<WebGLFallback onRoomChange={onRoomChange} isFullscreen={isFullscreen} />}>
+      <div
+        className={
+          isFullscreen
+            ? "fixed inset-0 z-50 bg-black"
+            : "w-full h-64 sm:h-80 lg:h-96 bg-black rounded-lg overflow-hidden"
+        }
       >
-        {/*Enviroment für realistische Reflektionen*/}
-        <Environment preset="warehouse" />
-        {/* Beleuchtung */}
-        <HallenstadionLighting />
-
-        {/* Bewegungssteuerung */}
-        {controlMode === "fps" ? (
-          <FPSControls movementSpeed={12} lookSpeed={0.002} boundaries={{ minX: -85, maxX: 85, minZ: -50, maxZ: 50 }} />
-        ) : (
-          <OrbitControls
-            enableZoom={true}
-            enablePan={true}
-            enableRotate={true}
-            maxDistance={80}
-            minDistance={5}
-            maxPolarAngle={Math.PI / 2}
-          />
-        )}
-
-        {/* FOTOREALISTISCHER HALLENSTADION EINGANGSBEREICH */}
-        <HallenstadionEntrance onRoomChange={onRoomChange} />
-
-        {/* PROFESSIONELLE NAVIGATION */}
-        <StadionNavigationGates onRoomChange={onRoomChange} />
-
-        {/* Sparkles Effekt */}
-        <Sparkles count={100} scale={[20, 20, 20]} size={3} speed={0.3} color="#ff6b35" />
-
-        {/*HALLENSTADION ZÜRICH WELCOME - WEITER VORNE, NICHT VERDECKT*/}
-        <Text
-          position={[0, 18, -5]}
-          fontSize={2.5}
-          color="#ffffff"
-          anchorX="center"
-          anchorY="middle"
-          outlineWidth={0.1}
-          outlineColor="#4a90e2"
+        <Canvas
+          shadows
+          camera={{ position: [0, 2, 5], fov: 75 }}
+          style={{ background: "linear-gradient(to bottom, #0a0a0a, #1a1a1a)" }}
+          onCreated={state => {
+            // Zusätzliche WebGL Verfügbarkeitsprüfung nach Canvas-Erstellung
+            console.log("Canvas created successfully with WebGL context");
+          }}
         >
-          HALLENSTADION ZÜRICH
-        </Text>
+          {/*Enviroment für realistische Reflektionen*/}
+          <Environment preset="warehouse" />
+          {/* Beleuchtung */}
+          <HallenstadionLighting />
 
-        <Text position={[0, 15, -5]} fontSize={1.2} color="#4a90e2" anchorX="center" anchorY="middle">
-          Metal3DCore Plattform (M3DC)
-        </Text>
+          {/* Bewegungssteuerung */}
+          {controlMode === "fps" ? (
+            <FPSControls
+              movementSpeed={12}
+              lookSpeed={0.002}
+              boundaries={{ minX: -85, maxX: 85, minZ: -50, maxZ: 50 }}
+            />
+          ) : (
+            <OrbitControls
+              enableZoom={true}
+              enablePan={true}
+              enableRotate={true}
+              maxDistance={80}
+              minDistance={5}
+              maxPolarAngle={Math.PI / 2}
+            />
+          )}
 
-        <Text position={[0, 13, -5]} fontSize={0.8} color="#ffffff" anchorX="center" anchorY="middle">
-          WASD Bewegung • Maus Umschauen • Klicke Eingänge für Navigation
-        </Text>
+          {/* FOTOREALISTISCHER HALLENSTADION EINGANGSBEREICH */}
+          <HallenstadionEntrance onRoomChange={onRoomChange} />
 
-        {/* Control Mode Toggle UI - ATTACHED TO COLUMN */}
-        <Html position={[-25, 10, -20]} center distanceFactor={2} zIndexRange={[100, 0]}>
-          <div
-            data-testid="room-selector"
-            className="bg-black/95 backdrop-blur-md rounded-xl p-12 text-center shadow-2xl border-4 border-orange-500/80 animate-pulse"
-            style={{
-              zIndex: 1000,
-              position: "relative",
-              minWidth: "600px",
-              minHeight: "400px",
-              fontSize: "32px",
-              boxShadow: "0 0 50px rgba(249, 115, 22, 0.8)",
-              transform: "scale(8)",
-            }}
+          {/* PROFESSIONELLE NAVIGATION */}
+          <StadionNavigationGates onRoomChange={onRoomChange} />
+
+          {/* Sparkles Effekt */}
+          <Sparkles count={100} scale={[20, 20, 20]} size={3} speed={0.3} color="#ff6b35" />
+
+          {/*HALLENSTADION ZÜRICH WELCOME - WEITER VORNE, NICHT VERDECKT*/}
+          <Text
+            position={[0, 18, -5]}
+            fontSize={2.5}
+            color="#ffffff"
+            anchorX="center"
+            anchorY="middle"
+            outlineWidth={0.1}
+            outlineColor="#4a90e2"
           >
-            <h3 className="text-white font-bold mb-4 text-center text-2xl">🧭 Navigation Mode</h3>
+            HALLENSTADION ZÜRICH
+          </Text>
 
-            <div className="mb-6 text-white text-base">
-              <p className="mb-3">
-                📋 <strong>Steuerung Anweisungen:</strong>
-              </p>
-              <div className="text-left space-y-2 text-sm">
-                <p>
-                  • <strong>FPS Mode:</strong> WASD = Bewegen, Maus = Umschauen
-                </p>
-                <p>
-                  • <strong>Orbit Mode:</strong> Maus ziehen = Kamera drehen
-                </p>
-                <p>
-                  • <strong>ESC Taste:</strong> Mauszeiger freigeben / Steuerung pausieren
-                </p>
-                <p>
-                  • <strong>Türen:</strong> Anklicken für Raumwechsel
-                </p>
-                <p>
-                  • <strong>Vollbild:</strong> Für beste Erfahrung empfohlen
-                </p>
-              </div>
-            </div>
+          <Text position={[0, 15, -5]} fontSize={1.2} color="#4a90e2" anchorX="center" anchorY="middle">
+            Metal3DCore Plattform (M3DC)
+          </Text>
 
-            <div className="flex gap-3 mb-6 justify-center">
-              <button
-                data-testid="control-fps"
-                onClick={() => setControlMode("fps")}
-                className={`px-6 py-3 rounded text-base font-bold ${
-                  controlMode === "fps" ? "bg-orange-500 text-white" : "bg-gray-600 text-gray-300"
-                }`}
-              >
-                🎮 FPS (WASD)
-              </button>
-              <button
-                data-testid="control-orbit"
-                onClick={() => setControlMode("orbit")}
-                className={`px-6 py-3 rounded text-base font-bold ${
-                  controlMode === "orbit" ? "bg-orange-500 text-white" : "bg-gray-600 text-gray-300"
-                }`}
-              >
-                🖱️ Orbit
-              </button>
-            </div>
-            {onFullscreen && (
-              <button
-                data-testid="fullscreen-toggle"
-                onClick={onFullscreen}
-                className="px-6 py-3 rounded text-base bg-blue-600 hover:bg-blue-700 text-white w-full mx-auto block font-bold"
-                title={isFullscreen ? "Vollbild verlassen" : "Vollbild"}
-              >
-                {isFullscreen ? "📱 Normal" : "🖥️ Vollbild"}
-              </button>
-            )}
-          </div>
-        </Html>
+          <Text position={[0, 13, -5]} fontSize={0.8} color="#ffffff" anchorX="center" anchorY="middle">
+            WASD Bewegung • Maus Umschauen • Klicke Eingänge für Navigation
+          </Text>
 
-        {/* 🔥 REGISTRATION WELCOME PANEL - Nur für neue User */}
-        {!session && !authModal.isOpen && (
-          <Html position={[25, 8, -15]} center distanceFactor={12} zIndexRange={[100, 0]}>
+          {/* Control Mode Toggle UI - ATTACHED TO COLUMN */}
+          <Html position={[-25, 10, -20]} center distanceFactor={2} zIndexRange={[100, 0]}>
             <div
-              data-testid="welcome-registration-panel"
-              style={{ zIndex: 1001, position: "relative" }}
-              className="bg-gradient-to-r from-orange-500 to-red-600 p-6 rounded-xl shadow-2xl text-center max-w-sm border-2 border-orange-400 backdrop-blur-md"
+              data-testid="room-selector"
+              className="bg-black/95 backdrop-blur-md rounded-xl p-12 text-center shadow-2xl border-4 border-orange-500/80 animate-pulse"
+              style={{
+                zIndex: 1000,
+                position: "relative",
+                minWidth: "600px",
+                minHeight: "400px",
+                fontSize: "32px",
+                boxShadow: "0 0 50px rgba(249, 115, 22, 0.8)",
+                transform: "scale(8)",
+              }}
             >
-              <div className="mb-4">
-                <span className="text-4xl mb-2 block animate-bounce">🎸</span>
-                <h3 className="text-white font-black text-lg mb-2 tracking-tight">Willkommen bei Metal3DCore!</h3>
-                <p className="text-orange-100 text-sm mb-4 leading-relaxed">
-                  Erstelle dein Account und erlebe die ultimative Metal-Plattform
+              <h3 className="text-white font-bold mb-4 text-center text-2xl">🧭 Navigation Mode</h3>
+
+              <div className="mb-6 text-white text-base">
+                <p className="mb-3">
+                  📋 <strong>Steuerung Anweisungen:</strong>
                 </p>
+                <div className="text-left space-y-2 text-sm">
+                  <p>
+                    • <strong>FPS Mode:</strong> WASD = Bewegen, Maus = Umschauen
+                  </p>
+                  <p>
+                    • <strong>Orbit Mode:</strong> Maus ziehen = Kamera drehen
+                  </p>
+                  <p>
+                    • <strong>ESC Taste:</strong> Mauszeiger freigeben / Steuerung pausieren
+                  </p>
+                  <p>
+                    • <strong>Türen:</strong> Anklicken für Raumwechsel
+                  </p>
+                  <p>
+                    • <strong>Vollbild:</strong> Für beste Erfahrung empfohlen
+                  </p>
+                </div>
               </div>
 
-              <div className="flex flex-col gap-3">
+              <div className="flex gap-3 mb-6 justify-center">
                 <button
-                  onClick={e => {
-                    console.log("Band Registration clicked!", e);
-                    e.preventDefault();
-                    e.stopPropagation();
-                    openAuthModal("signup");
-                  }}
-                  onPointerDown={e => e.stopPropagation()}
-                  className="group relative overflow-hidden px-6 py-3 bg-black/80 hover:bg-black text-white font-bold rounded-xl shadow-lg transition-all duration-300 transform hover:scale-105 border-2 border-orange-300 cursor-pointer"
+                  data-testid="control-fps"
+                  onClick={() => setControlMode("fps")}
+                  className={`px-6 py-3 rounded text-base font-bold ${
+                    controlMode === "fps" ? "bg-orange-500 text-white" : "bg-gray-600 text-gray-300"
+                  }`}
                 >
-                  <div className="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
-                  <span className="relative flex items-center justify-center gap-2">
-                    <span className="text-lg">🎤</span>
-                    <span>Registrieren als Band</span>
-                  </span>
+                  🎮 FPS (WASD)
                 </button>
-
                 <button
-                  onClick={e => {
-                    console.log("Fan Registration clicked!", e);
-                    e.preventDefault();
-                    e.stopPropagation();
-                    openAuthModal("signup");
-                  }}
-                  onPointerDown={e => e.stopPropagation()}
-                  className="group relative overflow-hidden px-6 py-3 bg-white/90 hover:bg-white text-gray-900 font-bold rounded-xl shadow-lg transition-all duration-300 transform hover:scale-105 cursor-pointer"
+                  data-testid="control-orbit"
+                  onClick={() => setControlMode("orbit")}
+                  className={`px-6 py-3 rounded text-base font-bold ${
+                    controlMode === "orbit" ? "bg-orange-500 text-white" : "bg-gray-600 text-gray-300"
+                  }`}
                 >
-                  <div className="absolute inset-0 bg-orange-500/20 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
-                  <span className="relative flex items-center justify-center gap-2">
-                    <span className="text-lg">🤘</span>
-                    <span>Registrieren als Fan</span>
-                  </span>
-                </button>
-
-                <button
-                  onClick={e => {
-                    console.log("Login clicked!", e);
-                    e.preventDefault();
-                    e.stopPropagation();
-                    openAuthModal("login");
-                  }}
-                  onPointerDown={e => e.stopPropagation()}
-                  className="px-4 py-2 text-orange-100 hover:text-white font-medium transition-colors text-sm underline decoration-2 underline-offset-2 hover:decoration-white cursor-pointer"
-                >
-                  Bereits registriert? → Login
+                  🖱️ Orbit
                 </button>
               </div>
+              {onFullscreen && (
+                <button
+                  data-testid="fullscreen-toggle"
+                  onClick={onFullscreen}
+                  className="px-6 py-3 rounded text-base bg-blue-600 hover:bg-blue-700 text-white w-full mx-auto block font-bold"
+                  title={isFullscreen ? "Vollbild verlassen" : "Vollbild"}
+                >
+                  {isFullscreen ? "📱 Normal" : "🖥️ Vollbild"}
+                </button>
+              )}
             </div>
           </Html>
+
+          {/* 🔥 REGISTRATION WELCOME PANEL - Nur für neue User */}
+          {!session && !authModal.isOpen && (
+            <Html position={[25, 8, -15]} center distanceFactor={12} zIndexRange={[100, 0]}>
+              <div
+                data-testid="welcome-registration-panel"
+                style={{ zIndex: 1001, position: "relative" }}
+                className="bg-gradient-to-r from-orange-500 to-red-600 p-6 rounded-xl shadow-2xl text-center max-w-sm border-2 border-orange-400 backdrop-blur-md"
+              >
+                <div className="mb-4">
+                  <span className="text-4xl mb-2 block animate-bounce">🎸</span>
+                  <h3 className="text-white font-black text-lg mb-2 tracking-tight">Willkommen bei Metal3DCore!</h3>
+                  <p className="text-orange-100 text-sm mb-4 leading-relaxed">
+                    Erstelle dein Account und erlebe die ultimative Metal-Plattform
+                  </p>
+                </div>
+
+                <div className="flex flex-col gap-3">
+                  <button
+                    onClick={e => {
+                      console.log("Band Registration clicked!", e);
+                      e.preventDefault();
+                      e.stopPropagation();
+                      openAuthModal("signup");
+                    }}
+                    onPointerDown={e => e.stopPropagation()}
+                    className="group relative overflow-hidden px-6 py-3 bg-black/80 hover:bg-black text-white font-bold rounded-xl shadow-lg transition-all duration-300 transform hover:scale-105 border-2 border-orange-300 cursor-pointer"
+                  >
+                    <div className="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+                    <span className="relative flex items-center justify-center gap-2">
+                      <span className="text-lg">🎤</span>
+                      <span>Registrieren als Band</span>
+                    </span>
+                  </button>
+
+                  <button
+                    onClick={e => {
+                      console.log("Fan Registration clicked!", e);
+                      e.preventDefault();
+                      e.stopPropagation();
+                      openAuthModal("signup");
+                    }}
+                    onPointerDown={e => e.stopPropagation()}
+                    className="group relative overflow-hidden px-6 py-3 bg-white/90 hover:bg-white text-gray-900 font-bold rounded-xl shadow-lg transition-all duration-300 transform hover:scale-105 cursor-pointer"
+                  >
+                    <div className="absolute inset-0 bg-orange-500/20 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+                    <span className="relative flex items-center justify-center gap-2">
+                      <span className="text-lg">🤘</span>
+                      <span>Registrieren als Fan</span>
+                    </span>
+                  </button>
+
+                  <button
+                    onClick={e => {
+                      console.log("Login clicked!", e);
+                      e.preventDefault();
+                      e.stopPropagation();
+                      openAuthModal("login");
+                    }}
+                    onPointerDown={e => e.stopPropagation()}
+                    className="px-4 py-2 text-orange-100 hover:text-white font-medium transition-colors text-sm underline decoration-2 underline-offset-2 hover:decoration-white cursor-pointer"
+                  >
+                    Bereits registriert? → Login
+                  </button>
+                </div>
+              </div>
+            </Html>
+          )}
+
+          {/* 🎸 USER WELCOME PANEL - Für angemeldete User */}
+          {session && (
+            <Html position={[25, 8, -15]} center distanceFactor={12} zIndexRange={[100, 0]}>
+              <div
+                data-testid="welcome-user-panel"
+                className="bg-gradient-to-r from-green-600 to-blue-600 p-6 rounded-xl shadow-2xl text-center max-w-sm border-2 border-green-400 backdrop-blur-md"
+                style={{ zIndex: 1002, position: "relative" }}
+              >
+                <div className="mb-4">
+                  <span className="text-4xl mb-2 block">👋</span>
+                  <h3 className="text-white font-black text-lg mb-2">Willkommen zurück!</h3>
+                  <p className="text-green-100 text-sm mb-2">
+                    Hallo <strong>{session.user?.name}</strong>
+                  </p>
+                  <p className="text-green-100 text-xs">
+                    {session.user?.role === "BAND" ? "🎤 Band Account" : "🤘 Fan Account"}
+                  </p>
+                </div>
+
+                <div className="text-xs text-green-200 mt-3">
+                  <p>Erkunde die Räume und erlebe Metal3DCore!</p>
+                </div>
+              </div>
+            </Html>
+          )}
+        </Canvas>
+
+        {/* Fullscreen Exit Button */}
+        {isFullscreen && (
+          <button
+            data-testid="exit-fullscreen"
+            onClick={() => onRoomChange?.("welcome")}
+            className="absolute top-4 right-4 z-60 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-bold"
+          >
+            ✕ Exit Fullscreen
+          </button>
         )}
 
-        {/* 🎸 USER WELCOME PANEL - Für angemeldete User */}
-        {session && (
-          <Html position={[25, 8, -15]} center distanceFactor={12} zIndexRange={[100, 0]}>
-            <div
-              data-testid="welcome-user-panel"
-              className="bg-gradient-to-r from-green-600 to-blue-600 p-6 rounded-xl shadow-2xl text-center max-w-sm border-2 border-green-400 backdrop-blur-md"
-              style={{ zIndex: 1002, position: "relative" }}
-            >
-              <div className="mb-4">
-                <span className="text-4xl mb-2 block">👋</span>
-                <h3 className="text-white font-black text-lg mb-2">Willkommen zurück!</h3>
-                <p className="text-green-100 text-sm mb-2">
-                  Hallo <strong>{session.user?.name}</strong>
-                </p>
-                <p className="text-green-100 text-xs">
-                  {session.user?.role === "BAND" ? "🎤 Band Account" : "🤘 Fan Account"}
-                </p>
-              </div>
-
-              <div className="text-xs text-green-200 mt-3">
-                <p>Erkunde die Räume und erlebe Metal3DCore!</p>
-              </div>
-            </div>
-          </Html>
-        )}
-      </Canvas>
-
-      {/* Fullscreen Exit Button */}
-      {isFullscreen && (
-        <button
-          data-testid="exit-fullscreen"
-          onClick={() => onRoomChange?.("welcome")}
-          className="absolute top-4 right-4 z-60 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-bold"
-        >
-          ✕ Exit Fullscreen
-        </button>
-      )}
-
-      {/* AuthModal - now integrated in WelcomeStage */}
-      <AuthModal isOpen={authModal.isOpen} onClose={closeAuthModal} initialMode={authModal.mode} />
-    </div>
+        {/* AuthModal - now integrated in WelcomeStage */}
+        <AuthModal isOpen={authModal.isOpen} onClose={closeAuthModal} initialMode={authModal.mode} />
+      </div>
+    </WebGLAvailabilityChecker>
   );
 }

@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import { SessionProvider } from "@/shared/components/providers";
 import { Navigation } from "@/shared/components/Navigation";
+import { WebGLErrorBoundary } from "@/shared/components/WebGLErrorBoundary";
+import { GlobalWebGLErrorHandler } from "@/shared/components/GlobalWebGLErrorHandler";
 import "./globals.css";
 
 const inter = Inter({
@@ -12,9 +14,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Metal3DCore Platform (M3DC) - Core Platform Ready",
+  title: "METAL3DCORE Platform (M3DC) - Core Platform Ready",
   description:
-    "🎸 Metal3DCore Platform - The 3D Core of Metal Culture. Immersive 3D environments, real-time features, and authentic integrations.",
+    "🎸 METAL3DCORE Platform - The 3D Core of Metal Culture. Immersive 3D environments, real-time features, and authentic integrations.",
 };
 
 const jetbrainsMono = JetBrains_Mono({
@@ -29,14 +31,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="de, en" suppressHydrationWarning>
+    <html lang="de, en" suppressHydrationWarning={true}>
       <head>
         <Script src="/suppress-extension-errors.js" strategy="afterInteractive" />
       </head>
-      <body className={`${inter.variable} ${jetbrainsMono.variable} antialiased`}>
+      <body className={`${inter.variable} ${jetbrainsMono.variable} antialiased`} data-cy="app-body">
+        <GlobalWebGLErrorHandler />
         <SessionProvider>
           <Navigation />
-          <main className="pb-16">{children}</main>
+          <WebGLErrorBoundary>
+            <main className="pb-16" data-cy="main-content">
+              {children}
+            </main>
+          </WebGLErrorBoundary>
         </SessionProvider>
       </body>
     </html>
