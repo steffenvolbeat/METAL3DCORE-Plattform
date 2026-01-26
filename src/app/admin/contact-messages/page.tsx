@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
@@ -57,9 +57,7 @@ export default function AdminContactMessagesPage() {
   const [messages, setMessages] = useState<ContactMessage[]>([]);
   const [stats, setStats] = useState<Stats>({});
   const [loading, setLoading] = useState(true);
-  const [selectedMessage, setSelectedMessage] = useState<ContactMessage | null>(
-    null
-  );
+  const [selectedMessage, setSelectedMessage] = useState<ContactMessage | null>(null);
   const [replyContent, setReplyContent] = useState("");
   const [isInternal, setIsInternal] = useState(false);
   const [sendingReply, setSendingReply] = useState(false);
@@ -73,20 +71,17 @@ export default function AdminContactMessagesPage() {
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/api/auth/signin");
-    } else if (
-      session?.user &&
-      session.user.role &&
-      !["ADMIN", "MODERATOR"].includes(session.user.role)
-    ) {
+    } else if (session?.user && session.user.role && !["ADMIN", "MODERATOR"].includes(session.user.role)) {
       router.push("/");
     }
   }, [session, status, router]);
 
-  // Fetch Messages
-  const fetchMessages = async () => {
+  const fetchMessages = useCallback(async () => {
+    setLoading(true);
+
     try {
-      setLoading(true);
       const params = new URLSearchParams();
+
       if (statusFilter) params.append("status", statusFilter);
       if (priorityFilter) params.append("priority", priorityFilter);
       if (searchQuery) params.append("search", searchQuery);
@@ -103,13 +98,13 @@ export default function AdminContactMessagesPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [priorityFilter, searchQuery, statusFilter]);
 
   useEffect(() => {
     if (status === "authenticated") {
       fetchMessages();
     }
-  }, [status, statusFilter, priorityFilter, searchQuery]);
+  }, [fetchMessages, status]);
 
   // Send Reply
   const handleSendReply = async () => {
@@ -135,9 +130,7 @@ export default function AdminContactMessagesPage() {
         setIsInternal(false);
         fetchMessages();
         // Refresh selected message
-        const updatedMessage = messages.find(
-          (m) => m.id === selectedMessage.id
-        );
+        const updatedMessage = messages.find(m => m.id === selectedMessage.id);
         if (updatedMessage) {
           setSelectedMessage({
             ...updatedMessage,
@@ -165,9 +158,7 @@ export default function AdminContactMessagesPage() {
       if (response.ok) {
         fetchMessages();
         if (selectedMessage?.id === messageId) {
-          setSelectedMessage((prev) =>
-            prev ? { ...prev, status: newStatus as any } : null
-          );
+          setSelectedMessage(prev => (prev ? { ...prev, status: newStatus as any } : null));
         }
       }
     } catch (error) {
@@ -210,37 +201,25 @@ export default function AdminContactMessagesPage() {
         <header className="section-card text-center">
           <div className="inline-flex items-center justify-center gap-3 mb-3">
             <span className="text-4xl">📧</span>
-            <h1 className="panel-heading text-3xl sm:text-4xl">
-              Contact Message Management
-            </h1>
+            <h1 className="panel-heading text-3xl sm:text-4xl">Contact Message Management</h1>
           </div>
-          <p className="text-theme-secondary max-w-2xl mx-auto">
-            Support Ticket System - GDPR-Compliant & Secure
-          </p>
+          <p className="text-theme-secondary max-w-2xl mx-auto">Support Ticket System - GDPR-Compliant & Secure</p>
         </header>
 
         {/* Stats Bar */}
         <section className="section-card">
-          <h2 className="panel-heading text-xl mb-4 text-center">
-            📊 Status Overview
-          </h2>
+          <h2 className="panel-heading text-xl mb-4 text-center">📊 Status Overview</h2>
           <div className="content-grid">
             {Object.entries(stats).map(([status, count]) => (
               <div
                 key={status}
-                onClick={() =>
-                  setStatusFilter(statusFilter === status ? "" : status)
-                }
+                onClick={() => setStatusFilter(statusFilter === status ? "" : status)}
                 className={`glass-panel p-4 text-center cursor-pointer transition-all hover:-translate-y-1 ${
                   statusFilter === status ? "ring-2 ring-orange-500" : ""
                 }`}
               >
-                <div className="text-3xl font-bold text-orange-400">
-                  {count}
-                </div>
-                <div className="text-sm text-theme-secondary mt-2 uppercase tracking-wide">
-                  {status}
-                </div>
+                <div className="text-3xl font-bold text-orange-400">{count}</div>
+                <div className="text-sm text-theme-secondary mt-2 uppercase tracking-wide">{status}</div>
               </div>
             ))}
           </div>
@@ -257,14 +236,14 @@ export default function AdminContactMessagesPage() {
                   type="text"
                   placeholder="🔍 Suche: Name, Email, Betreff..."
                   value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onChange={e => setSearchQuery(e.target.value)}
                   className="w-full px-4 py-3 bg-black/40 border border-theme-secondary rounded-lg text-theme-primary focus:outline-none focus:border-orange-500 transition-colors"
                 />
 
                 <div className="action-row">
                   <select
                     value={priorityFilter}
-                    onChange={(e) => setPriorityFilter(e.target.value)}
+                    onChange={e => setPriorityFilter(e.target.value)}
                     className="flex-1 px-4 py-3 bg-black/40 border border-theme-secondary rounded-lg text-theme-primary focus:outline-none focus:border-orange-500"
                   >
                     <option value="">✓ Alle Prioritäten</option>
@@ -290,25 +269,19 @@ export default function AdminContactMessagesPage() {
 
             {/* Messages */}
             <div>
-              <h3 className="panel-heading text-lg mb-6">
-                📬 Nachrichten ({messages.length})
-              </h3>
+              <h3 className="panel-heading text-lg mb-6">📬 Nachrichten ({messages.length})</h3>
               <div className="space-y-4">
                 {messages.length === 0 ? (
                   <div className="glass-panel p-8 text-center mx-2">
-                    <p className="text-theme-secondary text-lg">
-                      📭 Keine Nachrichten gefunden
-                    </p>
+                    <p className="text-theme-secondary text-lg">📭 Keine Nachrichten gefunden</p>
                   </div>
                 ) : (
-                  messages.map((msg) => (
+                  messages.map(msg => (
                     <div
                       key={msg.id}
                       onClick={() => setSelectedMessage(msg)}
                       className={`glass-panel p-6 mx-2 cursor-pointer transition-all hover:-translate-y-1 hover:shadow-lg text-center ${
-                        selectedMessage?.id === msg.id
-                          ? "ring-2 ring-orange-500 bg-orange-500/5"
-                          : ""
+                        selectedMessage?.id === msg.id ? "ring-2 ring-orange-500 bg-orange-500/5" : ""
                       }`}
                     >
                       <div className="space-y-4">
@@ -319,10 +292,10 @@ export default function AdminContactMessagesPage() {
                                 msg.priority === "URGENT"
                                   ? "bg-red-500 text-white"
                                   : msg.priority === "HIGH"
-                                  ? "bg-orange-500 text-white"
-                                  : msg.priority === "NORMAL"
-                                  ? "bg-blue-500 text-white"
-                                  : "bg-gray-500 text-white"
+                                    ? "bg-orange-500 text-white"
+                                    : msg.priority === "NORMAL"
+                                      ? "bg-blue-500 text-white"
+                                      : "bg-gray-500 text-white"
                               }`}
                             >
                               {msg.priority}
@@ -332,12 +305,12 @@ export default function AdminContactMessagesPage() {
                                 msg.status === "NEW"
                                   ? "bg-green-900/50 text-green-300 border border-green-500/30"
                                   : msg.status === "IN_PROGRESS"
-                                  ? "bg-yellow-900/50 text-yellow-300 border border-yellow-500/30"
-                                  : msg.status === "RESPONDED"
-                                  ? "bg-blue-900/50 text-blue-300 border border-blue-500/30"
-                                  : msg.status === "CLOSED"
-                                  ? "bg-gray-700 text-gray-300"
-                                  : "bg-red-900/50 text-red-300 border border-red-500/30"
+                                    ? "bg-yellow-900/50 text-yellow-300 border border-yellow-500/30"
+                                    : msg.status === "RESPONDED"
+                                      ? "bg-blue-900/50 text-blue-300 border border-blue-500/30"
+                                      : msg.status === "CLOSED"
+                                        ? "bg-gray-700 text-gray-300"
+                                        : "bg-red-900/50 text-red-300 border border-red-500/30"
                               }`}
                             >
                               {msg.status}
@@ -345,17 +318,12 @@ export default function AdminContactMessagesPage() {
                           </div>
 
                           <div className="text-xs text-theme-secondary whitespace-nowrap">
-                            🕒{" "}
-                            {new Date(msg.createdAt).toLocaleDateString(
-                              "de-DE"
-                            )}
+                            🕒 {new Date(msg.createdAt).toLocaleDateString("de-DE")}
                           </div>
                         </div>
 
                         <div className="space-y-2">
-                          <h3 className="font-bold text-theme-primary text-base break-words">
-                            {msg.subject}
-                          </h3>
+                          <h3 className="font-bold text-theme-primary text-base break-words">{msg.subject}</h3>
                           <p className="text-sm text-theme-secondary break-words">
                             👤 {msg.name} • 📧 {msg.email}
                           </p>
@@ -367,9 +335,7 @@ export default function AdminContactMessagesPage() {
 
                         {msg.replies.length > 0 && (
                           <div className="pt-2 border-t border-theme-secondary">
-                            <span className="text-sm text-orange-400">
-                              💬 {msg.replies.length} Antwort(en)
-                            </span>
+                            <span className="text-sm text-orange-400">💬 {msg.replies.length} Antwort(en)</span>
                           </div>
                         )}
                       </div>
@@ -387,9 +353,7 @@ export default function AdminContactMessagesPage() {
                 <div className="space-y-5">
                   {/* Header */}
                   <div>
-                    <h2 className="panel-heading text-xl mb-3 break-words">
-                      📋 {selectedMessage.subject}
-                    </h2>
+                    <h2 className="panel-heading text-xl mb-3 break-words">📋 {selectedMessage.subject}</h2>
                     <div className="glass-panel p-4 space-y-2 text-sm text-theme-secondary text-center">
                       <p className="break-words">
                         👤 <strong>Von:</strong> {selectedMessage.name}
@@ -398,24 +362,17 @@ export default function AdminContactMessagesPage() {
                         📧 <strong>Email:</strong> {selectedMessage.email}
                       </p>
                       <p>
-                        🕒 <strong>Erstellt:</strong>{" "}
-                        {new Date(selectedMessage.createdAt).toLocaleString(
-                          "de-DE"
-                        )}
+                        🕒 <strong>Erstellt:</strong> {new Date(selectedMessage.createdAt).toLocaleString("de-DE")}
                       </p>
                     </div>
                   </div>
 
                   {/* Status Control */}
                   <div>
-                    <label className="block text-sm font-bold text-theme-primary mb-2 text-center">
-                      📊 Status:
-                    </label>
+                    <label className="block text-sm font-bold text-theme-primary mb-2 text-center">📊 Status:</label>
                     <select
                       value={selectedMessage.status}
-                      onChange={(e) =>
-                        updateStatus(selectedMessage.id, e.target.value)
-                      }
+                      onChange={e => updateStatus(selectedMessage.id, e.target.value)}
                       className="w-full px-4 py-3 bg-black/40 border border-theme-secondary rounded-lg text-theme-primary focus:outline-none focus:border-orange-500 transition-colors text-center"
                     >
                       <option value="NEW">🆕 Neu</option>
@@ -429,14 +386,10 @@ export default function AdminContactMessagesPage() {
 
                   {/* Priority Control */}
                   <div>
-                    <label className="block text-sm font-bold text-theme-primary mb-2 text-center">
-                      🎯 Priorität:
-                    </label>
+                    <label className="block text-sm font-bold text-theme-primary mb-2 text-center">🎯 Priorität:</label>
                     <select
                       value={selectedMessage.priority}
-                      onChange={(e) =>
-                        updatePriority(selectedMessage.id, e.target.value)
-                      }
+                      onChange={e => updatePriority(selectedMessage.id, e.target.value)}
                       className="w-full px-4 py-3 bg-black/40 border border-theme-secondary rounded-lg text-theme-primary focus:outline-none focus:border-orange-500 transition-colors text-center"
                     >
                       <option value="LOW">🟢 Niedrig</option>
@@ -448,13 +401,9 @@ export default function AdminContactMessagesPage() {
 
                   {/* Original Message */}
                   <div>
-                    <h3 className="text-sm font-bold text-theme-primary mb-2 text-center">
-                      💬 Nachricht:
-                    </h3>
+                    <h3 className="text-sm font-bold text-theme-primary mb-2 text-center">💬 Nachricht:</h3>
                     <div className="glass-panel p-4 text-center">
-                      <p className="text-sm text-theme-primary whitespace-pre-wrap">
-                        {selectedMessage.message}
-                      </p>
+                      <p className="text-sm text-theme-primary whitespace-pre-wrap">{selectedMessage.message}</p>
                     </div>
                   </div>
 
@@ -465,28 +414,20 @@ export default function AdminContactMessagesPage() {
                         📜 Verlauf ({selectedMessage.replies.length}):
                       </h3>
                       <div className="space-y-2 max-h-64 overflow-y-auto">
-                        {selectedMessage.replies.map((reply) => (
+                        {selectedMessage.replies.map(reply => (
                           <div
                             key={reply.id}
                             className={`glass-panel p-3 text-sm ${
-                              reply.isInternal
-                                ? "border-l-4 border-yellow-500"
-                                : "border-l-4 border-blue-500"
+                              reply.isInternal ? "border-l-4 border-yellow-500" : "border-l-4 border-blue-500"
                             }`}
                           >
                             <div className="flex items-center justify-between mb-2">
-                              <span className="text-xs font-semibold text-theme-primary">
-                                👤 {reply.admin.name}
-                              </span>
+                              <span className="text-xs font-semibold text-theme-primary">👤 {reply.admin.name}</span>
                               <span className="text-xs text-theme-secondary">
-                                {new Date(reply.createdAt).toLocaleString(
-                                  "de-DE"
-                                )}
+                                {new Date(reply.createdAt).toLocaleString("de-DE")}
                               </span>
                             </div>
-                            <p className="text-theme-primary whitespace-pre-wrap">
-                              {reply.content}
-                            </p>
+                            <p className="text-theme-primary whitespace-pre-wrap">{reply.content}</p>
                             {reply.isInternal && (
                               <span className="inline-block mt-2 chip bg-yellow-900/50 text-yellow-300 text-xs">
                                 🔒 Interne Notiz
@@ -500,12 +441,10 @@ export default function AdminContactMessagesPage() {
 
                   {/* Reply Form */}
                   <div className="space-y-3 pt-4 border-t border-theme-secondary">
-                    <h3 className="text-sm font-bold text-theme-primary">
-                      ✍️ Antwort schreiben:
-                    </h3>
+                    <h3 className="text-sm font-bold text-theme-primary">✍️ Antwort schreiben:</h3>
                     <textarea
                       value={replyContent}
-                      onChange={(e) => setReplyContent(e.target.value)}
+                      onChange={e => setReplyContent(e.target.value)}
                       placeholder="Ihre Antwort hier eingeben..."
                       rows={4}
                       className="w-full px-4 py-3 bg-black/40 border border-theme-secondary rounded-lg text-theme-primary text-center placeholder:text-center resize-none focus:outline-none focus:border-orange-500 transition-colors"
@@ -515,12 +454,10 @@ export default function AdminContactMessagesPage() {
                       <input
                         type="checkbox"
                         checked={isInternal}
-                        onChange={(e) => setIsInternal(e.target.checked)}
+                        onChange={e => setIsInternal(e.target.checked)}
                         className="w-5 h-5 accent-yellow-500"
                       />
-                      <span>
-                        🔒 Interne Notiz (keine E-Mail-Benachrichtigung)
-                      </span>
+                      <span>🔒 Interne Notiz (keine E-Mail-Benachrichtigung)</span>
                     </label>
 
                     <button
@@ -530,9 +467,7 @@ export default function AdminContactMessagesPage() {
                     >
                       {sendingReply ? (
                         <>
-                          <span className="inline-block animate-spin mr-2">
-                            ⏳
-                          </span>
+                          <span className="inline-block animate-spin mr-2">⏳</span>
                           Wird gesendet...
                         </>
                       ) : isInternal ? (

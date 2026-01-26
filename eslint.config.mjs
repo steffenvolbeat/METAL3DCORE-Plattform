@@ -1,9 +1,17 @@
-// Use CommonJS require to avoid ESM named-export issues on Vercel
-const nextConfig = require("eslint-config-next");
+/** ESLint flat config for Next.js (ESM). */
+import { FlatCompat } from "@eslint/eslintrc";
 
-module.exports = [
-  ...(Array.isArray(nextConfig) ? nextConfig : [nextConfig]),
+const compat = new FlatCompat({
+  baseDirectory: new URL("./", import.meta.url).pathname,
+  recommendedConfig: false,
+  allConfig: false,
+});
+
+const config = [
+  ...compat.extends("next/core-web-vitals"),
   {
-    ignores: [".next/**", "out/**", "build/**", "next-env.d.ts", "node_modules/**"],
+    ignores: ["**/.next/**", "**/node_modules/**", "coverage/**", "cypress/**", "dist/**", ".vercel/**"],
   },
 ];
+
+export default config;

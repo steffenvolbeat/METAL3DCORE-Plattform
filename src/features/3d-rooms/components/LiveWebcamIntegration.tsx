@@ -1,7 +1,7 @@
 "use client";
 
 import { useSession } from "next-auth/react";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { LiveConcertWebcamProps, WebcamUser } from "../types/webcam.types";
 
 export function LiveWebcamIntegration({ isInStadium, onWebcamUsersUpdate }: LiveConcertWebcamProps) {
@@ -11,91 +11,6 @@ export function LiveWebcamIntegration({ isInStadium, onWebcamUsersUpdate }: Live
   const [stream, setStream] = useState<MediaStream | null>(null);
   const [autoTestResult, setAutoTestResult] = useState<string>("🔍 Testing...");
   const localVideoRef = useRef<HTMLVideoElement>(null);
-
-  // 🚀 AUTO-TEST beim Laden der Komponente
-  useEffect(() => {
-    if (isInStadium) {
-      performAutoWebcamTest();
-    }
-  }, [isInStadium]);
-
-  // 🔍 AUTO WEBCAM TEST
-  const performAutoWebcamTest = async () => {
-    try {
-      console.log("🚀 AUTO-TEST: Webcam-Kompatibilität wird geprüft...");
-
-      if (!navigator.mediaDevices) {
-        setAutoTestResult("❌ Browser zu alt!");
-        return;
-      }
-
-      // Test: Geräte auflisten
-      const devices = await navigator.mediaDevices.enumerateDevices();
-      const cameras = devices.filter(d => d.kind === "videoinput");
-
-      console.log(`📹 AUTO-TEST: ${cameras.length} Kameras gefunden`);
-
-      if (cameras.length === 0) {
-        setAutoTestResult("❌ Keine Kamera!");
-        return;
-      }
-
-      // Test: Permission Status
-      try {
-        const permission = await navigator.permissions.query({ name: "camera" as PermissionName });
-        console.log(`🔒 AUTO-TEST: Permission = ${permission.state}`);
-
-        if (permission.state === "granted") {
-          setAutoTestResult("✅ Bereit! Auto-Start...");
-          // Auto-start if permission already granted
-          setTimeout(() => startWebcam(), 2000);
-          return;
-        } else if (permission.state === "denied") {
-          setAutoTestResult("🚫 Blockiert! Freigeben!");
-          return;
-        }
-      } catch (e) {
-        console.log("⚠️ Permissions API nicht verfügbar");
-      }
-
-      setAutoTestResult(`✅ ${cameras.length} Kamera(s) bereit`);
-    } catch (error) {
-      console.error("AUTO-TEST Fehler:", error);
-      setAutoTestResult("⚠️ Test fehlgeschlagen");
-    }
-  };
-
-  // 🎯 STREAM-TO-VIDEO CONNECTION EFFECT
-  useEffect(() => {
-    if (stream && localVideoRef.current) {
-      console.log("🔗 CONNECTING stream to video element...");
-
-      const videoElement = localVideoRef.current;
-
-      // FORCE CONNECTION
-      videoElement.srcObject = stream;
-      videoElement.muted = true;
-      videoElement.autoplay = true;
-      videoElement.playsInline = true;
-
-      console.log("📺 Stream connected to video!");
-
-      // FORCE PLAY after connection
-      const forcePlay = async () => {
-        try {
-          await videoElement.play();
-          console.log("▶️ ✅ VIDEO PLAYING SUCCESSFULLY!");
-        } catch (err) {
-          console.log("⚠️ Play failed, retrying...", err);
-          setTimeout(forcePlay, 500);
-        }
-      };
-
-      // Start play attempts
-      setTimeout(forcePlay, 100);
-    }
-  }, [stream]);
-
   // 🔧 BROWSER-SPEZIFISCHE REPARATUR-ANWEISUNGEN
   const showBrowserFixInstructions = () => {
     const isChrome = navigator.userAgent.includes("Chrome");
@@ -156,29 +71,19 @@ Versuchen Sie:
     alert(instructions);
   };
 
-  // 🎥 WEBCAM ACTIVATION with enhanced error handling
-  const startWebcam = async () => {
+  const startWebcam = useCallback(async () => {
     try {
       console.log("🚀 Starting webcam activation...");
 
-      // Check if mediaDevices is supported
       if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
         throw new Error("UNSUPPORTED_BROWSER");
       }
 
       console.log("✅ MediaDevices API available");
-
-      // 🔐 FORCE PERMISSION REQUEST - Ignore previous denials
       console.log("🔓 FORCING permission request...");
 
-      // 🎥 MULTIPLE WEBCAM CONFIGS - Try different settings
       const webcamConfigs = [
-        // Minimal config first - most likely to work
-        {
-          video: true,
-          audio: false,
-        },
-        // Basic config
+        { video: true, audio: false },
         {
           video: {
             width: { ideal: 320 },
@@ -186,7 +91,6 @@ Versuchen Sie:
           },
           audio: false,
         },
-        // Medium quality
         {
           video: {
             width: { ideal: 640, min: 320, max: 1280 },
@@ -196,7 +100,6 @@ Versuchen Sie:
           },
           audio: false,
         },
-        // High quality fallback
         {
           video: {
             width: { ideal: 1280 },
@@ -207,16 +110,13 @@ Versuchen Sie:
         },
       ];
 
-      let mediaStream = null;
+      let mediaStream: MediaStream | null = null;
       let configUsed = -1;
 
-      // Try each config until one works
       for (let i = 0; i < webcamConfigs.length; i++) {
         try {
           console.log(`🎯 Trying webcam config ${i + 1}/${webcamConfigs.length}...`);
           console.log("Config:", webcamConfigs[i]);
-
-          // DIRECT getUserMedia call - bypass permission check
           mediaStream = await navigator.mediaDevices.getUserMedia(webcamConfigs[i]);
           configUsed = i;
           console.log(`🎉 SUCCESS with config ${i + 1}!`);
@@ -226,7 +126,7 @@ Versuchen Sie:
         } catch (configError) {
           console.log(`❌ Config ${i + 1} failed:`, configError);
           if (i === webcamConfigs.length - 1) {
-            throw configError; // Last config failed, throw error
+            throw configError;
           }
         }
       }
@@ -244,200 +144,130 @@ Versuchen Sie:
 
       setStream(mediaStream);
 
-      // Set video element source with AGGRESSIVE STREAM ASSIGNMENT
       if (localVideoRef.current) {
         console.log("🔧 FORCING video element stream assignment...");
-
-        // CLEAR any previous source
         localVideoRef.current.srcObject = null;
         localVideoRef.current.src = "";
-
-        // WAIT for cleanup
         await new Promise(resolve => setTimeout(resolve, 100));
-
-        // SET new stream
         localVideoRef.current.srcObject = mediaStream;
         console.log("📺 Video element updated with NEW stream");
-
-        // FORCE video element properties AGGRESSIVELY
-        localVideoRef.current.muted = true;
-        localVideoRef.current.playsInline = true;
-        localVideoRef.current.autoplay = true;
-        localVideoRef.current.controls = false;
-        localVideoRef.current.volume = 0;
-
-        console.log("📊 Video element final state:", {
-          srcObject: !!localVideoRef.current.srcObject,
-          muted: localVideoRef.current.muted,
-          autoplay: localVideoRef.current.autoplay,
-          readyState: localVideoRef.current.readyState,
-        });
-
-        // MULTI-ATTEMPT PLAY STRATEGY
-        const attemptPlay = async (attempt = 1) => {
-          try {
-            if (!localVideoRef.current) return;
-
-            console.log(`🎯 Play attempt #${attempt}...`);
-            const playPromise = localVideoRef.current.play();
-            if (playPromise) {
-              await playPromise;
-              console.log(`✅ Video playing after attempt #${attempt}!`);
-              return;
-            }
-          } catch (playError) {
-            console.log(`❌ Play attempt #${attempt} failed:`, playError);
-
-            if (attempt < 5) {
-              setTimeout(() => attemptPlay(attempt + 1), 200 * attempt);
-            }
-          }
-        };
-
-        // START PLAY ATTEMPTS
-        await attemptPlay();
-
-        // Listen for video events
-        localVideoRef.current.onloadedmetadata = () => {
-          console.log(
-            "🎬 Video metadata loaded, dimensions:",
-            localVideoRef.current?.videoWidth,
-            "x",
-            localVideoRef.current?.videoHeight
-          );
-        };
-
-        localVideoRef.current.oncanplay = () => {
-          console.log("📺 Video can start playing");
-        };
-
-        localVideoRef.current.onplaying = () => {
-          console.log("🎥 Video is now playing");
-        };
-      } else {
-        console.warn("⚠️ Video element ref is null - waiting for DOM to render...");
-        // Wait for video element to be rendered and try again
-        setTimeout(async () => {
-          if (localVideoRef.current && mediaStream) {
-            console.log("🔄 Retry: Video element now available, setting up stream...");
-            localVideoRef.current.srcObject = mediaStream;
-            localVideoRef.current.muted = true;
-            localVideoRef.current.playsInline = true;
-            localVideoRef.current.autoplay = true;
-            localVideoRef.current.controls = false;
-            localVideoRef.current.volume = 0;
-
-            // Simple play attempt
-            try {
-              await localVideoRef.current.play();
-              console.log("🔄 ✅ Retry successful - video playing!");
-            } catch (err) {
-              console.log("🔄 Retry play failed:", err);
-            }
-          } else {
-            console.error("❌ Video element still null after retry - DOM issue!");
-          }
-        }, 500); // Wait 500ms for DOM
       }
 
       setIsWebcamActive(true);
+      setAutoTestResult(`✅ Bereit! Config ${configUsed + 1}`);
 
-      // Add current user to webcam users
-      const newUser: WebcamUser = {
-        id: session?.user?.id || "anonymous",
-        name: session?.user?.name || "Anonymous Rocker",
-        videoRef: localVideoRef,
-        position: generateRandomStadiumPosition(),
-        isActive: true,
-      };
+      if (session?.user) {
+        const user: WebcamUser = {
+          id: session.user.id,
+          name: session.user.name || "Metal Fan",
+          videoRef: localVideoRef,
+          position: { x: 0, y: 0.1, z: 0 },
+          isActive: true,
+        };
 
-      const updatedUsers = [...webcamUsers, newUser];
-      setWebcamUsers(updatedUsers);
-      onWebcamUsersUpdate(updatedUsers);
-
-      console.log("🚀 Webcam fully activated!");
-      alert(
-        "🎉 WEBCAM ERFOLGREICH AKTIVIERT!\n\nSie sind jetzt LIVE im Konzert! 🎸\n\nSchauen Sie nach rechts unten - dort sehen Sie Ihr Video!"
-      );
+        const updatedUsers = [...webcamUsers, user];
+        setWebcamUsers(updatedUsers);
+        onWebcamUsersUpdate(updatedUsers);
+      }
     } catch (error: any) {
-      console.error("🚨 Webcam access failed:", error);
+      console.warn("⚠️ Webcam access denied or unavailable:", error.message);
 
-      let errorMessage = "⚠️ Webcam-Zugriff fehlgeschlagen!";
-      let solution = "";
+      switch (error?.name) {
+        case "NotAllowedError":
+          setAutoTestResult("🚫 Zugriff verweigert! Bitte Kamera freigeben");
+          showBrowserFixInstructions();
+          break;
+        case "NotFoundError":
+          setAutoTestResult("❌ Keine Kamera gefunden");
+          break;
+        case "NotReadableError":
+          setAutoTestResult("⚠️ Kamera wird bereits verwendet (Teams/Zoom?)");
+          break;
+        default:
+          setAutoTestResult("⚠️ Kamera-Aktivierung fehlgeschlagen");
+      }
+    }
+  }, [onWebcamUsersUpdate, session?.user, webcamUsers]);
 
-      if (error.name === "NotFoundError" || error.message === "NO_CAMERA_FOUND") {
-        errorMessage = "📷 KEINE KAMERA GEFUNDEN!";
-        solution = `
-🔧 LÖSUNGEN:
-• USB-Webcam anschließen
-• In Geräte-Manager prüfen
-• Kamera-Treiber aktualisieren
-• Andere Programme schließen (Teams, Zoom, OBS)
-        `;
-      } else if (error.name === "NotAllowedError" || error.name === "PermissionDeniedError") {
-        errorMessage = "🚫 KAMERA-BERECHTIGUNG HARTNÄCKIG VERWEIGERT!";
-        solution = `
-🔧 HARDCORE-REPARATUR ERFORDERLICH:
+  const performAutoWebcamTest = useCallback(async () => {
+    try {
+      console.log("🚀 AUTO-TEST: Webcam-Kompatibilität wird geprüft...");
 
-METHODE 1 - CHROME RESET:
-1. chrome://settings/reset eingeben
-2. "Erweitert" → "Zurücksetzen und bereinigen"
-3. "Einstellungen auf ursprüngliche Standards zurücksetzen"
-
-METHODE 2 - SITE-DATEN LÖSCHEN:
-1. chrome://settings/content/all eingeben  
-2. "localhost:3000" suchen
-3. Alle Daten löschen
-4. Browser neu starten
-
-METHODE 3 - NUCLEAR OPTION:
-1. Chrome komplett deinstallieren
-2. Neu installieren
-3. Oder Firefox/Edge versuchen
-
-SOFORT-WORKAROUND:
-• Demo-Mode verwenden (funktioniert perfekt!)
-        `;
-      } else if (error.name === "NotReadableError") {
-        errorMessage = "⚡ KAMERA HARDWARE-KONFLIKT!";
-        solution = `
-🔧 HARDWARE-LÖSUNGEN:
-• Alle anderen Apps schließen (Teams, Zoom, Skype, OBS)
-• USB-Kamera abziehen und wieder anschließen
-• Anderen USB-Port verwenden
-• Computer neu starten
-• Task-Manager → Webcam-Prozesse beenden
-        `;
-      } else if (error.message === "UNSUPPORTED_BROWSER") {
-        errorMessage = "🌐 BROWSER STEINZEIT!";
-        solution = "Chrome, Firefox oder Edge verwenden!";
-      } else if (error.message === "ALL_CONFIGS_FAILED") {
-        errorMessage = "💥 ALLE WEBCAM-VERSUCHE GESCHEITERT!";
-        solution = `
-🔧 LETZTE RETTUNG:
-• Kamera-Hardware defekt?
-• Treiber komplett neu installieren
-• Antivirus-Software Kamera-Zugriff erlauben
-• Windows Kamera-App funktioniert?
-• Anderer Computer zum Testen
-        `;
-      } else {
-        errorMessage = "🤯 MYSTERIÖSER FEHLER!";
-        solution = `
-🔧 PANIK-LÖSUNGEN:
-• Browser neu starten (alle Fenster schließen)
-• Computer neu starten  
-• Anderen Browser versuchen (Firefox/Edge)
-• System-Updates installieren
-• IT-Support kontaktieren
-        `;
+      if (!navigator.mediaDevices) {
+        setAutoTestResult("❌ Browser zu alt!");
+        return;
       }
 
-      alert(
-        `${errorMessage}\n\n${solution}\n\n🎪 ZWISCHENLÖSUNG: Demo-Mode nutzen!\n(Funktioniert genauso gut - kein Webcam nötig!)`
-      );
+      // Test: Geräte auflisten
+      const devices = await navigator.mediaDevices.enumerateDevices();
+      const cameras = devices.filter(d => d.kind === "videoinput");
+
+      console.log(`📹 AUTO-TEST: ${cameras.length} Kameras gefunden`);
+
+      if (cameras.length === 0) {
+        setAutoTestResult("❌ Keine Kamera!");
+        return;
+      }
+
+      // Test: Permission Status
+      try {
+        const permission = await navigator.permissions.query({ name: "camera" as PermissionName });
+        console.log(`🔒 AUTO-TEST: Permission = ${permission.state}`);
+
+        if (permission.state === "granted") {
+          setAutoTestResult("✅ Bereit! Auto-Start...");
+          // Auto-start if permission already granted
+          setTimeout(() => startWebcam(), 2000);
+          return;
+        } else if (permission.state === "denied") {
+          setAutoTestResult("🚫 Blockiert! Freigeben!");
+          return;
+        }
+      } catch (e) {
+        console.log("⚠️ Permissions API nicht verfügbar");
+      }
+
+      setAutoTestResult(`✅ ${cameras.length} Kamera(s) bereit`);
+    } catch (error) {
+      console.warn("AUTO-TEST Issue (normal):", error.message);
+      setAutoTestResult("⚠️ Test fehlgeschlagen");
     }
-  };
+  }, [startWebcam]);
+
+  useEffect(() => {
+    if (isInStadium) {
+      performAutoWebcamTest();
+    }
+  }, [isInStadium, performAutoWebcamTest]);
+
+  // 🎯 STREAM-TO-VIDEO CONNECTION EFFECT
+  useEffect(() => {
+    if (stream && localVideoRef.current) {
+      console.log("🔗 CONNECTING stream to video element...");
+
+      const videoElement = localVideoRef.current;
+
+      // FORCE CONNECTION
+      videoElement.srcObject = stream;
+      videoElement.muted = true;
+      videoElement.autoplay = true;
+      videoElement.playsInline = true;
+
+      console.log("📺 Stream connected to video!");
+
+      // FORCE PLAY after connection
+      const forcePlay = async () => {
+        try {
+          await videoElement.play();
+        } catch (err) {
+          console.log("⚠️ Play failed, retrying...", err);
+          setTimeout(forcePlay, 500);
+        }
+      };
+
+      setTimeout(forcePlay, 100);
+    }
+  }, [stream]);
 
   // 🛑 WEBCAM DEACTIVATION
   const stopWebcam = () => {
@@ -447,7 +277,6 @@ SOFORT-WORKAROUND:
     }
     setIsWebcamActive(false);
 
-    // Remove current user from webcam users
     const updatedUsers = webcamUsers.filter(user => user.id !== session?.user?.id);
     setWebcamUsers(updatedUsers);
     onWebcamUsersUpdate(updatedUsers);
@@ -498,7 +327,7 @@ SOFORT-WORKAROUND:
         onWebcamUsersUpdate(simulatedUsers);
       }
     }
-  }, [isInStadium]);
+  }, [isInStadium, onWebcamUsersUpdate, webcamUsers.length]);
 
   // 🎪 DEMO MODE - Join without webcam
   const joinDemoMode = () => {
@@ -577,13 +406,13 @@ SOFORT-WORKAROUND:
               onLoadedData={() => {
                 console.log("📁 ✅ Video data loaded - FORCING PLAY NOW!");
                 if (localVideoRef.current) {
-                  localVideoRef.current.play().catch(console.error);
+                  localVideoRef.current.play().catch(() => {}); // Ignore autoplay restrictions
                 }
               }}
               onCanPlay={() => {
                 console.log("🎯 ✅ Video CAN PLAY - STARTING NOW!");
                 if (localVideoRef.current) {
-                  localVideoRef.current.play().catch(console.error);
+                  localVideoRef.current.play().catch(() => {}); // Ignore autoplay restrictions
                 }
               }}
               onPlaying={() => {
@@ -600,41 +429,46 @@ SOFORT-WORKAROUND:
               }}
               onError={e => {
                 const video = e.target as HTMLVideoElement | null;
-                console.error("❌ Video error:", {
-                  error: e,
-                  target: video,
-                  currentSrc: video?.currentSrc,
-                  networkState: video?.networkState,
-                  readyState: video?.readyState,
-                  videoWidth: video?.videoWidth,
-                  videoHeight: video?.videoHeight,
-                  srcObject: !!video?.srcObject,
-                  paused: video?.paused,
-                });
 
-                // Try to restart the webcam if there's an error
+                // Only log in development, reduce noise in production
+                if (process.env.NODE_ENV === "development") {
+                  console.warn("⚠️ Video stream issue (normal for webcam):", {
+                    type: e.type,
+                    readyState: video?.readyState,
+                    srcObject: !!video?.srcObject,
+                  });
+                }
+
+                // Try to restart the webcam if there's an error and stream exists
                 if (localVideoRef.current?.srcObject) {
-                  console.log("🔄 Attempting to restart webcam due to video error...");
                   const currentStream = localVideoRef.current.srcObject as MediaStream;
-                  currentStream?.getTracks().forEach(track => track.stop());
+                  const hasLiveTracks = currentStream?.getTracks().some(track => track.readyState === "live");
 
-                  // Request webcam again
-                  navigator.mediaDevices
-                    .getUserMedia({
-                      video: {
-                        width: { ideal: 1280 },
-                        height: { ideal: 720 },
-                        facingMode: "user",
-                      },
-                    })
-                    .then(stream => {
-                      if (localVideoRef.current) {
-                        localVideoRef.current.srcObject = stream;
-                      }
-                    })
-                    .catch(err => {
-                      console.error("🚫 Webcam restart failed:", err);
-                    });
+                  if (!hasLiveTracks) {
+                    console.log("🔄 Restarting dead webcam stream...");
+                    currentStream?.getTracks().forEach(track => track.stop());
+
+                    // Request webcam again with better error handling
+                    setTimeout(() => {
+                      navigator.mediaDevices
+                        .getUserMedia({
+                          video: {
+                            width: { ideal: 1280 },
+                            height: { ideal: 720 },
+                            facingMode: "user",
+                          },
+                        })
+                        .then(stream => {
+                          if (localVideoRef.current) {
+                            localVideoRef.current.srcObject = stream;
+                            console.log("✅ Webcam restarted successfully");
+                          }
+                        })
+                        .catch(err => {
+                          console.warn("🚫 Webcam restart failed:", err.message);
+                        });
+                    }, 1000);
+                  }
                 }
               }}
             />
@@ -664,118 +498,63 @@ SOFORT-WORKAROUND:
         {/* CONTROLS */}
         <div className="space-y-3">
           {/* AUTO-TEST ERGEBNIS */}
-          <div className="bg-gray-800 border border-yellow-500 rounded p-2 text-xs">
-            <div className="text-yellow-400 font-bold">🔍 AUTO-TEST:</div>
-            <div className="text-white">{autoTestResult}</div>
+          <div className="bg-gray-900/60 border border-orange-500/30 text-orange-200 text-xs font-mono rounded px-2 py-1">
+            {autoTestResult}
           </div>
 
-          {!isWebcamActive ? (
-            <>
-              <button
-                onClick={startWebcam}
-                className="w-full bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 text-white font-bold py-3 px-4 rounded-lg transition-all duration-200 text-sm animate-pulse"
-              >
-                🎥 WEBCAM JETZT AKTIVIEREN!
-              </button>
-
-              <button
-                onClick={showBrowserFixInstructions}
-                className="w-full bg-gradient-to-r from-red-600 to-purple-600 hover:from-red-700 hover:to-purple-700 text-white font-bold py-2 px-4 rounded-lg transition-all duration-200 text-xs"
-              >
-                🔧 BROWSER REPARATUR
-              </button>
-
-              <button
-                onClick={async () => {
-                  try {
-                    const devices = await navigator.mediaDevices.enumerateDevices();
-                    const cameras = devices.filter(d => d.kind === "videoinput");
-                    alert(
-                      `🔍 KAMERA-TEST:\n\n📹 Gefundene Kameras: ${cameras.length}\n\n${cameras.map((c, i) => `${i + 1}. ${c.label || "Unbekannte Kamera"}`).join("\n")}\n\n${cameras.length === 0 ? "❌ KEINE KAMERAS! Hardware-Problem!" : "✅ Kameras verfügbar! Permission-Problem!"}`
-                    );
-                  } catch (error) {
-                    alert(`❌ KAMERA-TEST FEHLER:\n\n${error}\n\nIhr Browser unterstützt keine Kamera-Erkennung!`);
-                  }
-                }}
-                className="w-full bg-gradient-to-r from-yellow-600 to-orange-600 hover:from-yellow-700 hover:to-orange-700 text-white font-bold py-1 px-3 rounded-lg transition-all duration-200 text-xs"
-              >
-                🔍 HARDWARE-TEST
-              </button>
-
-              <button
-                onClick={joinDemoMode}
-                className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-2 px-4 rounded-lg transition-all duration-200 text-sm"
-              >
-                🎪 NOTFALL: DEMO MODE
-              </button>
-
-              <div className="text-xs text-gray-400 text-center">💡 Falls Webcam nicht geht: Demo-Mode nutzen!</div>
-            </>
-          ) : (
+          <div className="flex flex-wrap gap-2">
             <button
-              onClick={stopWebcam}
-              className="w-full bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800 text-white font-bold py-2 px-4 rounded-lg transition-all duration-200 text-sm"
+              type="button"
+              onClick={startWebcam}
+              className="px-3 py-2 rounded bg-green-600 text-white text-xs font-bold hover:bg-green-500 transition"
             >
-              🛑 LEAVE STAGE
+              🚀 Webcam starten
             </button>
-          )}
 
-          {/* USERS COUNT */}
-          <div className="flex justify-between items-center text-gray-300 text-xs">
-            <span>Concert-goers:</span>
-            <span className="text-orange-400 font-bold">{webcamUsers.length} 🤘</span>
-          </div>
+            <button
+              type="button"
+              onClick={stopWebcam}
+              disabled={!isWebcamActive}
+              className="px-3 py-2 rounded bg-red-700 text-white text-xs font-bold hover:bg-red-600 transition disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              🛑 Stoppen
+            </button>
 
-          {/* STATUS INFO */}
-          <div className="text-gray-400 text-xs font-mono">
-            {isWebcamActive ? (
-              <div className="flex items-center space-x-1">
-                <span className="w-2 h-2 bg-green-500 rounded-full"></span>
-                <span>Du rockst live im Stadion!</span>
-              </div>
-            ) : (
-              <div className="space-y-1">
-                <div className="text-gray-500">🎤 Bereit für Live-Experience</div>
-                <div className="text-xs text-green-400">
-                  {navigator.mediaDevices ? "✅ Webcam unterstützt" : "⚠️ Webcam nicht verfügbar"}
-                </div>
-              </div>
-            )}
+            <button
+              type="button"
+              onClick={joinDemoMode}
+              className="px-3 py-2 rounded bg-blue-700 text-white text-xs font-bold hover:bg-blue-600 transition"
+            >
+              🎪 Demo-Modus
+            </button>
+
+            <button
+              type="button"
+              onClick={performAutoWebcamTest}
+              className="px-3 py-2 rounded bg-orange-700 text-white text-xs font-bold hover:bg-orange-600 transition"
+            >
+              🔄 Auto-Test
+            </button>
           </div>
         </div>
       </div>
 
-      {/* DEBUG INFO - ALWAYS VISIBLE for troubleshooting */}
-      <div className="mt-2 bg-red-900/90 border border-red-500 rounded p-2 text-xs font-mono">
-        <div className="text-red-400 font-bold">🔧 LIVE DIAGNOSE:</div>
-        <div className="text-white">
-          Browser:{" "}
-          {navigator.userAgent.includes("Chrome")
-            ? "✅ Chrome"
-            : navigator.userAgent.includes("Firefox")
-              ? "✅ Firefox"
-              : "⚠️ Unbekannt"}
+      {/* ACTIVE USERS LIST */}
+      {webcamUsers.length > 0 && (
+        <div className="mt-3 bg-gray-950/80 border border-orange-500/30 rounded-lg p-3 max-w-sm text-xs text-orange-100">
+          <div className="font-bold text-orange-300 mb-2">Aktive Zuschauer</div>
+          <ul className="space-y-1">
+            {webcamUsers.map(user => (
+              <li key={user.id} className="flex items-center justify-between">
+                <span>{user.name}</span>
+                <span className="text-[10px] uppercase tracking-wide text-orange-400">
+                  {user.isActive ? "LIVE" : "OFF"}
+                </span>
+              </li>
+            ))}
+          </ul>
         </div>
-        <div className="text-white">
-          MediaDevices: {typeof navigator !== "undefined" && navigator.mediaDevices ? "✅ OK" : "❌ FEHLT"}
-        </div>
-        <div className="text-white">
-          getUserMedia: {typeof navigator !== "undefined" && typeof navigator.mediaDevices?.getUserMedia === "function" ? "✅ OK" : "❌ FEHLT"}
-        </div>
-        <div className="text-white">
-          Sicher:{" "}
-          {window.location.protocol === "https:" || window.location.hostname === "localhost" ? "✅ OK" : "❌ UNSICHER"}
-        </div>
-        <div className="text-white">Webcam: {isWebcamActive ? "🎥 LIVE" : "❌ AUS"}</div>
-        <div className="text-white">Stadion: {isInStadium ? "✅ JA" : "❌ NEIN"}</div>
-        <div className="text-white">Auto-Test: {autoTestResult}</div>
-        {stream && (
-          <div className="text-green-400 font-bold">✅ Stream: {stream.getVideoTracks().length} Spur(en) aktiv</div>
-        )}
-        <div className="text-yellow-400 text-xs mt-1 bg-black/50 p-1 rounded">
-          💡 Falls ❌ → "🔧 BROWSER REPARATUR" klicken!
-        </div>
-      </div>
+      )}
     </div>
   );
 }

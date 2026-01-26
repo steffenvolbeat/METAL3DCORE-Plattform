@@ -30,37 +30,7 @@ export default function AudioSystem({
   const lastBeatTime = useRef(0);
   const beatCooldown = 300; // ms
 
-  const setupAudio = useCallback(async () => {
-    try {
-      // Create Audio Context
-      audioContextRef.current = new (window.AudioContext ||
-        (window as any).webkitAudioContext)();
-
-      // Create Analyser
-      analyserRef.current = audioContextRef.current.createAnalyser();
-      analyserRef.current.fftSize = 256;
-      analyserRef.current.smoothingTimeConstant = 0.8;
-
-      // Create audio element with Metal background music
-      audioRef.current = new Audio();
-      audioRef.current.crossOrigin = "anonymous";
-      audioRef.current.loop = true;
-      audioRef.current.volume = 0.7;
-
-      // Use a royalty-free metal track or synthesized audio
-      // For now, we'll create a Web Audio synthesized metal-like track
-      await createSynthesizedTrack();
-
-      setIsReady(true);
-      onAudioReady();
-    } catch (error) {
-      console.error("Audio setup failed:", error);
-      // Fallback to simulated beats
-      startSimulatedBeats();
-    }
-  }, [onAudioReady]);
-
-  const createSynthesizedTrack = async () => {
+  const createSynthesizedTrack = useCallback(async () => {
     if (!audioContextRef.current) return;
 
     // Create a buffer with synthesized metal-like sounds
@@ -118,23 +88,19 @@ export default function AudioSystem({
     sourceRef.current = bufferSource;
 
     return bufferSource;
-  };
+  }, []);
 
-  const startSimulatedBeats = () => {
-    // Fallback beat simulation with more realistic metal timing
-    const metalBeatPattern = [1, 0, 0.7, 0, 1, 0, 0.5, 0.8]; // Metal beat pattern
+  const startSimulatedBeats = useCallback(() => {
+    const metalBeatPattern = [1, 0, 0.7, 0, 1, 0, 0.5, 0.8];
     let patternIndex = 0;
 
     const interval = setInterval(() => {
-      const intensity =
-        metalBeatPattern[patternIndex % metalBeatPattern.length];
+      const intensity = metalBeatPattern[patternIndex % metalBeatPattern.length];
       if (intensity > 0) {
         const frequencies = Array.from({ length: 128 }, (_, i) => {
-          // Simulate frequency data with metal characteristics
           const baseIntensity = intensity * 255;
           const freq = i / 128;
 
-          // Emphasize bass (0-0.2) and mid-high (0.6-1.0) for metal
           if (freq < 0.2 || (freq > 0.6 && freq < 1.0)) {
             return baseIntensity * (0.8 + Math.random() * 0.4);
           }
@@ -143,7 +109,6 @@ export default function AudioSystem({
 
         onBeatDetected(true, intensity, frequencies);
 
-        // Turn off beat after 150ms
         setTimeout(() => {
           onBeatDetected(
             false,
@@ -153,11 +118,33 @@ export default function AudioSystem({
         }, 150);
       }
       patternIndex++;
-    }, 600); // 100 BPM metal tempo
+    }, 600);
 
-    // Clean up after 30 seconds
     setTimeout(() => clearInterval(interval), 30000);
-  };
+  }, [onBeatDetected]);
+
+  const setupAudio = useCallback(async () => {
+    try {
+      audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
+
+      analyserRef.current = audioContextRef.current.createAnalyser();
+      analyserRef.current.fftSize = 256;
+      analyserRef.current.smoothingTimeConstant = 0.8;
+
+      audioRef.current = new Audio();
+      audioRef.current.crossOrigin = "anonymous";
+      audioRef.current.loop = true;
+      audioRef.current.volume = 0.7;
+
+      await createSynthesizedTrack();
+
+      setIsReady(true);
+      onAudioReady();
+    } catch (error) {
+      console.error("Audio setup failed:", error);
+      startSimulatedBeats();
+    }
+  }, [createSynthesizedTrack, onAudioReady, startSimulatedBeats]);
 
   const analyzeAudio = useCallback(() => {
     if (!analyserRef.current || !isPlaying) return;
@@ -166,43 +153,26 @@ export default function AudioSystem({
     const dataArray = new Uint8Array(bufferLength);
     analyserRef.current.getByteFrequencyData(dataArray);
 
-    // Convert to normalized array
     const frequencyData = Array.from(dataArray).map((val) => val / 255);
 
-    // Beat detection algorithm
-    const bassRange = frequencyData.slice(0, 10); // Low frequencies
-    const bassEnergy =
-      bassRange.reduce((sum, val) => sum + val, 0) / bassRange.length;
+    const bassRange = frequencyData.slice(0, 10);
+    const bassEnergy = bassRange.reduce((sum, val) => sum + val, 0) / bassRange.length;
 
     const midRange = frequencyData.slice(10, 40);
-    const midEnergy =
-      midRange.reduce((sum, val) => sum + val, 0) / midRange.length;
+    const midEnergy = midRange.reduce((sum, val) => sum + val, 0) / midRange.length;
 
     const totalEnergy = bassEnergy + midEnergy;
     const currentTime = Date.now();
 
-    // Detect beat based on energy spike
-    if (
-      totalEnergy > beatThreshold &&
-      currentTime - lastBeatTime.current > beatCooldown
-    ) {
+    if (totalEnergy > beatThreshold && currentTime - lastBeatTime.current > beatCooldown) {
       lastBeatTime.current = currentTime;
       onBeatDetected(true, totalEnergy, frequencyData);
 
-      // Turn off beat indicator after short duration
       setTimeout(() => {
-        onBeatDetected(
-          false,
-          totalEnergy * 0.3,
-          frequencyData.map((f) => f * 0.5)
-        );
+        onBeatDetected(false, totalEnergy * 0.3, frequencyData.map((f) => f * 0.5));
       }, 100);
     } else {
-      onBeatDetected(
-        false,
-        totalEnergy * 0.5,
-        frequencyData.map((f) => f * 0.7)
-      );
+      onBeatDetected(false, totalEnergy * 0.5, frequencyData.map((f) => f * 0.7));
     }
 
     animationRef.current = requestAnimationFrame(analyzeAudio);
@@ -216,7 +186,6 @@ export default function AudioSystem({
 
   useEffect(() => {
     if (isPlaying && isReady && analyserRef.current) {
-      // Start audio playback
       if (sourceRef.current && audioContextRef.current) {
         if (audioContextRef.current.state === "suspended") {
           audioContextRef.current.resume();
@@ -224,15 +193,13 @@ export default function AudioSystem({
         try {
           sourceRef.current.start();
         } catch (e) {
-          // Already started
+          // already started
         }
       }
 
       analyzeAudio();
-    } else {
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
-      }
+    } else if (animationRef.current) {
+      cancelAnimationFrame(animationRef.current);
     }
 
     return () => {
@@ -240,9 +207,8 @@ export default function AudioSystem({
         cancelAnimationFrame(animationRef.current);
       }
     };
-  }, [isPlaying, isReady, analyzeAudio]);
+  }, [analyzeAudio, isPlaying, isReady]);
 
-  // Cleanup
   useEffect(() => {
     return () => {
       if (animationRef.current) {

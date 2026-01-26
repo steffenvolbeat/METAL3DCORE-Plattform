@@ -81,9 +81,7 @@ const bandImages = [
     rotation: [0, 0, 0],
     title: "Linkin Park",
     videoUrl: "https://www.youtube.com/embed/kXYiU_JCYtU", // Numb
-    events: [
-      { date: "28.07.2026", venue: "Hallenstadion Zürich", price: "149 CHF" },
-    ],
+    events: [{ date: "28.07.2026", venue: "Hallenstadion Zürich", price: "149 CHF" }],
   },
   {
     url: "/gallery/bild7.png",
@@ -91,9 +89,7 @@ const bandImages = [
     rotation: [0, 0, 0],
     title: "Disturbed",
     videoUrl: "https://www.youtube.com/embed/66gSvNeqevg", // The Sound of Silence (Official)
-    events: [
-      { date: "05.08.2026", venue: "Mercedes-Benz Arena Berlin", price: "98€" },
-    ],
+    events: [{ date: "05.08.2026", venue: "Mercedes-Benz Arena Berlin", price: "98€" }],
   },
   {
     url: "/gallery/bild6.png",
@@ -101,9 +97,7 @@ const bandImages = [
     rotation: [0, 0, 0],
     title: "Arch Enemy",
     videoUrl: "https://www.youtube.com/embed/InBXu-y952w", // The World Is Yours (Official)
-    events: [
-      { date: "25.06.2026", venue: "Barclaycard Arena Hamburg", price: "72€" },
-    ],
+    events: [{ date: "25.06.2026", venue: "Barclaycard Arena Hamburg", price: "72€" }],
   },
   {
     url: "/gallery/bild5.png",
@@ -119,9 +113,7 @@ const bandImages = [
     rotation: [0, 0, 0],
     title: "Asking Alexandria",
     videoUrl: "https://www.youtube.com/embed/NPHTH2vbzO8", // The Final Episode
-    events: [
-      { date: "15.05.2026", venue: "Columbiahalle Berlin", price: "68€" },
-    ],
+    events: [{ date: "15.05.2026", venue: "Columbiahalle Berlin", price: "68€" }],
   },
 ];
 
@@ -135,11 +127,7 @@ function VipGalleryArchitecture() {
   return (
     <group>
       {/* ELEGANTER DUNKLER BODEN - KEIN MARMOR */}
-      <Plane
-        args={[60, 60]}
-        position={[0, -2, 0]}
-        rotation={[-Math.PI / 2, 0, 0]}
-      >
+      <Plane args={[60, 60]} position={[0, -2, 0]} rotation={[-Math.PI / 2, 0, 0]}>
         <meshPhysicalMaterial
           color={new Color(0.15, 0.15, 0.15)} // Dunkler eleganter Boden
           roughness={0.3}
@@ -152,53 +140,22 @@ function VipGalleryArchitecture() {
 
       {/* SCHWARZE RÜCKWAND */}
       <Box args={[60, 25, 1]} position={[0, 10.5, -25]}>
-        <meshPhysicalMaterial
-          color={new Color(0.02, 0.02, 0.02)}
-          roughness={0.8}
-          metalness={0.0}
-        />
+        <meshPhysicalMaterial color={new Color(0.02, 0.02, 0.02)} roughness={0.8} metalness={0.0} />
       </Box>
 
       {/* Linke Wand - Heller */}
-      <Box
-        args={[60, 25, 0.5]}
-        position={[-30, 10.5, 0]}
-        rotation={[0, Math.PI / 2, 0]}
-      >
-        <meshPhysicalMaterial
-          color={new Color(0.2, 0.2, 0.25)}
-          roughness={0.6}
-          metalness={0.1}
-          clearcoat={0.3}
-        />
+      <Box args={[60, 25, 0.5]} position={[-30, 10.5, 0]} rotation={[0, Math.PI / 2, 0]}>
+        <meshPhysicalMaterial color={new Color(0.2, 0.2, 0.25)} roughness={0.6} metalness={0.1} clearcoat={0.3} />
       </Box>
 
       {/* Rechte Wand - Heller */}
-      <Box
-        args={[60, 25, 0.5]}
-        position={[30, 10.5, 0]}
-        rotation={[0, -Math.PI / 2, 0]}
-      >
-        <meshPhysicalMaterial
-          color={new Color(0.2, 0.2, 0.25)}
-          roughness={0.6}
-          metalness={0.1}
-          clearcoat={0.3}
-        />
+      <Box args={[60, 25, 0.5]} position={[30, 10.5, 0]} rotation={[0, -Math.PI / 2, 0]}>
+        <meshPhysicalMaterial color={new Color(0.2, 0.2, 0.25)} roughness={0.6} metalness={0.1} clearcoat={0.3} />
       </Box>
 
       {/* HELLERE DECKE */}
-      <Box
-        args={[60, 60, 1.2]}
-        position={[0, 23, 0]}
-        rotation={[Math.PI / 2, 0, 0]}
-      >
-        <meshPhysicalMaterial
-          color={new Color(0.3, 0.3, 0.35)}
-          roughness={0.6}
-          metalness={0.1}
-          clearcoat={0.4}
-        />
+      <Box args={[60, 60, 1.2]} position={[0, 23, 0]} rotation={[Math.PI / 2, 0, 0]}>
+        <meshPhysicalMaterial color={new Color(0.3, 0.3, 0.35)} roughness={0.6} metalness={0.1} clearcoat={0.4} />
       </Box>
 
       {/* NUR ECKSÄULEN - BERÜHREN DEN BODEN */}
@@ -285,11 +242,11 @@ function InteractiveArtwork({ img, index, position, rotation }: any) {
       position={position}
       rotation={[0, rotation[1] + (isFlipped ? Math.PI : 0), 0]}
       onClick={handleClick}
-      onPointerOver={(e) => {
+      onPointerOver={e => {
         e.stopPropagation();
         document.body.style.cursor = "pointer";
       }}
-      onPointerOut={(e) => {
+      onPointerOut={e => {
         e.stopPropagation();
         document.body.style.cursor = "auto";
       }}
@@ -316,6 +273,7 @@ function InteractiveArtwork({ img, index, position, rotation }: any) {
               scale={[4.2, 6.2]}
               transparent
               toneMapped={false}
+              // alt={img.title} // React Three Fiber unterstützt kein alt-Attribut
             />
           </Suspense>
 
@@ -379,21 +337,15 @@ function InteractiveArtwork({ img, index, position, rotation }: any) {
                 <h2 className="text-3xl md:text-5xl lg:text-6xl font-black mb-4 bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent px-4">
                   {img.title}
                 </h2>
-                <p className="text-2xl md:text-3xl lg:text-4xl text-purple-300 mb-3">
-                  Official Music Video
-                </p>
-                <p className="text-lg md:text-xl lg:text-2xl text-gray-400">
-                  Video wird auf YouTube abgespielt
-                </p>
+                <p className="text-2xl md:text-3xl lg:text-4xl text-purple-300 mb-3">Official Music Video</p>
+                <p className="text-lg md:text-xl lg:text-2xl text-gray-400">Video wird auf YouTube abgespielt</p>
               </div>
 
               {/* PLAY BUTTON */}
               <button
-                onClick={(e) => {
+                onClick={e => {
                   e.stopPropagation();
-                  const videoId = img.videoUrl
-                    .split("/embed/")[1]
-                    ?.split("?")[0];
+                  const videoId = img.videoUrl.split("/embed/")[1]?.split("?")[0];
                   if (videoId) {
                     // Vollbild YouTube-Fenster (fast maximiert)
                     const width = window.screen.availWidth;
@@ -413,7 +365,7 @@ function InteractiveArtwork({ img, index, position, rotation }: any) {
 
               {/* EVENT DATA BUTTON */}
               <button
-                onClick={(e) => {
+                onClick={e => {
                   e.stopPropagation();
                   setShowVideo(false);
                   setVideoStarted(false);
@@ -455,9 +407,7 @@ function InteractiveArtwork({ img, index, position, rotation }: any) {
                 <h2 className="text-3xl md:text-4xl lg:text-5xl font-black mb-3 bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent px-4">
                   🎸 {img.title}
                 </h2>
-                <p className="text-xl md:text-2xl text-purple-300">
-                  🎟️ Tour Dates & Tickets 🎟️
-                </p>
+                <p className="text-xl md:text-2xl text-purple-300">🎟️ Tour Dates & Tickets 🎟️</p>
               </div>
               {editableEvents.map((event: any, eventIndex: number) => (
                 <div
@@ -471,9 +421,7 @@ function InteractiveArtwork({ img, index, position, rotation }: any) {
                     <input
                       type="text"
                       value={event.date}
-                      onChange={(e) =>
-                        updateEvent(eventIndex, "date", e.target.value)
-                      }
+                      onChange={e => updateEvent(eventIndex, "date", e.target.value)}
                       className="w-full bg-gradient-to-r from-purple-700 to-purple-800 text-white p-4 md:p-5 lg:p-6 rounded-xl text-base md:text-lg lg:text-xl border-3 border-purple-400 focus:border-yellow-400 focus:ring-4 focus:ring-yellow-400/50 focus:outline-none font-bold shadow-lg transition-all duration-200 hover:shadow-yellow-400/30"
                       placeholder="z.B. 15.05.2026"
                     />
@@ -485,9 +433,7 @@ function InteractiveArtwork({ img, index, position, rotation }: any) {
                     <input
                       type="text"
                       value={event.venue}
-                      onChange={(e) =>
-                        updateEvent(eventIndex, "venue", e.target.value)
-                      }
+                      onChange={e => updateEvent(eventIndex, "venue", e.target.value)}
                       className="w-full bg-gradient-to-r from-purple-700 to-purple-800 text-white p-4 md:p-5 lg:p-6 rounded-xl text-base md:text-lg lg:text-xl border-3 border-purple-400 focus:border-yellow-400 focus:ring-4 focus:ring-yellow-400/50 focus:outline-none font-bold shadow-lg transition-all duration-200 hover:shadow-yellow-400/30"
                       placeholder="z.B. Mercedes-Benz Arena Berlin"
                     />
@@ -499,9 +445,7 @@ function InteractiveArtwork({ img, index, position, rotation }: any) {
                     <input
                       type="text"
                       value={event.price}
-                      onChange={(e) =>
-                        updateEvent(eventIndex, "price", e.target.value)
-                      }
+                      onChange={e => updateEvent(eventIndex, "price", e.target.value)}
                       className="w-full bg-gradient-to-r from-purple-700 to-purple-800 text-white p-4 md:p-5 lg:p-6 rounded-xl text-base md:text-lg lg:text-xl border-3 border-purple-400 focus:border-yellow-400 focus:ring-4 focus:ring-yellow-400/50 focus:outline-none font-bold shadow-lg transition-all duration-200 hover:shadow-yellow-400/30"
                       placeholder="z.B. 89€"
                     />
@@ -530,17 +474,12 @@ function InteractiveArtwork({ img, index, position, rotation }: any) {
   );
 }
 
-export default function BandGalleryRoom({
-  onRoomChange,
-  isFullscreen = false,
-}: BandGalleryRoomProps) {
+export default function BandGalleryRoom({ onRoomChange, isFullscreen = false }: BandGalleryRoomProps) {
   const [controlMode, setControlMode] = useState<"fps" | "orbit">("fps");
   return (
     <div
       className={
-        isFullscreen
-          ? "fixed inset-0 z-50 bg-black"
-          : "w-full h-64 sm:h-80 lg:h-96 bg-black rounded-lg overflow-hidden"
+        isFullscreen ? "fixed inset-0 z-50 bg-black" : "w-full h-64 sm:h-80 lg:h-96 bg-black rounded-lg overflow-hidden"
       }
     >
       <Canvas
@@ -580,21 +519,10 @@ export default function BandGalleryRoom({
         <ambientLight intensity={0.2} color="#404040" />
 
         {/* Hauptlicht von oben */}
-        <directionalLight
-          position={[0, 20, 0]}
-          intensity={1}
-          color="#ffffff"
-          castShadow
-        />
+        <directionalLight position={[0, 20, 0]} intensity={1} color="#ffffff" castShadow />
 
         {/* Dezente Akzentbeleuchtung */}
-        <pointLight
-          position={[0, 15, 0]}
-          intensity={0.8}
-          color="#ffffff"
-          distance={40}
-          decay={1}
-        />
+        <pointLight position={[0, 15, 0]} intensity={0.8} color="#ffffff" distance={40} decay={1} />
 
         {/* VIP-LOUNGE BEREICH - LEDERSESSEL KREISFÖRMIG VERSETZT - ENGER */}
         {/* Luxuriöse Ledersessel im engeren Kreis */}
@@ -604,11 +532,7 @@ export default function BandGalleryRoom({
           const x = Math.cos(angle) * radius;
           const z = Math.sin(angle) * radius + 5;
           return (
-            <group
-              key={`sessel-${i}`}
-              position={[x, 0, z]}
-              rotation={[0, -angle + Math.PI, 0]}
-            >
+            <group key={`sessel-${i}`} position={[x, 0, z]} rotation={[0, -angle + Math.PI, 0]}>
               {/* Sessel-Basis */}
               <RoundedBox args={[1.8, 0.8, 1.8]} position={[0, 0.4, 0]}>
                 <meshPhysicalMaterial
@@ -677,11 +601,7 @@ export default function BandGalleryRoom({
 
           {/* Champagner-Flaschen */}
           {Array.from({ length: 6 }).map((_, i) => (
-            <Cylinder
-              key={`bottle-${i}`}
-              args={[0.12, 0.1, 1.2]}
-              position={[-0.4, 5.6, (i - 2.5) * 1.3]}
-            >
+            <Cylinder key={`bottle-${i}`} args={[0.12, 0.1, 1.2]} position={[-0.4, 5.6, (i - 2.5) * 1.3]}>
               <meshPhysicalMaterial
                 color={new Color(0.1, 0.3, 0.1)}
                 roughness={0.1}
@@ -702,40 +622,15 @@ export default function BandGalleryRoom({
           const x = Math.cos(angle) * radius;
           const z = Math.sin(angle) * radius + 5;
           return (
-            <InteractiveArtwork
-              key={i}
-              img={img}
-              index={i}
-              position={[x, 0, z]}
-              rotation={[0, -angle + Math.PI, 0]}
-            />
+            <InteractiveArtwork key={i} img={img} index={i} position={[x, 0, z]} rotation={[0, -angle + Math.PI, 0]} />
           );
         })}
 
         {/* Verbesserte Beleuchtung */}
         <ambientLight intensity={0.4} color="#4a4a4a" />
-        <spotLight
-          position={[0, 10, 0]}
-          angle={Math.PI / 3}
-          penumbra={0.5}
-          intensity={2}
-          color="#9333ea"
-          castShadow
-        />
-        <spotLight
-          position={[8, 8, 8]}
-          angle={Math.PI / 4}
-          penumbra={0.3}
-          intensity={1.5}
-          color="#ffffff"
-        />
-        <spotLight
-          position={[-8, 8, 8]}
-          angle={Math.PI / 4}
-          penumbra={0.3}
-          intensity={1.5}
-          color="#ffffff"
-        />
+        <spotLight position={[0, 10, 0]} angle={Math.PI / 3} penumbra={0.5} intensity={2} color="#9333ea" castShadow />
+        <spotLight position={[8, 8, 8]} angle={Math.PI / 4} penumbra={0.3} intensity={1.5} color="#ffffff" />
+        <spotLight position={[-8, 8, 8]} angle={Math.PI / 4} penumbra={0.3} intensity={1.5} color="#ffffff" />
 
         {/* VIP GALLERY TITEL */}
         <Text
@@ -759,8 +654,7 @@ export default function BandGalleryRoom({
           outlineWidth={0.05}
           outlineColor="#000000"
         >
-          Premium Art Experience • WASD Movement • Mouse Look • Luxury
-          Atmosphere
+          Premium Art Experience • WASD Movement • Mouse Look • Luxury Atmosphere
         </Text>
 
         {/* Portal back to Welcome Stage */}
@@ -768,8 +662,8 @@ export default function BandGalleryRoom({
           <Float speed={1.5} rotationIntensity={0.5} floatIntensity={0.5}>
             <group
               onClick={() => onRoomChange("welcome")}
-              onPointerOver={(e) => (document.body.style.cursor = "pointer")}
-              onPointerOut={(e) => (document.body.style.cursor = "auto")}
+              onPointerOver={e => (document.body.style.cursor = "pointer")}
+              onPointerOut={e => (document.body.style.cursor = "auto")}
             >
               <RoundedBox args={[2, 3, 0.5]} position={[0, 1.5, 9]}>
                 <meshPhysicalMaterial
@@ -781,13 +675,7 @@ export default function BandGalleryRoom({
                   emissiveIntensity={0.3}
                 />
               </RoundedBox>
-              <Text
-                position={[0, 2.5, 9.3]}
-                fontSize={0.3}
-                color="#ffffff"
-                anchorX="center"
-                anchorY="middle"
-              >
+              <Text position={[0, 2.5, 9.3]} fontSize={0.3} color="#ffffff" anchorX="center" anchorY="middle">
                 🚪 BACK TO WELCOME
               </Text>
             </group>

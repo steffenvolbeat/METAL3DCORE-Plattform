@@ -1,10 +1,18 @@
-import "@rushstack/eslint-patch/modern-module-resolution";
-import nextConfig from "eslint-config-next";
+/** ESLint flat config for Next.js (CJS). */
+require("@rushstack/eslint-patch/modern-module-resolution");
 
-// Flat config in ESM; Vercel Next.js expects eslint.config.js (ESM)
-export default [
-  ...(Array.isArray(nextConfig) ? nextConfig : [nextConfig]),
+const { FlatCompat } = require("@eslint/eslintrc");
+
+// Use FlatCompat to consume the legacy Next.js shareable config in flat mode
+const compat = new FlatCompat({
+  baseDirectory: __dirname,
+  recommendedConfig: false,
+  allConfig: false,
+});
+
+module.exports = [
+  ...compat.extends("next/core-web-vitals"),
   {
-    ignores: [".next/**", "out/**", "build/**", "next-env.d.ts", "node_modules/**"],
+    ignores: ["**/.next/**", "**/node_modules/**", "coverage/**", "cypress/**", "dist/**", ".vercel/**"],
   },
 ];

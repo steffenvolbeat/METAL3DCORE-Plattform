@@ -602,7 +602,7 @@ function TicketScene() {
 
         {/* Ticket-Automaten auf der rechten Wand */}
         {concerts.map((concert, index) => {
-          const [isSelected, setIsSelected] = React.useState(false);
+          const isSelected = selectedTicket === index;
 
           return (
             <Html
@@ -654,7 +654,7 @@ function TicketScene() {
                 {concert.available ? (
                   <button
                     className="w-full mt-6 bg-purple-600 hover:bg-purple-700 text-white py-4 px-6 rounded-lg font-bold text-lg transition-colors"
-                    onClick={() => setIsSelected(true)}
+                    onClick={() => setSelectedTicket(index)}
                   >
                     🎫 TICKETS KAUFEN
                   </button>
@@ -665,7 +665,7 @@ function TicketScene() {
                 )}
 
                 {/* Purchase Modal - Erweitert mit Payment Options */}
-                {isSelected && <PurchaseModal concert={concert} onClose={() => setIsSelected(false)} />}
+                {isSelected && <PurchaseModal concert={concert} onClose={() => setSelectedTicket(null)} />}
               </div>
             </Html>
           );

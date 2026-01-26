@@ -1,9 +1,15 @@
-// CJS ESLint config for Vercel
-const nextConfig = require("eslint-config-next");
+/** ESLint flat config for Next.js (CJS). */
+const { FlatCompat } = require("@eslint/eslintrc");
+
+const compat = new FlatCompat({
+  baseDirectory: __dirname,
+  recommendedConfig: false,
+  allConfig: false,
+});
 
 module.exports = [
-  ...(Array.isArray(nextConfig) ? nextConfig : [nextConfig]),
+  ...compat.extends("next/core-web-vitals"),
   {
-    ignores: [".next/**", "out/**", "build/**", "next-env.d.ts", "node_modules/**"],
+    ignores: ["**/.next/**", "**/node_modules/**", "coverage/**", "cypress/**", "dist/**", ".vercel/**"],
   },
 ];

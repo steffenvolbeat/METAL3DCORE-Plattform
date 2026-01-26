@@ -29,5 +29,4 @@ declare module "next-auth/jwt" {
 
 const handler = NextAuth(authOptions);
 
-// Next.js route handler export signature
 export { handler as GET, handler as POST };

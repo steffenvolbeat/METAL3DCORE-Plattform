@@ -766,7 +766,7 @@ export function ComingSoonPage() {
                   <span className="ml-auto text-xs bg-red-500 px-2 py-1 rounded font-bold">HÖCHSTE PRIORITÄT</span>
                 </div>
                 <div className="space-y-3 font-mono text-sm">
-                  <div className="text-gray-300">"Hi! Ich bin James von Metallica. Brauchst du Hilfe?"</div>
+                  <div className="text-gray-300">&quot;Hi! Ich bin James von Metallica. Brauchst du Hilfe?&quot;</div>
                   <div className="flex justify-between">
                     <span className="text-gray-300">3D Integration</span>
                     <span className="text-green-400">CommunityRoom + BackstageRoom</span>
@@ -794,7 +794,7 @@ export function ComingSoonPage() {
                   <span className="ml-auto text-xs bg-blue-500 px-2 py-1 rounded font-bold">BUSINESS KRITISCH</span>
                 </div>
                 <div className="space-y-3 font-mono text-sm">
-                  <div className="text-gray-300">"Ticket gekauft! Brauchst du ein Hotel in Zürich?"</div>
+                  <div className="text-gray-300">&quot;Ticket gekauft! Brauchst du ein Hotel in Zürich?&quot;</div>
                   <div className="flex justify-between">
                     <span className="text-gray-300">Revenue Stream</span>
                     <span className="text-green-400">5-15% Hotel Kommissionen</span>
@@ -822,7 +822,7 @@ export function ComingSoonPage() {
                   <span className="ml-auto text-xs bg-purple-500 px-2 py-1 rounded font-bold">UX KRITISCH</span>
                 </div>
                 <div className="space-y-3 font-mono text-sm">
-                  <div className="text-gray-300">"Basierend auf deinem Musikgeschmack..."</div>
+                  <div className="text-gray-300">&quot;Basierend auf deinem Musikgeschmack...&quot;</div>
                   <div className="flex justify-between">
                     <span className="text-gray-300">Personalization</span>
                     <span className="text-green-400">Individual Event Discovery</span>
@@ -850,7 +850,9 @@ export function ComingSoonPage() {
                   <span className="ml-auto text-xs bg-green-500 px-2 py-1 rounded font-bold">OPERATION KRITISCH</span>
                 </div>
                 <div className="space-y-3 font-mono text-sm">
-                  <div className="text-gray-300">"Wie kann ich dir helfen? Tickets, Navigation, Tech Support..."</div>
+                  <div className="text-gray-300">
+                    &quot;Wie kann ich dir helfen? Tickets, Navigation, Tech Support...&quot;
+                  </div>
                   <div className="flex justify-between">
                     <span className="text-gray-300">FAQ Intelligence</span>
                     <span className="text-green-400">Instant Guided Tours</span>
@@ -918,7 +920,7 @@ export function ComingSoonPage() {
                   🚀 TOTAL INVESTMENT: 7 TAGE = 200% DEMO IMPACT
                 </div>
                 <div className="text-gray-300 font-mono">
-                  Von "Gute 3D Platform (7/10)" zu "Revolutionary Metal Experience (10/10)"
+                  Von &quot;Gute 3D Platform (7/10)&quot; zu &quot;Revolutionary Metal Experience (10/10)&quot;
                 </div>
               </div>
             </div>
@@ -1201,7 +1203,9 @@ export function ComingSoonPage() {
             <div className="text-gray-500 text-sm font-mono">
               PRODUCTION READY | ENTERPRISE GRADE | BUILD SUCCESS: ✅
             </div>
-            <div className="text-green-500 mt-4 font-bold">🎸 "METAL PLATFORM ACHIEVED PRODUCTION STATUS" 🎸</div>
+            <div className="text-green-500 mt-4 font-bold">
+              🎸 &quot;METAL PLATFORM ACHIEVED PRODUCTION STATUS&quot; 🎸
+            </div>
           </div>
         </footer>
       </div>

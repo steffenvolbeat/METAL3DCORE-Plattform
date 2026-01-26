@@ -65,10 +65,7 @@ export default function FPSControls({
 
       // Wenn disableOnInput aktiviert ist UND Input aktiv ist, nicht reagieren!
       if (disableOnInput && isInputActive) {
-        console.log(
-          "🚨 FPSControls: Input detected, ignoring keyboard:",
-          activeElement?.tagName
-        );
+        console.log("🚨 FPSControls: Input detected, ignoring keyboard:", activeElement?.tagName);
         return;
       }
 
@@ -191,10 +188,7 @@ export default function FPSControls({
       euler.current.setFromQuaternion(camera.quaternion);
       euler.current.y -= movementX * lookSpeed;
       euler.current.x -= movementY * lookSpeed;
-      euler.current.x = Math.max(
-        PI_2 - Math.PI,
-        Math.min(PI_2, euler.current.x)
-      );
+      euler.current.x = Math.max(PI_2 - Math.PI, Math.min(PI_2, euler.current.x));
       camera.quaternion.setFromEuler(euler.current);
     };
 
@@ -203,10 +197,7 @@ export default function FPSControls({
     document.addEventListener("keyup", handleKeyUp);
     document.addEventListener("pointerlockchange", handlePointerLockChange);
     document.addEventListener("mozpointerlockchange", handlePointerLockChange);
-    document.addEventListener(
-      "webkitpointerlockchange",
-      handlePointerLockChange
-    );
+    document.addEventListener("webkitpointerlockchange", handlePointerLockChange);
     document.addEventListener("pointerlockerror", handlePointerLockError);
     document.addEventListener("mozpointerlockerror", handlePointerLockError);
     document.addEventListener("webkitpointerlockerror", handlePointerLockError);
@@ -217,31 +208,16 @@ export default function FPSControls({
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
       document.removeEventListener("keyup", handleKeyUp);
-      document.removeEventListener(
-        "pointerlockchange",
-        handlePointerLockChange
-      );
-      document.removeEventListener(
-        "mozpointerlockchange",
-        handlePointerLockChange
-      );
-      document.removeEventListener(
-        "webkitpointerlockchange",
-        handlePointerLockChange
-      );
+      document.removeEventListener("pointerlockchange", handlePointerLockChange);
+      document.removeEventListener("mozpointerlockchange", handlePointerLockChange);
+      document.removeEventListener("webkitpointerlockchange", handlePointerLockChange);
       document.removeEventListener("pointerlockerror", handlePointerLockError);
-      document.removeEventListener(
-        "mozpointerlockerror",
-        handlePointerLockError
-      );
-      document.removeEventListener(
-        "webkitpointerlockerror",
-        handlePointerLockError
-      );
+      document.removeEventListener("mozpointerlockerror", handlePointerLockError);
+      document.removeEventListener("webkitpointerlockerror", handlePointerLockError);
       gl.domElement.removeEventListener("click", handleClick);
       document.removeEventListener("mousemove", handleMouseMove);
     };
-  }, [camera, gl.domElement, lookSpeed, enabled, disableOnInput]);
+  }, [PI_2, camera, gl.domElement, lookSpeed, enabled, disableOnInput]);
 
   useFrame((state, delta) => {
     if (!enabled || !camera) return;

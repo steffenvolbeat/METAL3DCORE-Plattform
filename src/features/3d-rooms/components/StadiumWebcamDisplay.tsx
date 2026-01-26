@@ -1,117 +1,118 @@
 "use client";
 
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useCallback } from "react";
 import * as THREE from "three";
 import { WebcamUser, StadiumWebcamDisplayProps } from "../types/webcam.types";
 
-export function StadiumWebcamDisplay({
-  webcamUsers,
-  scene,
-  camera,
-  renderer,
-}: StadiumWebcamDisplayProps) {
+export function StadiumWebcamDisplay({ webcamUsers, scene, camera, renderer }: StadiumWebcamDisplayProps) {
   const videoTexturesRef = useRef<Map<string, THREE.VideoTexture>>(new Map());
   const videoMeshesRef = useRef<Map<string, THREE.Group>>(new Map());
 
+  // 🛡️ EARLY RETURN IF ESSENTIAL PROPS ARE MISSING
+  if (!scene || !camera || !renderer) {
+    console.warn("StadiumWebcamDisplay: Missing essential Three.js objects");
+    return null;
+  }
+
   // 🎥 CREATE VIDEO TEXTURE FROM WEBCAM STREAM
-  const createVideoTexture = (
-    videoElement: HTMLVideoElement
-  ): THREE.VideoTexture => {
+  const createVideoTexture = useCallback((videoElement: HTMLVideoElement): THREE.VideoTexture => {
     const videoTexture = new THREE.VideoTexture(videoElement);
     videoTexture.minFilter = THREE.LinearFilter;
     videoTexture.magFilter = THREE.LinearFilter;
     videoTexture.format = THREE.RGBFormat;
     return videoTexture;
-  };
+  }, []);
 
   // 🏟️ CREATE 3D VIDEO SCREEN IN STADIUM
-  const createWebcamMesh = (
-    user: WebcamUser,
-    videoTexture: THREE.VideoTexture
-  ): THREE.Group => {
-    const group = new THREE.Group();
+  const createWebcamMesh = useCallback(
+    (user: WebcamUser, videoTexture: THREE.VideoTexture): THREE.Group => {
+      const group = new THREE.Group();
 
-    // Video Screen (like a floating tablet)
-    const screenGeometry = new THREE.PlaneGeometry(1.2, 0.9);
-    const screenMaterial = new THREE.MeshBasicMaterial({
-      map: videoTexture,
-      transparent: true,
-      side: THREE.DoubleSide,
-    });
-    const screenMesh = new THREE.Mesh(screenGeometry, screenMaterial);
+      // Video Screen (like a floating tablet)
+      const screenGeometry = new THREE.PlaneGeometry(1.2, 0.9);
+      const screenMaterial = new THREE.MeshBasicMaterial({
+        map: videoTexture,
+        transparent: true,
+        side: THREE.DoubleSide,
+      });
+      const screenMesh = new THREE.Mesh(screenGeometry, screenMaterial);
 
-    // Position screen slightly above ground
-    screenMesh.position.set(0, 1.5, 0);
-    screenMesh.rotation.x = -0.3; // Tilt slightly for better viewing
+      // Position screen slightly above ground
+      screenMesh.position.set(0, 1.5, 0);
+      screenMesh.rotation.x = -0.3; // Tilt slightly for better viewing
 
-    // Frame around the video (metallic border)
-    const frameGeometry = new THREE.PlaneGeometry(1.4, 1.1);
-    const frameMaterial = new THREE.MeshBasicMaterial({
-      color: 0xff6600,
-      transparent: true,
-      opacity: 0.8,
-    });
-    const frameMesh = new THREE.Mesh(frameGeometry, frameMaterial);
-    frameMesh.position.set(0, 1.5, -0.01); // Slightly behind screen
+      // Frame around the video (metallic border)
+      const frameGeometry = new THREE.PlaneGeometry(1.4, 1.1);
+      const frameMaterial = new THREE.MeshBasicMaterial({
+        color: 0xff6600,
+        transparent: true,
+        opacity: 0.8,
+      });
+      const frameMesh = new THREE.Mesh(frameGeometry, frameMaterial);
+      frameMesh.position.set(0, 1.5, -0.01); // Slightly behind screen
 
-    // User Name Label
-    const canvas = document.createElement("canvas");
-    const context = canvas.getContext("2d")!;
-    canvas.width = 256;
-    canvas.height = 64;
+      // User Name Label
+      const canvas = document.createElement("canvas");
+      const context = canvas.getContext("2d")!;
+      canvas.width = 256;
+      canvas.height = 64;
 
-    // Clear canvas
-    context.fillStyle = "rgba(0, 0, 0, 0.8)";
-    context.fillRect(0, 0, canvas.width, canvas.height);
+      // Clear canvas
+      context.fillStyle = "rgba(0, 0, 0, 0.8)";
+      context.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Text styling
-    context.fillStyle = "#ff6600";
-    context.font = "bold 20px Arial";
-    context.textAlign = "center";
-    context.textBaseline = "middle";
+      // Text styling
+      context.fillStyle = "#ff6600";
+      context.font = "bold 20px Arial";
+      context.textAlign = "center";
+      context.textBaseline = "middle";
 
-    // Draw user name
-    context.fillText(user.name, canvas.width / 2, canvas.height / 2);
+      // Draw user name
+      context.fillText(user.name, canvas.width / 2, canvas.height / 2);
 
-    const nameTexture = new THREE.CanvasTexture(canvas);
-    const nameGeometry = new THREE.PlaneGeometry(1.2, 0.3);
-    const nameMaterial = new THREE.MeshBasicMaterial({
-      map: nameTexture,
-      transparent: true,
-    });
-    const nameMesh = new THREE.Mesh(nameGeometry, nameMaterial);
-    nameMesh.position.set(0, 0.8, 0.01); // Below the video screen
+      const nameTexture = new THREE.CanvasTexture(canvas);
+      const nameGeometry = new THREE.PlaneGeometry(1.2, 0.3);
+      const nameMaterial = new THREE.MeshBasicMaterial({
+        map: nameTexture,
+        transparent: true,
+      });
+      const nameMesh = new THREE.Mesh(nameGeometry, nameMaterial);
+      nameMesh.position.set(0, 0.8, 0.01); // Below the video screen
 
-    // Glowing effect around the screen
-    const glowGeometry = new THREE.PlaneGeometry(1.6, 1.3);
-    const glowMaterial = new THREE.MeshBasicMaterial({
-      color: 0xff6600,
-      transparent: true,
-      opacity: 0.2,
-    });
-    const glowMesh = new THREE.Mesh(glowGeometry, glowMaterial);
-    glowMesh.position.set(0, 1.5, -0.02);
+      // Glowing effect around the screen
+      const glowGeometry = new THREE.PlaneGeometry(1.6, 1.3);
+      const glowMaterial = new THREE.MeshBasicMaterial({
+        color: 0xff6600,
+        transparent: true,
+        opacity: 0.2,
+      });
+      const glowMesh = new THREE.Mesh(glowGeometry, glowMaterial);
+      glowMesh.position.set(0, 1.5, -0.02);
 
-    // Add all components to group
-    group.add(screenMesh);
-    group.add(frameMesh);
-    group.add(nameMesh);
-    group.add(glowMesh);
+      // Add all components to group
+      group.add(screenMesh);
+      group.add(frameMesh);
+      group.add(nameMesh);
+      group.add(glowMesh);
 
-    // Position the entire group in stadium
-    group.position.set(user.position.x, user.position.y, user.position.z);
+      // Position the entire group in stadium
+      group.position.set(user.position.x, user.position.y, user.position.z);
 
-    // Make screen always face the camera (billboard effect)
-    group.lookAt(camera.position);
+      // Make screen always face the camera (billboard effect) - with null check
+      if (camera?.position) {
+        group.lookAt(camera.position);
+      }
 
-    return group;
-  };
+      return group;
+    },
+    [camera?.position]
+  );
 
   // 🔄 UPDATE WEBCAM DISPLAYS
   useEffect(() => {
     if (!scene) return;
 
-    webcamUsers.forEach((user) => {
+    webcamUsers.forEach(user => {
       if (!user.isActive) return;
 
       const existingTexture = videoTexturesRef.current.get(user.id);
@@ -141,9 +142,7 @@ export function StadiumWebcamDisplay({
 
     // Remove webcam displays for users who left
     videoMeshesRef.current.forEach((mesh, userId) => {
-      const userStillActive = webcamUsers.some(
-        (user) => user.id === userId && user.isActive
-      );
+      const userStillActive = webcamUsers.some(user => user.id === userId && user.isActive);
       if (!userStillActive) {
         scene.remove(mesh);
         videoMeshesRef.current.delete(userId);
@@ -155,20 +154,20 @@ export function StadiumWebcamDisplay({
         }
       }
     });
-  }, [webcamUsers, scene, camera]);
+  }, [camera, createVideoTexture, createWebcamMesh, scene, webcamUsers]);
 
   // 🎬 ANIMATION LOOP - Update video textures
   useEffect(() => {
     const animate = () => {
       // Update all video textures
-      videoTexturesRef.current.forEach((texture) => {
+      videoTexturesRef.current.forEach(texture => {
         if (texture.image && texture.image.videoWidth > 0) {
           texture.needsUpdate = true;
         }
       });
 
       // Make webcam screens gently float/bob
-      videoMeshesRef.current.forEach((mesh) => {
+      videoMeshesRef.current.forEach(mesh => {
         const time = Date.now() * 0.001;
         mesh.position.y += Math.sin(time + mesh.position.x) * 0.002;
         mesh.rotation.y = Math.sin(time * 0.5) * 0.1;
@@ -182,13 +181,15 @@ export function StadiumWebcamDisplay({
 
   // 🧹 CLEANUP
   useEffect(() => {
-    return () => {
-      // Clean up all video textures and meshes
-      videoTexturesRef.current.forEach((texture) => texture.dispose());
-      videoTexturesRef.current.clear();
+    const textures = videoTexturesRef.current;
+    const meshes = videoMeshesRef.current;
 
-      videoMeshesRef.current.forEach((mesh) => scene.remove(mesh));
-      videoMeshesRef.current.clear();
+    return () => {
+      textures.forEach(texture => texture.dispose());
+      textures.clear();
+
+      meshes.forEach(mesh => scene.remove(mesh));
+      meshes.clear();
     };
   }, [scene]);
 

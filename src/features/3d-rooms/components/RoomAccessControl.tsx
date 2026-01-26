@@ -4,7 +4,7 @@
 // Zentralisierte Zugangskontrolle für alle geschützten 3D-Räume
 
 import { useSession } from "next-auth/react";
-import { useState, useEffect, ReactNode } from "react";
+import { useState, useEffect, useCallback, ReactNode } from "react";
 import { UserRole, TicketType } from "@prisma/client";
 import { calculateAccessRights } from "@/lib/access-control";
 
@@ -35,11 +35,7 @@ export function RoomAccessControl({
   const [accessData, setAccessData] = useState<UserAccessData | null>(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    checkAccess();
-  }, [session]);
-
-  const checkAccess = async () => {
+  const checkAccess = useCallback(async () => {
     if (status === "loading") return;
 
     try {
@@ -134,7 +130,11 @@ export function RoomAccessControl({
       });
       setLoading(false);
     }
-  };
+  }, [requiredAccess, roomDescription, roomName, session?.user?.email, status]);
+
+  useEffect(() => {
+    checkAccess();
+  }, [checkAccess]);
 
   // Loading State
   if (loading || status === "loading") {

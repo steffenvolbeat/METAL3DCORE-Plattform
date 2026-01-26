@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import { useState } from "react";
 import { useSession, signOut } from "next-auth/react";
 
@@ -26,9 +27,12 @@ export default function UserStatus({ onOpenAuth }: Props) {
           className="group flex items-center gap-10 backdrop-blur-md bg-theme-card/80 border-2 border-theme-primary/30 rounded-xl px-2 py-4 transition-all duration-300 hover:border-theme-accent hover:bg-theme-secondary/80 hover:scale-105 hover:shadow-xl"
         >
           {session.user?.image ? (
-            <img
+            <Image
               src={session.user.image}
               alt={session.user.name || "User"}
+              width={36}
+              height={36}
+              unoptimized
               className="w-9 h-9 rounded-full border-2 border-theme-accent ring-2 ring-theme-accent/30 group-hover:ring-4 transition-all duration-300 mt-4 mb-4 ml-4 mr-4"
             />
           ) : (

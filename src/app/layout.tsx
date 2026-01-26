@@ -1,3 +1,4 @@
+import Script from "next/script";
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import { SessionProvider } from "@/shared/components/providers";
@@ -30,11 +31,9 @@ export default function RootLayout({
   return (
     <html lang="de, en" suppressHydrationWarning>
       <head>
-        <script src="/suppress-extension-errors.js"></script>
+        <Script src="/suppress-extension-errors.js" strategy="afterInteractive" />
       </head>
-      <body
-        className={`${inter.variable} ${jetbrainsMono.variable} antialiased`}
-      >
+      <body className={`${inter.variable} ${jetbrainsMono.variable} antialiased`}>
         <SessionProvider>
           <Navigation />
           <main className="pb-16">{children}</main>

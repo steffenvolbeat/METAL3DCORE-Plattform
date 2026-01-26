@@ -6,10 +6,7 @@ import { Suspense, useCallback, useEffect, useState } from "react";
 
 // Import aller Features
 import AdvancedShaders from "./AdvancedShaders";
-import CinematicCamera, {
-  CinematicStarter,
-  CinematicUI,
-} from "./CinematicCamera";
+import CinematicCamera, { CinematicStarter, CinematicUI } from "./CinematicCamera";
 import CosmicEvents from "./CosmicEvents";
 import InteractiveControls, { ClickablePlanets } from "./InteractiveControls";
 import LiveDocumentation from "./LiveDocumentation";
@@ -19,18 +16,16 @@ import MobileOptimization, {
   useDeviceDetection,
 } from "./MobileOptimization";
 import RealisticSolarSystem from "./RealisticSolarSystem";
-import SettingsAndPerformance, {
-  CanvasPerformanceMonitor,
-} from "./SettingsAndPerformance";
+import SettingsAndPerformance, { CanvasPerformanceMonitor } from "./SettingsAndPerformance";
 import SpaceScene from "./SpaceScene";
 
 // Enhanced Space Scene mit FOTOREALISTISCHEM SONNENSYSTEM
-function EnhancedSpaceScene({ 
-  beatData, 
-  videoId, 
+function EnhancedSpaceScene({
+  beatData,
+  videoId,
   onBeatDetection,
-  isVideoStarted
-}: { 
+  isVideoStarted,
+}: {
   beatData: any;
   videoId?: string;
   onBeatDetection?: (beat: boolean, intensity: number) => void;
@@ -41,8 +36,8 @@ function EnhancedSpaceScene({
   return (
     <group>
       {/* FOTOREALISTISCHES SONNENSYSTEM mit echten Planeten und Umlaufbahnen */}
-      <RealisticSolarSystem 
-        beatData={beatData} 
+      <RealisticSolarSystem
+        beatData={beatData}
         videoId={videoId}
         onBeatDetection={onBeatDetection}
         isVideoStarted={isVideoStarted}
@@ -59,9 +54,7 @@ function EnhancedSpaceScene({
 
       {/* Clickable Planets - jetzt realistisch! */}
       <ClickablePlanets
-        onPlanetClick={(planetId) =>
-          console.log(`Realistic Planet clicked: ${planetId}`)
-        }
+        onPlanetClick={planetId => console.log(`Realistic Planet clicked: ${planetId}`)}
         beatData={beatData}
       />
     </group>
@@ -79,9 +72,7 @@ export default function IntroPage({ onComplete }: { onComplete: () => void }) {
   const [showWelcome, setShowWelcome] = useState(false);
   const [cinematicMode, setCinematicMode] = useState(false);
   const [interactiveMode, setInteractiveMode] = useState(false);
-  const [performanceLevel, setPerformanceLevel] = useState<
-    "high" | "medium" | "low"
-  >("high");
+  const [performanceLevel, setPerformanceLevel] = useState<"high" | "medium" | "low">("high");
 
   const adaptiveParticleCount = useAdaptiveParticleCount();
   const deviceInfo = useDeviceDetection();
@@ -97,12 +88,9 @@ export default function IntroPage({ onComplete }: { onComplete: () => void }) {
     setVideoDuration(duration);
   }, []);
 
-  const handleBeatDetection = useCallback(
-    (beat: boolean, intensity: number, frequencies?: number[]) => {
-      setBeatData({ beat, intensity, frequencies });
-    },
-    []
-  );
+  const handleBeatDetection = useCallback((beat: boolean, intensity: number, frequencies?: number[]) => {
+    setBeatData({ beat, intensity, frequencies });
+  }, []);
 
   const handleVideoEnd = useCallback(() => {
     console.log("🎬 Video beendet - Welcome Screen wird gezeigt!");
@@ -121,7 +109,7 @@ export default function IntroPage({ onComplete }: { onComplete: () => void }) {
   }, []);
 
   const toggleInteractiveMode = () => {
-    setInteractiveMode((prev) => !prev);
+    setInteractiveMode(prev => !prev);
     if (cinematicMode) setCinematicMode(false);
   };
 
@@ -131,7 +119,7 @@ export default function IntroPage({ onComplete }: { onComplete: () => void }) {
       handleVideoReady();
     }, 2000);
     return () => clearTimeout(timer);
-  }, []);
+  }, [handleVideoReady]);
 
   return (
     <div className="fixed inset-0 bg-black overflow-hidden">
@@ -149,8 +137,7 @@ export default function IntroPage({ onComplete }: { onComplete: () => void }) {
             {/* Canvas Performance Monitor */}
             <CanvasPerformanceMonitor />
             {/* REALISTISCHES WELTALL - NUR SONNE ALS LICHTQUELLE! */}
-            <ambientLight intensity={0.05} />{" "}
-            {/* Fast keine Umgebungsbeleuchtung */}
+            <ambientLight intensity={0.05} /> {/* Fast keine Umgebungsbeleuchtung */}
             {/* Kein zusätzliches pointLight - nur Sonne beleuchtet! */}
             <Stars
               radius={500} // Riesiger Sternenhimmel!
@@ -161,21 +148,12 @@ export default function IntroPage({ onComplete }: { onComplete: () => void }) {
               fade={true}
               speed={0.2} // Etwas schneller
             />
-            <EnhancedSpaceScene 
-              beatData={beatData} 
-              videoId="2Y3cPb9VGOg"
-              onBeatDetection={handleBeatDetection}
-            />
+            <EnhancedSpaceScene beatData={beatData} videoId="2Y3cPb9VGOg" onBeatDetection={handleBeatDetection} />
             {/* Cinematic Camera System */}
             <CinematicCamera isActive={cinematicMode} beatData={beatData} />
             {/* Orbit Controls */}
             {!cinematicMode && !interactiveMode && (
-              <OrbitControls
-                enableZoom={false}
-                enablePan={false}
-                autoRotate
-                autoRotateSpeed={0.5}
-              />
+              <OrbitControls enableZoom={false} enablePan={false} autoRotate autoRotateSpeed={0.5} />
             )}
           </Suspense>
         </Canvas>
@@ -201,9 +179,7 @@ export default function IntroPage({ onComplete }: { onComplete: () => void }) {
         )}
 
         {/* Main Content Area - Vollständig für 3D Sonnensystem! */}
-        <div className="flex-1">
-          {/* YouTube Player ist jetzt 3D und im Sonnensystem integriert! */}
-        </div>
+        <div className="flex-1">{/* YouTube Player ist jetzt 3D und im Sonnensystem integriert! */}</div>
 
         {/* Welcome Transition */}
         {showWelcome && (
@@ -239,9 +215,7 @@ export default function IntroPage({ onComplete }: { onComplete: () => void }) {
       {/* Interactive Controls - AUßERHALB der Canvas! */}
       {interactiveMode && !cinematicMode && (
         <InteractiveControls
-          onPlanetClick={(planetId) =>
-            console.log(`Planet clicked: ${planetId}`)
-          }
+          onPlanetClick={planetId => console.log(`Planet clicked: ${planetId}`)}
           beatData={beatData}
         />
       )}
@@ -251,7 +225,7 @@ export default function IntroPage({ onComplete }: { onComplete: () => void }) {
       <CinematicUI />
       {/* Settings and Performance Panel */}
       <SettingsAndPerformance
-        onSettingsChange={(settings) => {
+        onSettingsChange={settings => {
           setPerformanceLevel(settings.shaderQuality);
           console.log("Settings updated:", settings);
         }}
