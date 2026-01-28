@@ -65,6 +65,9 @@
     "three-stdlib": "^2.36.1",
     "zod": "^4.1.12"
   },
+  "engines": {
+    "node": "24.13.0"
+  },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@rushstack/eslint-patch": "^1.15.0",
@@ -87,6 +90,6 @@
     "tailwindcss": "^4",
     "ts-node": "^10.9.2",
     "typescript": "^5",
-    "vercel": "^32.3.0"
+    "vercel": "^50.8.1"
   }
 }

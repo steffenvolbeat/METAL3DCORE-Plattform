@@ -908,7 +908,7 @@ function WebGLAvailabilityChecker({ children, fallback }: { children: React.Reac
 
   if (webglAvailable === null) {
     return (
-      <div className="w-full h-full bg-gradient-to-b from-gray-900 to-black rounded-lg flex items-center justify-center">
+      <div className="w-full h-full bg-linear-to-b from-gray-900 to-black rounded-lg flex items-center justify-center">
         <div className="text-center space-y-4">
           <div className="animate-spin w-8 h-8 border-2 border-orange-500 border-t-transparent rounded-full mx-auto"></div>
           <p className="text-gray-400">Initializing 3D Environment...</p>
@@ -932,8 +932,8 @@ function WebGLFallback({
     <div
       className={
         isFullscreen
-          ? "fixed inset-0 z-50 bg-gradient-to-b from-gray-900 to-black"
-          : "w-full h-64 sm:h-80 lg:h-96 bg-gradient-to-b from-gray-900 to-black rounded-lg overflow-hidden flex items-center justify-center"
+          ? "fixed inset-0 z-50 bg-linear-to-b from-gray-900 to-black"
+          : "w-full h-64 sm:h-80 lg:h-96 bg-linear-to-b from-gray-900 to-black rounded-lg overflow-hidden flex items-center justify-center"
       }
     >
       <div className="text-center space-y-6 p-8 max-w-md mx-auto">
@@ -1163,7 +1163,7 @@ export default function WelcomeStage({
               <div
                 data-testid="welcome-registration-panel"
                 style={{ zIndex: 1001, position: "relative" }}
-                className="bg-gradient-to-r from-orange-500 to-red-600 p-6 rounded-xl shadow-2xl text-center max-w-sm border-2 border-orange-400 backdrop-blur-md"
+                className="bg-linear-to-r from-orange-500 to-red-600 p-6 rounded-xl shadow-2xl text-center max-w-sm border-2 border-orange-400 backdrop-blur-md"
               >
                 <div className="mb-4">
                   <span className="text-4xl mb-2 block animate-bounce">🎸</span>
@@ -1230,7 +1230,7 @@ export default function WelcomeStage({
             <Html position={[25, 8, -15]} center distanceFactor={12} zIndexRange={[100, 0]}>
               <div
                 data-testid="welcome-user-panel"
-                className="bg-gradient-to-r from-green-600 to-blue-600 p-6 rounded-xl shadow-2xl text-center max-w-sm border-2 border-green-400 backdrop-blur-md"
+                className="bg-linear-to-r from-green-600 to-blue-600 p-6 rounded-xl shadow-2xl text-center max-w-sm border-2 border-green-400 backdrop-blur-md"
                 style={{ zIndex: 1002, position: "relative" }}
               >
                 <div className="mb-4">

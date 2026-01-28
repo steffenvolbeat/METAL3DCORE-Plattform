@@ -11,6 +11,17 @@ export function LiveWebcamIntegration({ isInStadium, onWebcamUsersUpdate }: Live
   const [stream, setStream] = useState<MediaStream | null>(null);
   const [autoTestResult, setAutoTestResult] = useState<string>("🔍 Testing...");
   const localVideoRef = useRef<HTMLVideoElement>(null);
+  const upsertWebcamUser = useCallback(
+    (newUser: WebcamUser) => {
+      setWebcamUsers(prev => {
+        const filtered = prev.filter(user => user.id !== newUser.id);
+        const updatedUsers = [...filtered, newUser];
+        onWebcamUsersUpdate(updatedUsers);
+        return updatedUsers;
+      });
+    },
+    [onWebcamUsersUpdate]
+  );
   // 🔧 BROWSER-SPEZIFISCHE REPARATUR-ANWEISUNGEN
   const showBrowserFixInstructions = () => {
     const isChrome = navigator.userAgent.includes("Chrome");
@@ -165,9 +176,7 @@ Versuchen Sie:
           isActive: true,
         };
 
-        const updatedUsers = [...webcamUsers, user];
-        setWebcamUsers(updatedUsers);
-        onWebcamUsersUpdate(updatedUsers);
+        upsertWebcamUser(user);
       }
     } catch (error: any) {
       console.warn("⚠️ Webcam access denied or unavailable:", error.message);
@@ -187,7 +196,7 @@ Versuchen Sie:
           setAutoTestResult("⚠️ Kamera-Aktivierung fehlgeschlagen");
       }
     }
-  }, [onWebcamUsersUpdate, session?.user, webcamUsers]);
+  }, [session?.user, upsertWebcamUser]);
 
   const performAutoWebcamTest = useCallback(async () => {
     try {
@@ -339,9 +348,7 @@ Versuchen Sie:
       isActive: true,
     };
 
-    const updatedUsers = [...webcamUsers, demoUser];
-    setWebcamUsers(updatedUsers);
-    onWebcamUsersUpdate(updatedUsers);
+    upsertWebcamUser(demoUser);
     setIsWebcamActive(true); // Set as active for demo
   };
 
