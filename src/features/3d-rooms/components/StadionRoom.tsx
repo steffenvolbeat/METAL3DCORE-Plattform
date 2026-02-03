@@ -277,7 +277,7 @@ function StadiumSeats({ onRoomChange }: { onRoomChange?: (room: string) => void 
       const exitWidth = 12;
 
       elements.push(
-        <group key={`exit-marker-${idx}`} position={[x, exitHeight / 2 + 1, z]} rotation={[0, exitAngle + Math.PI, 0]}>
+        <group key={`exit-marker-${idx}`} position={[x, exitHeight / 2 - 1, z]} rotation={[0, exitAngle + Math.PI, 0]}>
           {/* Leuchtender Ausgangs-Bogen - GRÖßER */}
           <Box args={[exitWidth, exitHeight, 0.5]}>
             <meshPhysicalMaterial
@@ -1446,7 +1446,8 @@ export default function StadionRoom({ onRoomChange, isFullscreen = false, onFull
   const rendererRef = useRef<THREE.WebGLRenderer>(null);
   const cameraRef = useRef<THREE.Camera>(null);
 
-  const liveEventUrl = "dQw4w9WgXcQ";
+  // Live-Event Video (YouTube ID extracted from full URL)
+  const liveEventUrl = "OzjJDUVCuKM";
 
   const handleControlMode = useCallback((mode: "fps" | "orbit") => {
     setControlMode(mode);
@@ -1487,7 +1488,7 @@ export default function StadionRoom({ onRoomChange, isFullscreen = false, onFull
         className={
           isFullscreen
             ? "fixed inset-0 z-50 bg-black"
-            : "w-full h-64 sm:h-80 lg:h-96 bg-black rounded-lg overflow-hidden shadow-2xl border border-gray-800"
+            : "relative w-full h-64 sm:h-80 lg:h-96 bg-black rounded-lg overflow-hidden shadow-2xl border border-gray-800"
         }
       >
         {/* CONTROL PANEL - 2D OVERLAY oben links */}
@@ -1651,7 +1652,7 @@ export default function StadionRoom({ onRoomChange, isFullscreen = false, onFull
             inputUrl={inputUrl}
             setInputUrl={setInputUrl}
           />
-          <StageLights />
+          <StageLights currentVideo={currentVideo} screenMode={screenMode} />
 
           {/* 🎥 LIVE WEBCAM DISPLAY - NEW FEATURE (non-intrusive) */}
           <StadiumWebcamDisplay

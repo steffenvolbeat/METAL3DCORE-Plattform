@@ -11,17 +11,12 @@ export function LiveWebcamIntegration({ isInStadium, onWebcamUsersUpdate }: Live
   const [stream, setStream] = useState<MediaStream | null>(null);
   const [autoTestResult, setAutoTestResult] = useState<string>("🔍 Testing...");
   const localVideoRef = useRef<HTMLVideoElement>(null);
-  const upsertWebcamUser = useCallback(
-    (newUser: WebcamUser) => {
-      setWebcamUsers(prev => {
-        const filtered = prev.filter(user => user.id !== newUser.id);
-        const updatedUsers = [...filtered, newUser];
-        onWebcamUsersUpdate(updatedUsers);
-        return updatedUsers;
-      });
-    },
-    [onWebcamUsersUpdate]
-  );
+  const upsertWebcamUser = useCallback((newUser: WebcamUser) => {
+    setWebcamUsers(prev => {
+      const filtered = prev.filter(user => user.id !== newUser.id);
+      return [...filtered, newUser];
+    });
+  }, []);
   // 🔧 BROWSER-SPEZIFISCHE REPARATUR-ANWEISUNGEN
   const showBrowserFixInstructions = () => {
     const isChrome = navigator.userAgent.includes("Chrome");
@@ -288,7 +283,6 @@ Versuchen Sie:
 
     const updatedUsers = webcamUsers.filter(user => user.id !== session?.user?.id);
     setWebcamUsers(updatedUsers);
-    onWebcamUsersUpdate(updatedUsers);
   };
 
   // 🏟️ GENERATE RANDOM STADIUM POSITION
@@ -333,10 +327,16 @@ Versuchen Sie:
       // Only add simulated users if no real users yet
       if (webcamUsers.length === 0) {
         setWebcamUsers(simulatedUsers);
-        onWebcamUsersUpdate(simulatedUsers);
       }
     }
   }, [isInStadium, onWebcamUsersUpdate, webcamUsers.length]);
+
+  // Notify parent when webcamUsers changes
+  useEffect(() => {
+    if (onWebcamUsersUpdate) {
+      onWebcamUsersUpdate(webcamUsers);
+    }
+  }, [onWebcamUsersUpdate, webcamUsers]);
 
   // 🎪 DEMO MODE - Join without webcam
   const joinDemoMode = () => {

@@ -103,12 +103,6 @@ export function StadiumWebcamDisplay({ webcamUsers, scene, camera, renderer }: S
     [camera]
   );
 
-  useEffect(() => {
-    if (!isReady) {
-      console.warn("StadiumWebcamDisplay: Missing essential Three.js objects");
-    }
-  }, [isReady]);
-
   // 🔄 UPDATE WEBCAM DISPLAYS
   useEffect(() => {
     if (!isReady || !scene || !camera || !renderer) return;
@@ -161,6 +155,8 @@ export function StadiumWebcamDisplay({ webcamUsers, scene, camera, renderer }: S
   useEffect(() => {
     if (!isReady) return;
 
+    let frameId: number;
+
     const animate = () => {
       // Update all video textures
       videoTexturesRef.current.forEach(texture => {
@@ -176,10 +172,14 @@ export function StadiumWebcamDisplay({ webcamUsers, scene, camera, renderer }: S
         mesh.rotation.y = Math.sin(time * 0.5) * 0.1;
       });
 
-      requestAnimationFrame(animate);
+      frameId = requestAnimationFrame(animate);
     };
 
     animate();
+
+    return () => {
+      if (frameId) cancelAnimationFrame(frameId);
+    };
   }, [isReady]);
 
   // 🧹 CLEANUP

@@ -43,3 +43,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# tatus 
+tatus
+
+# dev
+dev.log
+dev.pid
