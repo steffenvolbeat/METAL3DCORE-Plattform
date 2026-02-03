@@ -1487,12 +1487,12 @@ export default function StadionRoom({ onRoomChange, isFullscreen = false, onFull
       <div
         className={
           isFullscreen
-            ? "fixed inset-0 z-50 bg-black"
+            ? "fixed inset-0 z-50 bg-black relative"
             : "relative w-full h-64 sm:h-80 lg:h-96 bg-black rounded-lg overflow-hidden shadow-2xl border border-gray-800"
         }
       >
         {/* CONTROL PANEL - 2D OVERLAY oben links */}
-        <div className="absolute top-4 left-4 z-50 flex flex-col gap-3 max-w-md">
+        <div className="absolute top-4 left-4 z-[200] pointer-events-auto flex flex-col gap-3 max-w-md">
           {/* Haupt-Control-Buttons */}
           <div className="flex gap-3 bg-black/90 backdrop-blur-md p-3 rounded-xl border-2 border-white/20">
             <button
@@ -1626,6 +1626,7 @@ export default function StadionRoom({ onRoomChange, isFullscreen = false, onFull
             toneMappingExposure: 1.2,
           }}
           dpr={[1, 2]}
+          className="relative z-0"
           style={{
             background: "linear-gradient(to bottom, #000000, #0a0a0f, #050510)",
           }}
