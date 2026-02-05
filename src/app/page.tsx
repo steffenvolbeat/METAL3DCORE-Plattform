@@ -125,7 +125,7 @@ export default function Home() {
 
       {!isFullscreen && <NavigationSidebar activeRoom={activeRoom} onRoomChange={handleRoomChange} />}
 
-      <main className="relative z-10 pt-20 pb-24">
+      <main className="relative z-10 pt-10 sm:pt-16 lg:pt-20 pb-14 sm:pb-20 lg:pb-24">
         {!isFullscreen && (
           <div className="app-shell space-y-10">
             <section className="layout-grid two-column items-start">

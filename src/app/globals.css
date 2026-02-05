@@ -147,7 +147,7 @@ body {
 .app-shell {
   width: min(100%, var(--content-max-width));
   margin-inline: auto;
-  padding-inline: clamp(3rem, 8vw, 10rem);
+  padding-inline: clamp(0.75rem, 4vw, 6rem);
 }
 
 .content-grid {
@@ -193,9 +193,36 @@ body {
 .action-row {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--spacing-4);
+  gap: var(--spacing-3);
   align-items: center;
   justify-content: center;
+}
+
+@media (max-width: 640px) {
+  .layout-grid.two-column {
+    grid-template-columns: 1fr;
+  }
+
+  .section-card {
+    padding: 1.25rem;
+  }
+
+  .app-shell {
+    padding-inline: clamp(0.4rem, 3vw, 0.9rem);
+  }
+
+  .section-card {
+    padding: 1rem;
+  }
+
+  .stat-grid {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: var(--spacing-3);
+  }
+
+  .action-row {
+    gap: var(--spacing-2);
+  }
 }
 
 /* Container Spacing Fix */

@@ -56,8 +56,8 @@ const securityHeaders = [
     key: "Content-Security-Policy",
     value: [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.youtube.com https://s.ytimg.com", // Three.js + YouTube
-      "script-src-elem 'self' 'unsafe-eval' 'unsafe-inline' blob: https://www.youtube.com https://s.ytimg.com", // Workers + YouTube API
+      "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.youtube.com https://s.ytimg.com https://vercel.live https://*.vercel.live", // Three.js + YouTube + Vercel Live
+      "script-src-elem 'self' 'unsafe-eval' 'unsafe-inline' blob: https://www.youtube.com https://s.ytimg.com https://vercel.live https://*.vercel.live", // Workers + YouTube API + Vercel Live
       "worker-src 'self' blob:", // Troika Web Workers (Three.js text rendering)
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: blob: https: https://i.ytimg.com https://img.youtube.com", // YouTube thumbnails

@@ -33,13 +33,13 @@ export function Navigation() {
         data-cy="navigation"
         role="navigation"
       >
-        <div className="app-shell h-16 flex items-center justify-between">
+        <div className="app-shell h-9 sm:h-10 lg:h-14 flex items-center justify-between">
           <Link
             href="/"
             className="flex items-center gap-3 text-xl font-bold tracking-tight text-theme-primary"
             data-cy="home-link"
           >
-            <span className="h-10 w-10 rounded-2xl bg-gradient-to-br from-orange-500 to-pink-600 flex items-center justify-center text-2xl shadow-lg">
+            <span className="h-5 w-5 sm:h-6 sm:w-6 lg:h-9 lg:w-9 rounded-2xl bg-gradient-to-br from-orange-500 to-pink-600 flex items-center justify-center text-xs sm:text-sm lg:text-xl shadow-lg">
               🎸
             </span>
             <span className="hidden sm:block">Metal3DCore</span>
@@ -67,7 +67,7 @@ export function Navigation() {
           </div>
 
           <button
-            className="lg:hidden inline-flex h-11 w-11 items-center justify-center rounded-lg border border-theme-secondary text-theme-primary"
+            className="lg:hidden inline-flex h-7 w-7 items-center justify-center rounded-lg border border-theme-secondary text-theme-primary text-xs"
             onClick={() => setIsMobileOpen(prev => !prev)}
             aria-label="Navigation öffnen"
             aria-expanded={isMobileOpen}
@@ -79,8 +79,8 @@ export function Navigation() {
 
         {/* Mobile Drawer */}
         <div
-          className={`lg:hidden origin-top border-t border-theme-secondary bg-[#05070d]/95 backdrop-blur-xl transition-transform duration-300 ${
-            isMobileOpen ? "scale-y-100" : "scale-y-0"
+          className={`lg:hidden origin-top border-t border-theme-secondary bg-[#05070d]/95 backdrop-blur-xl transition-transform transition-[max-height] duration-300 overflow-hidden ${
+            isMobileOpen ? "scale-y-100 max-h-[70vh]" : "scale-y-0 max-h-0"
           }`}
           data-cy="mobile-navigation"
         >
@@ -114,7 +114,7 @@ export function Navigation() {
         </div>
       </nav>
       {/* Spacer ensures fixed nav never overlaps page content */}
-      <div className="h-20 lg:h-24" aria-hidden="true" />
+      <div className="h-10 sm:h-11 lg:h-18" aria-hidden="true" />
 
       {/* Auth Modal */}
       {authMode && <AuthModal isOpen={true} onClose={() => setAuthMode(null)} initialMode={authMode} />}

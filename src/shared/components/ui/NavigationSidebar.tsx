@@ -49,10 +49,7 @@ const rooms = [
   },
 ];
 
-export function NavigationSidebar({
-  activeRoom,
-  onRoomChange,
-}: NavigationSidebarProps) {
+export function NavigationSidebar({ activeRoom, onRoomChange }: NavigationSidebarProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -60,23 +57,19 @@ export function NavigationSidebar({
       {/* Hamburger Button - Fixed Left */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed left-6 top-24 z-50 bg-gradient-to-br from-orange-500 to-red-600 p-4 rounded-xl shadow-2xl hover:scale-110 transition-all duration-300 group"
+        className="fixed left-3 top-16 sm:left-4 sm:top-18 z-50 bg-gradient-to-br from-orange-500 to-red-600 p-3 rounded-lg shadow-2xl hover:scale-105 transition-all duration-300 group"
         aria-label="Navigation Menu"
       >
         <div className="flex flex-col gap-1.5">
           <span
-            className={`block w-6 h-0.5 bg-white transition-all duration-300 ${
-              isOpen ? "rotate-45 translate-y-2" : ""
+            className={`block w-5 h-0.5 bg-white transition-all duration-300 ${
+              isOpen ? "rotate-45 translate-y-1.5" : ""
             }`}
           ></span>
+          <span className={`block w-5 h-0.5 bg-white transition-all duration-300 ${isOpen ? "opacity-0" : ""}`}></span>
           <span
-            className={`block w-6 h-0.5 bg-white transition-all duration-300 ${
-              isOpen ? "opacity-0" : ""
-            }`}
-          ></span>
-          <span
-            className={`block w-6 h-0.5 bg-white transition-all duration-300 ${
-              isOpen ? "-rotate-45 -translate-y-2" : ""
+            className={`block w-5 h-0.5 bg-white transition-all duration-300 ${
+              isOpen ? "-rotate-45 -translate-y-1.5" : ""
             }`}
           ></span>
         </div>
@@ -115,7 +108,7 @@ export function NavigationSidebar({
 
           {/* Room List */}
           <div className="flex-1 overflow-y-auto flex flex-col gap-6 py-2">
-            {rooms.map((room) => (
+            {rooms.map(room => (
               <button
                 key={room.id}
                 onClick={() => {
@@ -129,9 +122,7 @@ export function NavigationSidebar({
                 }`}
               >
                 <div className="flex items-center justify-start gap-4">
-                  <span className="text-3xl group-hover:scale-110 transition-transform flex-shrink-0">
-                    {room.icon}
-                  </span>
+                  <span className="text-3xl group-hover:scale-110 transition-transform flex-shrink-0">{room.icon}</span>
                   <div className="flex-1 min-w-0">
                     <div className="font-semibold text-white group-hover:text-orange-500 transition-colors flex items-center">
                       {room.name}
@@ -155,9 +146,7 @@ export function NavigationSidebar({
 
           {/* Footer */}
           <div className="mt-6 pt-6 border-t border-gray-800">
-            <p className="text-xs text-gray-500 text-center">
-              Use WASD to move • Mouse to look around
-            </p>
+            <p className="text-xs text-gray-500 text-center">Use WASD to move • Mouse to look around</p>
           </div>
         </div>
       </div>

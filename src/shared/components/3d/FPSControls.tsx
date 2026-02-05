@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { useThree, useFrame } from "@react-three/fiber";
 import { Vector3 } from "three";
 import * as THREE from "three";
@@ -38,6 +38,7 @@ export default function FPSControls({
     space: false,
     shift: false,
   });
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
 
   // Mouse look variables
   const euler = useRef(new THREE.Euler(0, 0, 0, "YXZ"));
@@ -46,7 +47,13 @@ export default function FPSControls({
   const POINTER_LOCK_COOLDOWN = 1000; // 1 second cooldown between requests
 
   useEffect(() => {
-    if (!enabled) return;
+    const touch = typeof window !== "undefined" && ("ontouchstart" in window || navigator.maxTouchPoints > 0);
+    setIsTouchDevice(!!touch);
+  }, []);
+
+  useEffect(() => {
+    // Skip pointer-lock lifecycle on touch devices
+    if (!enabled || isTouchDevice) return;
 
     const handleKeyDown = (event: KeyboardEvent) => {
       // 🚨 CRITICAL: Prüfe ob Input-Felder aktiv sind
@@ -217,10 +224,10 @@ export default function FPSControls({
       gl.domElement.removeEventListener("click", handleClick);
       document.removeEventListener("mousemove", handleMouseMove);
     };
-  }, [PI_2, camera, gl.domElement, lookSpeed, enabled, disableOnInput]);
+  }, [PI_2, camera, gl.domElement, lookSpeed, enabled, disableOnInput, isTouchDevice]);
 
   useFrame((state, delta) => {
-    if (!enabled || !camera) return;
+    if (!enabled || !camera || isTouchDevice) return;
 
     // 🛡️ ZUSÄTZLICHER SCHUTZ: Prüfe nochmals auf Input-Focus in useFrame
     const activeElement = document.activeElement;

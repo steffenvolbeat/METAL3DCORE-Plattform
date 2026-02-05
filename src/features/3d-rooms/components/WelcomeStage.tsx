@@ -990,6 +990,7 @@ export default function WelcomeStage({
   onFullscreen,
 }: WelcomeStageProps) {
   const [controlMode, setControlMode] = useState<"fps" | "orbit">("fps");
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
   const { data: session } = useSession();
 
   // Auth Modal State - now handled internally
@@ -1006,6 +1007,12 @@ export default function WelcomeStage({
     setAuthModal({ isOpen: false, mode: authModal.mode });
   };
 
+  useEffect(() => {
+    const touch = typeof window !== "undefined" && ("ontouchstart" in window || navigator.maxTouchPoints > 0);
+    setIsTouchDevice(!!touch);
+    if (touch) setControlMode("orbit");
+  }, []);
+
   // Debug: Log ob onOpenAuth korrekt übergeben wurde
   console.log("WelcomeStage Props:", {
     onRoomChange: !!onRoomChange,
@@ -1019,13 +1026,14 @@ export default function WelcomeStage({
         className={
           isFullscreen
             ? "fixed inset-0 z-50 bg-black"
-            : "w-full h-64 sm:h-80 lg:h-96 bg-black rounded-lg overflow-hidden"
+            : "relative w-full max-w-6xl mx-auto aspect-video max-h-[80vh] bg-black rounded-lg overflow-hidden"
         }
+        style={isFullscreen ? undefined : { minHeight: "360px" }}
       >
         <Canvas
           shadows
           camera={{ position: [0, 2, 5], fov: 75 }}
-          style={{ background: "linear-gradient(to bottom, #0a0a0a, #1a1a1a)" }}
+          style={{ background: "linear-gradient(to bottom, #0a0a0a, #1a1a1a)", touchAction: "none" }}
           onCreated={state => {
             // Zusätzliche WebGL Verfügbarkeitsprüfung nach Canvas-Erstellung
             console.log("Canvas created successfully with WebGL context");
@@ -1037,7 +1045,7 @@ export default function WelcomeStage({
           <HallenstadionLighting />
 
           {/* Bewegungssteuerung */}
-          {controlMode === "fps" ? (
+          {!isTouchDevice && controlMode === "fps" ? (
             <FPSControls
               movementSpeed={12}
               lookSpeed={0.002}
