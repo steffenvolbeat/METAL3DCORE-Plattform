@@ -883,52 +883,26 @@ function HallenstadionLighting() {
 
 // WebGL Availability Check Component
 function WebGLAvailabilityChecker({ children, fallback }: { children: React.ReactNode; fallback: React.ReactNode }) {
-  const [webglAvailable, setWebglAvailable] = useState<boolean | null>(null);
+  const [webglAvailable, setWebglAvailable] = useState<boolean>(true);
 
   useEffect(() => {
-    // Check WebGL availability (more permissive for iOS Safari)
-    const checkWebGL = () => {
-      try {
-        const canvas = document.createElement("canvas");
-        const gl =
-          canvas.getContext("webgl2", { antialias: false }) ||
-          canvas.getContext("webgl", { antialias: false }) ||
-          canvas.getContext("experimental-webgl", { antialias: false });
+    // Check WebGL availability (permissive for iOS Safari)
+    try {
+      const canvas = document.createElement("canvas");
+      const gl =
+        canvas.getContext("webgl2", { antialias: false }) ||
+        canvas.getContext("webgl", { antialias: false }) ||
+        canvas.getContext("experimental-webgl", { antialias: false });
 
-        if (gl && gl instanceof WebGLRenderingContext) {
-          // Minimal sanity check
-          const buffer = gl.createBuffer();
-          if (!buffer) {
-            setWebglAvailable(false);
-            return;
-          }
-          gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-          gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([1, 2, 3]), gl.STATIC_DRAW);
-          gl.deleteBuffer(buffer);
-          setWebglAvailable(true);
-        } else {
-          console.warn("WebGL not available - using fallback");
-          setWebglAvailable(false);
-        }
-      } catch (e) {
-        console.warn("WebGL check failed:", e);
+      if (!gl) {
+        console.warn("WebGL not available - using fallback");
         setWebglAvailable(false);
       }
-    };
-
-    checkWebGL();
+    } catch (e) {
+      console.warn("WebGL check failed:", e);
+      setWebglAvailable(false);
+    }
   }, []);
-
-  if (webglAvailable === null) {
-    return (
-      <div className="w-full h-full bg-linear-to-b from-gray-900 to-black rounded-lg flex items-center justify-center">
-        <div className="text-center space-y-4">
-          <div className="animate-spin w-8 h-8 border-2 border-orange-500 border-t-transparent rounded-full mx-auto"></div>
-          <p className="text-gray-400">Initializing 3D Environment...</p>
-        </div>
-      </div>
-    );
-  }
 
   return webglAvailable ? <>{children}</> : <>{fallback}</>;
 }

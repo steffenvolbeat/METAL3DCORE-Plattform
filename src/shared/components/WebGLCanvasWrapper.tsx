@@ -14,70 +14,31 @@ interface WebGLCanvasWrapperProps {
 
 // WebGL Availability Check Component
 function WebGLAvailabilityChecker({ children, fallback }: { children: React.ReactNode; fallback: React.ReactNode }) {
-  const [webglAvailable, setWebglAvailable] = useState<boolean | null>(null);
+  const [webglAvailable, setWebglAvailable] = useState<boolean>(true);
 
   useEffect(() => {
-    const checkWebGL = () => {
-      try {
-        if (typeof WebGLRenderingContext === "undefined") {
-          console.warn("WebGLRenderingContext not available");
-          setWebglAvailable(false);
-          return;
-        }
+    try {
+      if (typeof WebGLRenderingContext === "undefined") {
+        console.warn("WebGLRenderingContext not available");
+        setWebglAvailable(false);
+        return;
+      }
 
-        const canvas = document.createElement("canvas");
+      const canvas = document.createElement("canvas");
+      const gl =
+        canvas.getContext("webgl2", { antialias: false }) ||
+        canvas.getContext("webgl", { antialias: false }) ||
+        canvas.getContext("experimental-webgl", { antialias: false });
 
-        // Try common contexts in order without failIfMajorPerformanceCaveat (iOS Safari often rejects with it)
-        const gl =
-          canvas.getContext("webgl2", { antialias: false }) ||
-          canvas.getContext("webgl", { antialias: false }) ||
-          canvas.getContext("experimental-webgl", { antialias: false });
-
-        if (!gl || !(gl instanceof WebGLRenderingContext)) {
-          console.warn("WebGL context could not be created - using fallback");
-          setWebglAvailable(false);
-          return;
-        }
-
-        // Basic sanity check only (avoid over-aggressive vendor filtering on mobile Safari)
-        const buffer = gl.createBuffer();
-        if (!buffer) {
-          console.warn("WebGL basic functionality test failed - using fallback");
-          setWebglAvailable(false);
-          return;
-        }
-
-        gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([1, 2, 3, 4]), gl.STATIC_DRAW);
-
-        const error = gl.getError();
-        if (error !== gl.NO_ERROR) {
-          console.warn("WebGL error during buffer test:", error);
-          setWebglAvailable(false);
-          return;
-        }
-
-        gl.deleteBuffer(buffer);
-        setWebglAvailable(true);
-      } catch (e) {
-        console.warn("WebGL check failed with error:", e);
+      if (!gl) {
+        console.warn("WebGL context could not be created - using fallback");
         setWebglAvailable(false);
       }
-    };
-
-    checkWebGL();
+    } catch (e) {
+      console.warn("WebGL check failed with error:", e);
+      setWebglAvailable(false);
+    }
   }, []);
-
-  if (webglAvailable === null) {
-    return (
-      <div className="w-full h-full bg-gradient-to-b from-gray-900 to-black rounded-lg flex items-center justify-center">
-        <div className="text-center space-y-4">
-          <div className="animate-spin w-8 h-8 border-2 border-orange-500 border-t-transparent rounded-full mx-auto"></div>
-          <p className="text-gray-400">Initializing 3D Environment...</p>
-        </div>
-      </div>
-    );
-  }
 
   return webglAvailable ? <>{children}</> : <>{fallback}</>;
 }
