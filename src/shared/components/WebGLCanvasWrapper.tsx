@@ -19,7 +19,6 @@ function WebGLAvailabilityChecker({ children, fallback }: { children: React.Reac
   useEffect(() => {
     const checkWebGL = () => {
       try {
-        // Check if WebGL is available at all
         if (typeof WebGLRenderingContext === "undefined") {
           console.warn("WebGLRenderingContext not available");
           setWebglAvailable(false);
@@ -28,16 +27,11 @@ function WebGLAvailabilityChecker({ children, fallback }: { children: React.Reac
 
         const canvas = document.createElement("canvas");
 
-        // Try to get WebGL context with fail-fast options
+        // Try common contexts in order without failIfMajorPerformanceCaveat (iOS Safari often rejects with it)
         const gl =
-          canvas.getContext("webgl", {
-            failIfMajorPerformanceCaveat: true,
-            antialias: false,
-          }) ||
-          canvas.getContext("experimental-webgl", {
-            failIfMajorPerformanceCaveat: true,
-            antialias: false,
-          });
+          canvas.getContext("webgl2", { antialias: false }) ||
+          canvas.getContext("webgl", { antialias: false }) ||
+          canvas.getContext("experimental-webgl", { antialias: false });
 
         if (!gl || !(gl instanceof WebGLRenderingContext)) {
           console.warn("WebGL context could not be created - using fallback");
@@ -45,30 +39,7 @@ function WebGLAvailabilityChecker({ children, fallback }: { children: React.Reac
           return;
         }
 
-        // Additional WebGL capability checks
-        const vendor = gl.getParameter(gl.VENDOR) || "";
-        const renderer = gl.getParameter(gl.RENDERER) || "";
-
-        console.log("WebGL Info:", { vendor, renderer });
-
-        // Check for disabled WebGL (common signs of WebGL being disabled)
-        if (
-          vendor.includes("Disabled") ||
-          renderer.includes("Disabled") ||
-          vendor === "0xffff" ||
-          renderer === "0xffff" ||
-          vendor.toLowerCase().includes("software") ||
-          renderer.toLowerCase().includes("software") ||
-          renderer.toLowerCase().includes("swiftshader") ||
-          vendor === "" ||
-          renderer === ""
-        ) {
-          console.warn("WebGL is disabled, software-only, or unavailable - using fallback");
-          setWebglAvailable(false);
-          return;
-        }
-
-        // Test basic WebGL functionality
+        // Basic sanity check only (avoid over-aggressive vendor filtering on mobile Safari)
         const buffer = gl.createBuffer();
         if (!buffer) {
           console.warn("WebGL basic functionality test failed - using fallback");
@@ -76,11 +47,9 @@ function WebGLAvailabilityChecker({ children, fallback }: { children: React.Reac
           return;
         }
 
-        // Test buffer operations
         gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([1, 2, 3, 4]), gl.STATIC_DRAW);
 
-        // Check for errors
         const error = gl.getError();
         if (error !== gl.NO_ERROR) {
           console.warn("WebGL error during buffer test:", error);
@@ -88,34 +57,7 @@ function WebGLAvailabilityChecker({ children, fallback }: { children: React.Reac
           return;
         }
 
-        // Try shader compilation test
-        const vertexShader = gl.createShader(gl.VERTEX_SHADER);
-        if (!vertexShader) {
-          console.warn("Could not create vertex shader");
-          setWebglAvailable(false);
-          return;
-        }
-
-        gl.shaderSource(vertexShader, "attribute vec4 a_position; void main() { gl_Position = a_position; }");
-        gl.compileShader(vertexShader);
-
-        if (!gl.getShaderParameter(vertexShader, gl.COMPILE_STATUS)) {
-          console.warn("Shader compilation failed");
-          setWebglAvailable(false);
-          return;
-        }
-
-        // Clean up test resources
-        gl.deleteShader(vertexShader);
         gl.deleteBuffer(buffer);
-
-        // Lose context to free resources
-        const loseContext = gl.getExtension("WEBGL_lose_context");
-        if (loseContext) {
-          loseContext.loseContext();
-        }
-
-        console.log("WebGL is available and functional");
         setWebglAvailable(true);
       } catch (e) {
         console.warn("WebGL check failed with error:", e);

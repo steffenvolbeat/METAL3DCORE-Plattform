@@ -886,12 +886,25 @@ function WebGLAvailabilityChecker({ children, fallback }: { children: React.Reac
   const [webglAvailable, setWebglAvailable] = useState<boolean | null>(null);
 
   useEffect(() => {
-    // Check WebGL availability
+    // Check WebGL availability (more permissive for iOS Safari)
     const checkWebGL = () => {
       try {
         const canvas = document.createElement("canvas");
-        const gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
+        const gl =
+          canvas.getContext("webgl2", { antialias: false }) ||
+          canvas.getContext("webgl", { antialias: false }) ||
+          canvas.getContext("experimental-webgl", { antialias: false });
+
         if (gl && gl instanceof WebGLRenderingContext) {
+          // Minimal sanity check
+          const buffer = gl.createBuffer();
+          if (!buffer) {
+            setWebglAvailable(false);
+            return;
+          }
+          gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+          gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([1, 2, 3]), gl.STATIC_DRAW);
+          gl.deleteBuffer(buffer);
           setWebglAvailable(true);
         } else {
           console.warn("WebGL not available - using fallback");
