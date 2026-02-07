@@ -28,6 +28,8 @@ import StageLights from "./stadium/StageLights";
 import { LiveWebcamIntegration } from "./LiveWebcamIntegration";
 import { StadiumWebcamDisplay } from "./StadiumWebcamDisplay";
 import { RoomAccessControl } from "./RoomAccessControl";
+import { id } from "zod/v4/locales";
+import { title } from "process";
 
 // HALLENSTADION ZÜRICH - Fotorealistische Struktur
 function StadiumStructure({
@@ -599,6 +601,7 @@ function GiantScreenYouTubePlayer({
 }) {
   // Beliebte Metal Konzert Videos
   const presetVideos = [
+    { id: "hTWKbfoikeg", title: "Nirvana - Smells Like Teen Spirit" },
     { id: "CD-E-LDc384", title: "Metallica - Master of Puppets" },
     { id: "X4bgXH3sJ2Q", title: "Iron Maiden - Fear of the Dark" },
     { id: "StZcUAPRRac", title: "Rammstein - Engel" },
@@ -641,15 +644,17 @@ function GiantScreenYouTubePlayer({
       <div className="relative w-full h-full bg-black rounded-lg overflow-hidden shadow-2xl">
         {/* SCREEN CONTENT - YouTube oder Live Event */}
         <iframe
+          key={currentVideo}
           width="100%"
           height="100%"
-          src={`https://www.youtube.com/embed/${currentVideo}?autoplay=${
+          src={`https://www.youtube-nocookie.com/embed/${currentVideo}?autoplay=${
             screenMode === "live" ? 1 : 0
-          }&modestbranding=1&rel=0&showinfo=0`}
+          }&modestbranding=1&rel=0&showinfo=0&playsinline=1`}
           title="Stadium Giant Screen"
           frameBorder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowFullScreen
+          referrerPolicy="origin-when-cross-origin"
           className="w-full h-full"
         />
 
@@ -1447,7 +1452,8 @@ export default function StadionRoom({ onRoomChange, isFullscreen = false, onFull
   const cameraRef = useRef<THREE.Camera>(null);
 
   // Live-Event Video (YouTube ID extracted from full URL)
-  const liveEventUrl = "OzjJDUVCuKM";
+  // Live event YouTube ID (new): https://www.youtube.com/watch?v=YCkwXJLz4pM
+  const liveEventUrl = "YCkwXJLz4pM";
 
   const handleControlMode = useCallback((mode: "fps" | "orbit") => {
     setControlMode(mode);
