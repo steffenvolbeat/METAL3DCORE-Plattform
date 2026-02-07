@@ -158,17 +158,13 @@ export default function PaymentOptions({
       case "debit_card":
         return (
           <div className="mt-4 p-4 bg-gray-700/30 rounded-lg space-y-3">
-            <h4 className="text-white font-semibold mb-3">
-              💳 Kartendaten eingeben:
-            </h4>
+            <h4 className="text-white font-semibold mb-3">💳 Kartendaten eingeben:</h4>
             <div className="grid grid-cols-1 gap-3">
               <input
                 type="text"
                 placeholder="Kartennummer (1234 5678 9012 3456)"
                 value={paymentData.cardNumber}
-                onChange={(e) =>
-                  setPaymentData({ ...paymentData, cardNumber: e.target.value })
-                }
+                onChange={e => setPaymentData({ ...paymentData, cardNumber: e.target.value })}
                 className="w-full p-3 bg-gray-800 text-white rounded border border-gray-600 focus:border-blue-500 focus:outline-none"
                 maxLength={19}
               />
@@ -176,9 +172,7 @@ export default function PaymentOptions({
                 type="text"
                 placeholder="Karteninhaber (Name auf der Karte)"
                 value={paymentData.cardName}
-                onChange={(e) =>
-                  setPaymentData({ ...paymentData, cardName: e.target.value })
-                }
+                onChange={e => setPaymentData({ ...paymentData, cardName: e.target.value })}
                 className="w-full p-3 bg-gray-800 text-white rounded border border-gray-600 focus:border-blue-500 focus:outline-none"
               />
               <div className="grid grid-cols-2 gap-3">
@@ -186,7 +180,7 @@ export default function PaymentOptions({
                   type="text"
                   placeholder="MM/YY"
                   value={paymentData.expiryDate}
-                  onChange={(e) =>
+                  onChange={e =>
                     setPaymentData({
                       ...paymentData,
                       expiryDate: e.target.value,
@@ -199,9 +193,7 @@ export default function PaymentOptions({
                   type="text"
                   placeholder="CVV"
                   value={paymentData.cvv}
-                  onChange={(e) =>
-                    setPaymentData({ ...paymentData, cvv: e.target.value })
-                  }
+                  onChange={e => setPaymentData({ ...paymentData, cvv: e.target.value })}
                   className="w-full p-3 bg-gray-800 text-white rounded border border-gray-600 focus:border-blue-500 focus:outline-none"
                   maxLength={4}
                 />
@@ -216,33 +208,27 @@ export default function PaymentOptions({
       case "sepa":
         return (
           <div className="mt-4 p-4 bg-gray-700/30 rounded-lg space-y-3">
-            <h4 className="text-white font-semibold mb-3">
-              🏪 SEPA-Lastschrift Bankdaten:
-            </h4>
+            <h4 className="text-white font-semibold mb-3">🏪 SEPA-Lastschrift Bankdaten:</h4>
             <div className="grid grid-cols-1 gap-3">
               <input
                 type="text"
                 placeholder="IBAN (CH12 3456 7890 1234 5678 9)"
                 value={paymentData.iban}
-                onChange={(e) =>
-                  setPaymentData({ ...paymentData, iban: e.target.value })
-                }
+                onChange={e => setPaymentData({ ...paymentData, iban: e.target.value })}
                 className="w-full p-3 bg-gray-800 text-white rounded border border-gray-600 focus:border-blue-500 focus:outline-none"
               />
               <input
                 type="text"
                 placeholder="BIC / SWIFT-Code"
                 value={paymentData.bic}
-                onChange={(e) =>
-                  setPaymentData({ ...paymentData, bic: e.target.value })
-                }
+                onChange={e => setPaymentData({ ...paymentData, bic: e.target.value })}
                 className="w-full p-3 bg-gray-800 text-white rounded border border-gray-600 focus:border-blue-500 focus:outline-none"
               />
               <input
                 type="text"
                 placeholder="Kontoinhaber (Vollständiger Name)"
                 value={paymentData.accountHolder}
-                onChange={(e) =>
+                onChange={e =>
                   setPaymentData({
                     ...paymentData,
                     accountHolder: e.target.value,
@@ -266,7 +252,7 @@ export default function PaymentOptions({
                 type="email"
                 placeholder="PayPal E-Mail-Adresse"
                 value={paymentData.paypalEmail}
-                onChange={(e) =>
+                onChange={e =>
                   setPaymentData({
                     ...paymentData,
                     paypalEmail: e.target.value,
@@ -284,15 +270,13 @@ export default function PaymentOptions({
       case "twint":
         return (
           <div className="mt-4 p-4 bg-gray-700/30 rounded-lg space-y-3">
-            <h4 className="text-white font-semibold mb-3">
-              🇨🇭 TWINT Mobilnummer:
-            </h4>
+            <h4 className="text-white font-semibold mb-3">🇨🇭 TWINT Mobilnummer:</h4>
             <div className="grid grid-cols-1 gap-3">
               <input
                 type="tel"
                 placeholder="+41 79 123 45 67"
                 value={paymentData.phoneNumber}
-                onChange={(e) =>
+                onChange={e =>
                   setPaymentData({
                     ...paymentData,
                     phoneNumber: e.target.value,
@@ -310,15 +294,13 @@ export default function PaymentOptions({
       case "voucher":
         return (
           <div className="mt-4 p-4 bg-gray-700/30 rounded-lg space-y-3">
-            <h4 className="text-white font-semibold mb-3">
-              🎫 Gutschein einlösen:
-            </h4>
+            <h4 className="text-white font-semibold mb-3">🎫 Gutschein einlösen:</h4>
             <div className="grid grid-cols-1 gap-3">
               <input
                 type="text"
                 placeholder="Gutschein-Code (z.B. METAL2025)"
                 value={paymentData.voucherCode}
-                onChange={(e) =>
+                onChange={e =>
                   setPaymentData({
                     ...paymentData,
                     voucherCode: e.target.value.toUpperCase(),
@@ -336,15 +318,13 @@ export default function PaymentOptions({
       case "invoice":
         return (
           <div className="mt-4 p-4 bg-gray-700/30 rounded-lg space-y-3">
-            <h4 className="text-white font-semibold mb-3">
-              📄 Rechnungsadresse:
-            </h4>
+            <h4 className="text-white font-semibold mb-3">📄 Rechnungsadresse:</h4>
             <div className="grid grid-cols-1 gap-3">
               <input
                 type="text"
                 placeholder="Firma (Optional)"
                 value={paymentData.companyName}
-                onChange={(e) =>
+                onChange={e =>
                   setPaymentData({
                     ...paymentData,
                     companyName: e.target.value,
@@ -356,9 +336,7 @@ export default function PaymentOptions({
                 type="text"
                 placeholder="Umsatzsteuer-ID (Optional)"
                 value={paymentData.taxNumber}
-                onChange={(e) =>
-                  setPaymentData({ ...paymentData, taxNumber: e.target.value })
-                }
+                onChange={e => setPaymentData({ ...paymentData, taxNumber: e.target.value })}
                 className="w-full p-3 bg-gray-800 text-white rounded border border-gray-600 focus:border-blue-500 focus:outline-none"
               />
             </div>
@@ -376,16 +354,12 @@ export default function PaymentOptions({
   return (
     <div className="space-y-4">
       <div className="text-center bg-gray-800/50 p-4 rounded-lg">
-        <h3 className="text-green-400 font-bold text-xl mb-2">
-          💳 Zahlungsart auswählen
-        </h3>
-        <div className="text-2xl text-white font-bold">
-          Gesamtbetrag: {formatAmount(totalAmount)}
-        </div>
+        <h3 className="text-green-400 font-bold text-xl mb-2">💳 Zahlungsart auswählen</h3>
+        <div className="text-2xl text-white font-bold">Gesamtbetrag: {formatAmount(totalAmount)}</div>
       </div>
 
       <div className="space-y-2 max-h-96 overflow-y-auto">
-        {PAYMENT_METHODS.map((method) => (
+        {PAYMENT_METHODS.map(method => (
           <div
             key={method.id}
             className={`
@@ -404,18 +378,10 @@ export default function PaymentOptions({
               <div className="flex items-center space-x-3">
                 <span className="text-2xl">{method.icon}</span>
                 <div className="text-left">
-                  <div
-                    className={`font-semibold ${
-                      method.available ? "text-white" : "text-gray-500"
-                    }`}
-                  >
+                  <div className={`font-semibold ${method.available ? "text-white" : "text-gray-500"}`}>
                     {method.name}
                   </div>
-                  <div
-                    className={`text-sm ${
-                      method.available ? "text-gray-300" : "text-gray-600"
-                    }`}
-                  >
+                  <div className={`text-sm ${method.available ? "text-gray-300" : "text-gray-600"}`}>
                     {method.description}
                   </div>
                 </div>
@@ -425,22 +391,14 @@ export default function PaymentOptions({
                 {method.available && (
                   <div className="text-right">
                     <div className="text-green-400 text-sm font-medium">
-                      {method.fees === 0
-                        ? "Gebührenfrei"
-                        : `+${currency} ${method.fees?.toFixed(2)}`}
+                      {method.fees === 0 ? "Gebührenfrei" : `+${currency} ${method.fees?.toFixed(2)}`}
                     </div>
-                    <div className="text-xs text-gray-400">
-                      {method.processingTime}
-                    </div>
+                    <div className="text-xs text-gray-400">{method.processingTime}</div>
                   </div>
                 )}
 
-                {selectedMethod === method.id && method.available && (
-                  <span className="text-green-400 text-xl">✅</span>
-                )}
-                {!method.available && (
-                  <span className="text-gray-500 text-sm">Bald verfügbar</span>
-                )}
+                {selectedMethod === method.id && method.available && <span className="text-green-400 text-xl">✅</span>}
+                {!method.available && <span className="text-gray-500 text-sm">Bald verfügbar</span>}
               </div>
             </div>
 
@@ -450,31 +408,24 @@ export default function PaymentOptions({
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
                   <div>
                     <div className="text-gray-400">Bearbeitungszeit</div>
-                    <div className="text-white font-medium">
-                      {method.processingTime}
-                    </div>
+                    <div className="text-white font-medium">{method.processingTime}</div>
                   </div>
                   <div>
                     <div className="text-gray-400">Gebühren</div>
                     <div className="text-green-400 font-medium">
-                      {method.fees === 0
-                        ? "Kostenfrei"
-                        : `${currency} ${method.fees?.toFixed(2)}`}
+                      {method.fees === 0 ? "Kostenfrei" : `${currency} ${method.fees?.toFixed(2)}`}
                     </div>
                   </div>
                   <div>
                     <div className="text-gray-400">Sicherheit</div>
-                    <div className="text-green-400 font-medium">
-                      🔒 SSL-verschlüsselt
-                    </div>
+                    <div className="text-green-400 font-medium">🔒 SSL-verschlüsselt</div>
                   </div>
                 </div>
 
                 {/* Spezielle Hinweise */}
                 {method.id === "invoice" && (
                   <div className="mt-3 p-2 bg-blue-900/30 rounded text-xs text-blue-300">
-                    💡 Bonitätsprüfung erforderlich - Tickets werden nach
-                    Zahlungseingang freigeschaltet
+                    💡 Bonitätsprüfung erforderlich - Tickets werden nach Zahlungseingang freigeschaltet
                   </div>
                 )}
                 {method.id === "voucher" && (
@@ -500,9 +451,7 @@ export default function PaymentOptions({
       <div className="mt-6 p-4 bg-blue-900/20 border border-blue-700 rounded-lg">
         <div className="flex items-center space-x-2 mb-2">
           <span className="text-blue-400 text-lg">🛡️</span>
-          <span className="text-blue-300 font-semibold">
-            Sicherheit & Schutz
-          </span>
+          <span className="text-blue-300 font-semibold">Sicherheit & Schutz</span>
         </div>
         <ul className="text-sm text-blue-200 space-y-1">
           <li>• SSL-Verschlüsselung für alle Transaktionen</li>
@@ -554,9 +503,7 @@ export function usePaymentOptions() {
         body: JSON.stringify({
           ticketIds: [ticketData.ticketId || "demo-ticket"],
           customerEmail,
-          paymentMethod:
-            PAYMENT_METHODS.find((m) => m.id === selectedMethod)?.name ||
-            "Unbekannt",
+          paymentMethod: PAYMENT_METHODS.find(m => m.id === selectedMethod)?.name || "Unbekannt",
           totalAmount: ticketData.totalAmount,
           currency: "CHF",
           billingAddress: {
@@ -582,16 +529,11 @@ export function usePaymentOptions() {
 
     try {
       // Mock payment processing basiert auf Methode
-      const method = PAYMENT_METHODS.find((m) => m.id === selectedMethod);
+      const method = PAYMENT_METHODS.find(m => m.id === selectedMethod);
 
       // Validate payment data based on method
       if (selectedMethod === "credit_card" || selectedMethod === "debit_card") {
-        if (
-          !paymentData.cardNumber ||
-          !paymentData.cardName ||
-          !paymentData.expiryDate ||
-          !paymentData.cvv
-        ) {
+        if (!paymentData.cardNumber || !paymentData.cardName || !paymentData.expiryDate || !paymentData.cvv) {
           throw new Error("Bitte füllen Sie alle Kartendaten aus");
         }
       } else if (selectedMethod === "sepa") {
@@ -614,7 +556,7 @@ export function usePaymentOptions() {
 
       if (selectedMethod === "invoice") {
         // Simulate invoice generation
-        await new Promise((resolve) => setTimeout(resolve, 2000));
+        await new Promise(resolve => setTimeout(resolve, 2000));
 
         // Send invoice email automatically
         try {
@@ -648,7 +590,7 @@ export function usePaymentOptions() {
         };
       } else if (selectedMethod === "voucher") {
         // Simulate voucher validation
-        await new Promise((resolve) => setTimeout(resolve, 1500));
+        await new Promise(resolve => setTimeout(resolve, 1500));
         return {
           success: true,
           message: "🎫 Gutschein erfolgreich eingelöst",
@@ -657,7 +599,7 @@ export function usePaymentOptions() {
         };
       } else {
         // Regular payment processing
-        await new Promise((resolve) => setTimeout(resolve, 3000));
+        await new Promise(resolve => setTimeout(resolve, 3000));
         return {
           success: true,
           message: `💳 Zahlung über ${method?.name} erfolgreich`,
@@ -668,10 +610,7 @@ export function usePaymentOptions() {
     } catch (error) {
       return {
         success: false,
-        message:
-          error instanceof Error
-            ? error.message
-            : "Fehler bei der Zahlungsabwicklung",
+        message: error instanceof Error ? error.message : "Fehler bei der Zahlungsabwicklung",
         error,
       };
     } finally {
@@ -686,6 +625,6 @@ export function usePaymentOptions() {
     processPayment,
     paymentData,
     setPaymentData,
-    availableMethods: PAYMENT_METHODS.filter((m) => m.available),
+    availableMethods: PAYMENT_METHODS.filter(m => m.available),
   };
 }

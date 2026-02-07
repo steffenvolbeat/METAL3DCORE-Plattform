@@ -1682,8 +1682,8 @@ function PurchaseModal({ concert, onClose }: { concert: any; onClose: () => void
   };
 
   return (
-    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="section-card max-w-4xl w-full max-h-[90vh] overflow-auto">
+    <div className=" fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+      <div className="section-card max-w-5xl w-full max-h-[100vh] overflow-auto">
         {/* Header */}
         <div className="flex flex-col sm:flex-row items-start justify-between gap-4 mb-6 pb-6 border-b border-theme-secondary">
           <div className="flex items-center gap-4">
