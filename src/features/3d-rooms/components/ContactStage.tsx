@@ -56,12 +56,12 @@ function ContactInfoWall() {
         <div className="glass-panel p-6 md:p-8 rounded-2xl border-2 border-orange-500 shadow-2xl w-80 sm:w-96 mx-auto text-center">
           <div className="text-center mb-6">
             <h3 className="panel-heading text-2xl md:text-3xl text-orange-500 mb-3">🎸 METAL SUPPORT</h3>
-            <div className="w-full h-1 bg-gradient-to-r from-orange-500 via-red-600 to-orange-500 rounded"></div>
+            <div className="w-full h-1 bg-linear-to-r from-orange-500 via-red-600 to-orange-500 rounded"></div>
           </div>
 
           <div className="space-y-5 text-theme-primary">
             <div className="flex items-start justify-center gap-3 hover:bg-orange-500/10 p-3 rounded-lg transition-colors text-left">
-              <div className="text-2xl flex-shrink-0">📧</div>
+              <div className="text-2xl shrink-0">📧</div>
               <div className="min-w-0">
                 <p className="font-bold text-orange-400 text-sm md:text-base">E-Mail Support</p>
                 <p className="text-xs md:text-sm text-theme-secondary truncate">support@3dmetal.com</p>
@@ -69,7 +69,7 @@ function ContactInfoWall() {
             </div>
 
             <div className="flex items-start justify-center gap-3 hover:bg-orange-500/10 p-3 rounded-lg transition-colors text-left">
-              <div className="text-2xl flex-shrink-0">📞</div>
+              <div className="text-2xl shrink-0">📞</div>
               <div className="min-w-0">
                 <p className="font-bold text-orange-400 text-sm md:text-base">Hotline</p>
                 <p className="text-xs md:text-sm text-theme-secondary">+49 (0) 123 456 789</p>
@@ -78,7 +78,7 @@ function ContactInfoWall() {
             </div>
 
             <div className="flex items-start justify-center gap-3 hover:bg-orange-500/10 p-3 rounded-lg transition-colors text-left">
-              <div className="text-2xl flex-shrink-0">💬</div>
+              <div className="text-2xl shrink-0">💬</div>
               <div className="min-w-0">
                 <p className="font-bold text-orange-400 text-sm md:text-base">Live Chat</p>
                 <p className="text-xs md:text-sm text-theme-secondary">Sofort verfügbar</p>
@@ -86,7 +86,7 @@ function ContactInfoWall() {
             </div>
 
             <div className="flex items-start justify-center gap-3 hover:bg-orange-500/10 p-3 rounded-lg transition-colors text-left">
-              <div className="text-2xl flex-shrink-0">🎵</div>
+              <div className="text-2xl shrink-0">🎵</div>
               <div className="min-w-0">
                 <p className="font-bold text-orange-400 text-sm md:text-base">Social Media</p>
                 <div className="flex flex-wrap gap-2 text-xs md:text-sm mt-1 justify-center">
@@ -97,7 +97,7 @@ function ContactInfoWall() {
               </div>
             </div>
 
-            <div className="bg-gradient-to-r from-orange-500/10 to-red-600/10 p-4 rounded-lg mt-6 border border-orange-500/30">
+            <div className="bg-linear-to-r from-orange-500/10 to-red-600/10 p-4 rounded-lg mt-6 border border-orange-500/30">
               <p className="text-orange-400 font-bold text-center text-sm md:text-base">
                 🚀 Schnelle Antwort garantiert!
               </p>
@@ -216,10 +216,10 @@ function MessageWall() {
 
       {/* 3D Message Form */}
       <Html position={[-0.1, 0, 0]} rotation={[0, Math.PI / 2, 0]} transform occlude distanceFactor={12}>
-        <div className="glass-panel p-5 md:p-6 rounded-2xl border-2 border-blue-500 shadow-2xl w-80 sm:w-96 lg:w-[420px] mx-auto text-center">
+        <div className="glass-panel p-5 md:p-6 rounded-2xl border-2 border-blue-500 shadow-2xl w-80 sm:w-96 lg:w-105 mx-auto text-center">
           <div className="text-center mb-5">
             <h3 className="panel-heading text-xl md:text-2xl text-blue-400 mb-3">🎤 METAL MESSAGE</h3>
-            <div className="w-full h-1 bg-gradient-to-r from-blue-500 via-purple-600 to-blue-500 rounded"></div>
+            <div className="w-full h-1 bg-linear-to-r from-blue-500 via-purple-600 to-blue-500 rounded"></div>
           </div>
 
           {/* Success/Error Message */}
@@ -227,8 +227,8 @@ function MessageWall() {
             <div
               className={`mb-4 p-4 rounded-lg text-center font-bold text-base transition-all duration-300 animate-pulse ${
                 submitMessage.type === "success"
-                  ? "bg-gradient-to-r from-green-900/80 to-emerald-900/80 text-green-200 border-2 border-green-400 shadow-lg shadow-green-500/50"
-                  : "bg-gradient-to-r from-red-900/80 to-orange-900/80 text-red-200 border-2 border-red-400 shadow-lg shadow-red-500/50"
+                  ? "bg-linear-to-r from-green-900/80 to-emerald-900/80 text-green-200 border-2 border-green-400 shadow-lg shadow-green-500/50"
+                  : "bg-linear-to-r from-red-900/80 to-orange-900/80 text-red-200 border-2 border-red-400 shadow-lg shadow-red-500/50"
               }`}
             >
               {submitMessage.text}

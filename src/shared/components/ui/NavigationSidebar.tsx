@@ -1,7 +1,7 @@
 // 🎸 Navigation Sidebar Component - Professional UI
 "use client";
 
-import { useState } from "react";
+import { useState, JSX } from "react";
 
 interface NavigationSidebarProps {
   activeRoom: string;
@@ -57,7 +57,7 @@ export function NavigationSidebar({ activeRoom, onRoomChange }: NavigationSideba
       {/* Hamburger Button - Fixed Left */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed left-3 top-16 sm:left-4 sm:top-18 z-50 bg-gradient-to-br from-orange-500 to-red-600 p-3 rounded-lg shadow-2xl hover:scale-105 transition-all duration-300 group"
+        className="fixed left-3 top-16 sm:left-4 sm:top-18 z-50 bg-linear-to-br from-orange-500 to-red-600 p-3 rounded-lg shadow-2xl hover:scale-105 transition-all duration-300 group"
         aria-label="Navigation Menu"
       >
         <div className="flex flex-col gap-1.5">
@@ -90,7 +90,7 @@ export function NavigationSidebar({ activeRoom, onRoomChange }: NavigationSideba
 
       {/* Sidebar */}
       <div
-        className={`fixed left-0 top-0 h-full w-80 bg-gradient-to-b from-black via-gray-900 to-black border-r border-gray-800/50 z-50 transform transition-transform duration-300 ease-in-out ${
+        className={`fixed left-0 top-0 h-full w-80 bg-linear-to-b from-black via-gray-900 to-black border-r border-gray-800/50 z-50 transform transition-transform duration-300 ease-in-out ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
@@ -98,7 +98,7 @@ export function NavigationSidebar({ activeRoom, onRoomChange }: NavigationSideba
           {/* Header */}
           <div className="mb-8">
             <div className="flex items-center gap-3 mb-2">
-              <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-red-600 rounded-lg flex items-center justify-center">
+              <div className="w-10 h-10 bg-linear-to-br from-orange-500 to-red-600 rounded-lg flex items-center justify-center">
                 <span className="text-xl">🎸</span>
               </div>
               <h2 className="text-xl font-black text-white">Navigation</h2>
@@ -117,12 +117,12 @@ export function NavigationSidebar({ activeRoom, onRoomChange }: NavigationSideba
                 }}
                 className={`w-full text-left p-4 rounded-xl transition-all duration-200 group ${
                   activeRoom === room.id
-                    ? "bg-gradient-to-r from-orange-500/20 to-red-600/20 border-2 border-orange-500 shadow-lg shadow-orange-500/20"
+                    ? "bg-linear-to-r from-orange-500/20 to-red-600/20 border-2 border-orange-500 shadow-lg shadow-orange-500/20"
                     : "bg-gray-800/40 border-2 border-gray-800 hover:border-gray-700 hover:bg-gray-800/60"
                 }`}
               >
                 <div className="flex items-center justify-start gap-4">
-                  <span className="text-3xl group-hover:scale-110 transition-transform flex-shrink-0">{room.icon}</span>
+                  <span className="text-3xl group-hover:scale-110 transition-transform shrink-0">{room.icon}</span>
                   <div className="flex-1 min-w-0">
                     <div className="font-semibold text-white group-hover:text-orange-500 transition-colors flex items-center">
                       {room.name}
@@ -137,7 +137,7 @@ export function NavigationSidebar({ activeRoom, onRoomChange }: NavigationSideba
                     </div>
                   </div>
                   {activeRoom === room.id && (
-                    <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse flex-shrink-0"></div>
+                    <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse shrink-0"></div>
                   )}
                 </div>
               </button>
