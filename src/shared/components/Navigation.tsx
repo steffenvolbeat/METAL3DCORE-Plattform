@@ -39,7 +39,7 @@ export function Navigation() {
             className="flex items-center gap-3 text-xl font-bold tracking-tight text-theme-primary"
             data-cy="home-link"
           >
-            <span className="h-5 w-5 sm:h-6 sm:w-6 lg:h-9 lg:w-9 rounded-2xl bg-gradient-to-br from-orange-500 to-pink-600 flex items-center justify-center text-xs sm:text-sm lg:text-xl shadow-lg">
+            <span className="h-5 w-5 sm:h-6 sm:w-6 lg:h-9 lg:w-9 rounded-2xl bg-linear-to-br from-orange-500 to-pink-600 flex items-center justify-center text-xs sm:text-sm lg:text-xl shadow-lg">
               🎸
             </span>
             <span className="hidden sm:block">Metal3DCore</span>
@@ -57,7 +57,7 @@ export function Navigation() {
               >
                 {link.label}
                 {isActive(link.href) && (
-                  <span className="absolute -bottom-2 left-0 right-0 h-0.5 bg-gradient-to-r from-orange-500 to-pink-500" />
+                  <span className="absolute -bottom-2 left-0 right-0 h-0.5 bg-linear-to-r from-orange-500 to-pink-500" />
                 )}
               </Link>
             ))}
@@ -79,7 +79,7 @@ export function Navigation() {
 
         {/* Mobile Drawer */}
         <div
-          className={`lg:hidden origin-top border-t border-theme-secondary bg-[#05070d]/95 backdrop-blur-xl transition-transform transition-[max-height] duration-300 overflow-hidden ${
+          className={`lg:hidden origin-top border-t border-theme-secondary bg-[#05070d]/95 backdrop-blur-xl transition-[max-height] duration-300 overflow-hidden ${
             isMobileOpen ? "scale-y-100 max-h-[70vh]" : "scale-y-0 max-h-0"
           }`}
           data-cy="mobile-navigation"

@@ -729,6 +729,61 @@ function GiantScreenYouTubePlayer({
   );
 }
 
+// CENTER HUNG VIDEO CUBE - zeigt das aktuelle Video auf allen vier Seiten
+function CenterVideoCube({
+  screenMode,
+  currentVideo,
+}: {
+  screenMode: "off" | "youtube" | "live";
+  currentVideo: string;
+}) {
+  if (screenMode === "off") return null;
+
+  const faces = [
+    { pos: [7.6, 35, 0], rot: [0, Math.PI / 2, 0] },
+    { pos: [-7.6, 35, 0], rot: [0, -Math.PI / 2, 0] },
+    { pos: [0, 35, 7.6], rot: [0, 0, 0] },
+    { pos: [0, 35, -7.6], rot: [0, Math.PI, 0] },
+  ];
+
+  return (
+    <group>
+      {faces.map((face, idx) => (
+        <Html
+          key={`cube-face-${idx}-${currentVideo}`}
+          transform
+          position={face.pos as [number, number, number]}
+          rotation={face.rot as [number, number, number]}
+          distanceFactor={25}
+          occlude
+          style={{ width: "960px", height: "540px" }}
+        >
+          <div className="relative w-full h-full rounded-xl overflow-hidden shadow-2xl border border-white/10 bg-black">
+            <iframe
+              width="100%"
+              height="100%"
+              src={`https://www.youtube-nocookie.com/embed/${currentVideo}?autoplay=${
+                screenMode === "live" ? 1 : 0
+              }&modestbranding=1&rel=0&showinfo=0&playsinline=1`}
+              title={`Stadium Cube ${idx}`}
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+              referrerPolicy="origin-when-cross-origin"
+              className="w-full h-full"
+            />
+            {screenMode === "live" && (
+              <div className="absolute top-2 left-2 bg-red-600 text-white text-sm px-3 py-1 rounded-full shadow-lg">
+                LIVE
+              </div>
+            )}
+          </div>
+        </Html>
+      ))}
+    </group>
+  );
+}
+
 // KONZERT-BÜHNE mit Metal Equipment - BASIEREND AUF ECHTEM FOTO
 interface MainStageProps {
   screenMode: "off" | "youtube" | "live";
@@ -1650,6 +1705,7 @@ export default function StadionRoom({ onRoomChange, isFullscreen = false, onFull
             handleRoomChange={handleRoomChange}
           />
           <StadiumSeats onRoomChange={onRoomChange} />
+          <CenterVideoCube screenMode={screenMode} currentVideo={currentVideo} />
           <MainStage
             screenMode={screenMode}
             currentVideo={currentVideo}

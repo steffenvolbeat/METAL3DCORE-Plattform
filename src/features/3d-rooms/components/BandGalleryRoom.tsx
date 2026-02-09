@@ -14,9 +14,10 @@ import {
   Cylinder,
   Sphere,
   Sparkles,
+  Billboard,
 } from "@react-three/drei";
 import { useState, Suspense } from "react";
-import { Color, Vector3 } from "three";
+import { Color, DoubleSide, Vector3 } from "three";
 import { FPSControls } from "@/shared/components/3d";
 
 // BAND GALLERY ROOM Images - 360° Galerie mit Medien-Daten
@@ -238,234 +239,247 @@ function InteractiveArtwork({ img, index, position, rotation }: any) {
   };
 
   return (
-    <group
-      position={position}
-      rotation={[0, rotation[1] + (isFlipped ? Math.PI : 0), 0]}
-      onClick={handleClick}
-      onPointerOver={e => {
-        e.stopPropagation();
-        document.body.style.cursor = "pointer";
-      }}
-      onPointerOut={e => {
-        e.stopPropagation();
-        document.body.style.cursor = "auto";
-      }}
-    >
-      {/* WEIßER RAHMEN */}
-      <Box args={[4.5, 6.5, 0.3]} position={[0, 3.25, 0]}>
-        <meshPhysicalMaterial
-          color={new Color(0.95, 0.95, 0.95)}
-          roughness={0.1}
-          metalness={0.0}
-          clearcoat={0.8}
-          clearcoatRoughness={0.1}
-        />
-      </Box>
+    <Billboard position={position} follow lockX lockZ>
+      <group
+        rotation={[0, isFlipped ? Math.PI : 0, 0]}
+        scale={[1.2, 1.2, 1.2]}
+        onClick={handleClick}
+        onPointerOver={e => {
+          e.stopPropagation();
+          document.body.style.cursor = "pointer";
+        }}
+        onPointerOut={e => {
+          e.stopPropagation();
+          document.body.style.cursor = "auto";
+        }}
+      >
+        {/* WEIßER RAHMEN */}
+        <Box args={[4.5, 6.5, 0.3]} position={[0, 3.25, 0]}>
+          <meshPhysicalMaterial
+            color={new Color(0.95, 0.95, 0.95)}
+            roughness={0.1}
+            metalness={0.0}
+            clearcoat={0.8}
+            clearcoatRoughness={0.1}
+          />
+        </Box>
 
-      {/* VORDERSEITE: ARTWORK ODER VIDEO */}
-      {!isFlipped ? (
-        <>
-          {/* BAND BILD */}
-          <Suspense fallback={null}>
-            {/* Drei Image ist kein DOM-Image; Alt-Regel lokal unterdrücken */}
-            {/* eslint-disable-next-line jsx-a11y/alt-text */}
-            <Image url={img.url} position={[0, 3.25, 0.2]} scale={[4.2, 6.2]} transparent toneMapped={false} />
-          </Suspense>
+        {/* VORDERSEITE: ARTWORK ODER VIDEO */}
+        {!isFlipped ? (
+          <>
+            {/* Solide Rückwand verhindert Durchscheinen */}
+            <Plane args={[4.25, 6.25]} position={[0, 3.25, -0.01]}>
+              <meshBasicMaterial color={new Color(0, 0, 0)} depthWrite depthTest side={DoubleSide} />
+            </Plane>
+            {/* BAND BILD */}
+            <Suspense fallback={null}>
+              {/* Drei Image ist kein DOM-Image; Alt-Regel lokal unterdrücken */}
+              {/* eslint-disable-next-line jsx-a11y/alt-text */}
+              <Image
+                url={img.url}
+                position={[0, 3.25, 0.2]}
+                scale={[4.2, 6.2]}
+                transparent={false}
+                opacity={1}
+                toneMapped={false}
+              />
+            </Suspense>
 
-          {/* BAND NAME - GROß UND GOLDEN */}
-          <Text
-            position={[0, -0.5, 0.2]}
-            fontSize={0.45}
-            color="#ffd700"
-            anchorX="center"
-            anchorY="middle"
-            outlineWidth={0.06}
-            outlineColor="#000000"
-            fontWeight="bold"
-          >
-            🎸 {img.title}
-          </Text>
-
-          {/* INTERAKTIONS-HINWEIS */}
-          <Text
-            position={[0, -1.2, 0.2]}
-            fontSize={0.28}
-            color="#ffffff"
-            anchorX="center"
-            anchorY="middle"
-            outlineWidth={0.04}
-            outlineColor="#000000"
-          >
-            {img.videoUrl ? "👆 Klick für Video!" : "👆 Klick für Events!"}
-          </Text>
-        </>
-      ) : showVideo ? (
-        // VIDEO-SEITE - YOUTUBE DIREKT-LINK
-        <>
-          <Box args={[4.3, 6.3, 0.35]} position={[0, 3.25, 0.05]}>
-            <meshBasicMaterial color={new Color(0, 0, 0)} />
-          </Box>
-          <Html position={[0, 3.25, 0.25]} center distanceFactor={1}>
-            <div
-              className="bg-gradient-to-br from-purple-900 via-black to-purple-900"
-              style={{
-                width: "min(95vw, 800px)",
-                minHeight: "600px",
-                maxHeight: "90vh",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-                padding: "clamp(20px, 5vw, 50px)",
-                margin: "0",
-                border: "4px solid rgba(168, 85, 247, 0.5)",
-                boxShadow: "0 0 50px rgba(147, 51, 234, 0.5)",
-                borderRadius: "20px",
-                overflow: "auto",
-              }}
+            {/* BAND NAME - GROß UND GOLDEN */}
+            <Text
+              position={[0, -0.5, 0.2]}
+              fontSize={0.45}
+              color="#ffd700"
+              anchorX="center"
+              anchorY="middle"
+              outlineWidth={0.06}
+              outlineColor="#000000"
+              fontWeight="bold"
             >
-              {/* VIDEO ICON & BAND INFO */}
-              <div className="text-center mb-8">
-                <div className="w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 bg-gradient-to-br from-red-500 to-red-700 rounded-full flex items-center justify-center mb-6 shadow-2xl shadow-red-500/50 mx-auto animate-pulse">
-                  <span className="text-6xl md:text-7xl lg:text-9xl">🎬</span>
+              🎸 {img.title}
+            </Text>
+
+            {/* INTERAKTIONS-HINWEIS */}
+            <Text
+              position={[0, -1.2, 0.2]}
+              fontSize={0.28}
+              color="#ffffff"
+              anchorX="center"
+              anchorY="middle"
+              outlineWidth={0.04}
+              outlineColor="#000000"
+            >
+              {img.videoUrl ? "👆 Klick für Video!" : "👆 Klick für Events!"}
+            </Text>
+          </>
+        ) : showVideo ? (
+          // VIDEO-SEITE - YOUTUBE DIREKT-LINK
+          <>
+            <Box args={[4.3, 6.3, 0.35]} position={[0, 3.25, 0.05]}>
+              <meshBasicMaterial color={new Color(0, 0, 0)} />
+            </Box>
+            <Html position={[0, 3.25, 0.25]} center distanceFactor={1}>
+              <div
+                className="bg-linear-to-br from-purple-900 via-black to-purple-900"
+                style={{
+                  width: "min(410vw, 3100px)",
+                  minHeight: "3024px",
+                  maxHeight: "92vh",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  padding: "clamp(28px, 6vw, 70px)",
+                  margin: "0",
+                  border: "4px solid rgba(168, 85, 247, 0.5)",
+                  boxShadow: "0 0 60px rgba(147, 51, 234, 0.55)",
+                  borderRadius: "24px",
+                  overflow: "auto",
+                }}
+              >
+                {/* VIDEO ICON & BAND INFO */}
+                <div className="text-center mb-12">
+                  <div className="w-40 h-40 md:w-56 md:h-56 lg:w-64 lg:h-64 bg-linear-to-br from-red-500 to-red-700 rounded-full flex items-center justify-center mb-10 shadow-2xl shadow-red-500/50 mx-auto animate-pulse">
+                    <span className="text-8xl md:text-9xl lg:text-[7rem]">🎬</span>
+                  </div>
+                  <h2 className="text-5xl md:text-7xl lg:text-8xl font-black mb-6 bg-linear-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent px-4">
+                    {img.title}
+                  </h2>
+                  <p className="text-4xl md:text-5xl lg:text-6xl text-purple-300 mb-5">Official Music Video</p>
+                  <p className="text-3xl md:text-4xl lg:text-5xl text-gray-300">Video wird auf YouTube abgespielt</p>
                 </div>
-                <h2 className="text-3xl md:text-5xl lg:text-6xl font-black mb-4 bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent px-4">
-                  {img.title}
-                </h2>
-                <p className="text-2xl md:text-3xl lg:text-4xl text-purple-300 mb-3">Official Music Video</p>
-                <p className="text-lg md:text-xl lg:text-2xl text-gray-400">Video wird auf YouTube abgespielt</p>
-              </div>
 
-              {/* PLAY BUTTON */}
-              <button
-                onClick={e => {
-                  e.stopPropagation();
-                  const videoId = img.videoUrl.split("/embed/")[1]?.split("?")[0];
-                  if (videoId) {
-                    // Vollbild YouTube-Fenster (fast maximiert)
-                    const width = window.screen.availWidth;
-                    const height = window.screen.availHeight;
-                    window.open(
-                      `https://www.youtube.com/watch?v=${videoId}`,
-                      "_blank",
-                      `width=${width},height=${height},left=0,top=0`
-                    );
-                  }
-                }}
-                className="w-full max-w-lg bg-gradient-to-r from-red-600 via-red-500 to-red-600 hover:from-red-700 hover:via-red-600 hover:to-red-700 text-white text-2xl md:text-4xl lg:text-5xl font-black py-6 md:py-8 lg:py-10 rounded-3xl shadow-2xl shadow-red-500/50 transition-all duration-300 hover:scale-105 hover:shadow-red-400/70 flex items-center justify-center gap-4 md:gap-6 mb-6"
-              >
-                <span className="text-4xl md:text-6xl lg:text-7xl">▶️</span>
-                <span className="leading-tight">VIDEO ABSPIELEN</span>
-              </button>
-
-              {/* EVENT DATA BUTTON */}
-              <button
-                onClick={e => {
-                  e.stopPropagation();
-                  setShowVideo(false);
-                  setVideoStarted(false);
-                }}
-                className="w-full max-w-lg bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 hover:from-yellow-500 hover:via-orange-600 hover:to-red-600 text-white text-xl md:text-3xl lg:text-4xl font-black py-5 md:py-7 lg:py-8 rounded-2xl shadow-2xl shadow-orange-500/50 transition-all duration-300 hover:scale-105 hover:shadow-orange-400/70 flex items-center justify-center gap-3 md:gap-4"
-              >
-                <span>🎟️</span>
-                <span className="leading-tight">Event-Daten anzeigen</span>
-                <span>🔄</span>
-              </button>
-            </div>
-          </Html>
-        </>
-      ) : (
-        // EVENT-DATEN SEITE (EDITIERBAR) - VOLLBILDGRÖSSE
-        <>
-          {/* SCHWARZER HINTERGRUND DAMIT NICHTS DURCHSCHIMMERT - EXAKTE BILDGRÖßE */}
-          <Box args={[4.3, 6.3, 0.35]} position={[0, 3.25, -0.05]}>
-            <meshBasicMaterial color={new Color(0, 0, 0)} />
-          </Box>
-          <Html position={[0, 3.25, -0.25]} center distanceFactor={1}>
-            <div
-              className="bg-gradient-to-br from-purple-900 to-black text-white"
-              style={{
-                width: "min(95vw, 900px)",
-                minHeight: "500px",
-                maxHeight: "90vh",
-                overflow: "auto",
-                padding: "clamp(20px, 5vw, 50px)",
-                margin: "0",
-                border: "3px solid rgba(168, 85, 247, 0.6)",
-                boxShadow: "0 0 40px rgba(147, 51, 234, 0.6)",
-                borderRadius: "20px",
-                display: "flex",
-                flexDirection: "column",
-              }}
-            >
-              <div className="text-center mb-8">
-                <h2 className="text-3xl md:text-4xl lg:text-5xl font-black mb-3 bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent px-4">
-                  🎸 {img.title}
-                </h2>
-                <p className="text-xl md:text-2xl text-purple-300">🎟️ Tour Dates & Tickets 🎟️</p>
-              </div>
-              {editableEvents.map((event: any, eventIndex: number) => (
-                <div
-                  key={eventIndex}
-                  className="mb-8 p-6 md:p-8 lg:p-10 bg-gradient-to-br from-black/90 to-purple-900/50 rounded-2xl border-3 border-purple-400 shadow-2xl shadow-purple-500/50 hover:border-yellow-400 transition-all duration-300 hover:scale-[1.01]"
+                {/* PLAY BUTTON */}
+                <button
+                  onClick={e => {
+                    e.stopPropagation();
+                    const videoId = img.videoUrl.split("/embed/")[1]?.split("?")[0];
+                    if (videoId) {
+                      // Vollbild YouTube-Fenster (fast maximiert)
+                      const width = window.screen.availWidth;
+                      const height = window.screen.availHeight;
+                      window.open(
+                        `https://www.youtube.com/watch?v=${videoId}`,
+                        "_blank",
+                        `width=${width},height=${height},left=0,top=0`
+                      );
+                    }
+                  }}
+                  className="w-full max-w-2xl bg-linear-to-r from-red-600 via-red-500 to-red-600 hover:from-red-700 hover:via-red-600 hover:to-red-700 text-white text-4xl md:text-5xl lg:text-6xl font-black py-8 md:py-11 lg:py-13 rounded-3xl shadow-2xl shadow-red-500/50 transition-all duration-300 hover:scale-105 hover:shadow-red-400/70 flex items-center justify-center gap-6 md:gap-8 mb-10"
                 >
-                  <div className="mb-6">
-                    <label className="block text-lg md:text-xl lg:text-2xl text-purple-200 mb-3 font-black">
-                      📅 Datum
-                    </label>
-                    <input
-                      type="text"
-                      value={event.date}
-                      onChange={e => updateEvent(eventIndex, "date", e.target.value)}
-                      className="w-full bg-gradient-to-r from-purple-700 to-purple-800 text-white p-4 md:p-5 lg:p-6 rounded-xl text-base md:text-lg lg:text-xl border-3 border-purple-400 focus:border-yellow-400 focus:ring-4 focus:ring-yellow-400/50 focus:outline-none font-bold shadow-lg transition-all duration-200 hover:shadow-yellow-400/30"
-                      placeholder="z.B. 15.05.2026"
-                    />
-                  </div>
-                  <div className="mb-6">
-                    <label className="block text-lg md:text-xl lg:text-2xl text-purple-200 mb-3 font-black">
-                      🏟️ Location
-                    </label>
-                    <input
-                      type="text"
-                      value={event.venue}
-                      onChange={e => updateEvent(eventIndex, "venue", e.target.value)}
-                      className="w-full bg-gradient-to-r from-purple-700 to-purple-800 text-white p-4 md:p-5 lg:p-6 rounded-xl text-base md:text-lg lg:text-xl border-3 border-purple-400 focus:border-yellow-400 focus:ring-4 focus:ring-yellow-400/50 focus:outline-none font-bold shadow-lg transition-all duration-200 hover:shadow-yellow-400/30"
-                      placeholder="z.B. Mercedes-Benz Arena Berlin"
-                    />
-                  </div>
-                  <div className="mb-6">
-                    <label className="block text-lg md:text-xl lg:text-2xl text-purple-200 mb-3 font-black">
-                      💎 Ticket-Preis
-                    </label>
-                    <input
-                      type="text"
-                      value={event.price}
-                      onChange={e => updateEvent(eventIndex, "price", e.target.value)}
-                      className="w-full bg-gradient-to-r from-purple-700 to-purple-800 text-white p-4 md:p-5 lg:p-6 rounded-xl text-base md:text-lg lg:text-xl border-3 border-purple-400 focus:border-yellow-400 focus:ring-4 focus:ring-yellow-400/50 focus:outline-none font-bold shadow-lg transition-all duration-200 hover:shadow-yellow-400/30"
-                      placeholder="z.B. 89€"
-                    />
-                  </div>
-                </div>
-              ))}
-              <button className="w-full mt-8 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-black font-black text-xl md:text-2xl lg:text-3xl py-5 md:py-6 rounded-2xl shadow-2xl shadow-yellow-500/50 transition-all duration-300 hover:scale-105 hover:shadow-yellow-400/70">
-                🖼️ Zurück zum Artwork 🔄
-              </button>
-            </div>
-          </Html>
-        </>
-      )}
+                  <span className="text-6xl md:text-8xl lg:text-9xl">▶️</span>
+                  <span className="leading-tight">VIDEO ABSPIELEN</span>
+                </button>
 
-      {/* SPOTLIGHT */}
-      <spotLight
-        position={[0, 15, 3]}
-        angle={Math.PI / 6}
-        penumbra={0.3}
-        intensity={3}
-        color="#ffffff"
-        target-position={[0, 3.25, 0]}
-        castShadow
-      />
-    </group>
+                {/* EVENT DATA BUTTON */}
+                <button
+                  onClick={e => {
+                    e.stopPropagation();
+                    setShowVideo(false);
+                    setVideoStarted(false);
+                  }}
+                  className="w-full max-w-2xl bg-linear-to-r from-yellow-400 via-orange-500 to-red-500 hover:from-yellow-500 hover:via-orange-600 hover:to-red-600 text-white text-3xl md:text-4xl lg:text-5xl font-black py-7 md:py-9 lg:py-11 rounded-2xl shadow-2xl shadow-orange-500/50 transition-all duration-300 hover:scale-105 hover:shadow-orange-400/70 flex items-center justify-center gap-5 md:gap-6"
+                >
+                  <span>🎟️</span>
+                  <span className="leading-tight">Event-Daten anzeigen</span>
+                  <span>🔄</span>
+                </button>
+              </div>
+            </Html>
+          </>
+        ) : (
+          // EVENT-DATEN SEITE (EDITIERBAR) - VOLLBILDGRÖSSE
+          <>
+            {/* SCHWARZER HINTERGRUND DAMIT NICHTS DURCHSCHIMMERT - EXAKTE BILDGRÖßE */}
+            <Box args={[4.3, 6.3, 0.35]} position={[0, 3.25, -0.05]}>
+              <meshBasicMaterial color={new Color(0, 0, 0)} />
+            </Box>
+            <Html position={[0, 3.25, -0.25]} center distanceFactor={1}>
+              <div
+                className="bg-linear-to-br from-purple-900 to-black text-white"
+                style={{
+                  width: "min(400vw, 4100px)",
+                  minHeight: "3000px",
+                  maxHeight: "90vh",
+                  overflow: "auto",
+                  padding: "clamp(28px, 6vw, 70px)",
+                  margin: "0",
+                  border: "3px solid rgba(168, 85, 247, 0.6)",
+                  boxShadow: "0 0 60px rgba(147, 51, 234, 0.65)",
+                  borderRadius: "24px",
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                <div className="text-center mb-14">
+                  <h2 className="text-5xl md:text-7xl lg:text-8xl font-black mb-6 bg-linear-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent px-4">
+                    🎸 {img.title}
+                  </h2>
+                  <p className="text-4xl md:text-5xl lg:text-6xl text-purple-200">🎟️ Tour Dates & Tickets 🎟️</p>
+                </div>
+                {editableEvents.map((event: any, eventIndex: number) => (
+                  <div
+                    key={eventIndex}
+                    className="mb-14 p-9 md:p-11 lg:p-13 bg-linear-to-br from-black/90 to-purple-900/50 rounded-2xl border-3 border-purple-400 shadow-2xl shadow-purple-500/50 hover:border-yellow-400 transition-all duration-300 hover:scale-[1.01]"
+                  >
+                    <div className="mb-9">
+                      <label className="block text-4xl md:text-5xl lg:text-6xl text-purple-100 mb-6 font-black">
+                        📅 Datum
+                      </label>
+                      <input
+                        type="text"
+                        value={event.date}
+                        onChange={e => updateEvent(eventIndex, "date", e.target.value)}
+                        className="w-full bg-linear-to-r from-purple-700 to-purple-800 text-white p-8 md:p-9 lg:p-10 rounded-xl text-3xl md:text-4xl lg:text-5xl border-3 border-purple-400 focus:border-yellow-400 focus:ring-4 focus:ring-yellow-400/50 focus:outline-none font-bold shadow-lg transition-all duration-200 hover:shadow-yellow-400/30"
+                        placeholder="z.B. 15.05.2026"
+                      />
+                    </div>
+                    <div className="mb-9">
+                      <label className="block text-4xl md:text-5xl lg:text-6xl text-purple-100 mb-6 font-black">
+                        🏟️ Location
+                      </label>
+                      <input
+                        type="text"
+                        value={event.venue}
+                        onChange={e => updateEvent(eventIndex, "venue", e.target.value)}
+                        className="w-full bg-linear-to-r from-purple-700 to-purple-800 text-white p-8 md:p-9 lg:p-10 rounded-xl text-3xl md:text-4xl lg:text-5xl border-3 border-purple-400 focus:border-yellow-400 focus:ring-4 focus:ring-yellow-400/50 focus:outline-none font-bold shadow-lg transition-all duration-200 hover:shadow-yellow-400/30"
+                        placeholder="z.B. Mercedes-Benz Arena Berlin"
+                      />
+                    </div>
+                    <div className="mb-9">
+                      <label className="block text-4xl md:text-5xl lg:text-6xl text-purple-100 mb-6 font-black">
+                        💎 Ticket-Preis
+                      </label>
+                      <input
+                        type="text"
+                        value={event.price}
+                        onChange={e => updateEvent(eventIndex, "price", e.target.value)}
+                        className="w-full bg-linear-to-r from-purple-700 to-purple-800 text-white p-8 md:p-9 lg:p-10 rounded-xl text-3xl md:text-4xl lg:text-5xl border-3 border-purple-400 focus:border-yellow-400 focus:ring-4 focus:ring-yellow-400/50 focus:outline-none font-bold shadow-lg transition-all duration-200 hover:shadow-yellow-400/30"
+                        placeholder="z.B. 89€"
+                      />
+                    </div>
+                  </div>
+                ))}
+                <button className="w-full mt-14 bg-linear-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-black font-black text-5xl md:text-6xl lg:text-7xl py-9 md:py-10 rounded-2xl shadow-2xl shadow-yellow-500/50 transition-all duration-300 hover:scale-105 hover:shadow-yellow-400/70">
+                  🖼️ Zurück zum Artwork 🔄
+                </button>
+              </div>
+            </Html>
+          </>
+        )}
+
+        {/* SPOTLIGHT */}
+        <spotLight
+          position={[0, 15, 3]}
+          angle={Math.PI / 6}
+          penumbra={0.3}
+          intensity={3}
+          color="#ffffff"
+          target-position={[0, 3.25, 0]}
+          castShadow
+        />
+      </group>
+    </Billboard>
   );
 }
 
@@ -679,8 +693,8 @@ export default function BandGalleryRoom({ onRoomChange, isFullscreen = false }: 
 
         {/* Control Mode Toggle UI */}
         <Html position={[0, -1, 8]} center distanceFactor={10}>
-          <div className="bg-gradient-to-br from-black/90 to-purple-900/80 backdrop-blur-md rounded-2xl p-8 text-center shadow-2xl border-2 border-purple-500/50">
-            <h3 className="text-white font-black mb-6 text-2xl bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+          <div className="bg-linear-to-br from-black/90 to-purple-900/80 backdrop-blur-md rounded-2xl p-8 text-center shadow-2xl border-2 border-purple-500/50">
+            <h3 className="font-black mb-6 text-2xl bg-linear-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
               🎮 Steuerung
             </h3>
             <div className="flex gap-4">
@@ -688,7 +702,7 @@ export default function BandGalleryRoom({ onRoomChange, isFullscreen = false }: 
                 onClick={() => setControlMode("fps")}
                 className={`px-8 py-4 rounded-xl text-lg font-bold transition-all duration-300 ${
                   controlMode === "fps"
-                    ? "bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg shadow-purple-500/50 scale-105"
+                    ? "bg-linear-to-r from-purple-500 to-pink-500 text-white shadow-lg shadow-purple-500/50 scale-105"
                     : "bg-gray-700 text-gray-300 hover:bg-gray-600 hover:scale-105"
                 }`}
               >
@@ -699,7 +713,7 @@ export default function BandGalleryRoom({ onRoomChange, isFullscreen = false }: 
                 onClick={() => setControlMode("orbit")}
                 className={`px-8 py-4 rounded-xl text-lg font-bold transition-all duration-300 ${
                   controlMode === "orbit"
-                    ? "bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg shadow-purple-500/50 scale-105"
+                    ? "bg-linear-to-r from-purple-500 to-pink-500 text-white shadow-lg shadow-purple-500/50 scale-105"
                     : "bg-gray-700 text-gray-300 hover:bg-gray-600 hover:scale-105"
                 }`}
               >

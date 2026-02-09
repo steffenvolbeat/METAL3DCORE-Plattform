@@ -59,8 +59,8 @@ function GenericWebGLFallback({
     <div
       className={
         isFullscreen
-          ? "fixed inset-0 z-50 bg-gradient-to-b from-gray-900 to-black"
-          : "w-full h-full bg-gradient-to-b from-gray-900 to-black rounded-lg overflow-hidden flex items-center justify-center"
+          ? "fixed inset-0 z-50 bg-linear-to-b from-gray-900 to-black"
+          : "w-full h-full bg-linear-to-b from-gray-900 to-black rounded-lg overflow-hidden flex items-center justify-center"
       }
     >
       <div className="text-center space-y-6 p-8 max-w-md mx-auto">

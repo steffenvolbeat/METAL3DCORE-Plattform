@@ -68,7 +68,7 @@ function TicketFloor() {
             occlude
             distanceFactor={12}
           >
-            <div className="w-32 h-20 bg-gradient-to-r from-red-900 via-black to-red-900 border-2 border-red-500 rounded-lg shadow-lg opacity-60 transform rotate-12">
+            <div className="w-32 h-20 bg-linear-to-r from-red-900 via-black to-red-900 border-2 border-red-500 rounded-lg shadow-lg opacity-60 transform rotate-12">
               {/* Ticket Header */}
               <div className="bg-red-600 text-white text-center py-1 text-xs font-bold">🎸 METAL TICKET 🎸</div>
 
@@ -175,9 +175,9 @@ function YouTubeTVWall() {
 
       {/* YouTube TV Screen */}
       <Html position={[0.2, 0, 0]} rotation-y={Math.PI / 2} transform sprite>
-        <div className="w-[1200px] h-[800px] bg-black border-8 border-gray-800 rounded-lg shadow-2xl">
+        <div className="w-full max-w-5xl h-200 bg-black border-8 border-gray-800 rounded-lg shadow-2xl">
           {/* TV Header */}
-          <div className="bg-gradient-to-r from-red-600 to-black p-4 flex items-center justify-between">
+          <div className="bg-linear-to-r from-red-600 to-black p-4 flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <div className="text-3xl">📺</div>
               <h2 className="text-white font-bold text-2xl">METAL TV - YouTube Player</h2>
@@ -193,7 +193,7 @@ function YouTubeTVWall() {
           {/* Video Player Area */}
           <div className="p-6 h-full bg-gray-900">
             {isPlaying && currentVideo ? (
-              <div className="w-full h-[600px] bg-black rounded-lg overflow-hidden shadow-lg">
+              <div className="w-full h-150 bg-black rounded-lg overflow-hidden shadow-lg">
                 <iframe
                   width="100%"
                   height="100%"
@@ -206,7 +206,7 @@ function YouTubeTVWall() {
                 ></iframe>
               </div>
             ) : (
-              <div className="w-full h-[600px] bg-gradient-to-br from-gray-800 to-black rounded-lg flex flex-col items-center justify-center border-2 border-red-500">
+              <div className="w-full h-150 bg-linear-to-br from-gray-800 to-black rounded-lg flex flex-col items-center justify-center border-2 border-red-500">
                 <div className="text-center mb-8">
                   <div className="text-8xl mb-4">🎸</div>
                   <h3 className="text-white font-bold text-4xl mb-4">Metal YouTube Player</h3>
@@ -350,7 +350,7 @@ function InfoCounter({
         >
           <div className="text-center mb-6">
             <h3 className="text-blue-400 font-bold text-2xl mb-3">ℹ️ TICKET INFO</h3>
-            <div className="w-full h-1 bg-gradient-to-r from-blue-500 to-purple-600 rounded"></div>
+            <div className="w-full h-1 bg-linear-to-r from-blue-500 to-purple-600 rounded"></div>
           </div>
 
           <div className="space-y-5 text-white text-base">
@@ -712,7 +712,7 @@ function TicketScene() {
             distanceFactor={12}
           >
             <div
-              className={`bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 backdrop-blur-sm p-8 rounded-2xl border-4 shadow-2xl w-[400px] hover:scale-105 transition-transform cursor-grab active:cursor-grabbing ${
+              className={`bg-linear-to-br from-gray-900 via-purple-900 to-gray-900 backdrop-blur-sm p-8 rounded-2xl border-4 shadow-2xl w-100 hover:scale-105 transition-transform cursor-grab active:cursor-grabbing ${
                 selectedPoster === index ? "border-green-500 ring-4 ring-green-400" : "border-purple-500"
               }`}
               draggable
@@ -1071,7 +1071,7 @@ function CashDeskInterface() {
         <div className="text-center">
           <button
             onClick={() => setIsOpen(true)}
-            className="px-12 py-6 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 hover:from-blue-500 hover:via-purple-500 hover:to-pink-500 text-white text-2xl font-bold rounded-2xl shadow-2xl hover:shadow-blue-500/50 transition-all hover:scale-110 border-4 border-white/20"
+            className="px-12 py-6 bg-linear-to-r from-blue-600 via-purple-600 to-pink-600 hover:from-blue-500 hover:via-purple-500 hover:to-pink-500 text-white text-2xl font-bold rounded-2xl shadow-2xl hover:shadow-blue-500/50 transition-all hover:scale-110 border-4 border-white/20"
           >
             🎫 KASSEN-PULT
             <br />
@@ -1079,10 +1079,10 @@ function CashDeskInterface() {
           </button>
         </div>
       ) : (
-        <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-black p-12 rounded-3xl border-4 border-blue-500 shadow-2xl w-[800px] max-h-[600px] overflow-y-auto">
+        <div className="bg-linear-to-br from-gray-900 via-gray-800 to-black p-12 rounded-3xl border-4 border-blue-500 shadow-2xl w-200 max-h-150 overflow-y-auto">
           {/* Header */}
           <div className="flex justify-between items-center mb-8 border-b-2 border-blue-500 pb-6">
-            <h2 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
+            <h2 className="text-4xl font-bold text-transparent bg-clip-text bg-linear-to-r from-blue-400 to-purple-400">
               🎫 Ticket-Kasse
             </h2>
             <button
@@ -1238,7 +1238,7 @@ function CashDeskInterface() {
                   >
                     −
                   </button>
-                  <span className="text-3xl font-bold text-white min-w-[60px] text-center">{quantity}</span>
+                  <span className="text-3xl font-bold text-white min-w-15 text-center">{quantity}</span>
                   <button
                     onClick={() => setQuantity(Math.min(10, quantity + 1))}
                     className="px-8 py-4 bg-gray-700 hover:bg-gray-600 text-white text-2xl rounded-xl"
@@ -1339,7 +1339,7 @@ function CashDeskInterface() {
               </div>
 
               {/* Gesamtpreis & Kaufen */}
-              <div className="bg-gradient-to-r from-green-900/50 to-blue-900/50 p-6 rounded-2xl border-2 border-green-500">
+              <div className="bg-linear-to-r from-green-900/50 to-blue-900/50 p-6 rounded-2xl border-2 border-green-500">
                 <div className="flex justify-between items-center mb-6">
                   <span className="text-2xl font-bold text-white">Gesamtpreis:</span>
                   <span className="text-4xl font-bold text-green-400">CHF {calculatePrice().toFixed(2)}</span>
@@ -1348,7 +1348,7 @@ function CashDeskInterface() {
                 <button
                   onClick={handlePurchase}
                   disabled={isPurchasing || !customerData.name || !customerData.email || !selectedMethod}
-                  className="w-full py-6 bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-500 hover:to-blue-500 disabled:from-gray-600 disabled:to-gray-700 text-white text-2xl font-bold rounded-xl transition-all disabled:cursor-not-allowed shadow-lg"
+                  className="w-full py-6 bg-linear-to-r from-green-600 to-blue-600 hover:from-green-500 hover:to-blue-500 disabled:from-gray-600 disabled:to-gray-700 text-white text-2xl font-bold rounded-xl transition-all disabled:cursor-not-allowed shadow-lg"
                 >
                   {isPurchasing ? (
                     <span className="flex items-center justify-center gap-4">
@@ -1497,9 +1497,7 @@ export default function TicketStage({ isFullscreen = false, onRoomChange, onFull
           /* 3D View */
           <div
             className={
-              isFullscreen
-                ? "h-screen relative overflow-hidden"
-                : "section-card h-96 sm:h-[600px] relative overflow-hidden"
+              isFullscreen ? "h-screen relative overflow-hidden" : "section-card h-96 sm:h-150 relative overflow-hidden"
             }
           >
             <WebGLCanvasWrapper
@@ -1683,7 +1681,7 @@ function PurchaseModal({ concert, onClose }: { concert: any; onClose: () => void
 
   return (
     <div className=" fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="section-card max-w-5xl w-full max-h-[100vh] overflow-auto">
+      <div className="section-card max-w-5xl w-full max-h-screen overflow-auto">
         {/* Header */}
         <div className="flex flex-col sm:flex-row items-start justify-between gap-4 mb-6 pb-6 border-b border-theme-secondary">
           <div className="flex items-center gap-4">
